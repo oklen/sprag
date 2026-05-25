@@ -107,11 +107,12 @@ def build_chunk_cache(
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
+    device = next(model.parameters()).device
     tokens = tokenizer(text, return_tensors="pt").input_ids[0]
     chunks = split_into_chunks(tokens, chunk_size=chunk_size)
     print(f"Total tokens: {tokens.shape[0]};  {len(chunks)} chunks")
 
-    input_ids = tokens.unsqueeze(0)  # (1, N)
+    input_ids = tokens.unsqueeze(0).to(device)  # (1, N)
     with torch.no_grad(), capture_full_attn_kv(model) as kv_store:
         out = model.model(input_ids=input_ids, use_cache=False)
     last_h = out.last_hidden_state[0]  # (N, hidden)

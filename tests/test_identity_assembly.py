@@ -19,9 +19,10 @@ from sprag.assemble import patched_full_attn, ChunkPlacement
 
 def main():
     model, tok, cfg = load_model()
+    device = next(model.parameters()).device
     doc = "The quick brown fox jumps over the lazy dog. " * 40
-    ids = tok(doc, return_tensors="pt").input_ids
-    print(f"doc tokens: {ids.shape[1]}")
+    ids = tok(doc, return_tensors="pt").input_ids.to(device)
+    print(f"doc tokens: {ids.shape[1]}  device: {device}")
 
     # 1. Forward without any patches; capture K/V at the same time.
     with torch.no_grad(), capture_full_attn_kv(model) as kv_store:

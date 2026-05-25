@@ -1,6 +1,6 @@
 # sprag — design notes & status
 
-> Last updated: 2026-05-25 (end of CPU-side scaffolding session).
+> Last updated: 2026-05-25 (GPU-bringup session: Tesla T4, fp16 + SDPA).
 
 ## 1. Why this exists
 
@@ -127,6 +127,94 @@ T+/T- pairs is too few for a meaningful SVD, and layer 11 fires on
 100 % of *correct* generations. To make MAGS earn its keep we need
 50+ calibration pairs on longer contexts where the model genuinely
 drifts.
+
+## 4b. 16K & 32K NIAH measurements (Tesla T4, fp16, SDPA mem-eff)
+
+Hardware: Tesla T4, 15 GB, compute-cap 7.5. Single-needle NIAH.
+
+| Context | Mode | acc | timing per case |
+|---|---|---|---|
+| 16K | baseline | 7/10 = 70 % | 5–8 s prefill+gen |
+| 16K | ReAttention top-5 (256-tok chunks, 1280-tok assembly) | 7/10 = 70 % | 15 s cache + 2 s query |
+| 32K | baseline | 3/5 = 60 % | 12–13 s prefill+gen |
+| 32K | ReAttention top-5 | 3/5 = 60 % | 33 s cache + 2 s query |
+
+Amortization break-even: at 16K, ReAttention pays back after ≈ 3
+queries on the same doc (15 s / (8 s − 2 s) ≈ 2.5). At 32K, ≈ 3
+queries (33 / (13 − 2)). For RAG workloads with many queries per
+doc this is a big win; for single-shot Q-over-long-doc the cache
+cost is dominant.
+
+Failure modes still split between retrieval miss and "model can't
+extract from the chunk even when it's there." The latter looks
+like the case MAGS should help with — see §5b.
+
+## 5a. Critical fix (GPU-only)
+The reattn assembled prompt initially had no separator between
+context chunks and the `Q:` line, which caused the model to echo
+the query without using context. Adding `\n\n` before the query
+recovered 4/10 cases at 16K. The NIAH driver passes
+`"\n\nQ: ..."` to `runner.run()`; the runner itself is
+format-agnostic.
+
+## 5b. MAGS 16K calibration & full-mode eval
+
+Refit MAGS on 60 NIAH-style cases at 16K (`scripts/04_calibrate_mags.py
+--cases data/niah/niah_16k_calib.jsonl --n_calib 60 --k_svd 4 --n_wrong 3`).
+59/60 cases yielded an oracle chunk (one case's needle straddled a chunk
+boundary and was skipped).
+
+| layer | τ (95th-pctile of T+ distances) |
+|---|---|
+| 11 | 0.296 |
+| 15 | 0.881 |
+| 19 | 2.607 |
+
+These taus are close to the 8-pair CPU calibration's, but now backed by a
+real (59, 1024) SVD per layer.
+
+| Mode | 16K acc |
+|---|---|
+| baseline | 7/10 = 70 % |
+| reattn | 7/10 = 70 % |
+| full (reattn + MAGS) | 7/10 = 70 % |
+
+MAGS neither helps nor hurts: it preserves accuracy on all 7 cases where
+reattn already succeeds, and doesn't recover the 3 failures (which are
+retrieval misses — the needle chunk isn't in the top-5).
+
+Fire-rate audit on cases 6 (fail), 8 (success), 9 (success):
+
+| layer | τ | case 6 fired | case 8 fired | case 9 fired |
+|---|---|---|---|---|
+| 11 | 0.296 | 21/23 (91 %) | 13/23 (57 %) | 18/23 (78 %) |
+| 15 | 0.881 | 15/23 (65 %) | 7/23 (30 %) | 6/23 (26 %) |
+| 19 | 2.607 | 3/23 (13 %) | 6/23 (26 %) | 4/23 (17 %) |
+
+Layer 11 still fires on a majority of *correct* generations, so its τ is
+not selective enough — the orthogonal projection at layer 11 is operating
+on most tokens of most generations and the net direction it removes is
+small enough that the answer survives. Layer 19 looks discriminating
+shape-wise but fires too rarely to drive aggregate accuracy.
+
+The bigger issue (predicted in §8) is exposed: bottom-K-by-cosine "wrong"
+chunks aren't *plausibly mis-retrievable* enough to teach the SVD a
+useful error direction for the failure mode MAGS actually targets
+(retrieval-was-OK-but-model-still-drifted). For the next iteration, T-
+should be drawn from *nearly-correct* retrievals — chunks whose cosine is
+just below the oracle — or from synthetic perturbations of the oracle
+itself.
+
+## 5c. Turing SDPA workaround
+PyTorch's mem-efficient SDPA backend doesn't support
+`enable_gqa=True` on Turing — transformers' fast path then falls
+back to MATH which materialises an N×N score matrix and OOMs at
+16K. `loader.load_model()` patches
+`transformers.integrations.sdpa_attention.use_gqa_in_sdpa →
+False` on cap < 8.0, forcing the path that explicitly
+`repeat_kv`'s to 8 heads. Mem-eff then handles 16K in ~400 MB and
+32K in ~1.5 GB. The patch is scoped per-process; short-seq
+submodels (Jina embedder) still use the math backend.
 
 ## 5. File map
 

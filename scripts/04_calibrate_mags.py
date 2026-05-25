@@ -73,6 +73,7 @@ def main():
     print(f"Calibrating MAGS on {len(cases)} cases")
 
     model, tok, _ = load_model()
+    device = next(model.parameters()).device
     emb = JinaEmbedder()
     inv_freq = make_inv_freq_for(model)
 
@@ -117,11 +118,11 @@ def main():
         wrong_ids = [meta["chunks"][k]["id"] for k in sorted_idx if meta["chunks"][k]["id"] not in oracle_ids][: args.n_wrong]
         print(f"  case {i}: oracle={oracle_ids[:2]} wrong={wrong_ids}")
 
-        prompt_tail_ids = tok("Q: " + case["question"] + "\nA:", add_special_tokens=False).input_ids
+        prompt_tail_ids = tok("\n\nQ: " + case["question"] + "\nA:", add_special_tokens=False).input_ids
 
         # T+: oracle placement
         pos_placements, pos_flat = build_placement(tmp, oracle_ids[:1], chunk_lookup, prefix_len=0)
-        pos_input = torch.tensor([pos_flat + prompt_tail_ids], dtype=torch.long)
+        pos_input = torch.tensor([pos_flat + prompt_tail_ids], dtype=torch.long, device=device)
         with torch.no_grad(), patched_full_attn(model, pos_placements, inv_freq=inv_freq), \
                 grab_last_residual(model) as cap:
             model.model(pos_input, use_cache=False)
@@ -130,7 +131,7 @@ def main():
 
         # T-: wrong-chunk placement
         neg_placements, neg_flat = build_placement(tmp, wrong_ids, chunk_lookup, prefix_len=0)
-        neg_input = torch.tensor([neg_flat + prompt_tail_ids], dtype=torch.long)
+        neg_input = torch.tensor([neg_flat + prompt_tail_ids], dtype=torch.long, device=device)
         with torch.no_grad(), patched_full_attn(model, neg_placements, inv_freq=inv_freq), \
                 grab_last_residual(model) as cap:
             model.model(neg_input, use_cache=False)

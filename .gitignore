@@ -20,3 +20,6 @@ data/mags/_calib_cache_*/
 # Local logs
 *.log
 /tmp/
+
+# Local venv (bootstrapped per-machine)
+.venv/

@@ -82,7 +82,8 @@ class SpragRunner:
 
         chunk_ids_flat, placements = self._build_placements(chunk_ids, prefix_len=len(prefix_ids))
         assembled = prefix_ids + chunk_ids_flat + query_ids
-        input_ids = torch.tensor([assembled], dtype=torch.long)
+        device = next(self.model.parameters()).device
+        input_ids = torch.tensor([assembled], dtype=torch.long, device=device)
 
         with torch.no_grad(), patched_full_attn(self.model, placements, inv_freq=self.inv_freq):
             out = self.model.generate(
@@ -104,7 +105,8 @@ class SpragRunner:
 
 def run_baseline(model, tokenizer, prompt: str, max_new_tokens: int = 64) -> str:
     """No retrieval, no splice: standard generation on the full prompt."""
-    ids = tokenizer(prompt, return_tensors="pt").input_ids
+    device = next(model.parameters()).device
+    ids = tokenizer(prompt, return_tensors="pt").input_ids.to(device)
     with torch.no_grad():
         out = model.generate(
             input_ids=ids, max_new_tokens=max_new_tokens, do_sample=False,

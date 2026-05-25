@@ -1,20 +1,39 @@
 """Jina embeddings v5 wrapper for chunk_repr & query encoding."""
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 import torch
 from transformers import AutoModel, AutoTokenizer
 
-JINA_PATH = (
-    "/root/.cache/huggingface/hub/models--jinaai--jina-embeddings-v5-text-small/"
-    "snapshots/dd76d535f5447ca3897a9c893fb1e612ead98192"
-)
+
+def _default_jina_path() -> str:
+    env = os.environ.get("SPRAG_JINA_PATH")
+    if env:
+        return env
+    snapshot = "dd76d535f5447ca3897a9c893fb1e612ead98192"
+    for root in (
+        os.path.expanduser("~/.cache/huggingface/hub"),
+        "/root/.cache/huggingface/hub",
+    ):
+        p = Path(root) / "models--jinaai--jina-embeddings-v5-text-small" / "snapshots" / snapshot
+        if p.exists():
+            return str(p)
+    # fall through to model-id form; AutoModel will download
+    return "jinaai/jina-embeddings-v5-text-small"
+
+
+JINA_PATH = _default_jina_path()
 
 
 class JinaEmbedder:
-    def __init__(self, model_path: str | Path = JINA_PATH, device: str = "cpu",
+    def __init__(self, model_path: str | Path = None, device: str | None = None,
                  dtype: torch.dtype = torch.float32, max_length: int = 1024):
+        if model_path is None:
+            model_path = JINA_PATH
+        if device is None:
+            device = "cuda" if torch.cuda.is_available() else "cpu"
         self.tok = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
         self.model = AutoModel.from_pretrained(
             model_path, trust_remote_code=True, torch_dtype=dtype

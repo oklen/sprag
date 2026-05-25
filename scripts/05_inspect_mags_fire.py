@@ -17,28 +17,36 @@ from sprag.mags.intervene import mags_hook
 
 
 def main():
-    cases = [json.loads(l) for l in open("data/niah/niah_4k.jsonl")]
-    # Pick a "wrong retrieval" case (3) and a "correct retrieval" case (4)
-    targets = [cases[3], cases[4]]
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--cases", default="data/niah/niah_16k.jsonl")
+    ap.add_argument("--mags", default="data/mags/mags_16k.pkl")
+    ap.add_argument("--top_k", type=int, default=5)
+    ap.add_argument("--chunk_size", type=int, default=256)
+    ap.add_argument("--ids", nargs="+", type=int, default=[1, 6, 8],
+                    help="case ids to inspect (mix of failure + success)")
+    args = ap.parse_args()
+    cases_all = [json.loads(l) for l in open(args.cases)]
+    targets = [c for c in cases_all if c["id"] in args.ids]
 
     model, tok, _ = load_model()
     emb = JinaEmbedder()
-    params = load_mags("data/mags/mags_4k.pkl")
+    params = load_mags(args.mags)
 
     for case in targets:
         cache = Path("data/niah/_cache_inspect")
         if cache.exists():
             import shutil; shutil.rmtree(cache)
         build_chunk_cache(model, tok, case["haystack"], cache,
-                          chunk_size=256, embed_fn=emb.encode_passage)
+                          chunk_size=args.chunk_size, embed_fn=emb.encode_passage)
 
         runner = SpragRunner(model, tok, emb, RunnerConfig(
-            cache_dir=cache, top_k=3, max_new_tokens=24, prefix_text=""
+            cache_dir=cache, top_k=args.top_k, max_new_tokens=24, prefix_text=""
         ))
 
         log: list = []
         with mags_hook(model, params, alpha=1.0, on_decode_only=True, log=log):
-            res = runner.run("Q: " + case["question"] + "\nA:")
+            res = runner.run("\n\nQ: " + case["question"] + "\nA:")
 
         # Aggregate per layer
         from collections import defaultdict

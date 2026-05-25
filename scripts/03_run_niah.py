@@ -80,7 +80,7 @@ def main():
 
             if "reattn" in args.modes:
                 t0 = time.time()
-                res = runner.run("Q: " + case["question"] + "\nA:")
+                res = runner.run("\n\nQ: " + case["question"] + "\nA:")
                 run_time = time.time() - t0
                 row["reattn"] = {
                     "output": res.output_text,
@@ -97,7 +97,7 @@ def main():
             if "full" in args.modes:
                 t0 = time.time()
                 with mags_hook(model, mags_params):
-                    res_full = runner.run("Q: " + case["question"] + "\nA:")
+                    res_full = runner.run("\n\nQ: " + case["question"] + "\nA:")
                 run_time = time.time() - t0
                 row["full"] = {
                     "output": res_full.output_text,
