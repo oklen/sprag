@@ -75,6 +75,14 @@ def load_model(
     model.eval()
 
     if on_cuda:
+        # Cheap global knobs that don't affect numerics in our path:
+        # - TF32 only applies to the float32 ops left in our pipeline (RoPE
+        #   angles, layernorm reductions on some kernels) — speeds them up
+        #   without changing the fp16 forward semantics.
+        # - matmul precision "high" keeps fp32 accumulators where needed.
+        torch.set_float32_matmul_precision("high")
+        torch.backends.cuda.matmul.allow_tf32 = True
+        torch.backends.cudnn.allow_tf32 = True
         cap = torch.cuda.get_device_capability(device)
         if cap[0] < 8:
             # On Turing (T4, cap 7.5) the mem-efficient SDPA backend can't

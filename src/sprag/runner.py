@@ -31,21 +31,64 @@ class RunResult:
     assembled_len: int
 
 
+_CHUNK_CACHE_RAM: dict[tuple, dict] = {}
+
+
+def invalidate_chunk_ram(cache_dir) -> None:
+    """Drop any in-memory copies for `cache_dir`. Call this whenever the
+    on-disk cache has just been rebuilt — otherwise the next runner will
+    keep serving the previous build's tensors."""
+    prefix = str(Path(cache_dir).resolve())
+    for k in list(_CHUNK_CACHE_RAM.keys()):
+        if k[0] == prefix:
+            del _CHUNK_CACHE_RAM[k]
+
+
+def _load_chunks_to_device(cache_dir: Path, chunk_ids: list[int],
+                            full_layers, model_dtype, device) -> dict[int, dict]:
+    """Load all chunks from disk into a per-(cache_dir, device, dtype) memo.
+    K/V tensors land on `device` cast to `model_dtype`; small bookkeeping
+    fields stay on CPU. The memo is shared across runners that point at
+    the same cache dir, so two runners (e.g. top_k=3 and top_k=6) read
+    disk only once.
+    """
+    dev = torch.device(device)
+    key = (str(Path(cache_dir).resolve()), dev.type, dev.index or 0, str(model_dtype))
+    memo = _CHUNK_CACHE_RAM.setdefault(key, {})
+    if memo:
+        return memo
+    for cid in chunk_ids:
+        path = Path(cache_dir) / f"chunk_{cid:05d}.safetensors"
+        t = load_file(str(path))
+        gpu = {"input_ids": t["input_ids"]}  # ids stay on CPU; small
+        for li in full_layers:
+            gpu[f"K_l{li}"] = t[f"K_l{li}"].to(device=device, dtype=model_dtype, non_blocking=True).contiguous()
+            gpu[f"V_l{li}"] = t[f"V_l{li}"].to(device=device, dtype=model_dtype, non_blocking=True).contiguous()
+        memo[cid] = gpu
+    return memo
+
+
 class SpragRunner:
     def __init__(self, model, tokenizer, embedder: JinaEmbedder, cfg: RunnerConfig):
         self.model = model
         self.tok = tokenizer
         self.embedder = embedder
         self.cfg = cfg
-        self.inv_freq = make_inv_freq_for(model)
+        _device = next(model.parameters()).device
+        self.inv_freq = make_inv_freq_for(model).to(_device)
 
         self._chunk_ids, self._chunk_reprs = load_chunk_reprs(cfg.cache_dir)
         self._meta = load_meta(cfg.cache_dir)
         self._chunk_lookup = {c["id"]: c for c in self._meta["chunks"]}
 
+        device = next(model.parameters()).device
+        dtype = next(model.parameters()).dtype
+        self._chunk_tensors = _load_chunks_to_device(
+            cfg.cache_dir, self._chunk_ids, FULL_ATTN_LAYERS, dtype, device,
+        )
+
     def _load_chunk_tensors(self, chunk_id: int) -> dict:
-        path = Path(self.cfg.cache_dir) / f"chunk_{chunk_id:05d}.safetensors"
-        return load_file(str(path))
+        return self._chunk_tensors[chunk_id]
 
     def _retrieve(self, query: str) -> tuple[list[int], list[float]]:
         q_vec = self.embedder.encode_query([query])[0]

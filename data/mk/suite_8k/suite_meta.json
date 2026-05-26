@@ -1,0 +1,48 @@
+{
+  "target_tokens": 8192,
+  "n_needles": 6,
+  "n_cases": 10,
+  "seed": 42,
+  "cases": [
+    {
+      "id": 0,
+      "tokens": 8131
+    },
+    {
+      "id": 1,
+      "tokens": 8136
+    },
+    {
+      "id": 2,
+      "tokens": 8138
+    },
+    {
+      "id": 3,
+      "tokens": 8138
+    },
+    {
+      "id": 4,
+      "tokens": 8138
+    },
+    {
+      "id": 5,
+      "tokens": 8135
+    },
+    {
+      "id": 6,
+      "tokens": 8137
+    },
+    {
+      "id": 7,
+      "tokens": 8133
+    },
+    {
+      "id": 8,
+      "tokens": 8136
+    },
+    {
+      "id": 9,
+      "tokens": 8125
+    }
+  ]
+}

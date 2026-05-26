@@ -1,0 +1,6 @@
+{"id": 0, "question": "What magic number is stored in vault Beta?", "answer": "ninety-three", "picks": {"vault": "Beta", "number": "ninety-three"}, "template_id": 0, "depth_piece": 68, "distractor_answers": ["forty-two"]}
+{"id": 1, "question": "What magic number is stored in vault Gamma?", "answer": "forty-two", "picks": {"vault": "Gamma", "number": "forty-two"}, "template_id": 0, "depth_piece": 118, "distractor_answers": ["ninety-three"]}
+{"id": 2, "question": "Where is the best quiet bookshop in Tallinn?", "answer": "Saffron", "picks": {"city": "Tallinn", "street": "Saffron"}, "template_id": 2, "depth_piece": 171, "distractor_answers": ["Hawthorn", "Linden"]}
+{"id": 3, "question": "Where is the best quiet bookshop in Kyoto?", "answer": "Hawthorn", "picks": {"city": "Kyoto", "street": "Hawthorn"}, "template_id": 2, "depth_piece": 222, "distractor_answers": ["Linden", "Saffron"]}
+{"id": 4, "question": "Where is the best quiet bookshop in Lisbon?", "answer": "Linden", "picks": {"city": "Lisbon", "street": "Linden"}, "template_id": 2, "depth_piece": 276, "distractor_answers": ["Hawthorn", "Saffron"]}
+{"id": 5, "question": "Who is the secret keeper and what is her favourite colour?", "answer": "Bridget ... cerulean", "picks": {"name": "Bridget", "colour": "cerulean"}, "template_id": 1, "depth_piece": 329, "distractor_answers": []}

@@ -1,0 +1,177 @@
+{
+  "meta": {
+    "target_tokens": 16384,
+    "actual_tokens": 16333,
+    "n_needles": 8,
+    "seed": 1
+  },
+  "top_k": 3,
+  "chunk_size": 256,
+  "modes": [
+    "baseline",
+    "reattn"
+  ],
+  "queries": [
+    {
+      "id": 0,
+      "question": "What magic number is stored in vault Sigma?",
+      "answer": "forty-two",
+      "baseline": {
+        "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Sigma is forty-two.\n\n(This information is embedded in the document provided.)",
+        "correct": true,
+        "time": 5.9735939502716064
+      },
+      "reattn": {
+        "output": " The magic number is stored in vault Sigma.\nA: The magic number is stored in vault Sigma.\nA: The magic number is stored in vault Sigma",
+        "correct": false,
+        "time": 1.9765233993530273,
+        "retrieved": [
+          9,
+          16,
+          63
+        ]
+      }
+    },
+    {
+      "id": 1,
+      "question": "Who is the secret keeper and what is her favourite colour?",
+      "answer": "Octavia ... cerulean",
+      "baseline": {
+        "output": " The secret keeper is Octavia and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+        "correct": true,
+        "time": 6.085291385650635
+      },
+      "reattn": {
+        "output": " The secret keeper is Octavia and her favourite colour is cerulean.\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+        "correct": true,
+        "time": 1.964320182800293,
+        "retrieved": [
+          16,
+          57,
+          15
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "question": "What magic number is stored in vault Alpha?",
+      "answer": "one hundred and one",
+      "baseline": {
+        "output": "\n\n<think>\n\n</think>\n\n101",
+        "correct": false,
+        "time": 4.864873647689819
+      },
+      "reattn": {
+        "output": " What magic number is stored in vault Alpha?\nA: What magic number is stored in vault Alpha?\nA: What magic number is stored in vault Alpha",
+        "correct": false,
+        "time": 1.7398905754089355,
+        "retrieved": [
+          9,
+          16,
+          63
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "question": "What magic number is stored in vault Delta?",
+      "answer": "one hundred and one",
+      "baseline": {
+        "output": "\n\n<think>\n\n</think>\n\nOne hundred and one.",
+        "correct": true,
+        "time": 4.975534677505493
+      },
+      "reattn": {
+        "output": " The magic number stored in vault Delta is forty-two.\nQ: What magic number is stored in vault Delta?\nA: The magic number stored in vault",
+        "correct": false,
+        "time": 1.7520484924316406,
+        "retrieved": [
+          9,
+          63,
+          16
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "question": "Where is the best quiet bookshop in Lisbon?",
+      "answer": "Hawthorn",
+      "baseline": {
+        "output": "\n\n<think>\n\n</think>\n\nHawthorn Street.\n\n(This information is unique to this document.)\n\n**Note:** The best place to find a quiet book",
+        "correct": true,
+        "time": 6.224090814590454
+      },
+      "reattn": {
+        "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+        "correct": false,
+        "time": 1.9816985130310059,
+        "retrieved": [
+          47,
+          34,
+          57
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "question": "What magic number is stored in vault Gamma?",
+      "answer": "forty-two",
+      "baseline": {
+        "output": "\n\n<think>\n\n</think>\n\n101",
+        "correct": false,
+        "time": 4.926364421844482
+      },
+      "reattn": {
+        "output": " What magic number is stored in vault Gamma?\nA: What magic number is stored in vault Gamma?\nA: What magic number is stored in vault Gamma",
+        "correct": false,
+        "time": 1.7544023990631104,
+        "retrieved": [
+          9,
+          16,
+          63
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "question": "Where is the best quiet bookshop in Kyoto?",
+      "answer": "Saffron",
+      "baseline": {
+        "output": "\n\n<think>\n\n</think>\n\nThe best quiet bookshop in Kyoto is on Saffron Street.\n\n(This information is unique to this document.)",
+        "correct": true,
+        "time": 5.904026746749878
+      },
+      "reattn": {
+        "output": "\nThe best quiet bookshop in Kyoto is on Saffron Street.\nA:\nThe best quiet bookshop in Kyoto is on Saffron Street",
+        "correct": true,
+        "time": 1.7573041915893555,
+        "retrieved": [
+          47,
+          16,
+          57
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "question": "What magic number is stored in vault Beta?",
+      "answer": "one hundred and one",
+      "baseline": {
+        "output": "\n\n<think>\n\n</think>\n\nOne hundred and one.",
+        "correct": true,
+        "time": 5.02898097038269
+      },
+      "reattn": {
+        "output": " The magic number stored in vault Beta is forty-two.\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored in vault",
+        "correct": false,
+        "time": 1.7807447910308838,
+        "retrieved": [
+          9,
+          63,
+          16
+        ]
+      }
+    }
+  ],
+  "cache_build_time": 16.21824836730957
+}

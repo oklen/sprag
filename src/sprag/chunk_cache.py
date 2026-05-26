@@ -18,7 +18,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import torch
-from safetensors.torch import save_file, load_file
+from safetensors.torch import save_file
 from torch import Tensor, nn
 
 from .loader import FULL_ATTN_LAYERS
@@ -118,32 +118,34 @@ def build_chunk_cache(
     last_h = out.last_hidden_state[0]  # (N, hidden)
 
     chunk_text_pieces = []
+    chunk_tensors: list[dict[str, Tensor]] = []
     for ch in chunks:
         sl = slice(ch.a_start, ch.a_end)
-        tensors = {
-            "input_ids": tokens[sl].clone(),
-        }
+        tensors = {"input_ids": tokens[sl].clone()}
         for li in FULL_ATTN_LAYERS:
             k_full = kv_store[li]["K"][0]  # (n_kv, N, head_dim)
             v_full = kv_store[li]["V"][0]
             tensors[f"K_l{li}"] = k_full[:, sl, :].contiguous()
             tensors[f"V_l{li}"] = v_full[:, sl, :].contiguous()
-
-        # crude fallback chunk_repr if no external embedder given
         tensors["repr_mean_last"] = last_h[sl].mean(dim=0).float().cpu()
-
-        chunk_text = tokenizer.decode(tokens[sl], skip_special_tokens=False)
-        chunk_text_pieces.append(chunk_text)
-        save_file(tensors, str(out_dir / f"chunk_{ch.chunk_id:05d}.safetensors"))
+        chunk_text_pieces.append(tokenizer.decode(tokens[sl], skip_special_tokens=False))
+        chunk_tensors.append(tensors)
 
     if embed_fn is not None:
-        # Batch-embed all chunk texts.
         reprs = embed_fn(chunk_text_pieces)
-        for ch, vec in zip(chunks, reprs):
-            path = out_dir / f"chunk_{ch.chunk_id:05d}.safetensors"
-            data = load_file(str(path))
-            data["chunk_repr"] = vec.float().cpu().contiguous()
-            save_file(data, str(path))
+        for tensors, vec in zip(chunk_tensors, reprs):
+            tensors["chunk_repr"] = vec.float().cpu().contiguous()
+
+    for ch, tensors in zip(chunks, chunk_tensors):
+        save_file(tensors, str(out_dir / f"chunk_{ch.chunk_id:05d}.safetensors"))
+
+    # If a runner already memoised this cache_dir from a previous build,
+    # drop the stale RAM copies so the next runner re-reads from disk.
+    try:
+        from .runner import invalidate_chunk_ram
+        invalidate_chunk_ram(out_dir)
+    except ImportError:
+        pass
 
     meta = {
         "chunk_size": chunk_size,
@@ -163,7 +165,8 @@ def build_chunk_cache(
 
 
 def load_chunk(out_dir: Path, chunk_id: int) -> dict[str, Tensor]:
-    return load_file(str(Path(out_dir) / f"chunk_{chunk_id:05d}.safetensors"))
+    from safetensors.torch import load_file as _load
+    return _load(str(Path(out_dir) / f"chunk_{chunk_id:05d}.safetensors"))
 
 
 def load_meta(out_dir: Path) -> dict:

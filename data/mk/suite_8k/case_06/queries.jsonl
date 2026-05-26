@@ -1,0 +1,6 @@
+{"id": 0, "question": "What magic number is stored in vault Gamma?", "answer": "seventeen", "picks": {"vault": "Gamma", "number": "seventeen"}, "template_id": 0, "depth_piece": 64, "distractor_answers": ["forty-two", "ninety-three"]}
+{"id": 1, "question": "Where is the best quiet bookshop in Kyoto?", "answer": "Marigold", "picks": {"city": "Kyoto", "street": "Marigold"}, "template_id": 2, "depth_piece": 118, "distractor_answers": ["Linden"]}
+{"id": 2, "question": "Who is the secret keeper and what is her favourite colour?", "answer": "Marigold ... amber", "picks": {"name": "Marigold", "colour": "amber"}, "template_id": 1, "depth_piece": 173, "distractor_answers": []}
+{"id": 3, "question": "Where is the best quiet bookshop in Tallinn?", "answer": "Linden", "picks": {"city": "Tallinn", "street": "Linden"}, "template_id": 2, "depth_piece": 225, "distractor_answers": ["Marigold"]}
+{"id": 4, "question": "What magic number is stored in vault Alpha?", "answer": "ninety-three", "picks": {"vault": "Alpha", "number": "ninety-three"}, "template_id": 0, "depth_piece": 275, "distractor_answers": ["forty-two", "seventeen"]}
+{"id": 5, "question": "What magic number is stored in vault Beta?", "answer": "forty-two", "picks": {"vault": "Beta", "number": "forty-two"}, "template_id": 0, "depth_piece": 331, "distractor_answers": ["ninety-three", "seventeen"]}

@@ -1,0 +1,6 @@
+{"id": 0, "question": "Where is the best quiet bookshop in Montevideo?", "answer": "Hawthorn", "picks": {"city": "Montevideo", "street": "Hawthorn"}, "template_id": 2, "depth_piece": 66, "distractor_answers": ["Marigold", "Mulberry"]}
+{"id": 1, "question": "What magic number is stored in vault Alpha?", "answer": "ninety-three", "picks": {"vault": "Alpha", "number": "ninety-three"}, "template_id": 0, "depth_piece": 118, "distractor_answers": ["seventeen"]}
+{"id": 2, "question": "Who is the secret keeper and what is her favourite colour?", "answer": "Lenore ... cerulean", "picks": {"name": "Lenore", "colour": "cerulean"}, "template_id": 1, "depth_piece": 170, "distractor_answers": []}
+{"id": 3, "question": "What magic number is stored in vault Sigma?", "answer": "seventeen", "picks": {"vault": "Sigma", "number": "seventeen"}, "template_id": 0, "depth_piece": 222, "distractor_answers": ["ninety-three"]}
+{"id": 4, "question": "Where is the best quiet bookshop in Tallinn?", "answer": "Marigold", "picks": {"city": "Tallinn", "street": "Marigold"}, "template_id": 2, "depth_piece": 276, "distractor_answers": ["Hawthorn", "Mulberry"]}
+{"id": 5, "question": "Where is the best quiet bookshop in Kyoto?", "answer": "Mulberry", "picks": {"city": "Kyoto", "street": "Mulberry"}, "template_id": 2, "depth_piece": 330, "distractor_answers": ["Hawthorn", "Marigold"]}

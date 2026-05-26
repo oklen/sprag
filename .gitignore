@@ -16,6 +16,8 @@ data/cache/
 data/niah/_cache_*/
 data/niah/_cache_inspect/
 data/mags/_calib_cache_*/
+data/amort/_cache_*/
+data/mk/_cache_*/
 
 # Local logs
 *.log

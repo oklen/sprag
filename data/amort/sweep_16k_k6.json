@@ -1,0 +1,160 @@
+{
+  "meta": {
+    "target_tokens": 16384,
+    "actual_tokens": 16333,
+    "n_needles": 8,
+    "seed": 1
+  },
+  "top_k": 6,
+  "chunk_size": 256,
+  "modes": [
+    "reattn"
+  ],
+  "queries": [
+    {
+      "id": 0,
+      "question": "What magic number is stored in vault Sigma?",
+      "answer": "forty-two",
+      "reattn": {
+        "output": " The magic number stored in vault Sigma is forty-two.\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored in vault",
+        "correct": true,
+        "time": 2.2371585369110107,
+        "retrieved": [
+          9,
+          16,
+          63,
+          31,
+          38,
+          41
+        ]
+      }
+    },
+    {
+      "id": 1,
+      "question": "Who is the secret keeper and what is her favourite colour?",
+      "answer": "Octavia ... cerulean",
+      "reattn": {
+        "output": " The secret keeper is Octavia and her favourite colour is cerulean.\nA: The secret keeper is Octavia and her favourite colour is cerulean",
+        "correct": true,
+        "time": 2.093367099761963,
+        "retrieved": [
+          16,
+          57,
+          15,
+          21,
+          52,
+          12
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "question": "What magic number is stored in vault Alpha?",
+      "answer": "one hundred and one",
+      "reattn": {
+        "output": " The magic number stored in vault Alpha is one hundred and one.\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored",
+        "correct": true,
+        "time": 1.8943138122558594,
+        "retrieved": [
+          9,
+          16,
+          63,
+          22,
+          41,
+          31
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "question": "What magic number is stored in vault Delta?",
+      "answer": "one hundred and one",
+      "reattn": {
+        "output": " The magic number stored in vault Delta is forty-two.\nQ: What magic number is stored in vault Sigma?\nA: The magic number stored in vault",
+        "correct": false,
+        "time": 1.8811466693878174,
+        "retrieved": [
+          9,
+          63,
+          16,
+          31,
+          13,
+          30
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "question": "Where is the best quiet bookshop in Lisbon?",
+      "answer": "Hawthorn",
+      "reattn": {
+        "output": " The best quiet bookshop in Lisbon is on Hawthorn Street.\nA: The best quiet bookshop in Lisbon is on Hawthorn Street.\nA:",
+        "correct": true,
+        "time": 2.1106340885162354,
+        "retrieved": [
+          47,
+          34,
+          57,
+          16,
+          28,
+          42
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "question": "What magic number is stored in vault Gamma?",
+      "answer": "forty-two",
+      "reattn": {
+        "output": " The magic number stored in vault Gamma is forty-two.\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored in vault",
+        "correct": true,
+        "time": 1.87945556640625,
+        "retrieved": [
+          9,
+          16,
+          63,
+          41,
+          53,
+          31
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "question": "Where is the best quiet bookshop in Kyoto?",
+      "answer": "Saffron",
+      "reattn": {
+        "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+        "correct": false,
+        "time": 1.896493911743164,
+        "retrieved": [
+          47,
+          16,
+          57,
+          12,
+          34,
+          41
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "question": "What magic number is stored in vault Beta?",
+      "answer": "one hundred and one",
+      "reattn": {
+        "output": " The magic number stored in vault Beta is forty-two.\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored in vault",
+        "correct": false,
+        "time": 1.9048278331756592,
+        "retrieved": [
+          9,
+          63,
+          16,
+          30,
+          38,
+          31
+        ]
+      }
+    }
+  ],
+  "cache_build_time": 17.24844741821289
+}

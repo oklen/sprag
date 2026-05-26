@@ -1,0 +1,8 @@
+{"id": 0, "question": "What magic number is stored in vault Sigma?", "answer": "forty-two", "picks": {"vault": "Sigma", "number": "forty-two"}, "depth_piece": 120}
+{"id": 1, "question": "Who is the secret keeper and what is her favourite colour?", "answer": "Octavia ... cerulean", "picks": {"name": "Octavia", "colour": "cerulean"}, "depth_piece": 199}
+{"id": 2, "question": "What magic number is stored in vault Alpha?", "answer": "one hundred and one", "picks": {"vault": "Alpha", "number": "one hundred and one"}, "depth_piece": 277}
+{"id": 3, "question": "What magic number is stored in vault Delta?", "answer": "one hundred and one", "picks": {"vault": "Delta", "number": "one hundred and one"}, "depth_piece": 356}
+{"id": 4, "question": "Where is the best quiet bookshop in Lisbon?", "answer": "Hawthorn", "picks": {"city": "Lisbon", "street": "Hawthorn"}, "depth_piece": 439}
+{"id": 5, "question": "What magic number is stored in vault Gamma?", "answer": "forty-two", "picks": {"vault": "Gamma", "number": "forty-two"}, "depth_piece": 518}
+{"id": 6, "question": "Where is the best quiet bookshop in Kyoto?", "answer": "Saffron", "picks": {"city": "Kyoto", "street": "Saffron"}, "depth_piece": 595}
+{"id": 7, "question": "What magic number is stored in vault Beta?", "answer": "one hundred and one", "picks": {"vault": "Beta", "number": "one hundred and one"}, "depth_piece": 675}
