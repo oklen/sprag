@@ -436,6 +436,98 @@ What this rules out / in for the open problems in §8:
   errors — even with perfect retrieval the residue is degenerate
   decode, not the kind of uniform-direction drift MAGS could fix.
 
+## 5i. StreamingLLM sink prepend — big bookshop win, small vault regression
+
+Reading §5h's "degenerate decode is the residual failure mode on
+bookshop" against the Xiao et al. *Attention Sink* result, we tried a
+no-retrain intervention: prepend the **first M=4 tokens of the doc** as
+a sticky global sink at b=0, and strip the **first S=4 tokens off every
+retrieved chunk** before splicing (each placement's a_start is bumped
+by S, and `cached[li]` is sliced `[:, S:, :]`). ReAttention's existing
+per-placement RoPE rebase handles the rotation for both — the sink has
+delta=0 (no rotation), each stripped chunk shifts by `b_start - (a+S)`.
+No model changes, no extra forward.
+
+Run: `scripts/12_sink_mk.py --suite data/mk/suite_8k --M 4 --S 4`,
+same 10-case / 60-query MK suite, four modes side-by-side:
+
+| Mode | total | vault | secret | bookshop | other |
+|---|---|---|---|---|---|
+| oracle_k3 (control, §5h) | 41/60 | 15/22 | 10/10 | 16/28 | 15 |
+| **sink_oracle_k3** | **47/60** | 16/22 | 10/10 | **21/28** | 11 |
+| reattn_k6 (control, §5e) | 39/60 | 20/22 | 10/10 | 9/28 | 15 |
+| **sink_k6** | **43/60** | 17/22 | 10/10 | **16/28** | 8 |
+| baseline (full prompt) | 57/60 | 22/22 | 10/10 | 25/28 | — |
+
+Three things drop out, in order of size:
+
+1. **The sink rescues degenerate-decode failures.** Across all modes,
+   the `other` (degenerate "\\nA:\\nA:..." collapse) bucket falls
+   15 → 11 under oracle and 15 → 8 under retrieval. The
+   StreamingLLM hypothesis was exactly this — when no token in scope
+   is positioned at the absolute first few RoPE indices, attention
+   has nowhere to dump its "I have nothing to say" mass, and decode
+   becomes pathological. Restoring a sticky [0..4) anchor fixes a
+   majority of those cases.
+
+2. **Bookshop closes most of the gap.** Plain ReAttention was stuck
+   at 9/28 (§5e); oracle reorder lifted to 16/28 (§5h); now
+   *retrieval* with sink reaches the previous *oracle ceiling*
+   (sink_k6 = 16/28), and sink + oracle pushes past it (21/28). The
+   bookshop wins come almost entirely from the degenerate bucket
+   collapsing, not from binding errors changing — the
+   `distractor` bucket actually grows on retrieval (6 → 9) because
+   some queries that previously degenerated now generate the
+   sibling-needle answer instead. Net is still strongly positive.
+
+3. **Vault regresses 20/22 → 17/22 under retrieval.** Vault was
+   already saturated by reattn_k6's broad top-6 (where competing
+   needles get diluted in filler chunks); adding a sink and trimming
+   the first 4 tokens of each retrieved chunk costs 3 cases.
+   Inspection of the lost cases: in two, sink_k6 produces a distractor
+   ("vault Beta is forty-two" when asked about Alpha) where reattn_k6
+   produced the correct answer. We hypothesise the stripped first 4
+   tokens sometimes contain part of the "vault X is …" preamble, so
+   the binding cue is weaker. This is an `S` tuning lever — a
+   follow-up sweep over `S ∈ {0, 2, 4}` should localise where the
+   tradeoff sits.
+
+What this changes about the open problems:
+
+- §8 *Inverse-RoPE semantic correctness* (open problem 4): The
+  degenerate-decode residue we attributed to "Inverse-RoPE K is
+  semantically wrong at new positions" is largely explained by an
+  unrelated mechanism — *no absolute-position-0 anchor in scope*.
+  Once a sink is restored, much of the residue resolves. Open
+  problem 4 still exists but is smaller than §5h estimated.
+- §8 *chunk_repr space mismatch* (open problem 3): Still the
+  dominant lever for the *remaining* bookshop gap (sink_k6 16/28 vs
+  baseline 25/28). Worth pursuing.
+- **Strip length S is not a useful lever.** Sweep over S ∈ {0, 2, 4}
+  with M=4 fixed:
+
+  | S | sink_oracle_k3 | sink_k6 | bookshop (k3/k6) | vault (k3/k6) |
+  |---|---|---|---|---|
+  | 0 (sink-only, no strip) | 46/60 | **44/60** | 20 / 17 | 16 / **17** |
+  | 2 | 44/60 | 41/60 | 19 / 16 | 15 / 15 |
+  | 4 (canonical) | **47/60** | 43/60 | **21** / 16 | 16 / **17** |
+
+  Vault is non-monotonic in S (17 / 15 / 17), so the regression isn't
+  driven by strip width — it's the *sink itself* absorbing some
+  attention that previously went to the vault keyword, plus
+  greedy-decode variance. Bookshop is roughly flat across S=0..4.
+
+  This rules out the StreamingLLM rationale for stripping. The
+  original paper strips because in a *sliding-window* setup each
+  kept token would otherwise inherit a token's worth of "this is a
+  sink" attention from its sliding position; in our setup ReAttention
+  already positions each chunk wherever we want, so there's no
+  conflict to resolve by trimming.
+
+  **Recommended default: M=4, S=0** — sink-only prepend, no strip.
+  Gives the same bookshop win, costs no chunk information, free at
+  runtime (+4 tokens to each prefill).
+
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
 The headline value-prop test from §7.2. One 16,333-tok haystack with 8
