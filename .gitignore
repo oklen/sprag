@@ -18,6 +18,7 @@ data/niah/_cache_inspect/
 data/mags/_calib_cache_*/
 data/mags/_mk_calib_case*/
 data/mags/_harvest_case*/
+data/mk/_oracle_case*/
 data/amort/_cache_*/
 data/mk/_cache_*/
 

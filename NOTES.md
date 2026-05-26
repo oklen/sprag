@@ -360,6 +360,82 @@ mis-binding direction.
 - Or accept that for this failure mode, retrieval (chunk_repr
   ablation §7.5) is the right lever, not residual intervention.
 
+## 5h. Oracle retrieval on MK — which open problem is the real one
+
+To separate "retrieval picked the wrong chunks" from "splice itself is
+weak when multiple needles compete," we ran an oracle eval
+(`scripts/11_oracle_mk.py`) that bypasses Jina and assembles only the
+chunk known to contain each query's gold needle.
+
+`oracle_k1`: assembly = [gold_chunk] only.
+`oracle_k3`: assembly = [gold_chunk, sibling_needle_1, sibling_needle_2]
+             (gold always first, distractors of same template after).
+
+Same 10-case MK suite (60 queries):
+
+| Mode | total | vault | secret | bookshop |
+|---|---|---|---|---|
+| baseline (full) | 57/60 | 22/22 | 10/10 | 25/28 |
+| reattn_k6 (Jina) | 39/60 | 20/22 | 10/10 | 9/28 |
+| **oracle_k1** | 18/60 | 6/22 | 9/10 | 3/28 |
+| **oracle_k3** | 41/60 | 15/22 | 10/10 | **16/28** |
+
+Three things drop out:
+
+1. **Bookshop: retrieval discrimination is the dominant bottleneck.**
+   oracle_k3 with the same splice machinery jumps from 9/28 → 16/28
+   on bookshop just by re-ordering Jina's top-6 into "gold first +
+   2 sibling distractors." Jina at top-6 *did* include the gold
+   chunk ~99 % of the time (see §5g harvest stats), but it ranked
+   the gold chunk indistinguishably from sibling-bookshop chunks —
+   the model in that 6-chunk soup picks the wrong one too often.
+   The bookshop binding error in §5g exists, but it is much less
+   damaging when the gold chunk is first and competing needles are
+   capped at 2.
+
+2. **The splice is still imperfect (bookshop 16/28, not 25/28).**
+   Oracle gold-first with only 2 distractors still loses 9 of the
+   28 bookshop cases — most as `other` (degenerate decode). The
+   spliced K/V at large Inverse-RoPE deltas (e.g. chunk 22 →
+   position 0, delta ≈ 5600) plus a multi-needle assembly is enough
+   to push the model into a degenerate state on some queries. This
+   is the empirical signature of open problem 4 (Inverse-RoPE K is
+   exact on rotation, but "semantically correct K for the new
+   position" is not validated).
+
+3. **Vault gets *worse* under oracle_k3** (15/22 vs reattn_k6 20/22).
+   Reason: Jina at top-6 pulled 6 chunks, most of which are filler
+   (non-needle) text — the model just sees one or two vault needles
+   surrounded by neutral context. oracle_k3 instead has 3 vault
+   needles packed back-to-back, which intensifies the multi-needle
+   confusion. So "more chunks" actually helps vault by *diluting*
+   competing needles. The bookshop fix and the vault fix point in
+   opposite directions.
+
+   This makes a single retrieval policy hard: for bookshop you want
+   "very tight, gold-first, fewer competing needles"; for vault you
+   want "broader top-k so competing needles are dispersed in
+   filler." Per-template retrieval is one fix; another is reranking
+   Jina's top-k by keyword match on the disambiguating field
+   (`city`/`vault`/`name`) before assembly.
+
+**`oracle_k1` collapse** (18/60) is mostly a context-length artifact —
+a 256-token assembly is too short for this model + Q&A format; it
+degenerates regardless of splice quality. We tag this as confounded
+and do not read splice quality off it.
+
+What this rules out / in for the open problems in §8:
+
+- §8 *chunk_repr space mismatch* (open problem 3): **confirmed the
+  dominant lever for bookshop**. The chunk_repr ablation (use Qwen's
+  own `repr_mean_last`) is now the highest-EV experiment.
+- §8 *Inverse-RoPE semantic correctness* (open problem 4): **also
+  contributes**, but is second-order under good retrieval — bookshop
+  9/28 → 16/28 from a retrieval reorder alone.
+- §8 *MAGS calibration*: confirmed dead-end for bookshop binding
+  errors — even with perfect retrieval the residue is degenerate
+  decode, not the kind of uniform-direction drift MAGS could fix.
+
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
 The headline value-prop test from §7.2. One 16,333-tok haystack with 8
