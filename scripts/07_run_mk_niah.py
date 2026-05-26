@@ -26,6 +26,8 @@ from sprag.loader import load_model
 from sprag.chunk_cache import build_chunk_cache
 from sprag.embed import JinaEmbedder
 from sprag.runner import SpragRunner, RunnerConfig, run_baseline
+from sprag.mags.calibrate import load_mags
+from sprag.mags.intervene import mags_hook
 
 # Map word-number gold strings to their digit form (and vice-versa).
 NUM_EQUIV = {
@@ -68,9 +70,12 @@ def main():
                     help="dir produced by scripts/data/gen_mk_suite.py")
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--modes", nargs="+", default=["baseline", "reattn"],
-                    choices=["baseline", "reattn"])
+                    choices=["baseline", "reattn", "full"])
     ap.add_argument("--chunk_size", type=int, default=256)
     ap.add_argument("--top_k", nargs="+", type=int, default=[3, 6])
+    ap.add_argument("--mags_path", type=Path, default=None,
+                     help="Required for mode=full; reuses --top_k for the reattn pass")
+    ap.add_argument("--mags_alpha", type=float, default=1.0)
     ap.add_argument("--max_new_tokens", type=int, default=32)
     ap.add_argument("--limit_cases", type=int, default=None)
     args = ap.parse_args()
@@ -85,15 +90,27 @@ def main():
 
     print("Loading model + embedder...")
     model, tok, _ = load_model()
-    embedder = JinaEmbedder() if "reattn" in args.modes else None
+    need_reattn = ("reattn" in args.modes) or ("full" in args.modes)
+    embedder = JinaEmbedder() if need_reattn else None
+    mags_params = None
+    if "full" in args.modes:
+        if args.mags_path is None:
+            raise ValueError("--mags_path required for mode=full")
+        mags_params = load_mags(args.mags_path)
+        print(f"  loaded MAGS from {args.mags_path}: layers={mags_params.layer_indices} "
+              f"tau={ {li: round(t,3) for li,t in mags_params.tau.items()} }")
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     suite_results = {"suite_meta": suite_meta, "top_k": args.top_k,
                      "modes": args.modes, "cases": []}
 
     counts = {f"baseline": {"correct": 0, "distractor": 0, "other": 0}}
-    for k in args.top_k:
-        counts[f"reattn_k{k}"] = {"correct": 0, "distractor": 0, "other": 0}
+    if "reattn" in args.modes:
+        for k in args.top_k:
+            counts[f"reattn_k{k}"] = {"correct": 0, "distractor": 0, "other": 0}
+    if "full" in args.modes:
+        for k in args.top_k:
+            counts[f"full_k{k}"] = {"correct": 0, "distractor": 0, "other": 0}
     total_qs = 0
     time_acc = {kk: 0.0 for kk in counts}
     cache_acc = 0.0
@@ -108,7 +125,7 @@ def main():
 
         case_row = {"id": ci, "tokens": meta["actual_tokens"], "queries": []}
         runners: dict[int, SpragRunner] = {}
-        if "reattn" in args.modes:
+        if need_reattn:
             cache_dir = args.out.parent / f"_cache_mk_case{ci:02d}"
             if cache_dir.exists():
                 shutil.rmtree(cache_dir)
@@ -147,6 +164,22 @@ def main():
                     kk = f"reattn_k{k}"
                     t0 = time.time()
                     res = runners[k].run("\n\nQ: " + q["question"] + "\nA:")
+                    dt = time.time() - t0
+                    cls = classify(res.output_text, q["answer"],
+                                   q["distractor_answers"])
+                    counts[kk][cls] += 1
+                    time_acc[kk] += dt
+                    qrow[kk] = {"output": res.output_text, "class": cls,
+                                "time": dt, "retrieved": res.retrieved_chunk_ids}
+                    print(f"  q{q['id']} t{q['template_id']} {kk:9s} "
+                          f"{dt:4.1f}s chunks={res.retrieved_chunk_ids[:4]} "
+                          f"[{cls:10s}] {res.output_text[:80]!r}")
+            if "full" in args.modes:
+                for k in args.top_k:
+                    kk = f"full_k{k}"
+                    t0 = time.time()
+                    with mags_hook(model, mags_params, alpha=args.mags_alpha):
+                        res = runners[k].run("\n\nQ: " + q["question"] + "\nA:")
                     dt = time.time() - t0
                     cls = classify(res.output_text, q["answer"],
                                    q["distractor_answers"])

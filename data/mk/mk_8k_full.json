@@ -1,0 +1,2543 @@
+{
+  "suite_meta": {
+    "target_tokens": 8192,
+    "n_needles": 6,
+    "n_cases": 10,
+    "seed": 42,
+    "cases": [
+      {
+        "id": 0,
+        "tokens": 8131
+      },
+      {
+        "id": 1,
+        "tokens": 8136
+      },
+      {
+        "id": 2,
+        "tokens": 8138
+      },
+      {
+        "id": 3,
+        "tokens": 8138
+      },
+      {
+        "id": 4,
+        "tokens": 8138
+      },
+      {
+        "id": 5,
+        "tokens": 8135
+      },
+      {
+        "id": 6,
+        "tokens": 8137
+      },
+      {
+        "id": 7,
+        "tokens": 8133
+      },
+      {
+        "id": 8,
+        "tokens": 8136
+      },
+      {
+        "id": 9,
+        "tokens": 8125
+      }
+    ]
+  },
+  "top_k": [
+    6
+  ],
+  "modes": [
+    "baseline",
+    "reattn",
+    "full"
+  ],
+  "cases": [
+    {
+      "id": 0,
+      "tokens": 8131,
+      "queries": [
+        {
+          "id": 0,
+          "question": "Where is the best quiet bookshop in Lisbon?",
+          "answer": "Linden",
+          "template_id": 2,
+          "distractor_answers": [
+            "Marigold",
+            "Mulberry"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(This information is unique to this document.)",
+            "class": "correct",
+            "time": 3.088824987411499
+          },
+          "reattn_k6": {
+            "output": " Take note: the best place to find a quiet bookshop in Lisbon is on Linden Street. This information is unique to this document.\n\nTake note: the",
+            "class": "correct",
+            "time": 2.0603368282318115,
+            "retrieved": [
+              5,
+              22,
+              9,
+              7,
+              14,
+              23
+            ]
+          },
+          "full_k6": {
+            "output": " Take note: the best place to find a quiet bookshop in Lisbon is on Linden Street. This information is unique to this document.\n\nTake note: the",
+            "class": "correct",
+            "time": 1.8881745338439941,
+            "retrieved": [
+              5,
+              22,
+              9,
+              7,
+              14,
+              23
+            ]
+          }
+        },
+        {
+          "id": 1,
+          "question": "Where is the best quiet bookshop in Tallinn?",
+          "answer": "Mulberry",
+          "template_id": 2,
+          "distractor_answers": [
+            "Linden",
+            "Marigold"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\n*(Note: This information is unique to this document.)*",
+            "class": "correct",
+            "time": 3.1401994228363037
+          },
+          "reattn_k6": {
+            "output": " The best quiet bookshop in Tallinn is on Mulberry Street.\nB: The best quiet bookshop in Tallinn is on Marigold Street.",
+            "class": "correct",
+            "time": 2.0590031147003174,
+            "retrieved": [
+              9,
+              22,
+              5,
+              26,
+              23,
+              7
+            ]
+          },
+          "full_k6": {
+            "output": " The best quiet bookshop in Tallinn is on Mulberry Street.\nB: The best quiet bookshop in Tallinn is on Linden Street.\nC",
+            "class": "correct",
+            "time": 1.905660629272461,
+            "retrieved": [
+              9,
+              22,
+              5,
+              26,
+              23,
+              7
+            ]
+          }
+        },
+        {
+          "id": 2,
+          "question": "What magic number is stored in vault Beta?",
+          "answer": "forty-two",
+          "template_id": 0,
+          "distractor_answers": [
+            "seventeen"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\n42",
+            "class": "correct",
+            "time": 2.4983155727386475
+          },
+          "reattn_k6": {
+            "output": " Forty-two.\nQ: What magic number is stored in vault Alpha?\nA: Seventeen.\nQ: What magic number is stored in vault Beta",
+            "class": "correct",
+            "time": 2.076329469680786,
+            "retrieved": [
+              17,
+              7,
+              13,
+              23,
+              28,
+              11
+            ]
+          },
+          "full_k6": {
+            "output": " Forty-two.\nQ: What magic number is stored in vault Alpha?\nA: Seventeen.\nQ: What magic number is stored in vault Beta",
+            "class": "correct",
+            "time": 1.9279882907867432,
+            "retrieved": [
+              17,
+              7,
+              13,
+              23,
+              28,
+              11
+            ]
+          }
+        },
+        {
+          "id": 3,
+          "question": "What magic number is stored in vault Alpha?",
+          "answer": "seventeen",
+          "template_id": 0,
+          "distractor_answers": [
+            "forty-two"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nseventeen",
+            "class": "correct",
+            "time": 2.3809072971343994
+          },
+          "reattn_k6": {
+            "output": " The magic number stored in vault Alpha is seventeen.\nQ: What magic number is stored in vault Beta?\nA: The magic number stored in vault Beta",
+            "class": "correct",
+            "time": 1.8472280502319336,
+            "retrieved": [
+              17,
+              7,
+              23,
+              28,
+              11,
+              13
+            ]
+          },
+          "full_k6": {
+            "output": " The magic number stored in vault Alpha is seventeen.\nQ: What magic number is stored in vault Beta?\nA: The magic number stored in vault Beta",
+            "class": "correct",
+            "time": 1.9053235054016113,
+            "retrieved": [
+              17,
+              7,
+              23,
+              28,
+              11,
+              13
+            ]
+          }
+        },
+        {
+          "id": 4,
+          "question": "Where is the best quiet bookshop in Kyoto?",
+          "answer": "Marigold",
+          "template_id": 2,
+          "distractor_answers": [
+            "Linden",
+            "Mulberry"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nThe best quiet bookshop in Kyoto is on Marigold Street.\n\nThis information is unique to this document.\n\n*(Note:",
+            "class": "correct",
+            "time": 3.4294564723968506
+          },
+          "reattn_k6": {
+            "output": " The best quiet bookshop in Kyoto is on Mulberry Street. This information is unique to this document.\nA: The best quiet bookshop in Kyoto is",
+            "class": "distractor",
+            "time": 1.8855822086334229,
+            "retrieved": [
+              22,
+              5,
+              9,
+              26,
+              14,
+              7
+            ]
+          },
+          "full_k6": {
+            "output": " The best quiet bookshop in Kyoto is on Mulberry Street. This information is unique to this document.\nA: The best quiet bookshop in Kyoto is",
+            "class": "distractor",
+            "time": 1.9742398262023926,
+            "retrieved": [
+              22,
+              5,
+              9,
+              26,
+              14,
+              7
+            ]
+          }
+        },
+        {
+          "id": 5,
+          "question": "Who is the secret keeper and what is her favourite colour?",
+          "answer": "Bridget ... cerulean",
+          "template_id": 1,
+          "distractor_answers": [],
+          "baseline": {
+            "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+            "class": "correct",
+            "time": 3.596137523651123
+          },
+          "reattn_k6": {
+            "output": " The secret keeper is Bridget and her favourite colour is cerulean.\nA: The secret keeper is Bridget and her favourite colour is cerulean",
+            "class": "correct",
+            "time": 2.0661752223968506,
+            "retrieved": [
+              26,
+              7,
+              5,
+              3,
+              21,
+              22
+            ]
+          },
+          "full_k6": {
+            "output": " The secret keeper is Bridget and her favourite colour is cerulean.\nA: The secret keeper is Bridget and her favourite colour is cerulean",
+            "class": "correct",
+            "time": 1.9116415977478027,
+            "retrieved": [
+              26,
+              7,
+              5,
+              3,
+              21,
+              22
+            ]
+          }
+        }
+      ],
+      "cache_time": 8.630595684051514
+    },
+    {
+      "id": 1,
+      "tokens": 8136,
+      "queries": [
+        {
+          "id": 0,
+          "question": "Where is the best quiet bookshop in Montevideo?",
+          "answer": "Hawthorn",
+          "template_id": 2,
+          "distractor_answers": [
+            "Marigold",
+            "Mulberry"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nHawthorn Street.\n\n(This information is unique to this document.)",
+            "class": "correct",
+            "time": 3.0504648685455322
+          },
+          "reattn_k6": {
+            "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+            "class": "other",
+            "time": 1.875110149383545,
+            "retrieved": [
+              5,
+              22,
+              26,
+              1,
+              27,
+              0
+            ]
+          },
+          "full_k6": {
+            "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+            "class": "other",
+            "time": 1.9110212326049805,
+            "retrieved": [
+              5,
+              22,
+              26,
+              1,
+              27,
+              0
+            ]
+          }
+        },
+        {
+          "id": 1,
+          "question": "What magic number is stored in vault Alpha?",
+          "answer": "ninety-three",
+          "template_id": 0,
+          "distractor_answers": [
+            "seventeen"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\n93",
+            "class": "correct",
+            "time": 2.4750542640686035
+          },
+          "reattn_k6": {
+            "output": " The magic number stored in vault Alpha is ninety-three.\nA: The magic number stored in vault Alpha is ninety-three.\nA: The magic number stored",
+            "class": "correct",
+            "time": 1.872591257095337,
+            "retrieved": [
+              27,
+              25,
+              9,
+              14,
+              17,
+              7
+            ]
+          },
+          "full_k6": {
+            "output": " The magic number stored in vault Alpha is ninety-three.\nA: The magic number stored in vault Alpha is ninety-three.\nA: The magic number stored",
+            "class": "correct",
+            "time": 1.895885944366455,
+            "retrieved": [
+              27,
+              25,
+              9,
+              14,
+              17,
+              7
+            ]
+          }
+        },
+        {
+          "id": 2,
+          "question": "Who is the secret keeper and what is her favourite colour?",
+          "answer": "Lenore ... cerulean",
+          "template_id": 1,
+          "distractor_answers": [],
+          "baseline": {
+            "output": " The secret keeper is Lenore and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+            "class": "correct",
+            "time": 3.3844592571258545
+          },
+          "reattn_k6": {
+            "output": " The secret keeper is Lenore and her favourite colour is cerulean.\nA: The secret keeper is Lenore and her favourite colour is cerulean",
+            "class": "correct",
+            "time": 1.877058982849121,
+            "retrieved": [
+              13,
+              5,
+              1,
+              4,
+              29,
+              3
+            ]
+          },
+          "full_k6": {
+            "output": " The secret keeper is Lenore and her favourite colour is cerulean.\nA: The secret keeper is Lenore and her favourite colour is cerulean",
+            "class": "correct",
+            "time": 1.9192838668823242,
+            "retrieved": [
+              13,
+              5,
+              1,
+              4,
+              29,
+              3
+            ]
+          }
+        },
+        {
+          "id": 3,
+          "question": "What magic number is stored in vault Sigma?",
+          "answer": "seventeen",
+          "template_id": 0,
+          "distractor_answers": [
+            "ninety-three"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nseventeen",
+            "class": "correct",
+            "time": 2.354452610015869
+          },
+          "reattn_k6": {
+            "output": " The magic number stored in vault Sigma is seventeen.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA:",
+            "class": "correct",
+            "time": 1.9775989055633545,
+            "retrieved": [
+              17,
+              25,
+              5,
+              7,
+              14,
+              13
+            ]
+          },
+          "full_k6": {
+            "output": " The magic number stored in vault Sigma is seventeen.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA:",
+            "class": "correct",
+            "time": 1.9213948249816895,
+            "retrieved": [
+              17,
+              25,
+              5,
+              7,
+              14,
+              13
+            ]
+          }
+        },
+        {
+          "id": 4,
+          "question": "Where is the best quiet bookshop in Tallinn?",
+          "answer": "Marigold",
+          "template_id": 2,
+          "distractor_answers": [
+            "Hawthorn",
+            "Mulberry"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nMarigold Street.\n\n(This information is unique to this document.)",
+            "class": "correct",
+            "time": 3.0112922191619873
+          },
+          "reattn_k6": {
+            "output": " The best quiet bookshop in Tallinn is on Mulberry Street. This information is unique to this document. The best quiet bookshop in Tallinn is on",
+            "class": "distractor",
+            "time": 1.8680744171142578,
+            "retrieved": [
+              22,
+              5,
+              26,
+              1,
+              17,
+              4
+            ]
+          },
+          "full_k6": {
+            "output": " The best quiet bookshop in Tallinn is on Mulberry Street. This information is unique to this document. The best quiet bookshop in Tallinn is on",
+            "class": "distractor",
+            "time": 1.928177833557129,
+            "retrieved": [
+              22,
+              5,
+              26,
+              1,
+              17,
+              4
+            ]
+          }
+        },
+        {
+          "id": 5,
+          "question": "Where is the best quiet bookshop in Kyoto?",
+          "answer": "Mulberry",
+          "template_id": 2,
+          "distractor_answers": [
+            "Hawthorn",
+            "Marigold"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\n(This information is unique to this document.)",
+            "class": "correct",
+            "time": 2.984300374984741
+          },
+          "reattn_k6": {
+            "output": " The best quiet bookshop in Kyoto is on Mulberry Street. This information is unique to this document. The ENIAC was unveiled to the public at the",
+            "class": "correct",
+            "time": 1.9008097648620605,
+            "retrieved": [
+              26,
+              22,
+              5,
+              1,
+              10,
+              17
+            ]
+          },
+          "full_k6": {
+            "output": " The best quiet bookshop in Kyoto is on Mulberry Street. This information is unique to this document. The ENIAC was unveiled to the public at the",
+            "class": "correct",
+            "time": 1.9457378387451172,
+            "retrieved": [
+              26,
+              22,
+              5,
+              1,
+              10,
+              17
+            ]
+          }
+        }
+      ],
+      "cache_time": 6.872957468032837
+    },
+    {
+      "id": 2,
+      "tokens": 8138,
+      "queries": [
+        {
+          "id": 0,
+          "question": "Where is the best quiet bookshop in Montevideo?",
+          "answer": "Saffron",
+          "template_id": 2,
+          "distractor_answers": [
+            "Hawthorn",
+            "Linden"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nSaffron Street.\n\n(This information is unique to this document.)",
+            "class": "correct",
+            "time": 3.041044235229492
+          },
+          "reattn_k6": {
+            "output": " On Saffron Street.\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Hawthorn Street.\nQ: Where",
+            "class": "correct",
+            "time": 1.887413501739502,
+            "retrieved": [
+              13,
+              5,
+              26,
+              8,
+              16,
+              4
+            ]
+          },
+          "full_k6": {
+            "output": " On Saffron Street.\nQ: Where is the best quiet bookshop in Montevideo?\nA: On Saffron Street.\nQ",
+            "class": "correct",
+            "time": 1.9475810527801514,
+            "retrieved": [
+              13,
+              5,
+              26,
+              8,
+              16,
+              4
+            ]
+          }
+        },
+        {
+          "id": 1,
+          "question": "Who is the secret keeper and what is her favourite colour?",
+          "answer": "Octavia ... cerulean",
+          "template_id": 1,
+          "distractor_answers": [],
+          "baseline": {
+            "output": " The secret keeper is Octavia and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+            "class": "correct",
+            "time": 3.417306423187256
+          },
+          "reattn_k6": {
+            "output": " The secret keeper is Octavia and her favourite colour is cerulean.\nA: The secret keeper is Octavia and her favourite colour is cerulean",
+            "class": "correct",
+            "time": 1.9039857387542725,
+            "retrieved": [
+              26,
+              9,
+              18,
+              5,
+              24,
+              30
+            ]
+          },
+          "full_k6": {
+            "output": " The secret keeper is Octavia and her favourite colour is cerulean.\nA: The secret keeper is Octavia and her favourite colour is cerulean",
+            "class": "correct",
+            "time": 1.9507896900177002,
+            "retrieved": [
+              26,
+              9,
+              18,
+              5,
+              24,
+              30
+            ]
+          }
+        },
+        {
+          "id": 2,
+          "question": "Where is the best quiet bookshop in Tallinn?",
+          "answer": "Hawthorn",
+          "template_id": 2,
+          "distractor_answers": [
+            "Linden",
+            "Saffron"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nThe best quiet bookshop in Tallinn is on Hawthorn Street.\n\n(This information is unique to this document.)",
+            "class": "correct",
+            "time": 3.453145980834961
+          },
+          "reattn_k6": {
+            "output": " The best quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document.\n\nQ: Where is the best quiet book",
+            "class": "distractor",
+            "time": 1.8756773471832275,
+            "retrieved": [
+              13,
+              26,
+              5,
+              8,
+              18,
+              9
+            ]
+          },
+          "full_k6": {
+            "output": " The best quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document.\n\nQ: Where is the best quiet book",
+            "class": "distractor",
+            "time": 1.919433355331421,
+            "retrieved": [
+              13,
+              26,
+              5,
+              8,
+              18,
+              9
+            ]
+          }
+        },
+        {
+          "id": 3,
+          "question": "What magic number is stored in vault Sigma?",
+          "answer": "forty-two",
+          "template_id": 0,
+          "distractor_answers": [
+            "one hundred and one"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\n42",
+            "class": "correct",
+            "time": 2.3078370094299316
+          },
+          "reattn_k6": {
+            "output": " The magic number stored in vault Sigma is forty-two.\nQ: What is the secret keeper?\nA: The secret keeper is Octavia.\nQ",
+            "class": "correct",
+            "time": 1.8679654598236084,
+            "retrieved": [
+              18,
+              22,
+              30,
+              27,
+              9,
+              10
+            ]
+          },
+          "full_k6": {
+            "output": " The magic number stored in vault Sigma is forty-two.\nQ: What is the secret keeper?\nA: The secret keeper is Octavia.\nQ",
+            "class": "correct",
+            "time": 1.9408106803894043,
+            "retrieved": [
+              18,
+              22,
+              30,
+              27,
+              9,
+              10
+            ]
+          }
+        },
+        {
+          "id": 4,
+          "question": "What magic number is stored in vault Beta?",
+          "answer": "one hundred and one",
+          "template_id": 0,
+          "distractor_answers": [
+            "forty-two"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\none hundred and one",
+            "class": "correct",
+            "time": 2.40352463722229
+          },
+          "reattn_k6": {
+            "output": " The magic number stored in vault Beta is one hundred and one.\nA: The magic number stored in vault Beta is one hundred and one.\nA:",
+            "class": "correct",
+            "time": 1.8818297386169434,
+            "retrieved": [
+              18,
+              22,
+              30,
+              8,
+              9,
+              5
+            ]
+          },
+          "full_k6": {
+            "output": " The magic number stored in vault Beta is one hundred and one.\nA: The magic number stored in vault Beta is one hundred and one.\nA:",
+            "class": "correct",
+            "time": 1.938497543334961,
+            "retrieved": [
+              18,
+              22,
+              30,
+              8,
+              9,
+              5
+            ]
+          }
+        },
+        {
+          "id": 5,
+          "question": "Where is the best quiet bookshop in Reykjavik?",
+          "answer": "Linden",
+          "template_id": 2,
+          "distractor_answers": [
+            "Hawthorn",
+            "Saffron"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(This information is unique to this document.)",
+            "class": "correct",
+            "time": 2.972416400909424
+          },
+          "reattn_k6": {
+            "output": " The best quiet bookshop in Reykjavik is on Saffron Street. This information is unique to this document.\n\nQ: Where is the best",
+            "class": "distractor",
+            "time": 2.0670104026794434,
+            "retrieved": [
+              26,
+              13,
+              5,
+              18,
+              8,
+              9
+            ]
+          },
+          "full_k6": {
+            "output": " The best quiet bookshop in Reykjavik is on Saffron Street. This information is unique to this document.\n\nQ: Where is the best",
+            "class": "distractor",
+            "time": 1.9318616390228271,
+            "retrieved": [
+              26,
+              13,
+              5,
+              18,
+              8,
+              9
+            ]
+          }
+        }
+      ],
+      "cache_time": 6.8548126220703125
+    },
+    {
+      "id": 3,
+      "tokens": 8138,
+      "queries": [
+        {
+          "id": 0,
+          "question": "Where is the best quiet bookshop in Montevideo?",
+          "answer": "Mulberry",
+          "template_id": 2,
+          "distractor_answers": [
+            "Saffron"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\n*(Note: This information is unique to this document.)*",
+            "class": "correct",
+            "time": 2.993363857269287
+          },
+          "reattn_k6": {
+            "output": " On Mulberry Street.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA: On Mulberry Street.\n\nQ: Where",
+            "class": "correct",
+            "time": 1.9178056716918945,
+            "retrieved": [
+              5,
+              13,
+              22,
+              6,
+              2,
+              27
+            ]
+          },
+          "full_k6": {
+            "output": " On Mulberry Street.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA: On Mulberry Street.\n\nQ: Where",
+            "class": "correct",
+            "time": 1.9825201034545898,
+            "retrieved": [
+              5,
+              13,
+              22,
+              6,
+              2,
+              27
+            ]
+          }
+        },
+        {
+          "id": 1,
+          "question": "Who is the secret keeper and what is her favourite colour?",
+          "answer": "Helena ... indigo",
+          "template_id": 1,
+          "distractor_answers": [],
+          "baseline": {
+            "output": " The secret keeper is Helena and her favourite colour is indigo.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+            "class": "correct",
+            "time": 3.418045997619629
+          },
+          "reattn_k6": {
+            "output": " The secret keeper is Helena and her favourite colour is indigo.\nA: The secret keeper is Helena and her favourite colour is indigo.\nA:",
+            "class": "correct",
+            "time": 1.9356324672698975,
+            "retrieved": [
+              9,
+              29,
+              22,
+              17,
+              11,
+              7
+            ]
+          },
+          "full_k6": {
+            "output": " The secret keeper is Helena and her favourite colour is indigo.\nA: The secret keeper is Helena and her favourite colour is indigo.\nA:",
+            "class": "correct",
+            "time": 2.024139165878296,
+            "retrieved": [
+              9,
+              29,
+              22,
+              17,
+              11,
+              7
+            ]
+          }
+        },
+        {
+          "id": 2,
+          "question": "Where is the best quiet bookshop in Tallinn?",
+          "answer": "Saffron",
+          "template_id": 2,
+          "distractor_answers": [
+            "Mulberry"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nSaffron Street.\n\n(This information is unique to this document.)",
+            "class": "correct",
+            "time": 2.854290723800659
+          },
+          "reattn_k6": {
+            "output": " The best quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document.\n\nQ: Where is the best quiet book",
+            "class": "correct",
+            "time": 1.9306671619415283,
+            "retrieved": [
+              13,
+              5,
+              22,
+              29,
+              17,
+              2
+            ]
+          },
+          "full_k6": {
+            "output": " The best quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document.\n\nQ: Where is the best quiet book",
+            "class": "correct",
+            "time": 1.9928460121154785,
+            "retrieved": [
+              13,
+              5,
+              22,
+              29,
+              17,
+              2
+            ]
+          }
+        },
+        {
+          "id": 3,
+          "question": "What magic number is stored in vault Delta?",
+          "answer": "forty-two",
+          "template_id": 0,
+          "distractor_answers": [
+            "ninety-three",
+            "one hundred and one"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\n42",
+            "class": "correct",
+            "time": 2.3179616928100586
+          },
+          "reattn_k6": {
+            "output": " The magic number stored in vault Delta is forty-two.\nA: The magic number stored in vault Delta is forty-two.\nA: The magic number stored",
+            "class": "correct",
+            "time": 1.920818567276001,
+            "retrieved": [
+              17,
+              9,
+              19,
+              4,
+              25,
+              22
+            ]
+          },
+          "full_k6": {
+            "output": " The magic number stored in vault Delta is forty-two.\nA: The magic number stored in vault Delta is forty-two.\nA: The magic number stored",
+            "class": "correct",
+            "time": 1.950359582901001,
+            "retrieved": [
+              17,
+              9,
+              19,
+              4,
+              25,
+              22
+            ]
+          }
+        },
+        {
+          "id": 4,
+          "question": "What magic number is stored in vault Gamma?",
+          "answer": "ninety-three",
+          "template_id": 0,
+          "distractor_answers": [
+            "forty-two",
+            "one hundred and one"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\n93",
+            "class": "correct",
+            "time": 2.318769693374634
+          },
+          "reattn_k6": {
+            "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+            "class": "other",
+            "time": 1.9250497817993164,
+            "retrieved": [
+              9,
+              17,
+              22,
+              26,
+              19,
+              23
+            ]
+          },
+          "full_k6": {
+            "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+            "class": "other",
+            "time": 1.9538426399230957,
+            "retrieved": [
+              9,
+              17,
+              22,
+              26,
+              19,
+              23
+            ]
+          }
+        },
+        {
+          "id": 5,
+          "question": "What magic number is stored in vault Beta?",
+          "answer": "one hundred and one",
+          "template_id": 0,
+          "distractor_answers": [
+            "forty-two",
+            "ninety-three"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nOne hundred and one.",
+            "class": "correct",
+            "time": 2.4584333896636963
+          },
+          "reattn_k6": {
+            "output": " The magic number stored in vault Beta is one hundred and one.\nA: The magic number stored in vault Gamma is ninety-three.\nA: The magic",
+            "class": "correct",
+            "time": 1.9267117977142334,
+            "retrieved": [
+              17,
+              9,
+              22,
+              26,
+              19,
+              23
+            ]
+          },
+          "full_k6": {
+            "output": " The magic number stored in vault Beta is one hundred and one.\nA: The magic number stored in vault Gamma is ninety-three.\nA: The magic",
+            "class": "correct",
+            "time": 2.0191304683685303,
+            "retrieved": [
+              17,
+              9,
+              22,
+              26,
+              19,
+              23
+            ]
+          }
+        }
+      ],
+      "cache_time": 6.625542879104614
+    },
+    {
+      "id": 4,
+      "tokens": 8138,
+      "queries": [
+        {
+          "id": 0,
+          "question": "Who is the secret keeper and what is her favourite colour?",
+          "answer": "Bridget ... scarlet",
+          "template_id": 1,
+          "distractor_answers": [],
+          "baseline": {
+            "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+            "class": "correct",
+            "time": 3.5098090171813965
+          },
+          "reattn_k6": {
+            "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nThe secret keeper is Bridget and her favourite colour is scarlet.\n\nThe secret",
+            "class": "correct",
+            "time": 2.020671844482422,
+            "retrieved": [
+              5,
+              10,
+              13,
+              0,
+              25,
+              18
+            ]
+          },
+          "full_k6": {
+            "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nThe secret keeper is Bridget and her favourite colour is scarlet.\n\nThe secret",
+            "class": "correct",
+            "time": 2.0533010959625244,
+            "retrieved": [
+              5,
+              10,
+              13,
+              0,
+              25,
+              18
+            ]
+          }
+        },
+        {
+          "id": 1,
+          "question": "What magic number is stored in vault Alpha?",
+          "answer": "ninety-three",
+          "template_id": 0,
+          "distractor_answers": [
+            "forty-two",
+            "one hundred and one"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nninety-three.",
+            "class": "correct",
+            "time": 2.4193859100341797
+          },
+          "reattn_k6": {
+            "output": " The magic number stored in vault Alpha is ninety-three.\nQ: What magic number is stored in vault Sigma?\nA: The magic number stored in vault",
+            "class": "correct",
+            "time": 2.1126184463500977,
+            "retrieved": [
+              9,
+              3,
+              13,
+              31,
+              21,
+              22
+            ]
+          },
+          "full_k6": {
+            "output": " The magic number stored in vault Alpha is ninety-three.\nQ: What magic number is stored in vault Sigma?\nA: The magic number stored in vault",
+            "class": "correct",
+            "time": 1.9983336925506592,
+            "retrieved": [
+              9,
+              3,
+              13,
+              31,
+              21,
+              22
+            ]
+          }
+        },
+        {
+          "id": 2,
+          "question": "Where is the best quiet bookshop in Reykjavik?",
+          "answer": "Saffron",
+          "template_id": 2,
+          "distractor_answers": [
+            "Linden"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nSaffron Street.\n\n(This information is unique to this document.)",
+            "class": "correct",
+            "time": 2.8853230476379395
+          },
+          "reattn_k6": {
+            "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+            "class": "other",
+            "time": 1.9507818222045898,
+            "retrieved": [
+              17,
+              13,
+              6,
+              2,
+              14,
+              25
+            ]
+          },
+          "full_k6": {
+            "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+            "class": "other",
+            "time": 1.9916071891784668,
+            "retrieved": [
+              17,
+              13,
+              6,
+              2,
+              14,
+              25
+            ]
+          }
+        },
+        {
+          "id": 3,
+          "question": "Where is the best quiet bookshop in Tallinn?",
+          "answer": "Linden",
+          "template_id": 2,
+          "distractor_answers": [
+            "Saffron"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nSaffron Street.\n\n(This information is unique to this document.)",
+            "class": "distractor",
+            "time": 2.875519275665283
+          },
+          "reattn_k6": {
+            "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+            "class": "other",
+            "time": 1.9309141635894775,
+            "retrieved": [
+              17,
+              13,
+              22,
+              2,
+              6,
+              25
+            ]
+          },
+          "full_k6": {
+            "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+            "class": "other",
+            "time": 1.9724528789520264,
+            "retrieved": [
+              17,
+              13,
+              22,
+              2,
+              6,
+              25
+            ]
+          }
+        },
+        {
+          "id": 4,
+          "question": "What magic number is stored in vault Sigma?",
+          "answer": "one hundred and one",
+          "template_id": 0,
+          "distractor_answers": [
+            "forty-two",
+            "ninety-three"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nOne hundred and one.",
+            "class": "correct",
+            "time": 2.4734559059143066
+          },
+          "reattn_k6": {
+            "output": " The magic number stored in vault Sigma is one hundred and one.\nA: The magic number stored in vault Sigma is one hundred and one.\nA:",
+            "class": "correct",
+            "time": 1.9057590961456299,
+            "retrieved": [
+              9,
+              3,
+              22,
+              13,
+              21,
+              31
+            ]
+          },
+          "full_k6": {
+            "output": " The magic number stored in vault Sigma is one hundred and one.\nA: The magic number stored in vault Sigma is one hundred and one.\nA:",
+            "class": "correct",
+            "time": 1.9338188171386719,
+            "retrieved": [
+              9,
+              3,
+              22,
+              13,
+              21,
+              31
+            ]
+          }
+        },
+        {
+          "id": 5,
+          "question": "What magic number is stored in vault Beta?",
+          "answer": "forty-two",
+          "template_id": 0,
+          "distractor_answers": [
+            "ninety-three",
+            "one hundred and one"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\n42",
+            "class": "correct",
+            "time": 2.3297743797302246
+          },
+          "reattn_k6": {
+            "output": " Forty-two.\nQ: What magic number is stored in vault Alpha?\nA: Ninety-three.\nQ: What magic number is stored in vault",
+            "class": "correct",
+            "time": 1.9364902973175049,
+            "retrieved": [
+              9,
+              3,
+              13,
+              26,
+              21,
+              22
+            ]
+          },
+          "full_k6": {
+            "output": " Forty-two.\nQ: What magic number is stored in vault Alpha?\nA: Ninety-three.\nQ: What magic number is stored in vault",
+            "class": "correct",
+            "time": 1.9558639526367188,
+            "retrieved": [
+              9,
+              3,
+              13,
+              26,
+              21,
+              22
+            ]
+          }
+        }
+      ],
+      "cache_time": 6.709878444671631
+    },
+    {
+      "id": 5,
+      "tokens": 8135,
+      "queries": [
+        {
+          "id": 0,
+          "question": "Where is the best quiet bookshop in Lisbon?",
+          "answer": "Mulberry",
+          "template_id": 2,
+          "distractor_answers": [
+            "Linden",
+            "Marigold",
+            "Saffron"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\n(This information is unique to this document.)",
+            "class": "correct",
+            "time": 2.817786693572998
+          },
+          "reattn_k6": {
+            "output": " The best quiet bookshop in Lisbon is on Mulberry Street. This information is unique to this document. The best quiet bookshop in Lisbon is on Mulberry",
+            "class": "correct",
+            "time": 1.9164249897003174,
+            "retrieved": [
+              5,
+              22,
+              26,
+              13,
+              15,
+              17
+            ]
+          },
+          "full_k6": {
+            "output": " The best quiet bookshop in Lisbon is on Mulberry Street. This information is unique to this document. The best quiet bookshop in Lisbon is on Mulberry",
+            "class": "correct",
+            "time": 1.9609274864196777,
+            "retrieved": [
+              5,
+              22,
+              26,
+              13,
+              15,
+              17
+            ]
+          }
+        },
+        {
+          "id": 1,
+          "question": "Who is the secret keeper and what is her favourite colour?",
+          "answer": "Bridget ... scarlet",
+          "template_id": 1,
+          "distractor_answers": [],
+          "baseline": {
+            "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+            "class": "correct",
+            "time": 3.425130605697632
+          },
+          "reattn_k6": {
+            "output": " The secret keeper is Bridget and her favourite colour is scarlet.\nA: The secret keeper is Bridget and her favourite colour is scarlet.\n",
+            "class": "correct",
+            "time": 1.913863182067871,
+            "retrieved": [
+              18,
+              5,
+              24,
+              9,
+              13,
+              25
+            ]
+          },
+          "full_k6": {
+            "output": " The secret keeper is Bridget and her favourite colour is scarlet.\nA: The secret keeper is Bridget and her favourite colour is scarlet.\n",
+            "class": "correct",
+            "time": 1.950148105621338,
+            "retrieved": [
+              18,
+              5,
+              24,
+              9,
+              13,
+              25
+            ]
+          }
+        },
+        {
+          "id": 2,
+          "question": "Where is the best quiet bookshop in Tallinn?",
+          "answer": "Linden",
+          "template_id": 2,
+          "distractor_answers": [
+            "Marigold",
+            "Mulberry",
+            "Saffron"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(This information is unique to this document.)",
+            "class": "correct",
+            "time": 2.803382635116577
+          },
+          "reattn_k6": {
+            "output": " The best quiet bookshop in Tallinn is on Mulberry Street. This information is unique to this document. The best quiet bookshop in Tallinn is on",
+            "class": "distractor",
+            "time": 1.8835842609405518,
+            "retrieved": [
+              22,
+              5,
+              13,
+              26,
+              17,
+              15
+            ]
+          },
+          "full_k6": {
+            "output": " The best quiet bookshop in Tallinn is on Mulberry Street. This information is unique to this document. The best quiet bookshop in Tallinn is on",
+            "class": "distractor",
+            "time": 1.9347727298736572,
+            "retrieved": [
+              22,
+              5,
+              13,
+              26,
+              17,
+              15
+            ]
+          }
+        },
+        {
+          "id": 3,
+          "question": "What magic number is stored in vault Gamma?",
+          "answer": "forty-two",
+          "template_id": 0,
+          "distractor_answers": [],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\n42",
+            "class": "correct",
+            "time": 2.5032522678375244
+          },
+          "reattn_k6": {
+            "output": " 42.\nQ: What is the secret keeper?\nA: Bridget.\nQ: What is the favourite colour?\nA: Scarlet",
+            "class": "correct",
+            "time": 1.9510817527770996,
+            "retrieved": [
+              18,
+              10,
+              6,
+              3,
+              9,
+              16
+            ]
+          },
+          "full_k6": {
+            "output": " 42.\nQ: What is the secret keeper?\nA: Bridget.\nQ: What is the favourite colour?\nA: Scarlet",
+            "class": "correct",
+            "time": 1.9126157760620117,
+            "retrieved": [
+              18,
+              10,
+              6,
+              3,
+              9,
+              16
+            ]
+          }
+        },
+        {
+          "id": 4,
+          "question": "Where is the best quiet bookshop in Montevideo?",
+          "answer": "Marigold",
+          "template_id": 2,
+          "distractor_answers": [
+            "Linden",
+            "Mulberry",
+            "Saffron"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nMontevideo",
+            "class": "other",
+            "time": 2.373734951019287
+          },
+          "reattn_k6": {
+            "output": " The best quiet bookshop in Montevideo is on Marigold Street. This information is unique to this document. The best quiet bookshop in Montev",
+            "class": "correct",
+            "time": 1.8893616199493408,
+            "retrieved": [
+              22,
+              5,
+              13,
+              26,
+              15,
+              14
+            ]
+          },
+          "full_k6": {
+            "output": " The best quiet bookshop in Montevideo is on Mulberry Street. This information is unique to this document. The best quiet bookshop in Montevideo",
+            "class": "distractor",
+            "time": 1.9334416389465332,
+            "retrieved": [
+              22,
+              5,
+              13,
+              26,
+              15,
+              14
+            ]
+          }
+        },
+        {
+          "id": 5,
+          "question": "Where is the best quiet bookshop in Reykjavik?",
+          "answer": "Saffron",
+          "template_id": 2,
+          "distractor_answers": [
+            "Linden",
+            "Marigold",
+            "Mulberry"
+          ],
+          "baseline": {
+            "output": " The best quiet bookshop in Reykjavik is on Saffron Street.\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania",
+            "class": "correct",
+            "time": 3.431865930557251
+          },
+          "reattn_k6": {
+            "output": " The best quiet bookshop in Reykjavik is on Saffron Street. This information is unique to this document. The best quiet bookshop in Rey",
+            "class": "correct",
+            "time": 1.886394739151001,
+            "retrieved": [
+              22,
+              26,
+              13,
+              5,
+              18,
+              14
+            ]
+          },
+          "full_k6": {
+            "output": " The best quiet bookshop in Reykjavik is on Saffron Street. This information is unique to this document. The best quiet bookshop in Rey",
+            "class": "correct",
+            "time": 1.9335792064666748,
+            "retrieved": [
+              22,
+              26,
+              13,
+              5,
+              18,
+              14
+            ]
+          }
+        }
+      ],
+      "cache_time": 6.84915018081665
+    },
+    {
+      "id": 6,
+      "tokens": 8137,
+      "queries": [
+        {
+          "id": 0,
+          "question": "What magic number is stored in vault Gamma?",
+          "answer": "seventeen",
+          "template_id": 0,
+          "distractor_answers": [
+            "forty-two",
+            "ninety-three"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nseventeen",
+            "class": "correct",
+            "time": 2.362501382827759
+          },
+          "reattn_k6": {
+            "output": " The magic number stored in vault Gamma is seventeen.\nQ: What magic number is stored in vault Beta?\nA: The magic number stored in vault Beta",
+            "class": "correct",
+            "time": 1.898423194885254,
+            "retrieved": [
+              5,
+              26,
+              2,
+              22,
+              9,
+              13
+            ]
+          },
+          "full_k6": {
+            "output": " The magic number stored in vault Gamma is seventeen.\nQ: What magic number is stored in vault Beta?\nA: The magic number stored in vault Beta",
+            "class": "correct",
+            "time": 1.9373610019683838,
+            "retrieved": [
+              5,
+              26,
+              2,
+              22,
+              9,
+              13
+            ]
+          }
+        },
+        {
+          "id": 1,
+          "question": "Where is the best quiet bookshop in Kyoto?",
+          "answer": "Marigold",
+          "template_id": 2,
+          "distractor_answers": [
+            "Linden"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nMarigold Street.\n\nThis information is unique to this document.",
+            "class": "correct",
+            "time": 2.899613618850708
+          },
+          "reattn_k6": {
+            "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+            "class": "other",
+            "time": 1.888366937637329,
+            "retrieved": [
+              18,
+              9,
+              13,
+              23,
+              8,
+              11
+            ]
+          },
+          "full_k6": {
+            "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+            "class": "other",
+            "time": 1.9486923217773438,
+            "retrieved": [
+              18,
+              9,
+              13,
+              23,
+              8,
+              11
+            ]
+          }
+        },
+        {
+          "id": 2,
+          "question": "Who is the secret keeper and what is her favourite colour?",
+          "answer": "Marigold ... amber",
+          "template_id": 1,
+          "distractor_answers": [],
+          "baseline": {
+            "output": " The secret keeper is Marigold and her favourite colour is amber.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+            "class": "correct",
+            "time": 3.39497447013855
+          },
+          "reattn_k6": {
+            "output": " The secret keeper is Marigold and her favourite colour is amber.\nB: The secret keeper is Marigold and her favourite colour is amber.\n",
+            "class": "correct",
+            "time": 1.887091875076294,
+            "retrieved": [
+              13,
+              9,
+              18,
+              0,
+              11,
+              29
+            ]
+          },
+          "full_k6": {
+            "output": " The secret keeper is the Marigold and her favourite colour is amber.\nB: The secret keeper is the Marigold and her favourite colour is amber",
+            "class": "correct",
+            "time": 1.9390175342559814,
+            "retrieved": [
+              13,
+              9,
+              18,
+              0,
+              11,
+              29
+            ]
+          }
+        },
+        {
+          "id": 3,
+          "question": "Where is the best quiet bookshop in Tallinn?",
+          "answer": "Linden",
+          "template_id": 2,
+          "distractor_answers": [
+            "Marigold"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(This information is unique to this document.)",
+            "class": "correct",
+            "time": 2.822315216064453
+          },
+          "reattn_k6": {
+            "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+            "class": "other",
+            "time": 1.9344642162322998,
+            "retrieved": [
+              18,
+              13,
+              9,
+              11,
+              29,
+              8
+            ]
+          },
+          "full_k6": {
+            "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+            "class": "other",
+            "time": 1.9380896091461182,
+            "retrieved": [
+              18,
+              13,
+              9,
+              11,
+              29,
+              8
+            ]
+          }
+        },
+        {
+          "id": 4,
+          "question": "What magic number is stored in vault Alpha?",
+          "answer": "ninety-three",
+          "template_id": 0,
+          "distractor_answers": [
+            "forty-two",
+            "seventeen"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nninety-three.",
+            "class": "correct",
+            "time": 2.402874231338501
+          },
+          "reattn_k6": {
+            "output": " The magic number stored in vault Alpha is ninety-three.\nA: The magic number stored in vault Beta is forty-two.\nA: The magic number stored",
+            "class": "correct",
+            "time": 1.8857195377349854,
+            "retrieved": [
+              5,
+              22,
+              13,
+              26,
+              2,
+              19
+            ]
+          },
+          "full_k6": {
+            "output": " The magic number stored in vault Alpha is ninety-three.\nA: The magic number stored in vault Beta is forty-two.\nA: The magic number stored",
+            "class": "correct",
+            "time": 1.9141921997070312,
+            "retrieved": [
+              5,
+              22,
+              13,
+              26,
+              2,
+              19
+            ]
+          }
+        },
+        {
+          "id": 5,
+          "question": "What magic number is stored in vault Beta?",
+          "answer": "forty-two",
+          "template_id": 0,
+          "distractor_answers": [
+            "ninety-three",
+            "seventeen"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\n42",
+            "class": "correct",
+            "time": 2.2987723350524902
+          },
+          "reattn_k6": {
+            "output": " The magic number stored in vault Beta is forty-two.\nA: The magic number stored in vault Beta is forty-two.\nA: The magic number stored",
+            "class": "correct",
+            "time": 1.8772363662719727,
+            "retrieved": [
+              5,
+              26,
+              22,
+              13,
+              2,
+              9
+            ]
+          },
+          "full_k6": {
+            "output": " The magic number stored in vault Beta is forty-two.\nA: The magic number stored in vault Beta is forty-two.\nA: The magic number stored",
+            "class": "correct",
+            "time": 1.9451611042022705,
+            "retrieved": [
+              5,
+              26,
+              22,
+              13,
+              2,
+              9
+            ]
+          }
+        }
+      ],
+      "cache_time": 6.862934112548828
+    },
+    {
+      "id": 7,
+      "tokens": 8133,
+      "queries": [
+        {
+          "id": 0,
+          "question": "What magic number is stored in vault Beta?",
+          "answer": "ninety-three",
+          "template_id": 0,
+          "distractor_answers": [
+            "forty-two"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\n93",
+            "class": "correct",
+            "time": 2.313312292098999
+          },
+          "reattn_k6": {
+            "output": " The magic number stored in vault Beta is ninety-three.\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored in vault",
+            "class": "correct",
+            "time": 1.9102325439453125,
+            "retrieved": [
+              9,
+              19,
+              26,
+              15,
+              5,
+              10
+            ]
+          },
+          "full_k6": {
+            "output": " The magic number stored in vault Beta is ninety-three.\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored in vault",
+            "class": "correct",
+            "time": 1.9441440105438232,
+            "retrieved": [
+              9,
+              19,
+              26,
+              15,
+              5,
+              10
+            ]
+          }
+        },
+        {
+          "id": 1,
+          "question": "What magic number is stored in vault Gamma?",
+          "answer": "forty-two",
+          "template_id": 0,
+          "distractor_answers": [
+            "ninety-three"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\n42",
+            "class": "correct",
+            "time": 2.307889938354492
+          },
+          "reattn_k6": {
+            "output": " The magic number stored in vault Gamma is forty-two.\n\nQ: What is the secret keeper?\nA: The secret keeper is Bridget.\n\nQ",
+            "class": "correct",
+            "time": 1.9135422706604004,
+            "retrieved": [
+              9,
+              19,
+              10,
+              26,
+              21,
+              0
+            ]
+          },
+          "full_k6": {
+            "output": " The magic number stored in vault Gamma is forty-two.\n\nQ: What is the secret keeper?\nA: The secret keeper is Bridget.\n\nQ",
+            "class": "correct",
+            "time": 1.9617135524749756,
+            "retrieved": [
+              9,
+              19,
+              10,
+              26,
+              21,
+              0
+            ]
+          }
+        },
+        {
+          "id": 2,
+          "question": "Where is the best quiet bookshop in Tallinn?",
+          "answer": "Saffron",
+          "template_id": 2,
+          "distractor_answers": [
+            "Hawthorn",
+            "Linden"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nSaffron Street.\n\n(This information is unique to this document.)",
+            "class": "correct",
+            "time": 2.8922672271728516
+          },
+          "reattn_k6": {
+            "output": "\nQ: Where is the best quiet bookshop in Tallinn?\nA:\nQ: Where is the best quiet bookshop in Tallinn?\n",
+            "class": "other",
+            "time": 1.9210329055786133,
+            "retrieved": [
+              13,
+              22,
+              17,
+              26,
+              21,
+              19
+            ]
+          },
+          "full_k6": {
+            "output": "\nQ: Where is the best quiet bookshop in Tallinn?\nA:\nQ: Where is the best quiet bookshop in Tallinn?\n",
+            "class": "other",
+            "time": 1.9536197185516357,
+            "retrieved": [
+              13,
+              22,
+              17,
+              26,
+              21,
+              19
+            ]
+          }
+        },
+        {
+          "id": 3,
+          "question": "Where is the best quiet bookshop in Kyoto?",
+          "answer": "Hawthorn",
+          "template_id": 2,
+          "distractor_answers": [
+            "Linden",
+            "Saffron"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(This information is unique to this document.)",
+            "class": "distractor",
+            "time": 2.8292768001556396
+          },
+          "reattn_k6": {
+            "output": "\nQ: Where is the best quiet bookshop in Tallinn?\nA:\nQ: Where is the best quiet bookshop in Lisbon?\nA",
+            "class": "other",
+            "time": 1.8908486366271973,
+            "retrieved": [
+              17,
+              13,
+              22,
+              26,
+              16,
+              21
+            ]
+          },
+          "full_k6": {
+            "output": "\nQ: Where is the best quiet bookshop in Tallinn?\nA:\nQ: Where is the best quiet bookshop in Lisbon?\nA",
+            "class": "other",
+            "time": 1.9688398838043213,
+            "retrieved": [
+              17,
+              13,
+              22,
+              26,
+              16,
+              21
+            ]
+          }
+        },
+        {
+          "id": 4,
+          "question": "Where is the best quiet bookshop in Lisbon?",
+          "answer": "Linden",
+          "template_id": 2,
+          "distractor_answers": [
+            "Hawthorn",
+            "Saffron"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(This information is unique to this document.)",
+            "class": "correct",
+            "time": 2.8448686599731445
+          },
+          "reattn_k6": {
+            "output": "\nQ: Where is the best quiet bookshop in Tallinn?\nA:\nQ: Where is the best quiet bookshop in Lisbon?\nA",
+            "class": "other",
+            "time": 1.964606761932373,
+            "retrieved": [
+              22,
+              13,
+              17,
+              14,
+              26,
+              19
+            ]
+          },
+          "full_k6": {
+            "output": "\nQ: Where is the best quiet bookshop in Tallinn?\nA:\nQ: Where is the best quiet bookshop in Tallinn?\n",
+            "class": "other",
+            "time": 2.0113706588745117,
+            "retrieved": [
+              22,
+              13,
+              17,
+              14,
+              26,
+              19
+            ]
+          }
+        },
+        {
+          "id": 5,
+          "question": "Who is the secret keeper and what is her favourite colour?",
+          "answer": "Bridget ... cerulean",
+          "template_id": 1,
+          "distractor_answers": [],
+          "baseline": {
+            "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+            "class": "correct",
+            "time": 3.445758581161499
+          },
+          "reattn_k6": {
+            "output": " The secret keeper is Bridget and her favourite colour is cerulean.\nA: The secret keeper is Bridget and her favourite colour is cerulean",
+            "class": "correct",
+            "time": 1.945389986038208,
+            "retrieved": [
+              26,
+              8,
+              23,
+              22,
+              4,
+              12
+            ]
+          },
+          "full_k6": {
+            "output": " The secret keeper is Bridget and her favourite colour is cerulean.\nA: The secret keeper is Bridget and her favourite colour is cerulean",
+            "class": "correct",
+            "time": 1.9692273139953613,
+            "retrieved": [
+              26,
+              8,
+              23,
+              22,
+              4,
+              12
+            ]
+          }
+        }
+      ],
+      "cache_time": 6.85482120513916
+    },
+    {
+      "id": 8,
+      "tokens": 8136,
+      "queries": [
+        {
+          "id": 0,
+          "question": "Who is the secret keeper and what is her favourite colour?",
+          "answer": "Marigold ... scarlet",
+          "template_id": 1,
+          "distractor_answers": [],
+          "baseline": {
+            "output": " The secret keeper is Marigold and her favourite colour is scarlet.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+            "class": "correct",
+            "time": 3.5137135982513428
+          },
+          "reattn_k6": {
+            "output": " The secret keeper is Marigold and her favourite colour is scarlet.\nA: The secret keeper is Marigold and her favourite colour is scarlet",
+            "class": "correct",
+            "time": 1.991724967956543,
+            "retrieved": [
+              22,
+              5,
+              15,
+              9,
+              12,
+              2
+            ]
+          },
+          "full_k6": {
+            "output": " The secret keeper is Marigold and her favourite colour is scarlet.\nA: The secret keeper is Marigold and her favourite colour is scarlet",
+            "class": "correct",
+            "time": 2.0881752967834473,
+            "retrieved": [
+              22,
+              5,
+              15,
+              9,
+              12,
+              2
+            ]
+          }
+        },
+        {
+          "id": 1,
+          "question": "What magic number is stored in vault Sigma?",
+          "answer": "one hundred and one",
+          "template_id": 0,
+          "distractor_answers": [
+            "seventeen"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\n101",
+            "class": "correct",
+            "time": 2.3973710536956787
+          },
+          "reattn_k6": {
+            "output": " The magic number stored in vault Sigma is one hundred and one.\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored",
+            "class": "correct",
+            "time": 2.028029680252075,
+            "retrieved": [
+              9,
+              15,
+              1,
+              6,
+              11,
+              17
+            ]
+          },
+          "full_k6": {
+            "output": " The magic number stored in vault Sigma is one hundred and one.\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored",
+            "class": "correct",
+            "time": 2.0665929317474365,
+            "retrieved": [
+              9,
+              15,
+              1,
+              6,
+              11,
+              17
+            ]
+          }
+        },
+        {
+          "id": 2,
+          "question": "Where is the best quiet bookshop in Tallinn?",
+          "answer": "Marigold",
+          "template_id": 2,
+          "distractor_answers": [
+            "Hawthorn",
+            "Saffron"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nMarigold Street.\n\n(This information is unique to this document.)",
+            "class": "correct",
+            "time": 2.954249382019043
+          },
+          "reattn_k6": {
+            "output": "\nQ: Where is the best quiet bookshop in Tallinn?\nA:\nQ: Where is the best quiet bookshop in Tallinn?\n",
+            "class": "other",
+            "time": 2.061020851135254,
+            "retrieved": [
+              22,
+              13,
+              26,
+              16,
+              30,
+              21
+            ]
+          },
+          "full_k6": {
+            "output": "\nQ: Where is the best quiet bookshop in Tallinn?\nA:\nQ: Where is the best quiet bookshop in Tallinn?\n",
+            "class": "other",
+            "time": 2.108311891555786,
+            "retrieved": [
+              22,
+              13,
+              26,
+              16,
+              30,
+              21
+            ]
+          }
+        },
+        {
+          "id": 3,
+          "question": "What magic number is stored in vault Gamma?",
+          "answer": "seventeen",
+          "template_id": 0,
+          "distractor_answers": [
+            "one hundred and one"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nseventeen",
+            "class": "correct",
+            "time": 2.3950583934783936
+          },
+          "reattn_k6": {
+            "output": " The magic number stored in vault Gamma is seventeen.\nA: The magic number stored in vault Gamma is seventeen.\nA: The magic number stored in vault",
+            "class": "correct",
+            "time": 2.084285020828247,
+            "retrieved": [
+              9,
+              1,
+              17,
+              22,
+              15,
+              11
+            ]
+          },
+          "full_k6": {
+            "output": " The magic number stored in vault Gamma is seventeen.\nA: The magic number stored in vault Gamma is seventeen.\nA: The magic number stored in vault",
+            "class": "correct",
+            "time": 2.129964828491211,
+            "retrieved": [
+              9,
+              1,
+              17,
+              22,
+              15,
+              11
+            ]
+          }
+        },
+        {
+          "id": 4,
+          "question": "Where is the best quiet bookshop in Kyoto?",
+          "answer": "Hawthorn",
+          "template_id": 2,
+          "distractor_answers": [
+            "Marigold",
+            "Saffron"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nThe best quiet bookshop in Kyoto is on Hawthorn Street.\n\n(This information is unique to this document.)",
+            "class": "correct",
+            "time": 3.3596689701080322
+          },
+          "reattn_k6": {
+            "output": "\nQ: Where is the best quiet bookshop in Lisbon?\nA:\nQ: Where is the best quiet bookshop in Tallinn?\nA",
+            "class": "other",
+            "time": 2.071904182434082,
+            "retrieved": [
+              22,
+              13,
+              26,
+              27,
+              25,
+              21
+            ]
+          },
+          "full_k6": {
+            "output": "\nQ: Where is the best quiet bookshop in Tallinn?\nA:\nQ: Where is the best quiet bookshop in Lisbon?\nA",
+            "class": "other",
+            "time": 2.119161605834961,
+            "retrieved": [
+              22,
+              13,
+              26,
+              27,
+              25,
+              21
+            ]
+          }
+        },
+        {
+          "id": 5,
+          "question": "Where is the best quiet bookshop in Lisbon?",
+          "answer": "Saffron",
+          "template_id": 2,
+          "distractor_answers": [
+            "Hawthorn",
+            "Marigold"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nSaffron Street.\n\n(This information is unique to this document.)",
+            "class": "correct",
+            "time": 2.951239585876465
+          },
+          "reattn_k6": {
+            "output": "\nQ: Where is the best quiet bookshop in Lisbon?\nA:\nQ: Where is the best quiet bookshop in Lisbon?\nA:",
+            "class": "other",
+            "time": 2.06130051612854,
+            "retrieved": [
+              22,
+              26,
+              13,
+              17,
+              21,
+              16
+            ]
+          },
+          "full_k6": {
+            "output": "\nQ: Where is the best quiet bookshop in Lisbon?\nA:\nQ: Where is the best quiet bookshop in Lisbon?\nA:",
+            "class": "other",
+            "time": 2.126753807067871,
+            "retrieved": [
+              22,
+              26,
+              13,
+              17,
+              21,
+              16
+            ]
+          }
+        }
+      ],
+      "cache_time": 6.718061447143555
+    },
+    {
+      "id": 9,
+      "tokens": 8125,
+      "queries": [
+        {
+          "id": 0,
+          "question": "What magic number is stored in vault Gamma?",
+          "answer": "forty-two",
+          "template_id": 0,
+          "distractor_answers": [
+            "seventeen"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\n42",
+            "class": "correct",
+            "time": 2.5353405475616455
+          },
+          "reattn_k6": {
+            "output": " Forty-two.\nQ: What is the first message sent between two nodes in October of 1969?\nA: The ARPANET sent",
+            "class": "correct",
+            "time": 2.0193932056427,
+            "retrieved": [
+              30,
+              5,
+              17,
+              7,
+              1,
+              14
+            ]
+          },
+          "full_k6": {
+            "output": " Forty-two.\nQ: What is the first message sent between two nodes in October of 1969?\nA: The ARPANET sent",
+            "class": "correct",
+            "time": 2.0624682903289795,
+            "retrieved": [
+              30,
+              5,
+              17,
+              7,
+              1,
+              14
+            ]
+          }
+        },
+        {
+          "id": 1,
+          "question": "Where is the best quiet bookshop in Tallinn?",
+          "answer": "Hawthorn",
+          "template_id": 2,
+          "distractor_answers": [
+            "Linden",
+            "Marigold"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nHawthorn Street.\n\n(This information is unique to this document.)",
+            "class": "correct",
+            "time": 3.1939425468444824
+          },
+          "reattn_k6": {
+            "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+            "class": "other",
+            "time": 2.012227773666382,
+            "retrieved": [
+              17,
+              18,
+              26,
+              9,
+              27,
+              7
+            ]
+          },
+          "full_k6": {
+            "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+            "class": "other",
+            "time": 2.052327871322632,
+            "retrieved": [
+              17,
+              18,
+              26,
+              9,
+              27,
+              7
+            ]
+          }
+        },
+        {
+          "id": 2,
+          "question": "Who is the secret keeper and what is her favourite colour?",
+          "answer": "Lenore ... amber",
+          "template_id": 1,
+          "distractor_answers": [],
+          "baseline": {
+            "output": " The secret keeper is Lenore and her favourite colour is amber.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+            "class": "correct",
+            "time": 3.7241597175598145
+          },
+          "reattn_k6": {
+            "output": " The secret keeper is Lenore and her favourite colour is amber.\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+            "class": "correct",
+            "time": 2.0533268451690674,
+            "retrieved": [
+              13,
+              22,
+              17,
+              18,
+              26,
+              20
+            ]
+          },
+          "full_k6": {
+            "output": " The secret keeper is Lenore and her favourite colour is amber.\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+            "class": "correct",
+            "time": 2.049787998199463,
+            "retrieved": [
+              13,
+              22,
+              17,
+              18,
+              26,
+              20
+            ]
+          }
+        },
+        {
+          "id": 3,
+          "question": "Where is the best quiet bookshop in Montevideo?",
+          "answer": "Marigold",
+          "template_id": 2,
+          "distractor_answers": [
+            "Hawthorn",
+            "Linden"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nThe best quiet bookshop in Montevideo is on Marigold Street.\n\n(This information is unique to this document.)",
+            "class": "correct",
+            "time": 3.473731279373169
+          },
+          "reattn_k6": {
+            "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+            "class": "other",
+            "time": 2.013779640197754,
+            "retrieved": [
+              18,
+              17,
+              26,
+              9,
+              14,
+              7
+            ]
+          },
+          "full_k6": {
+            "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+            "class": "other",
+            "time": 2.05631947517395,
+            "retrieved": [
+              18,
+              17,
+              26,
+              9,
+              14,
+              7
+            ]
+          }
+        },
+        {
+          "id": 4,
+          "question": "What magic number is stored in vault Beta?",
+          "answer": "seventeen",
+          "template_id": 0,
+          "distractor_answers": [
+            "forty-two"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nseventeen",
+            "class": "correct",
+            "time": 2.3905904293060303
+          },
+          "reattn_k6": {
+            "output": " The magic number stored in vault Beta is forty-two.\nA: The magic number stored in vault Beta is forty-two.\nA: The magic number stored",
+            "class": "distractor",
+            "time": 2.0161564350128174,
+            "retrieved": [
+              30,
+              17,
+              18,
+              5,
+              1,
+              13
+            ]
+          },
+          "full_k6": {
+            "output": " The magic number stored in vault Beta is forty-two.\nA: The magic number stored in vault Beta is forty-two.\nA: The magic number stored",
+            "class": "distractor",
+            "time": 2.074723482131958,
+            "retrieved": [
+              30,
+              17,
+              18,
+              5,
+              1,
+              13
+            ]
+          }
+        },
+        {
+          "id": 5,
+          "question": "Where is the best quiet bookshop in Kyoto?",
+          "answer": "Linden",
+          "template_id": 2,
+          "distractor_answers": [
+            "Hawthorn",
+            "Marigold"
+          ],
+          "baseline": {
+            "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(This information is unique to this document.)",
+            "class": "correct",
+            "time": 3.0883257389068604
+          },
+          "reattn_k6": {
+            "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+            "class": "other",
+            "time": 2.015064239501953,
+            "retrieved": [
+              26,
+              17,
+              18,
+              9,
+              7,
+              27
+            ]
+          },
+          "full_k6": {
+            "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+            "class": "other",
+            "time": 2.0596587657928467,
+            "retrieved": [
+              26,
+              17,
+              18,
+              9,
+              7,
+              27
+            ]
+          }
+        }
+      ],
+      "cache_time": 6.9068603515625
+    }
+  ]
+}

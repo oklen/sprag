@@ -279,6 +279,87 @@ the same. For per-query wins the remaining levers are
 prefix-KV-cached baseline (the fair comparison for true RAG workloads),
 shorter `max_new_tokens`, or speculative decoding — all deferred.
 
+## 5g. MAGS recalibration on MK — negative result
+
+Two attempts to re-fit MAGS against the bookshop failure mode from §5e.
+Both use the MK suite as the source of (T+, T-) pairs (much cleaner
+than the §5b CPU-era 8-pair bottom-K-cosine T-).
+
+**Attempt 1 — sibling-template T-** (`scripts/08_calibrate_mags_mk.py`).
+For each query: T+ = oracle-chunk-only assembly; T- = same-template
+*sibling-needle* chunks only, no gold. 49 pairs.
+
+```
+τ:  layer 11 = 0.418   (was 0.296 in §5b)
+    layer 15 = 1.137
+    layer 19 = 3.356
+```
+
+Fire-rate audit on cases 0–1 (6 queries each):
+- Layer 11 fires 4–9/23 tokens on bookshop queries (both correct AND
+  failed), 0–3/23 on vault/secret correct queries.
+- Layer 15/19 essentially silent.
+
+So τ became selective on *template family*, not on *failure*. The
+SVD direction encodes "I am answering a bookshop question," which is
+mostly innocuous.
+
+**Attempt 2 — harvest from eval failures**
+(`scripts/10_calibrate_mags_harvest.py`). T+ = queries where the
+runner answered correctly AND the gold-needle chunk was in retrieved;
+T- = queries where the gold chunk was retrieved but the model
+answered with a distractor or degenerated. 39 T+ / 20 T-. This is the
+"plausibly mis-retrievable" T- §8 called for: retrieval gave the
+model the right needle, the model still drifted.
+
+```
+τ:  layer 11 = 0.375
+    layer 15 = 1.298
+    layer 19 = 3.208
+```
+
+Re-eval on the 10-case MK suite (60 queries, top_k=6):
+
+| Mode | correct | distractor | other |
+|---|---|---|---|
+| baseline | 57/60 | 2 | 1 |
+| reattn_k6 | 39/60 | 6 | 15 |
+| **full_k6 (harvest MAGS)** | **38/60** | 7 | 15 |
+
+Per template (full_k6 vs reattn_k6): vault 20/22 vs 20/22, secret
+10/10 vs 10/10, **bookshop 8/28 vs 9/28**. MAGS turned exactly one
+case from correct → distractor; everything else identical.
+
+**Why MAGS doesn't fix bookshop, even with clean T-.** The bookshop
+failure isn't "the residual drifts in a uniform direction across
+failures." Two distinct failure shapes appear:
+
+1. *Degenerate* (≈13/19 of failures): the assembled prompt with 3–4
+   bookshop needles makes the model produce `\nA:\nA:\nA:...` — a
+   complete refusal to commit to any answer. SVD-projecting a
+   subspace out of a runaway-attention residual doesn't recover the
+   answer; the model already lost the question.
+2. *Mis-binding* (≈6/19): "Where in Kyoto?" → "Mulberry" (Tallinn's
+   street). The model selected the wrong needle's binding. Fixing this
+   requires moving the residual from "I attend to needle Y" to "I
+   attend to needle X" — a binding-specific transform, not a uniform
+   linear subtraction.
+
+A single shared subspace B with a single threshold τ has the wrong
+shape for either mode. SVD on (correct, drifted) residuals gives the
+*average* drift, which is small and not aligned with any specific
+mis-binding direction.
+
+**What would actually move the needle (deferred):**
+
+- Per-template (or per-template-and-position) MAGS subspaces.
+- Intervene at attention scores rather than residual — the binding
+  decision happens there.
+- Inspect attention maps on failures to confirm the binding
+  hypothesis.
+- Or accept that for this failure mode, retrieval (chunk_repr
+  ablation §7.5) is the right lever, not residual intervention.
+
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
 The headline value-prop test from §7.2. One 16,333-tok haystack with 8
