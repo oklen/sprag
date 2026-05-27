@@ -1,0 +1,1415 @@
+{
+  "M": 4,
+  "S": 4,
+  "top_k": 6,
+  "rows": [
+    {
+      "case": 0,
+      "id": 0,
+      "template_id": 2,
+      "answer": "Linden",
+      "partial_oracle_k3": {
+        "output": " The best quiet bookshop in Lisbon is on Linden Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: The best quiet",
+        "class": "correct",
+        "time": 1.938044786453247,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 0,
+      "id": 1,
+      "template_id": 2,
+      "answer": "Mulberry",
+      "partial_oracle_k3": {
+        "output": " The best quiet bookshop in Tallinn is on Mulberry Street.\nB: The best quiet bookshop in Tallinn is on Linden Street.\nC",
+        "class": "correct",
+        "time": 1.7897248268127441,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 0,
+      "id": 2,
+      "template_id": 0,
+      "answer": "forty-two",
+      "partial_oracle_k3": {
+        "output": " Forty-two.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Linden Street.\n\nQ: What is",
+        "class": "correct",
+        "time": 1.7958178520202637,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 0,
+      "id": 3,
+      "template_id": 0,
+      "answer": "seventeen",
+      "partial_oracle_k3": {
+        "output": " The magic number stored in vault Alpha is seventeen.\n\nQ: What magic number is stored in vault Alpha?\nA: The magic number stored in vault Alpha",
+        "class": "correct",
+        "time": 1.6108262538909912,
+        "assembled": [
+          17,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 0,
+      "id": 4,
+      "template_id": 2,
+      "answer": "Marigold",
+      "partial_oracle_k3": {
+        "output": " [Answer]\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Kyoto is on **Mulberry Street**.",
+        "class": "distractor",
+        "time": 1.6152939796447754,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 0,
+      "id": 5,
+      "template_id": 1,
+      "answer": "Bridget ... cerulean",
+      "partial_oracle_k3": {
+        "output": " Bridget. Her favourite colour is cerulean.\nQ: Who is the secret keeper and what is her favourite colour?\nA: Bridget.",
+        "class": "correct",
+        "time": 1.8714876174926758,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 1,
+      "id": 0,
+      "template_id": 2,
+      "answer": "Hawthorn",
+      "partial_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nHawthorn Street.\n\n*(Note: This information is unique to this document.)*\n\nQ: Where is the best quiet",
+        "class": "correct",
+        "time": 1.6327869892120361,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 1,
+      "id": 1,
+      "template_id": 0,
+      "answer": "ninety-three",
+      "partial_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n93",
+        "class": "correct",
+        "time": 0.5116546154022217,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 1,
+      "id": 2,
+      "template_id": 1,
+      "answer": "Lenore ... cerulean",
+      "partial_oracle_k3": {
+        "output": " The secret keeper is Lenore and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+        "class": "correct",
+        "time": 1.605342149734497,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 1,
+      "id": 3,
+      "template_id": 0,
+      "answer": "seventeen",
+      "partial_oracle_k3": {
+        "output": " 17\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: Hawthorn Street\n\nQ: What",
+        "class": "correct",
+        "time": 1.6740946769714355,
+        "assembled": [
+          17,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 1,
+      "id": 4,
+      "template_id": 2,
+      "answer": "Marigold",
+      "partial_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nTallinn\n\n(Note: The document provided contains a reference to a bookshop in Montevideo, but the question asks about Tall",
+        "class": "other",
+        "time": 1.6832778453826904,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 1,
+      "id": 5,
+      "template_id": 2,
+      "answer": "Mulberry",
+      "partial_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, there is no mention of a bookshop in Kyoto. The document only contains a note about a magic number",
+        "class": "other",
+        "time": 1.6391630172729492,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 2,
+      "id": 0,
+      "template_id": 2,
+      "answer": "Saffron",
+      "partial_oracle_k3": {
+        "output": " The best quiet bookshop in Montevideo is on Saffron Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA",
+        "class": "correct",
+        "time": 1.7022602558135986,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 2,
+      "id": 1,
+      "template_id": 1,
+      "answer": "Octavia ... cerulean",
+      "partial_oracle_k3": {
+        "output": " The secret keeper is Octavia and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+        "class": "correct",
+        "time": 1.7036030292510986,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 2,
+      "id": 2,
+      "template_id": 2,
+      "answer": "Hawthorn",
+      "partial_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nTallinn is the capital of Estonia, and the best quiet bookshop there is on **Hawthorn Street**.\n\n(Note",
+        "class": "correct",
+        "time": 1.7196531295776367,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 2,
+      "id": 3,
+      "template_id": 0,
+      "answer": "forty-two",
+      "partial_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nForty-two.\n\n*(Note: This specific fact is embedded in the provided text within the sentence \"Important fact embedded in the haystack",
+        "class": "correct",
+        "time": 1.6757464408874512,
+        "assembled": [
+          18,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 2,
+      "id": 4,
+      "template_id": 0,
+      "answer": "one hundred and one",
+      "partial_oracle_k3": {
+        "output": " The secret keeper is Octavia and her favourite colour is cerulean. Please remember this for later. John von Neumann formalised the stored-program architecture in",
+        "class": "other",
+        "time": 1.6673827171325684,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 2,
+      "id": 5,
+      "template_id": 2,
+      "answer": "Linden",
+      "partial_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nThe best quiet bookshop in Reykjavik is on **Linden Street**.\n\n(Note: The prompt also mentions a secret keeper",
+        "class": "correct",
+        "time": 1.9194319248199463,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 3,
+      "id": 0,
+      "template_id": 2,
+      "answer": "Mulberry",
+      "partial_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\n*(Note: The document provided contains a unique, non-standard location for a bookshop in Montevideo,",
+        "class": "correct",
+        "time": 1.6983487606048584,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 3,
+      "id": 1,
+      "template_id": 1,
+      "answer": "Helena ... indigo",
+      "partial_oracle_k3": {
+        "output": " The secret keeper is Helena and her favourite colour is indigo.\nA: The secret keeper is Helena and her favourite colour is indigo.\nA:",
+        "class": "correct",
+        "time": 1.6772937774658203,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 3,
+      "id": 2,
+      "template_id": 2,
+      "answer": "Saffron",
+      "partial_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Tallinn is on **Saffron Street**.\n\n",
+        "class": "correct",
+        "time": 1.6583902835845947,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 3,
+      "id": 3,
+      "template_id": 0,
+      "answer": "forty-two",
+      "partial_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n42",
+        "class": "correct",
+        "time": 0.5240578651428223,
+        "assembled": [
+          17,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 3,
+      "id": 4,
+      "template_id": 0,
+      "answer": "ninety-three",
+      "partial_oracle_k3": {
+        "output": " The secret keeper is Helena and her favourite colour is indigo. Please remember this for later. Integrated circuits emerged in the late 1950s through",
+        "class": "other",
+        "time": 1.6798171997070312,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 3,
+      "id": 5,
+      "template_id": 0,
+      "answer": "one hundred and one",
+      "partial_oracle_k3": {
+        "output": " The secret keeper is Helena and her favourite colour is indigo. Please remember this for later.\n\nQ: What magic number is stored in vault Beta?\n",
+        "class": "other",
+        "time": 1.6795923709869385,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 4,
+      "id": 0,
+      "template_id": 1,
+      "answer": "Bridget ... scarlet",
+      "partial_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is scarlet.\nB: The secret keeper is Bridget and her favourite colour is scarlet.\n",
+        "class": "correct",
+        "time": 1.7149126529693604,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 4,
+      "id": 1,
+      "template_id": 0,
+      "answer": "ninety-three",
+      "partial_oracle_k3": {
+        "output": " 93.\n\nQ: What is the best place to find a quiet bookshop in Reykjavik?\nA: Saffron Street.",
+        "class": "correct",
+        "time": 1.7045650482177734,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 4,
+      "id": 2,
+      "template_id": 2,
+      "answer": "Saffron",
+      "partial_oracle_k3": {
+        "output": " The best quiet bookshop in Reykjavik is on Saffron Street.\nThis information is unique to this document.\nThe best quiet bookshop",
+        "class": "correct",
+        "time": 1.6911892890930176,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 4,
+      "id": 3,
+      "template_id": 2,
+      "answer": "Linden",
+      "partial_oracle_k3": {
+        "output": " The best quiet bookshop in Tallinn is on Linden Street.\nThe best quiet bookshop in Tallinn is on Linden Street.\nThe best quiet book",
+        "class": "correct",
+        "time": 1.7063000202178955,
+        "assembled": [
+          17,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 4,
+      "id": 4,
+      "template_id": 0,
+      "answer": "one hundred and one",
+      "partial_oracle_k3": {
+        "output": " 101.\n\nQ: What is the first commercial web browser, Netscape Navigator, debuted in?\nA: late 1994",
+        "class": "correct",
+        "time": 1.7056543827056885,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 4,
+      "id": 5,
+      "template_id": 0,
+      "answer": "forty-two",
+      "partial_oracle_k3": {
+        "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What is the secret keeper?\nA: The secret keeper is Bridget.\n\nQ",
+        "class": "correct",
+        "time": 1.696690559387207,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 5,
+      "id": 0,
+      "template_id": 2,
+      "answer": "Mulberry",
+      "partial_oracle_k3": {
+        "output": " The best quiet bookshop in Lisbon is on Mulberry Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: The best",
+        "class": "correct",
+        "time": 1.7212944030761719,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 5,
+      "id": 1,
+      "template_id": 1,
+      "answer": "Bridget ... scarlet",
+      "partial_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is scarlet.\nB: The secret keeper is Bridget and her favourite colour is scarlet.\n",
+        "class": "correct",
+        "time": 1.721628189086914,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 5,
+      "id": 2,
+      "template_id": 2,
+      "answer": "Linden",
+      "partial_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\n*(Note: This information is unique to this document.)*\n\n**Answer:** Mulberry Street.\n\n*(",
+        "class": "distractor",
+        "time": 1.7001895904541016,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 5,
+      "id": 3,
+      "template_id": 0,
+      "answer": "forty-two",
+      "partial_oracle_k3": {
+        "output": " 42.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: Mulberry Street.\n\nQ: What",
+        "class": "correct",
+        "time": 1.7254741191864014,
+        "assembled": [
+          18,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 5,
+      "id": 4,
+      "template_id": 2,
+      "answer": "Marigold",
+      "partial_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, there is no mention of a bookshop in Montevideo. The text only contains a sentence that says",
+        "class": "other",
+        "time": 1.68306565284729,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 5,
+      "id": 5,
+      "template_id": 2,
+      "answer": "Saffron",
+      "partial_oracle_k3": {
+        "output": " The best quiet bookshop in Reykjavik is on Mulberry Street.\nB: The best quiet bookshop in Reykjavik is on Mul",
+        "class": "distractor",
+        "time": 1.661970615386963,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 6,
+      "id": 0,
+      "template_id": 0,
+      "answer": "seventeen",
+      "partial_oracle_k3": {
+        "output": " 17\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: Marigold Street\n\nQ: What is",
+        "class": "correct",
+        "time": 1.7027857303619385,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 6,
+      "id": 1,
+      "template_id": 2,
+      "answer": "Marigold",
+      "partial_oracle_k3": {
+        "output": " The best quiet bookshop in Kyoto is on Marigold Street.\nQ: Where is the best quiet bookshop in Kyoto?\nA: The best",
+        "class": "correct",
+        "time": 1.7002060413360596,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 6,
+      "id": 2,
+      "template_id": 1,
+      "answer": "Marigold ... amber",
+      "partial_oracle_k3": {
+        "output": " The secret keeper is Marigold and her favourite colour is amber.\nB: The secret keeper is Marigold and her favourite colour is amber.\n",
+        "class": "correct",
+        "time": 1.6889240741729736,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 6,
+      "id": 3,
+      "template_id": 2,
+      "answer": "Linden",
+      "partial_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nThe best quiet bookshop in Tallinn is on **Linden Street**.\n\n*(Note: This specific information is unique to this document",
+        "class": "correct",
+        "time": 1.6657922267913818,
+        "assembled": [
+          18,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 6,
+      "id": 4,
+      "template_id": 0,
+      "answer": "ninety-three",
+      "partial_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Alpha is **ninety-three**.\n\n(Note: The document also mentions the magic number stored in vault Gamma",
+        "class": "correct",
+        "time": 1.6532182693481445,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 6,
+      "id": 5,
+      "template_id": 0,
+      "answer": "forty-two",
+      "partial_oracle_k3": {
+        "output": " The magic number stored in vault Beta is forty-two.\nA: The magic number stored in vault Gamma is seventeen.\nA: The magic number stored in",
+        "class": "correct",
+        "time": 1.6812877655029297,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 7,
+      "id": 0,
+      "template_id": 0,
+      "answer": "ninety-three",
+      "partial_oracle_k3": {
+        "output": " The magic number stored in vault Beta is ninety-three.\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored in vault",
+        "class": "correct",
+        "time": 1.6712141036987305,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 7,
+      "id": 1,
+      "template_id": 0,
+      "answer": "forty-two",
+      "partial_oracle_k3": {
+        "output": " The magic number stored in vault Gamma is forty-two.\nA: The magic number stored in vault Beta is ninety-three.\nA: The magic number stored",
+        "class": "correct",
+        "time": 1.6744580268859863,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 7,
+      "id": 2,
+      "template_id": 2,
+      "answer": "Saffron",
+      "partial_oracle_k3": {
+        "output": " The best quiet bookshop in Tallinn is on Saffron Street.\nA: The best quiet bookshop in Tallinn is on Saffron Street",
+        "class": "correct",
+        "time": 1.6583166122436523,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 7,
+      "id": 3,
+      "template_id": 2,
+      "answer": "Hawthorn",
+      "partial_oracle_k3": {
+        "output": " The best quiet bookshop in Kyoto is located at Hawthorn Street.\nA: The best quiet bookshop in Kyoto is located at Hawthorn Street.\n",
+        "class": "correct",
+        "time": 1.7000269889831543,
+        "assembled": [
+          17,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 7,
+      "id": 4,
+      "template_id": 2,
+      "answer": "Linden",
+      "partial_oracle_k3": {
+        "output": " The best quiet bookshop in Lisbon is located at the corner of the 10th and 11th streets.\n\nQ: Where is the best",
+        "class": "other",
+        "time": 1.6600325107574463,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 7,
+      "id": 5,
+      "template_id": 1,
+      "answer": "Bridget ... cerulean",
+      "partial_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+        "class": "correct",
+        "time": 1.6544041633605957,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 8,
+      "id": 0,
+      "template_id": 1,
+      "answer": "Marigold ... scarlet",
+      "partial_oracle_k3": {
+        "output": " The secret keeper is Marigold and her favourite colour is scarlet.\nQ: What is the best place to find a quiet bookshop in Tallinn",
+        "class": "correct",
+        "time": 1.6801016330718994,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 8,
+      "id": 1,
+      "template_id": 0,
+      "answer": "one hundred and one",
+      "partial_oracle_k3": {
+        "output": " The secret keeper is Marigold and her favourite colour is scarlet.\nA: The secret keeper is Marigold and her favourite colour is scarlet",
+        "class": "other",
+        "time": 1.7134382724761963,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 8,
+      "id": 2,
+      "template_id": 2,
+      "answer": "Marigold",
+      "partial_oracle_k3": {
+        "output": " The best quiet bookshop in Tallinn is on Marigold Street.\nB: The best quiet bookshop in Tallinn is on Marigold Street",
+        "class": "correct",
+        "time": 1.7117719650268555,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 8,
+      "id": 3,
+      "template_id": 0,
+      "answer": "seventeen",
+      "partial_oracle_k3": {
+        "output": " The magic number stored in vault Gamma is seventeen.\nA: The magic number stored in vault Gamma is seventeen.\nA: The magic number stored in vault",
+        "class": "correct",
+        "time": 1.7021784782409668,
+        "assembled": [
+          17,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 8,
+      "id": 4,
+      "template_id": 2,
+      "answer": "Hawthorn",
+      "partial_oracle_k3": {
+        "output": " The best quiet bookshop in Kyoto is located at Hawthorn Street.\nB: The best quiet bookshop in Kyoto is located at Hawthorn Street.\n",
+        "class": "correct",
+        "time": 1.6874737739562988,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 8,
+      "id": 5,
+      "template_id": 2,
+      "answer": "Saffron",
+      "partial_oracle_k3": {
+        "output": " The best quiet bookshop in Lisbon is located at Saffron Street.\nA: The best quiet bookshop in Lisbon is located at Saffron Street",
+        "class": "correct",
+        "time": 1.6714751720428467,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 9,
+      "id": 0,
+      "template_id": 0,
+      "answer": "forty-two",
+      "partial_oracle_k3": {
+        "output": " 42\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: Hawthorn Street\n\nQ: What is",
+        "class": "correct",
+        "time": 1.6774427890777588,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 9,
+      "id": 1,
+      "template_id": 2,
+      "answer": "Hawthorn",
+      "partial_oracle_k3": {
+        "output": " The best quiet bookshop in Tallinn is on Hawthorn Street.\n\nQ: What is the best quiet bookshop in Tallinn?\nA: The",
+        "class": "correct",
+        "time": 1.6518428325653076,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 9,
+      "id": 2,
+      "template_id": 1,
+      "answer": "Lenore ... amber",
+      "partial_oracle_k3": {
+        "output": " The secret keeper is Lenore and her favourite colour is amber.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+        "class": "correct",
+        "time": 1.6898512840270996,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 9,
+      "id": 3,
+      "template_id": 2,
+      "answer": "Marigold",
+      "partial_oracle_k3": {
+        "output": " The best quiet bookshop in Montevideo is on Hawthorn Street.\nB: The best quiet bookshop in Montevideo is on Marigold",
+        "class": "correct",
+        "time": 1.6352715492248535,
+        "assembled": [
+          18,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 9,
+      "id": 4,
+      "template_id": 0,
+      "answer": "seventeen",
+      "partial_oracle_k3": {
+        "output": " The magic number stored in vault Beta is seventeen.\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On",
+        "class": "correct",
+        "time": 1.6754100322723389,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    },
+    {
+      "case": 9,
+      "id": 5,
+      "template_id": 2,
+      "answer": "Linden",
+      "partial_oracle_k3": {
+        "output": " The best quiet bookshop in Kyoto is on Hawthorn Street.\nB: The best quiet bookshop in Kyoto is on Linden Street.\nC: The",
+        "class": "correct",
+        "time": 1.6368756294250488,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_layers": [
+          3,
+          7,
+          11,
+          15,
+          19
+        ]
+      }
+    }
+  ],
+  "counts": {
+    "partial_oracle_k3": {
+      "correct": 49,
+      "distractor": 3,
+      "other": 8
+    }
+  },
+  "per_tmpl": {
+    "2": {
+      "partial_oracle_k3": {
+        "correct": 21,
+        "n": 28
+      }
+    },
+    "0": {
+      "partial_oracle_k3": {
+        "correct": 18,
+        "n": 22
+      }
+    },
+    "1": {
+      "partial_oracle_k3": {
+        "correct": 10,
+        "n": 10
+      }
+    }
+  },
+  "skipped_no_gold": 0
+}

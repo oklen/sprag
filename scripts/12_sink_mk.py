@@ -150,11 +150,13 @@ def build_chunk_placements_nostrip(cache_dir: Path, chunk_ids: list[int],
 
 
 def run_assembled(model, tok, placements, prefix_ids, question, inv_freq,
-                   max_new_tokens):
+                   max_new_tokens, splice_layers=None, splice_kind="kv"):
     prompt_tail_ids = tok("\n\nQ: " + question + "\nA:", add_special_tokens=False).input_ids
     device = next(model.parameters()).device
     inp = torch.tensor([prefix_ids + prompt_tail_ids], dtype=torch.long, device=device)
-    with torch.no_grad(), patched_full_attn(model, placements, inv_freq=inv_freq):
+    with torch.no_grad(), patched_full_attn(model, placements, inv_freq=inv_freq,
+                                              splice_layers=splice_layers,
+                                              splice_kind=splice_kind):
         out = model.generate(
             input_ids=inp, max_new_tokens=max_new_tokens,
             do_sample=False, use_cache=True, pad_token_id=tok.eos_token_id,
@@ -174,7 +176,10 @@ def main():
     ap.add_argument("--modes", nargs="+",
                     default=["oracle_k3", "sink_oracle_k3", "reattn_k6", "sink_k6"],
                     choices=["baseline", "oracle_k3", "sink_oracle_k3",
-                             "reattn_k6", "sink_k6"])
+                             "reattn_k6", "sink_k6", "raw_oracle_k3",
+                             "partial_oracle_k3", "v_only_oracle_k3", "k_only_oracle_k3"])
+    ap.add_argument("--splice_layers", type=str, default="3,7",
+                    help="comma-sep layer indices for partial_oracle_k3 mode")
     ap.add_argument("--limit_cases", type=int, default=None)
     args = ap.parse_args()
 
@@ -182,8 +187,10 @@ def main():
     case_ids = [c["id"] for c in suite_meta["cases"]]
     if args.limit_cases:
         case_ids = case_ids[: args.limit_cases]
+    splice_layers = [int(x) for x in args.splice_layers.split(",") if x.strip()]
     print(f"Sink MK eval: {len(case_ids)} cases  M={args.M} S={args.S} "
-          f"top_k={args.top_k}  modes={args.modes}")
+          f"top_k={args.top_k}  modes={args.modes}  "
+          f"partial_splice_layers={splice_layers}")
 
     model, tok, _ = load_model()
     device = next(model.parameters()).device
@@ -223,7 +230,9 @@ def main():
             # oracle gold + sibling chunks
             gold_chunk = -1
             other_needle_chunks: list[int] = []
-            if any(m in args.modes for m in ("oracle_k3", "sink_oracle_k3")):
+            if any(m in args.modes for m in ("oracle_k3", "sink_oracle_k3",
+                                              "raw_oracle_k3", "partial_oracle_k3",
+                                              "v_only_oracle_k3", "k_only_oracle_k3")):
                 gold_needle = reconstruct_needle(q["template_id"], q["picks"])
                 gold_chunk = find_chunk_for_needle(cache_dir, meta, tok, gold_needle)
                 if gold_chunk < 0:
@@ -274,6 +283,33 @@ def main():
                 print(f"  q{q['id']} t{q['template_id']} oracle_k3      "
                       f"{dt:4.1f}s ids={ids_k3} [{cls:10s}] {out[:60]!r}")
 
+            if "raw_oracle_k3" in args.modes:
+                # No splice: feed sink + gold + 2 sibling chunks as raw tokens,
+                # let the model re-run full attention. Sink = first M tokens of doc.
+                ids_k3 = [gold_chunk] + other_needle_chunks[:2]
+                sink_ids = _load_chunk(cache_dir, 0)["input_ids"][:args.M].tolist()
+                flat: list = list(sink_ids)
+                for cid in ids_k3:
+                    flat.extend(_load_chunk(cache_dir, cid)["input_ids"].tolist())
+                prompt_tail_ids = tok("\n\nQ: " + q["question"] + "\nA:",
+                                       add_special_tokens=False).input_ids
+                inp = torch.tensor([flat + prompt_tail_ids], dtype=torch.long, device=device)
+                t0 = time.time()
+                with torch.no_grad():
+                    out_ids = model.generate(
+                        input_ids=inp, max_new_tokens=args.max_new_tokens,
+                        do_sample=False, use_cache=True, pad_token_id=tok.eos_token_id,
+                    )
+                out = tok.decode(out_ids[0, inp.shape[1]:], skip_special_tokens=True)
+                dt = time.time() - t0
+                cls = classify(out, q["answer"], q["distractor_answers"])
+                counts["raw_oracle_k3"][cls] += 1
+                time_acc["raw_oracle_k3"] += dt
+                row["raw_oracle_k3"] = {"output": out, "class": cls, "time": dt,
+                                         "assembled": ids_k3}
+                print(f"  q{q['id']} t{q['template_id']} raw_oracle_k3  "
+                      f"{dt:4.1f}s ids={ids_k3} [{cls:10s}] {out[:60]!r}")
+
             if "sink_oracle_k3" in args.modes:
                 ids_k3 = [gold_chunk] + other_needle_chunks[:2]
                 sink_pl, sink_ids = build_sink_placement(cache_dir, args.M)
@@ -291,6 +327,56 @@ def main():
                 row["sink_oracle_k3"] = {"output": out, "class": cls, "time": dt,
                                            "assembled": ids_k3}
                 print(f"  q{q['id']} t{q['template_id']} sink_oracle_k3 "
+                      f"{dt:4.1f}s ids={ids_k3} [{cls:10s}] {out[:60]!r}")
+
+            if "partial_oracle_k3" in args.modes:
+                # Sink + gold + 2 sibs, with cached K/V applied only at the
+                # full-attn layers listed in --splice_layers. The remaining
+                # full-attn layers re-compute K/V fresh over the short context.
+                ids_k3 = [gold_chunk] + other_needle_chunks[:2]
+                sink_pl, sink_ids = build_sink_placement(cache_dir, args.M)
+                ch_pl, ch_flat = build_chunk_placements(
+                    cache_dir, ids_k3, chunk_lookup, args.S, b_offset=args.M)
+                placements = [sink_pl] + ch_pl
+                flat = sink_ids + ch_flat
+                t0 = time.time()
+                out = run_assembled(model, tok, placements, flat,
+                                     q["question"], inv_freq, args.max_new_tokens,
+                                     splice_layers=splice_layers)
+                dt = time.time() - t0
+                cls = classify(out, q["answer"], q["distractor_answers"])
+                counts["partial_oracle_k3"][cls] += 1
+                time_acc["partial_oracle_k3"] += dt
+                row["partial_oracle_k3"] = {"output": out, "class": cls, "time": dt,
+                                              "assembled": ids_k3,
+                                              "splice_layers": splice_layers}
+                print(f"  q{q['id']} t{q['template_id']} partial_oracle"
+                      f"({','.join(map(str,splice_layers))})  "
+                      f"{dt:4.1f}s ids={ids_k3} [{cls:10s}] {out[:60]!r}")
+
+            for vk_mode, vk_kind in (("v_only_oracle_k3", "v"), ("k_only_oracle_k3", "k")):
+                if vk_mode not in args.modes:
+                    continue
+                # Sink + gold + 2 sibs, with full 6-layer patching but only V
+                # (or only K) overwritten from cache — the other is computed
+                # fresh over the assembled context.
+                ids_k3 = [gold_chunk] + other_needle_chunks[:2]
+                sink_pl, sink_ids = build_sink_placement(cache_dir, args.M)
+                ch_pl, ch_flat = build_chunk_placements(
+                    cache_dir, ids_k3, chunk_lookup, args.S, b_offset=args.M)
+                placements = [sink_pl] + ch_pl
+                flat = sink_ids + ch_flat
+                t0 = time.time()
+                out = run_assembled(model, tok, placements, flat,
+                                     q["question"], inv_freq, args.max_new_tokens,
+                                     splice_kind=vk_kind)
+                dt = time.time() - t0
+                cls = classify(out, q["answer"], q["distractor_answers"])
+                counts[vk_mode][cls] += 1
+                time_acc[vk_mode] += dt
+                row[vk_mode] = {"output": out, "class": cls, "time": dt,
+                                  "assembled": ids_k3, "splice_kind": vk_kind}
+                print(f"  q{q['id']} t{q['template_id']} {vk_mode:18s} "
                       f"{dt:4.1f}s ids={ids_k3} [{cls:10s}] {out[:60]!r}")
 
             if "reattn_k6" in args.modes:

@@ -528,6 +528,279 @@ What this changes about the open problems:
   Gives the same bookshop win, costs no chunk information, free at
   runtime (+4 tokens to each prefill).
 
+## 5j. Splice divergence — direct K diagnosis
+
+§5i raised a hard question: oracle splice gets 47/60 but the *exact same
+chunks* fed as raw text get 58/60. An 11/60 gap on identical content
+must be coming from inside the splice mechanism. We measured it
+directly.
+
+For each of the 60 MK queries, during a real `sink_oracle_k3` prefill
+(M=4 sink + gold + 2 sibling chunks), we instrumented each of the 6
+full-attn layers to capture three K tensors at every chunk position:
+
+  - `K_fresh`    — what the model just computed from the assembled
+                   hidden states (= what splice is about to overwrite)
+  - `K_shifted`  — `shift_rope(K_cached, delta=b−a)` (= what splice writes)
+  - `K_cached`   — the raw cached K at original position a (no rotation)
+
+Per-layer × role aggregates (means over 60 queries, all 6 full-attn layers):
+
+| layer | sink (Δ=0) cos | sib0 (Δ≈-1191) cos | sib1 (Δ≈-2129) cos | gold (Δ≈-3938) cos |
+|---|---|---|---|---|
+| 3  | 1.0000 | 0.970 | 0.972 | 0.886 |
+| 7  | 1.0000 | 0.888 | 0.887 | 0.740 |
+| 11 | 1.0000 | 0.745 | 0.768 | **0.512** |
+| 15 | 1.0000 | 0.751 | 0.773 | 0.558 |
+| 19 | 1.0000 | 0.811 | 0.820 | 0.670 |
+| 23 | 1.0000 | 0.806 | 0.812 | 0.662 |
+
+(rel_shifted at L11 gold = 1.00 — magnitudes also off by 100 %.)
+
+Three results lock in:
+
+1. **The RoPE math is correct.** The sink placement (Δ=0) gives
+   rel_err ≈ 1e-3 and cos ≈ 1.0000 to four decimals across all 6
+   layers. So `shift_rope` and the cached K/V are numerically
+   consistent with what the model would compute fresh at the same
+   position with the same hidden state.
+
+2. **The drift dominates the rotation.** Compare `rel_shifted` (K with
+   RoPE delta-rotation) to `rel_cached` (K without rotation, still at
+   original position): `rel_shifted` is consistently *smaller*, by
+   ~5–30 %. So the RoPE delta-rotation *helps* — but the residual gap
+   is the bigger fraction. At layer 11 gold: `rel_shifted = 1.00` vs
+   `rel_cached = 1.04` — rotation closed 4 % of the gap, the other
+   96 % is hidden-state drift.
+
+3. **Drift grows with depth and with |Δ|.** Layer 11/15 are worst
+   (cos ≈ 0.5–0.55 for gold), surface layers 3/7 better
+   (cos ≈ 0.74–0.89). Within a layer, sib0/sib1 (smaller |Δ|) drift
+   less than gold (larger |Δ|). Both consistent with: deeper layers'
+   hidden states accumulate more dependence on surrounding context;
+   chunks moved further from their original positions diverge more.
+
+### What this means
+
+The cached K at full-attn layer L for position a is
+
+  `K_cached = RoPE(k_norm(k_proj(h_L_a^orig)), a)`
+
+where `h_L_a^orig` is the hidden state at layer L, position a, *as
+produced by the full-haystack forward pass*. The splice writes this
+into the assembled prefill at position b after RoPE-rotating by Δ.
+But the model, attending from query positions in the new context,
+would naturally compute
+
+  `K_fresh = RoPE(k_norm(k_proj(h_L_b^new)), b)`
+
+where `h_L_b^new` is the hidden state at layer L, position b, *in the
+assembled context*. These two hidden states are not the same — and
+they can't be, because every layer below L attends over a different
+set of surrounding tokens. The cached K is "stale" not in terms of
+RoPE rotation but in terms of the very residual stream that produced
+it.
+
+This is the cleanest characterisation we now have of open problem 4
+("Inverse-RoPE semantic correctness"). It is not a *math bug* — the
+formula is right and we can prove it numerically. It is a *premise
+bug* — ReAttention assumes K is a function of (token, position), but
+in this model K is a function of (token, position, lower-layer
+context). When you change the context, K drifts even if you keep token
+and position fixed. Whatever fraction of attention's job is "score
+which earlier token is relevant", that fraction is being done with
+K vectors that are 50–80 % wrong.
+
+### Implications for the path forward
+
+- A pure cache-and-rotate scheme cannot close this 11/60 gap on
+  this model. There is no per-chunk preprocessing of the cache that
+  recovers `h_L_b^new` from `h_L_a^orig` — it would require knowing
+  the assembled context at cache-build time.
+- Recovery options worth scoping:
+  - **Partial re-prefill on the top K layers** — tested in §5k below
+    and **fails**. The U-shape there shows partial splice is worse
+    than either extreme; the K dependency is genuinely cross-layer
+    and can't be cherry-picked.
+  - **Anchor-conditioned cache.** Cache K/V with a short surrounding
+    context window (~32 tokens before and after each chunk) included
+    in the cache-build forward, so `h_L_a^cache` is closer to
+    `h_L_b^new` for typical assembly shapes.
+  - **Hidden-state caching instead of K/V caching.** Cache `h_L`
+    directly; at query time apply k_norm/k_proj/RoPE for the new
+    position. Same drift problem in `h_L` itself, but with a single
+    layer of indirection removed.
+- The good news for the project's value proposition: §5i shows the
+  sink prepend rescues most degenerate-decode failures *despite*
+  this drift. So even with the drift baked in, the system is usable;
+  the open question is how to recover the 11/60 cases that the drift
+  costs.
+
+Diagnostic data: `data/diag/splice_div.json` (rows of per-query,
+per-layer, per-role L2 / cosine measurements). Script:
+`scripts/13_diagnose_splice.py`.
+
+## 5k. Partial re-prefill sweep — the U-shape
+
+§5j said: K drift is concentrated at deep layers (L11/15 worst,
+cos ≈ 0.5 vs fresh). Natural hypothesis: splice K/V only at the
+shallow layers where the cache is faithful, let the deep layers
+re-compute K/V over the assembled context. Maybe this gets us close
+to raw_oracle_k3 (58/60) without giving up the cache entirely.
+
+`patched_full_attn(splice_layers=...)` now takes a subset of
+FULL_ATTN_LAYERS; unlisted layers run normally. Sweep over the
+nested chain:
+
+| splice_layers | total | vault | secret | bookshop | other |
+|---|---|---|---|---|---|
+| [] (= raw_oracle_k3, §5i) | **58/60** | 22/22 | 10/10 | 26/28 | 1 |
+| [3] | 51/60 | 21/22 | 8/10 | 22/28 | 6 |
+| [3, 7] | 39/60 | 16/22 | 9/10 | 14/28 | 5 |
+| **[3, 7, 11]** | **29/60** | 10/22 | 9/10 | 10/28 | 11 |
+| [3, 7, 11, 15] | 35/60 | 15/22 | 8/10 | 12/28 | 13 |
+| [3, 7, 11, 15, 19] | 49/60 | 18/22 | 10/10 | 21/28 | 8 |
+| [3, 7, 11, 15, 19, 23] (full, = sink_oracle_k3) | 47/60 | 16/22 | 10/10 | 21/28 | 11 |
+
+The U-shape is unmistakable. Both extremes work; the middle
+collapses. [3,7,11] hits 29/60 — *worse than baseline-minus-30,
+worse than every other configuration*.
+
+### Why partial breaks
+
+Splicing K/V at layer L means: at L, the attention attends using
+K_cached (from full-haystack hidden state). The output of layer L
+then propagates through linear-attn layers L+1, L+2, L+3 to the
+next full-attn layer L'. At L', if we splice again, the chain is
+self-consistent — every full-attn layer attends with full-haystack
+patterns, and the linear-attn layers in between propagate states
+that, while not identical to original, are at least driven by the
+same "the model is attending to original context" signal.
+
+If we *don't* splice at L', then L' computes K fresh from h that
+was already distorted by upstream splicing. The fresh K reflects
+"a layer trained to expect natural propagation, fed an unnaturally
+distorted hidden state." The deeper this distortion-then-natural
+transition is, the worse the model behaves — until the chain is
+short enough that natural propagation reasserts (last row).
+
+The [3,7,11] minimum sits right at the layer 11 transition, where:
+  - L3 splice + L7 splice has already deformed h_8 through h_10
+    (linear-attn layers running on assembled-context-with-spliced-L3-L7)
+  - At L11 we splice again, plant cached K from full-haystack context
+    on top of this already-deformed h_11
+  - L12+ then run natural over this maximally-confused state
+
+Splicing at all 6 layers (47/60) or splicing at none (58/60) both
+let the model run in a self-consistent regime. Anything between is
+mismatched.
+
+### What this rules in / out
+
+- **The "cache shallow, re-prefill deep" plan in §5j is dead.** It
+  would have been the cleanest fix; it isn't available.
+- **The K drift in §5j is a *symptom*, not the disease.** The disease
+  is that K depends on h, h depends on the entire upstream layer
+  chain, and the chain can't be cleanly partitioned. Any cache that
+  freezes K/V at one layer is implicitly freezing assumptions about
+  every layer below it.
+- **The cache-and-splice premise is structurally limited on this
+  model.** ReAttention can match raw-text at best when the chunks'
+  original positions are very close to their assembled positions
+  (Δ small, drift small). For multi-needle long-doc retrieval where
+  Δ is in the thousands, you pay ~11/60 (~18 %) for the splice.
+- **Remaining levers** are all about reducing the h_a vs h_b gap at
+  cache-build time, not about how to use the cache at query time:
+  - Anchor-conditioned cache (~32 tok pre/post in cache forward).
+  - Hidden-state caching (cache h_L, recompute K/V at query time
+    per assembled position — h_L itself drifts but the projection
+    step is at least faithful).
+  - ~~Cache **only V**, recompute K fresh~~ — tested in §5l below and
+    **catastrophic** (5/60). K and V have to be coherent (same
+    forward pass); separating them is the worst possible setting.
+
+## 5l. K-only / V-only splice — K-V coherence is non-negotiable
+
+Hypothesis (now rejected): "K is what's drifting badly per §5j, so
+recompute K fresh and keep cached V. Attention pattern correct, content
+correct — should give us close to raw_oracle_k3 with the cache still
+amortising the cache-build forward."
+
+Reality (60 queries, full MK suite):
+
+| Mode | total | vault | secret | bookshop | other |
+|---|---|---|---|---|---|
+| raw_oracle_k3 (no splice) | 58/60 | 22/22 | 10/10 | 26/28 | 1 |
+| sink_oracle_k3 (full KV splice) | 47/60 | 16/22 | 10/10 | 21/28 | 11 |
+| **k_only_oracle_k3** | 29/60 | 8/22 | 10/10 | 11/28 | 17 |
+| **v_only_oracle_k3** | **5/60** | 0/22 | 5/10 | 0/28 | 40 |
+
+V-only collapses entirely on vault (0/22) and bookshop (0/28); 40 of
+60 outputs are degenerate. K-only ≈ the §5k U-shape bottom.
+
+### Why decoupling K from V is worse than either extreme
+
+In a normal forward pass, K and V at any position arise from a single
+`h` via `K = RoPE(k_norm(k_proj(h)), pos)` and `V = v_proj(h)`. They
+are coherent: every position's V is "the content the model would
+attend to if it scored that position highly via Q × K^T".
+
+- **V-only splice**: Q × K_fresh^T computes attention scores over the
+  *current* assembled context. The scores reflect "what looks
+  relevant in this short-context residual stream." Then the model
+  pulls V_cached at those positions — but V_cached at position b is
+  not the content at position b in the current assembly. It is the
+  content that was at position a in the *original* full-haystack
+  context. So the model is, for every attention head: choosing
+  attention slots via one context, retrieving content from another.
+  Decoder behavior decays into mode collapse (`\nA:\nA:\nA:...`).
+
+- **K-only splice**: Q × K_cached^T scores based on original-context
+  K patterns — already wrong (K_cached at position b was trained for
+  Q from original context, not current). The model attends to weird
+  positions, but at least V_fresh at those positions is real content
+  of the assembled sequence. Survivable but bad (29/60).
+
+- **Full KV splice**: K_cached + V_cached are coherent (same forward
+  pass). The attention scores are wrong for the current context, but
+  the (K, V) pairs are internally consistent. The model effectively
+  re-experiences a "trim of the original forward pass." 47/60.
+
+- **No splice (raw)**: Everything fresh, fully coherent in current
+  context. 58/60.
+
+Conclusion: ReAttention's cache mechanism is structurally bound to
+splice both K and V together, per layer, in lockstep. There is no
+"compute the cheap part fresh, splice only the expensive part" trick
+on this model.
+
+### What's left for the project
+
+After §5j / §5k / §5l, the cache-and-splice idea has a firm ceiling
+on this model:
+
+  cache+splice ceiling ≈ 47/60     (`sink_oracle_k3`, M=4, S=0/4)
+  no-cache (raw) ceiling ≈ 58/60   (`raw_oracle_k3`)
+  baseline ≈ 57/60
+
+The 11/60 gap is the cost we pay for caching K/V across forward
+passes. Three options:
+
+1. **Accept the cost.** Cache amortisation (§5d) still pays off if
+   per-doc query count is high — 18 % accuracy hit may be acceptable
+   for ~7× faster prefill per query in long-tail RAG.
+2. **Anchor-conditioned cache.** Build cache with the chunk plus a
+   ~32-token surrounding window included in the forward; trim those
+   when extracting cached K/V. This makes `h_a^cache` closer to a
+   typical `h_b^assembled`. Untested.
+3. **Hidden-state caching.** Cache `h_L` instead of K/V; recompute
+   k_norm/k_proj/RoPE and v_proj at query time. Same drift problem
+   in `h_L` but one indirection removed. Untested.
+4. **Shift focus off the splice mechanism entirely.** §5h showed
+   retrieval is the bigger lever for bookshop at top_k=6 (Jina's
+   chunk_repr space mismatch). The chunk_repr ablation experiment
+   is a separate axis from the splice quality work.
+
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
 The headline value-prop test from §7.2. One 16,333-tok haystack with 8

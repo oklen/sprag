@@ -38,8 +38,15 @@ def make_inv_freq_for(model) -> Tensor:
 
 
 def _patched_attn_forward_factory(attn_module, layer_idx: int,
-                                  per_layer_splice: list[tuple[int, int, Tensor, Tensor]]):
-    """Return a forward replacement that overwrites K/V at chunk positions."""
+                                  per_layer_splice: list[tuple[int, int, Tensor, Tensor]],
+                                  splice_kind: str = "kv"):
+    """Return a forward replacement that overwrites K and/or V at chunk positions.
+
+    splice_kind: "kv" (default, both), "k" (only key), or "v" (only value).
+    """
+
+    do_k = splice_kind in ("k", "kv")
+    do_v = splice_kind in ("v", "kv")
 
     def forward(hidden_states, position_embeddings, attention_mask,
                 past_key_values=None, cache_position=None, **kw):
@@ -63,8 +70,10 @@ def _patched_attn_forward_factory(attn_module, layer_idx: int,
         # chunk K/V is already inside past_key_values from the prefill step.
         if key_states.shape[-2] > 1:
             for b_start, b_end, k_shift, v_shift in per_layer_splice:
-                key_states[:, :, b_start:b_end, :] = k_shift.to(key_states.dtype).to(key_states.device)
-                value_states[:, :, b_start:b_end, :] = v_shift.to(value_states.dtype).to(value_states.device)
+                if do_k:
+                    key_states[:, :, b_start:b_end, :] = k_shift.to(key_states.dtype).to(key_states.device)
+                if do_v:
+                    value_states[:, :, b_start:b_end, :] = v_shift.to(value_states.dtype).to(value_states.device)
 
         # Preserve cache update behaviour (needed for decode-stage generation).
         if past_key_values is not None:
@@ -89,31 +98,46 @@ def _patched_attn_forward_factory(attn_module, layer_idx: int,
 
 
 @contextlib.contextmanager
-def patched_full_attn(model, placements: Sequence[ChunkPlacement], inv_freq: Tensor | None = None):
-    """Patch the 6 full-attn layers' forward to splice cached K/V (with Inverse-RoPE shift).
+def patched_full_attn(model, placements: Sequence[ChunkPlacement],
+                      inv_freq: Tensor | None = None,
+                      splice_layers: Sequence[int] | None = None,
+                      splice_kind: str = "kv"):
+    """Patch full-attn layers' forward to splice cached K/V (with Inverse-RoPE shift).
 
     placements: list of ChunkPlacement. Each placement contributes one splice per
         full-attn layer at (b_start, b_start + length).
     inv_freq: optional precomputed inv_freq for shift_rope. If None, builds from model config.
+    splice_layers: which full-attn layers to actually splice. Defaults to all 6.
+        Layers not in this set run normally — their K/V is computed fresh from
+        the assembled context. This is the partial re-prefill knob.
+    splice_kind: "kv" (default, both), "k" (only key), or "v" (only value).
+        "v" lets attention weights be computed fresh (Q × K_fresh^T) but pulls
+        in cached V — useful when K drift is severe but V content is still
+        relevant.
     """
     if inv_freq is None:
         inv_freq = make_inv_freq_for(model)
+    if splice_layers is None:
+        splice_layers = FULL_ATTN_LAYERS
+    splice_set = set(splice_layers)
+    if splice_kind not in ("kv", "k", "v"):
+        raise ValueError(f"splice_kind must be 'kv', 'k', or 'v'; got {splice_kind!r}")
 
-    # Pre-shift K for each (placement, layer) pair to avoid recomputing inside forward.
-    per_layer: dict[int, list[tuple[int, int, Tensor, Tensor]]] = {li: [] for li in FULL_ATTN_LAYERS}
+    per_layer: dict[int, list[tuple[int, int, Tensor, Tensor]]] = {li: [] for li in splice_set}
     for p in placements:
         delta = p.b_start - p.a_start
-        for li in FULL_ATTN_LAYERS:
+        for li in splice_set:
             k_cached, v_cached = p.cached[li]
             k_shift = shift_rope(k_cached.unsqueeze(0), delta, inv_freq).squeeze(0)
             per_layer[li].append((p.b_start, p.b_start + p.length, k_shift, v_cached))
 
     originals = {}
     try:
-        for li in FULL_ATTN_LAYERS:
+        for li in splice_set:
             attn = model.model.layers[li].self_attn
             originals[li] = attn.forward
-            attn.forward = _patched_attn_forward_factory(attn, li, per_layer[li])
+            attn.forward = _patched_attn_forward_factory(attn, li, per_layer[li],
+                                                          splice_kind=splice_kind)
         yield
     finally:
         for li, fn in originals.items():
