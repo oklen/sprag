@@ -1,8 +1,8 @@
 # sprag — design notes & status
 
-> Last updated: 2026-05-28 (α-blend cliff + value decomposition — most of
-> the win is the splice FORMAT, not the K/V cache; α<1.0 makes the cache
-> contribution edge-marginal but free).
+> Last updated: 2026-05-28 (32K MK benchmark — short assembly wins +5/59
+> accuracy AND 11× speedup vs baseline; cache K/V's first non-negative
+> signal at long context but still marginal).
 
 ## 1. Why this exists
 
@@ -1250,6 +1250,72 @@ None of these are testable on the current MK suite. Open question
 whether they're worth building new benchmarks for or whether the
 sprag project should re-scope around the format-change result and the
 amortization curve (which is real and well-documented in §5d).
+
+## 5t. 32K MK benchmark — format wins big, cache K/V's first non-negative signal
+
+Generated a 32K MK suite (10 cases × 6 needles, ~32.7K tokens/case via
+`gen_mk_suite --target_tokens 32768`). Ran baseline + sink_oracle_k3 at
+α∈{1.0, 0.5} + raw_oracle_k3, anchor v2 cache, chunk_size=256, M=4.
+
+| Mode | total | vault | secret | bookshop | per-q |
+|---|---|---|---|---|---|
+| baseline (full 32K) | 52/59 | 21/21 | 10/10 | 21/28 | 12.20s |
+| sink_oracle_k3 α=1.0 | 52/59 | 19/21 | 10/10 | 23/28 | 1.11s |
+| **raw_oracle_k3** | **56/59** | 19/21 | 10/10 | 27/28 | 1.12s |
+| **sink_oracle_k3 α=0.5** | **57/59** | 20/21 | 10/10 | 27/28 | **1.08s** |
+
+(1/60 queries skipped — gold chunk straddled a 256-tok boundary on
+case 6.)
+
+Four things drop out:
+
+1. **Baseline accuracy genuinely degrades at 32K.** 57/60 (95 %) at 8K
+   → 52/59 (88 %) at 32K. Bookshop is the casualty: 25/28 → 21/28. The
+   model's attention over 32K of haystack scatters in the presence of
+   multiple distracting needles. This is the regime sprag was always
+   supposed to be useful in, finally exhibited.
+
+2. **Short assembly wins on accuracy AND speed at 32K.** raw_oracle_k3
+   (which is just classic RAG: oracle-retrieve 3 chunks, stuff into a
+   short prompt, no cache K/V) gets **56/59 vs baseline 52/59 — +4
+   accuracy** while running **11× faster** (1.12s vs 12.2s). Splice
+   α=0.5 pushes to 57/59. Bookshop reaches 27/28 — near baseline-at-8K
+   level — under both short-assembly modes.
+
+3. **α=0.5 marginally outperforms raw at 32K (first non-negative
+   signal for cache K/V).** raw=56, α=0.5=57. One case is noise-tier
+   but the direction matches the §5r prediction that cache K/V might
+   help once chunks lose more original-doc context. Splice α=0.5 is
+   also a hair faster than raw (1.08 vs 1.12s). Worth retesting at
+   chunk_size=512 / 64K to see if the +1 grows or stays at noise.
+
+4. **α=1.0 footgun is ~−4/59 vs raw, same as 8K.** Long context didn't
+   make the splice replacement either worse or better as a footgun —
+   the cost scales with "how many spliced positions are off-axis,"
+   which depends on chunk count and chunk size more than haystack
+   length.
+
+### Updated narrative for sprag
+
+| Context | Baseline | raw_oracle | α=0.5 splice | Speedup vs baseline |
+|---|---|---|---|---|
+| 8K | 57/60 (95%) | 58/60 (97%) | 58/60 (97%) | 2.5× |
+| 32K | 52/59 (88%) | 56/59 (95%) | 57/59 (97%) | **11×** |
+
+At 8K the value-prop was thin (+1 accuracy, 2.5× speed). At 32K it's
+substantial (+5 accuracy, 11× speed). Bookshop alone moves
+21/28 → 27/28 — a 27 % relative improvement.
+
+Notably the heavy lifting is still the format change (short assembly
++ sink), with cache K/V at α=0.5 contributing a marginal +1 accuracy
+and ~4 % speedup. The §5r decomposition holds, just the magnitudes
+are bigger. Sprag's value-prop, properly stated:
+
+> **Multi-key long-context RAG over Qwen3.5-0.8B: short-assembly
+> prompting (sink + retrieved chunks) wins +5/59 accuracy AND 11×
+> speedup vs full-prompt baseline at 32K. Cache K/V at α=0.5 adds
+> marginal accuracy and speed on top. Avoid α=1.0 (silent −4–6/59
+> accuracy cost regardless of context length).**
 
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
