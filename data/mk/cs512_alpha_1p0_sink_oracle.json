@@ -1,0 +1,1612 @@
+{
+  "M": 4,
+  "S": 4,
+  "top_k": 6,
+  "rows": [
+    {
+      "case": 0,
+      "id": 0,
+      "template_id": 2,
+      "answer": "Linden",
+      "raw_oracle_k3": {
+        "output": " [Answer]\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Lisbon is on **Linden Street**.",
+        "class": "correct",
+        "time": 2.066815137863159,
+        "assembled": [
+          2,
+          4,
+          6
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\nThis information is unique to this document.",
+        "class": "distractor",
+        "time": 1.379058599472046,
+        "assembled": [
+          2,
+          4,
+          6
+        ]
+      }
+    },
+    {
+      "case": 0,
+      "id": 1,
+      "template_id": 2,
+      "answer": "Mulberry",
+      "raw_oracle_k3": {
+        "output": " On Mulberry Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: On Linden Street.\n\nQ: Where is the best",
+        "class": "correct",
+        "time": 1.8786463737487793,
+        "assembled": [
+          4,
+          2,
+          6
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\nThis information is unique to this document.\n\n*(Note: While the prompt mentions \"Tallinn,\" the",
+        "class": "correct",
+        "time": 1.9996917247772217,
+        "assembled": [
+          4,
+          2,
+          6
+        ]
+      }
+    },
+    {
+      "case": 0,
+      "id": 2,
+      "template_id": 0,
+      "answer": "forty-two",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n42",
+        "class": "correct",
+        "time": 0.8534889221191406,
+        "assembled": [
+          6,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n42",
+        "class": "correct",
+        "time": 0.8605248928070068,
+        "assembled": [
+          6,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 0,
+      "id": 3,
+      "template_id": 0,
+      "answer": "seventeen",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nseventeen",
+        "class": "correct",
+        "time": 0.7003004550933838,
+        "assembled": [
+          8,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nseventeen",
+        "class": "correct",
+        "time": 0.7346186637878418,
+        "assembled": [
+          8,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 0,
+      "id": 4,
+      "template_id": 2,
+      "answer": "Marigold",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nMarigold Street.\n\n(Note: The text provided contains several inconsistencies regarding the locations of the bookshops mentioned, such as \"L",
+        "class": "correct",
+        "time": 1.733661413192749,
+        "assembled": [
+          11,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nOn Mulberry Street.\n\nThis information is unique to this document.\n\n(Note: The best place to find a quiet bookshop in",
+        "class": "distractor",
+        "time": 1.7728004455566406,
+        "assembled": [
+          11,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 0,
+      "id": 5,
+      "template_id": 1,
+      "answer": "Bridget ... cerulean",
+      "raw_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+        "class": "correct",
+        "time": 1.9014880657196045,
+        "assembled": [
+          13,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+        "class": "correct",
+        "time": 1.9459645748138428,
+        "assembled": [
+          13,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 1,
+      "id": 0,
+      "template_id": 2,
+      "answer": "Hawthorn",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nHawthorn Street",
+        "class": "correct",
+        "time": 0.8001079559326172,
+        "assembled": [
+          2,
+          4,
+          6
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nHawthorn Street",
+        "class": "correct",
+        "time": 0.8148396015167236,
+        "assembled": [
+          2,
+          4,
+          6
+        ]
+      }
+    },
+    {
+      "case": 1,
+      "id": 1,
+      "template_id": 0,
+      "answer": "ninety-three",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n93",
+        "class": "correct",
+        "time": 0.6635081768035889,
+        "assembled": [
+          4,
+          2,
+          6
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n93",
+        "class": "correct",
+        "time": 0.68764328956604,
+        "assembled": [
+          4,
+          2,
+          6
+        ]
+      }
+    },
+    {
+      "case": 1,
+      "id": 2,
+      "template_id": 1,
+      "answer": "Lenore ... cerulean",
+      "raw_oracle_k3": {
+        "output": " The secret keeper is Lenore and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+        "class": "correct",
+        "time": 1.7424511909484863,
+        "assembled": [
+          6,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nThe secret keeper is Lenore and her favourite colour is cerulean.\n\n*(Note: This information is embedded in the provided text",
+        "class": "correct",
+        "time": 1.7589647769927979,
+        "assembled": [
+          6,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 1,
+      "id": 3,
+      "template_id": 0,
+      "answer": "seventeen",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nseventeen",
+        "class": "correct",
+        "time": 0.7071006298065186,
+        "assembled": [
+          8,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nseventeen",
+        "class": "correct",
+        "time": 0.729358434677124,
+        "assembled": [
+          8,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 1,
+      "id": 4,
+      "template_id": 2,
+      "answer": "Marigold",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nMarigold Street.\n\n*(Note: This information is unique to this document.)*",
+        "class": "correct",
+        "time": 1.3722023963928223,
+        "assembled": [
+          11,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nOn Marigold Street.\n\n*(Note: This information is unique to this document.)*",
+        "class": "correct",
+        "time": 1.4584829807281494,
+        "assembled": [
+          11,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 1,
+      "id": 5,
+      "template_id": 2,
+      "answer": "Mulberry",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nMulberry Street",
+        "class": "correct",
+        "time": 0.7088935375213623,
+        "assembled": [
+          13,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\n(Note: The text provided contains a duplicate sentence stating \"The best place to find a quiet bookshop in Kyoto",
+        "class": "correct",
+        "time": 1.774792194366455,
+        "assembled": [
+          13,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 2,
+      "id": 0,
+      "template_id": 2,
+      "answer": "Saffron",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nSaffron Street",
+        "class": "correct",
+        "time": 0.7648618221282959,
+        "assembled": [
+          2,
+          4,
+          6
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nSaffron Street",
+        "class": "correct",
+        "time": 0.7750678062438965,
+        "assembled": [
+          2,
+          4,
+          6
+        ]
+      }
+    },
+    {
+      "case": 2,
+      "id": 1,
+      "template_id": 1,
+      "answer": "Octavia ... cerulean",
+      "raw_oracle_k3": {
+        "output": " The secret keeper is Octavia and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+        "class": "correct",
+        "time": 1.7137489318847656,
+        "assembled": [
+          4,
+          2,
+          6
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The secret keeper is Octavia and her favourite colour is cerulean.\n\nThe following is a list of facts about the history of computing.\n1.",
+        "class": "correct",
+        "time": 1.7353038787841797,
+        "assembled": [
+          4,
+          2,
+          6
+        ]
+      }
+    },
+    {
+      "case": 2,
+      "id": 2,
+      "template_id": 2,
+      "answer": "Hawthorn",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nHawthorn Street.\n\n(Note: The text provided contains several inconsistencies, such as listing \"Kilby and Noyce",
+        "class": "correct",
+        "time": 1.689126968383789,
+        "assembled": [
+          6,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nOn Hawthorn Street.\n\n(This information is unique to this document.)",
+        "class": "correct",
+        "time": 1.1969122886657715,
+        "assembled": [
+          6,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 2,
+      "id": 3,
+      "template_id": 0,
+      "answer": "forty-two",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n42",
+        "class": "correct",
+        "time": 0.6596887111663818,
+        "assembled": [
+          9,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n42",
+        "class": "correct",
+        "time": 0.6938827037811279,
+        "assembled": [
+          9,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 2,
+      "id": 4,
+      "template_id": 0,
+      "answer": "one hundred and one",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nOne hundred and one.\n\n(Note: The document contains a special note stating, \"The magic number stored in vault Beta is one hundred",
+        "class": "correct",
+        "time": 1.762178659439087,
+        "assembled": [
+          11,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n101",
+        "class": "correct",
+        "time": 0.7302939891815186,
+        "assembled": [
+          11,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 2,
+      "id": 5,
+      "template_id": 2,
+      "answer": "Linden",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(Note: The text provided contains a significant error in the first sentence, stating \"The IBM PC was94",
+        "class": "correct",
+        "time": 1.9269256591796875,
+        "assembled": [
+          13,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(Note: The text provided contains several repetitions of the same sentence and some unrelated details, but the specific answer requested",
+        "class": "correct",
+        "time": 1.9211509227752686,
+        "assembled": [
+          13,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 3,
+      "id": 0,
+      "template_id": 2,
+      "answer": "Mulberry",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\n*(Note: This information is unique to this document.)*",
+        "class": "correct",
+        "time": 1.3443269729614258,
+        "assembled": [
+          2,
+          4,
+          6
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\n(Note: This information is unique to this document.)",
+        "class": "correct",
+        "time": 1.261103868484497,
+        "assembled": [
+          2,
+          4,
+          6
+        ]
+      }
+    },
+    {
+      "case": 3,
+      "id": 1,
+      "template_id": 1,
+      "answer": "Helena ... indigo",
+      "raw_oracle_k3": {
+        "output": " The secret keeper is Helena and her favourite colour is indigo.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+        "class": "correct",
+        "time": 1.7460353374481201,
+        "assembled": [
+          4,
+          2,
+          6
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nThe secret keeper is Helena and her favourite colour is indigo.\n\n*(Note: This information is unique to this document.)*\n\n",
+        "class": "correct",
+        "time": 1.7326850891113281,
+        "assembled": [
+          4,
+          2,
+          6
+        ]
+      }
+    },
+    {
+      "case": 3,
+      "id": 2,
+      "template_id": 2,
+      "answer": "Saffron",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nSaffron Street.\n\n(This is unique to this document.)",
+        "class": "correct",
+        "time": 1.130526065826416,
+        "assembled": [
+          6,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\n(This information is unique to this document.)",
+        "class": "distractor",
+        "time": 1.1699609756469727,
+        "assembled": [
+          6,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 3,
+      "id": 3,
+      "template_id": 0,
+      "answer": "forty-two",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n42",
+        "class": "correct",
+        "time": 0.6664743423461914,
+        "assembled": [
+          8,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n42",
+        "class": "correct",
+        "time": 0.6884269714355469,
+        "assembled": [
+          8,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 3,
+      "id": 4,
+      "template_id": 0,
+      "answer": "ninety-three",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n93",
+        "class": "correct",
+        "time": 0.6655604839324951,
+        "assembled": [
+          11,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n93",
+        "class": "correct",
+        "time": 0.6839466094970703,
+        "assembled": [
+          11,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 3,
+      "id": 5,
+      "template_id": 0,
+      "answer": "one hundred and one",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nOne hundred and one.",
+        "class": "correct",
+        "time": 0.8288278579711914,
+        "assembled": [
+          13,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nOne hundred and one.",
+        "class": "correct",
+        "time": 0.8704683780670166,
+        "assembled": [
+          13,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 4,
+      "id": 0,
+      "template_id": 1,
+      "answer": "Bridget ... scarlet",
+      "raw_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+        "class": "correct",
+        "time": 1.724928855895996,
+        "assembled": [
+          2,
+          4,
+          6
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nThe following is a list of facts about the history of computing.\n1. The",
+        "class": "correct",
+        "time": 1.765777349472046,
+        "assembled": [
+          2,
+          4,
+          6
+        ]
+      }
+    },
+    {
+      "case": 4,
+      "id": 1,
+      "template_id": 0,
+      "answer": "ninety-three",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n93",
+        "class": "correct",
+        "time": 0.6751930713653564,
+        "assembled": [
+          4,
+          2,
+          6
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n93",
+        "class": "correct",
+        "time": 0.6832308769226074,
+        "assembled": [
+          4,
+          2,
+          6
+        ]
+      }
+    },
+    {
+      "case": 4,
+      "id": 2,
+      "template_id": 2,
+      "answer": "Saffron",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nSaffron Street",
+        "class": "correct",
+        "time": 0.7436883449554443,
+        "assembled": [
+          6,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nSaffron Street.\n\n(This is unique to this document.)",
+        "class": "correct",
+        "time": 1.178863525390625,
+        "assembled": [
+          6,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 4,
+      "id": 3,
+      "template_id": 2,
+      "answer": "Linden",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(Note: The text provided contains a significant error in the first sentence, stating \"The history of computing has roots",
+        "class": "correct",
+        "time": 1.7183761596679688,
+        "assembled": [
+          8,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(This is based on the sentence provided in the prompt: \"This information is embedded in the haystack: the secret",
+        "class": "correct",
+        "time": 1.7417242527008057,
+        "assembled": [
+          8,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 4,
+      "id": 4,
+      "template_id": 0,
+      "answer": "one hundred and one",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nOne hundred and one.\n\n(Note: The text contains a typo in the note, stating \"vault Sigma\" when it should be \"",
+        "class": "correct",
+        "time": 1.7059850692749023,
+        "assembled": [
+          11,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nOne hundred and one.\n\n*(Note: This is a special note embedded in the document provided.)*",
+        "class": "correct",
+        "time": 1.5241475105285645,
+        "assembled": [
+          11,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 4,
+      "id": 5,
+      "template_id": 0,
+      "answer": "forty-two",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n42",
+        "class": "correct",
+        "time": 0.6636288166046143,
+        "assembled": [
+          13,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n42",
+        "class": "correct",
+        "time": 0.6764805316925049,
+        "assembled": [
+          13,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 5,
+      "id": 0,
+      "template_id": 2,
+      "answer": "Mulberry",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\nThis information is unique to this document.",
+        "class": "correct",
+        "time": 1.1729187965393066,
+        "assembled": [
+          2,
+          4,
+          6
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nMulberry Street.",
+        "class": "correct",
+        "time": 0.7889547348022461,
+        "assembled": [
+          2,
+          4,
+          6
+        ]
+      }
+    },
+    {
+      "case": 5,
+      "id": 1,
+      "template_id": 1,
+      "answer": "Bridget ... scarlet",
+      "raw_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+        "class": "correct",
+        "time": 1.7566797733306885,
+        "assembled": [
+          4,
+          2,
+          6
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nThe following is a list of facts about the history of computing.\n1. The",
+        "class": "correct",
+        "time": 1.753784418106079,
+        "assembled": [
+          4,
+          2,
+          6
+        ]
+      }
+    },
+    {
+      "case": 5,
+      "id": 2,
+      "template_id": 2,
+      "answer": "Linden",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n*(Note: This information is unique to this document.)*",
+        "class": "correct",
+        "time": 1.3282725811004639,
+        "assembled": [
+          6,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\nThis information is unique to this document. The best place to find a quiet bookshop in Tallinn is on",
+        "class": "distractor",
+        "time": 1.7577130794525146,
+        "assembled": [
+          6,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 5,
+      "id": 3,
+      "template_id": 0,
+      "answer": "forty-two",
+      "raw_oracle_k3": {
+        "output": " Forty-two.\n\nQ: What is the first commercial web browser, Netscape Navigator, debuted in?\nA: Late 1994.\n\n",
+        "class": "correct",
+        "time": 1.7234935760498047,
+        "assembled": [
+          9,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n42",
+        "class": "correct",
+        "time": 0.6848149299621582,
+        "assembled": [
+          9,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 5,
+      "id": 4,
+      "template_id": 2,
+      "answer": "Marigold",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\n*(Note: This is a specific detail embedded in the provided text.)*",
+        "class": "distractor",
+        "time": 1.4753859043121338,
+        "assembled": [
+          11,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\n(Note: This information is unique to this document.)",
+        "class": "distractor",
+        "time": 1.3451640605926514,
+        "assembled": [
+          11,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 5,
+      "id": 5,
+      "template_id": 2,
+      "answer": "Saffron",
+      "raw_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: On Mulberry Street.\n\nQ: Where is",
+        "class": "correct",
+        "time": 1.747816562652588,
+        "assembled": [
+          13,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\nThis information is unique to this document. The best place to find a quiet bookshop in Reykjavik",
+        "class": "distractor",
+        "time": 1.7527751922607422,
+        "assembled": [
+          13,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 6,
+      "id": 0,
+      "template_id": 0,
+      "answer": "seventeen",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nseventeen",
+        "class": "correct",
+        "time": 0.7079908847808838,
+        "assembled": [
+          2,
+          4,
+          6
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nseventeen",
+        "class": "correct",
+        "time": 0.7226543426513672,
+        "assembled": [
+          2,
+          4,
+          6
+        ]
+      }
+    },
+    {
+      "case": 6,
+      "id": 1,
+      "template_id": 2,
+      "answer": "Marigold",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nMarigold Street.\n\n(This is a unique note embedded in the document.)",
+        "class": "correct",
+        "time": 1.2667522430419922,
+        "assembled": [
+          4,
+          2,
+          6
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nMarigold Street.\n\n(Note: The text provided contains several repetitions of the same sentence regarding the ARPANET and Unix, as",
+        "class": "correct",
+        "time": 1.7150928974151611,
+        "assembled": [
+          4,
+          2,
+          6
+        ]
+      }
+    },
+    {
+      "case": 6,
+      "id": 2,
+      "template_id": 1,
+      "answer": "Marigold ... amber",
+      "raw_oracle_k3": {
+        "output": " The secret keeper is Marigold and her favourite colour is amber.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+        "class": "correct",
+        "time": 1.706364393234253,
+        "assembled": [
+          6,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The secret keeper is Marigold and her favourite colour is amber.\n\nThe following are questions that have been asked:\n1. Who is the secret keeper",
+        "class": "correct",
+        "time": 1.7272710800170898,
+        "assembled": [
+          6,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 6,
+      "id": 3,
+      "template_id": 2,
+      "answer": "Linden",
+      "raw_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Linden Street.\n\nQ: Where is the best",
+        "class": "correct",
+        "time": 1.7026445865631104,
+        "assembled": [
+          9,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nOn Linden Street.\n\nThis information is unique to this document. The best place to find a quiet bookshop in Tallinn is on",
+        "class": "correct",
+        "time": 1.711310625076294,
+        "assembled": [
+          9,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 6,
+      "id": 4,
+      "template_id": 0,
+      "answer": "ninety-three",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n93",
+        "class": "correct",
+        "time": 0.6526045799255371,
+        "assembled": [
+          11,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n93",
+        "class": "correct",
+        "time": 0.6757056713104248,
+        "assembled": [
+          11,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 6,
+      "id": 5,
+      "template_id": 0,
+      "answer": "forty-two",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n42",
+        "class": "correct",
+        "time": 0.656836986541748,
+        "assembled": [
+          13,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n42",
+        "class": "correct",
+        "time": 0.6720449924468994,
+        "assembled": [
+          13,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 7,
+      "id": 0,
+      "template_id": 0,
+      "answer": "ninety-three",
+      "raw_oracle_k3": {
+        "output": " The magic number stored in vault Beta is ninety-three.\n\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored in vault",
+        "class": "correct",
+        "time": 1.6844100952148438,
+        "assembled": [
+          2,
+          4,
+          6
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n42",
+        "class": "distractor",
+        "time": 0.6701509952545166,
+        "assembled": [
+          2,
+          4,
+          6
+        ]
+      }
+    },
+    {
+      "case": 7,
+      "id": 1,
+      "template_id": 0,
+      "answer": "forty-two",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n42",
+        "class": "correct",
+        "time": 0.6470165252685547,
+        "assembled": [
+          4,
+          2,
+          6
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n42",
+        "class": "correct",
+        "time": 0.6635527610778809,
+        "assembled": [
+          4,
+          2,
+          6
+        ]
+      }
+    },
+    {
+      "case": 7,
+      "id": 2,
+      "template_id": 2,
+      "answer": "Saffron",
+      "raw_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Saffron Street.\n\nQ:",
+        "class": "correct",
+        "time": 1.690643310546875,
+        "assembled": [
+          6,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nSaffron Street.\n\n(This is a special note from the document.)",
+        "class": "correct",
+        "time": 1.2398710250854492,
+        "assembled": [
+          6,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 7,
+      "id": 3,
+      "template_id": 2,
+      "answer": "Hawthorn",
+      "raw_oracle_k3": {
+        "output": " The best quiet bookshop in Kyoto is on Hawthorn Street.\n\nQ: Where is the best quiet bookshop in Kyoto?\nA: The best quiet",
+        "class": "correct",
+        "time": 1.6924433708190918,
+        "assembled": [
+          8,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nHawthorn Street.\n\n(This is a special note from the document.)",
+        "class": "correct",
+        "time": 1.3223505020141602,
+        "assembled": [
+          8,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 7,
+      "id": 4,
+      "template_id": 2,
+      "answer": "Linden",
+      "raw_oracle_k3": {
+        "output": " The best place to find a quiet bookshop in Lisbon is on Linden Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA:",
+        "class": "correct",
+        "time": 1.6935920715332031,
+        "assembled": [
+          11,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(Note: The text provided contains a duplicate sentence stating \"The best place to find a quiet bookshop in Lisbon",
+        "class": "correct",
+        "time": 1.6782476902008057,
+        "assembled": [
+          11,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 7,
+      "id": 5,
+      "template_id": 1,
+      "answer": "Bridget ... cerulean",
+      "raw_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+        "class": "correct",
+        "time": 1.701941728591919,
+        "assembled": [
+          13,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\n<think>\n\n</think>\n\nBased on the text provided, the secret keeper is **B",
+        "class": "correct",
+        "time": 1.7186603546142578,
+        "assembled": [
+          13,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 8,
+      "id": 0,
+      "template_id": 1,
+      "answer": "Marigold ... scarlet",
+      "raw_oracle_k3": {
+        "output": " The secret keeper is Marigold and her favourite colour is scarlet.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+        "class": "correct",
+        "time": 1.6992590427398682,
+        "assembled": [
+          2,
+          4,
+          6
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The secret keeper is Marigold and her favourite colour is scarlet.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+        "class": "correct",
+        "time": 1.7406020164489746,
+        "assembled": [
+          2,
+          4,
+          6
+        ]
+      }
+    },
+    {
+      "case": 8,
+      "id": 1,
+      "template_id": 0,
+      "answer": "one hundred and one",
+      "raw_oracle_k3": {
+        "output": " The magic number stored in vault Sigma is one hundred and one.\n\nQ: What is the first commercial web browser, Netscape Navigator, debuted in?\n",
+        "class": "correct",
+        "time": 1.692955493927002,
+        "assembled": [
+          4,
+          2,
+          6
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n101",
+        "class": "correct",
+        "time": 0.7122294902801514,
+        "assembled": [
+          4,
+          2,
+          6
+        ]
+      }
+    },
+    {
+      "case": 8,
+      "id": 2,
+      "template_id": 2,
+      "answer": "Marigold",
+      "raw_oracle_k3": {
+        "output": "\nThe best quiet bookshop in Tallinn is on Marigold Street.\nThis information is unique to this document.\nCharles Babbage designed the Difference",
+        "class": "correct",
+        "time": 1.7247998714447021,
+        "assembled": [
+          6,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nMarigold Street.\n\nThis information is unique to this document.",
+        "class": "correct",
+        "time": 1.224006175994873,
+        "assembled": [
+          6,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 8,
+      "id": 3,
+      "template_id": 0,
+      "answer": "seventeen",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nseventeen",
+        "class": "correct",
+        "time": 0.7026374340057373,
+        "assembled": [
+          8,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n17",
+        "class": "correct",
+        "time": 0.6735444068908691,
+        "assembled": [
+          8,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 8,
+      "id": 4,
+      "template_id": 2,
+      "answer": "Hawthorn",
+      "raw_oracle_k3": {
+        "output": " Hawthorn Street.\n\nThe IBM System/ to find a quiet bookshop in Kyoto is on Hawthorn Street. This information is unique to this document. John",
+        "class": "correct",
+        "time": 1.6962807178497314,
+        "assembled": [
+          11,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The best quiet bookshop in Kyoto is on Hawthorn Street.\n\nThe IBM System/360 family unified mainframe architecture beginning in 196",
+        "class": "correct",
+        "time": 1.7124793529510498,
+        "assembled": [
+          11,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 8,
+      "id": 5,
+      "template_id": 2,
+      "answer": "Saffron",
+      "raw_oracle_k3": {
+        "output": " The best quiet bookshop in Lisbon is on Saffron Street.\nA: The best quiet bookshop in Lisbon is on Saffron Street.\n",
+        "class": "correct",
+        "time": 1.690061092376709,
+        "assembled": [
+          13,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nSaffron Street",
+        "class": "correct",
+        "time": 0.755295991897583,
+        "assembled": [
+          13,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 9,
+      "id": 0,
+      "template_id": 0,
+      "answer": "forty-two",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n42",
+        "class": "correct",
+        "time": 0.6541659832000732,
+        "assembled": [
+          2,
+          4,
+          6
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\n42",
+        "class": "correct",
+        "time": 0.6704671382904053,
+        "assembled": [
+          2,
+          4,
+          6
+        ]
+      }
+    },
+    {
+      "case": 9,
+      "id": 1,
+      "template_id": 2,
+      "answer": "Hawthorn",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nHawthorn Street.\n\n*(Note: This information is unique to this document.)*",
+        "class": "correct",
+        "time": 1.3795738220214844,
+        "assembled": [
+          4,
+          2,
+          6
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nHawthorn Street.\n\n(This is unique to this document.)",
+        "class": "correct",
+        "time": 1.2048156261444092,
+        "assembled": [
+          4,
+          2,
+          6
+        ]
+      }
+    },
+    {
+      "case": 9,
+      "id": 2,
+      "template_id": 1,
+      "answer": "Lenore ... amber",
+      "raw_oracle_k3": {
+        "output": " The secret keeper is Lenore and her favourite colour is amber.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+        "class": "correct",
+        "time": 1.7130250930786133,
+        "assembled": [
+          6,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nThe secret keeper is **Lenore** and her favourite colour is **amber**.\n\n*(Note: This information is embedded in the provided",
+        "class": "correct",
+        "time": 1.7034828662872314,
+        "assembled": [
+          6,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 9,
+      "id": 3,
+      "template_id": 2,
+      "answer": "Marigold",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nHawthorn Street.\n\n(Note: The text provided contains a typo in the location, stating \"Montevideo\" when it",
+        "class": "distractor",
+        "time": 1.7024405002593994,
+        "assembled": [
+          9,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nHawthorn Street.\n\n(Note: The document provided contains a specific note about a vault in Tallinn, but the question asks",
+        "class": "distractor",
+        "time": 1.7147254943847656,
+        "assembled": [
+          9,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 9,
+      "id": 4,
+      "template_id": 0,
+      "answer": "seventeen",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nseventeen",
+        "class": "correct",
+        "time": 0.7043802738189697,
+        "assembled": [
+          11,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nseventeen",
+        "class": "correct",
+        "time": 0.7091360092163086,
+        "assembled": [
+          11,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "case": 9,
+      "id": 5,
+      "template_id": 2,
+      "answer": "Linden",
+      "raw_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(Note: The text provided contains a factual error in the first sentence, stating \"The IBM PC was machine\"",
+        "class": "correct",
+        "time": 1.6983857154846191,
+        "assembled": [
+          13,
+          2,
+          4
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(Note: The document provided contains a duplicate sentence stating \"The best place to find a quiet bookshop in Kyoto",
+        "class": "correct",
+        "time": 1.7064483165740967,
+        "assembled": [
+          13,
+          2,
+          4
+        ]
+      }
+    }
+  ],
+  "counts": {
+    "sink_oracle_k3": {
+      "correct": 52,
+      "distractor": 8,
+      "other": 0
+    },
+    "raw_oracle_k3": {
+      "correct": 58,
+      "distractor": 2,
+      "other": 0
+    }
+  },
+  "per_tmpl": {
+    "2": {
+      "sink_oracle_k3": {
+        "correct": 21,
+        "n": 28
+      },
+      "raw_oracle_k3": {
+        "correct": 26,
+        "n": 28
+      }
+    },
+    "0": {
+      "sink_oracle_k3": {
+        "correct": 21,
+        "n": 22
+      },
+      "raw_oracle_k3": {
+        "correct": 22,
+        "n": 22
+      }
+    },
+    "1": {
+      "sink_oracle_k3": {
+        "correct": 10,
+        "n": 10
+      },
+      "raw_oracle_k3": {
+        "correct": 10,
+        "n": 10
+      }
+    }
+  },
+  "skipped_no_gold": 0
+}

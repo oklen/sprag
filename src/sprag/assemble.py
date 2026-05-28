@@ -39,14 +39,19 @@ def make_inv_freq_for(model) -> Tensor:
 
 def _patched_attn_forward_factory(attn_module, layer_idx: int,
                                   per_layer_splice: list[tuple[int, int, Tensor, Tensor]],
-                                  splice_kind: str = "kv"):
+                                  splice_kind: str = "kv",
+                                  alpha: float = 1.0):
     """Return a forward replacement that overwrites K and/or V at chunk positions.
 
     splice_kind: "kv" (default, both), "k" (only key), or "v" (only value).
+    alpha: blend weight. spliced = alpha * cached + (1 - alpha) * fresh.
+        alpha=1.0 is full splice (current behaviour); alpha=0.0 is no splice;
+        intermediates probe the K/V drift tolerance curve.
     """
 
     do_k = splice_kind in ("k", "kv")
     do_v = splice_kind in ("v", "kv")
+    blend = alpha != 1.0
 
     def forward(hidden_states, position_embeddings, attention_mask,
                 past_key_values=None, cache_position=None, **kw):
@@ -71,9 +76,19 @@ def _patched_attn_forward_factory(attn_module, layer_idx: int,
         if key_states.shape[-2] > 1:
             for b_start, b_end, k_shift, v_shift in per_layer_splice:
                 if do_k:
-                    key_states[:, :, b_start:b_end, :] = k_shift.to(key_states.dtype).to(key_states.device)
+                    k_cached = k_shift.to(key_states.dtype).to(key_states.device)
+                    if blend:
+                        k_fresh = key_states[:, :, b_start:b_end, :]
+                        key_states[:, :, b_start:b_end, :] = alpha * k_cached + (1.0 - alpha) * k_fresh
+                    else:
+                        key_states[:, :, b_start:b_end, :] = k_cached
                 if do_v:
-                    value_states[:, :, b_start:b_end, :] = v_shift.to(value_states.dtype).to(value_states.device)
+                    v_cached = v_shift.to(value_states.dtype).to(value_states.device)
+                    if blend:
+                        v_fresh = value_states[:, :, b_start:b_end, :]
+                        value_states[:, :, b_start:b_end, :] = alpha * v_cached + (1.0 - alpha) * v_fresh
+                    else:
+                        value_states[:, :, b_start:b_end, :] = v_cached
 
         # Preserve cache update behaviour (needed for decode-stage generation).
         if past_key_values is not None:
@@ -101,7 +116,8 @@ def _patched_attn_forward_factory(attn_module, layer_idx: int,
 def patched_full_attn(model, placements: Sequence[ChunkPlacement],
                       inv_freq: Tensor | None = None,
                       splice_layers: Sequence[int] | None = None,
-                      splice_kind: str = "kv"):
+                      splice_kind: str = "kv",
+                      alpha: float = 1.0):
     """Patch full-attn layers' forward to splice cached K/V (with Inverse-RoPE shift).
 
     placements: list of ChunkPlacement. Each placement contributes one splice per
@@ -137,7 +153,8 @@ def patched_full_attn(model, placements: Sequence[ChunkPlacement],
             attn = model.model.layers[li].self_attn
             originals[li] = attn.forward
             attn.forward = _patched_attn_forward_factory(attn, li, per_layer[li],
-                                                          splice_kind=splice_kind)
+                                                          splice_kind=splice_kind,
+                                                          alpha=alpha)
         yield
     finally:
         for li, fn in originals.items():

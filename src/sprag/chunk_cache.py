@@ -22,6 +22,7 @@ from safetensors.torch import save_file
 from torch import Tensor, nn
 
 from .loader import FULL_ATTN_LAYERS
+from .rope import build_inv_freq, shift_rope
 
 
 @dataclass
@@ -161,6 +162,259 @@ def build_chunk_cache(
     with open(out_dir / "meta.json", "w") as f:
         json.dump(meta, f, indent=2)
     print(f"Wrote {len(chunks)} chunks + meta.json to {out_dir}")
+    return chunks, meta
+
+
+def build_anchor_chunk_cache(
+    model,
+    tokenizer,
+    text: str,
+    out_dir: Path,
+    chunk_size: int = 512,
+    anchor_M: int = 4,
+    filler_mode: str = "none",
+    embed_fn=None,
+):
+    """Anchor-conditioned cache.
+
+    filler_mode="none"  (anchor v2, §5m): per chunk, short forward of
+        [sink_M] + [chunk]. chunk_0 is special-cased (standalone, sink IS
+        its first M tokens). Build emulates "this chunk at top-1 placement".
+
+    filler_mode="self_prev"  (multi-anchor cheap probe, §5n): per chunk,
+        short forward of [sink_M] + [chunk_{i-1}] + [chunk_i]. Build emulates
+        "this chunk at top-2 placement, preceded by sink + 1 other chunk".
+        chunk_0: standalone (same as anchor v2).
+        chunk_1: [chunk_0 + chunk_1] — chunk_0 already starts with sink, no
+                 extra prepend.
+    """
+    if filler_mode not in ("none", "self_prev"):
+        raise ValueError(f"unknown filler_mode {filler_mode!r}")
+    out_dir = Path(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    device = next(model.parameters()).device
+    model_dtype = next(model.parameters()).dtype
+    tokens = tokenizer(text, return_tensors="pt").input_ids[0]
+    chunks = split_into_chunks(tokens, chunk_size=chunk_size)
+    print(f"Anchor cache build: {tokens.shape[0]} tok, {len(chunks)} chunks, M={anchor_M}")
+
+    cfg = model.config
+    inv_freq = build_inv_freq(
+        head_dim=cfg.head_dim,
+        partial_rotary_factor=cfg.rope_parameters.get("partial_rotary_factor", 1.0),
+        rope_theta=cfg.rope_parameters["rope_theta"],
+    ).to(device)
+    sink_ids = tokens[:anchor_M].clone()
+
+    chunk_text_pieces = []
+    chunk_tensors_list = []
+
+    for i, ch in enumerate(chunks):
+        chunk_token_ids = tokens[ch.a_start:ch.a_end]
+        # Chunk 0 starts at a_start=0, so its first M tokens *are* the sink —
+        # prepending sink_ids would duplicate them and corrupt K. Build chunk 0
+        # standalone in every filler_mode.
+        if ch.a_start == 0:
+            small_ids = chunk_token_ids.unsqueeze(0).to(device)
+            slice_off = 0
+            shift_delta = 0
+        elif filler_mode == "self_prev":
+            prev = chunks[i - 1]
+            prev_token_ids = tokens[prev.a_start:prev.a_end]
+            if prev.a_start == 0:
+                # filler is chunk_0, which already begins with sink — no extra prepend.
+                small_ids = torch.cat([prev_token_ids, chunk_token_ids], dim=0).unsqueeze(0).to(device)
+                slice_off = prev.num_tokens
+            else:
+                small_ids = torch.cat([sink_ids, prev_token_ids, chunk_token_ids], dim=0).unsqueeze(0).to(device)
+                slice_off = anchor_M + prev.num_tokens
+            shift_delta = ch.a_start - slice_off
+        else:
+            small_ids = torch.cat([sink_ids, chunk_token_ids], dim=0).unsqueeze(0).to(device)
+            slice_off = anchor_M
+            shift_delta = ch.a_start - anchor_M
+        with torch.no_grad(), capture_full_attn_kv(model) as kv_store:
+            out = model.model(input_ids=small_ids, use_cache=False)
+        last_h = out.last_hidden_state[0]
+
+        tensors = {"input_ids": chunk_token_ids.clone()}
+        for li in FULL_ATTN_LAYERS:
+            k_full = kv_store[li]["K"][0]
+            v_full = kv_store[li]["V"][0]
+            k_chunk = k_full[:, slice_off:, :].contiguous()
+            if shift_delta != 0:
+                k_chunk = shift_rope(
+                    k_chunk.unsqueeze(0).to(device=device, dtype=model_dtype),
+                    shift_delta, inv_freq,
+                ).squeeze(0).cpu().float()
+            tensors[f"K_l{li}"] = k_chunk.contiguous()
+            tensors[f"V_l{li}"] = v_full[:, slice_off:, :].contiguous()
+
+        tensors["repr_mean_last"] = last_h[slice_off:].mean(dim=0).float().cpu()
+        chunk_text_pieces.append(tokenizer.decode(chunk_token_ids, skip_special_tokens=False))
+        chunk_tensors_list.append(tensors)
+
+    if embed_fn is not None:
+        reprs = embed_fn(chunk_text_pieces)
+        for tensors, vec in zip(chunk_tensors_list, reprs):
+            tensors["chunk_repr"] = vec.float().cpu().contiguous()
+
+    for ch, tensors in zip(chunks, chunk_tensors_list):
+        save_file(tensors, str(out_dir / f"chunk_{ch.chunk_id:05d}.safetensors"))
+
+    try:
+        from .runner import invalidate_chunk_ram
+        invalidate_chunk_ram(out_dir)
+    except ImportError:
+        pass
+
+    meta = {
+        "chunk_size": chunk_size,
+        "anchor_M": anchor_M,
+        "anchor_conditioned": True,
+        "filler_mode": filler_mode,
+        "num_tokens": int(tokens.shape[0]),
+        "num_chunks": len(chunks),
+        "chunks": [
+            {"id": c.chunk_id, "a_start": c.a_start, "a_end": c.a_end,
+             "num_tokens": c.num_tokens, "text_preview": chunk_text_pieces[i][:120]}
+            for i, c in enumerate(chunks)
+        ],
+        "full_attn_layers": list(FULL_ATTN_LAYERS),
+    }
+    with open(out_dir / "meta.json", "w") as f:
+        json.dump(meta, f, indent=2)
+    print(f"Wrote {len(chunks)} anchor chunks + meta.json to {out_dir}")
+    return chunks, meta
+
+
+def build_random_anchor_chunk_cache(
+    model,
+    tokenizer,
+    text: str,
+    out_dir: Path,
+    chunk_size: int = 512,
+    anchor_M: int = 4,
+    vocab_low: int = 200,
+    vocab_high: int = 50000,
+    seed: int = 0,
+    embed_fn=None,
+):
+    """Per-chunk *unique* random-token anchor (§5p probe).
+
+    For each chunk_i with id=i, sample M token ids deterministically from
+    [vocab_low, vocab_high) using seed (seed, i). Build cache via short
+    forward of [anchor_i + chunk_i], capture chunk K/V, Inverse-RoPE-shift
+    K back to original doc position so on-disk K format matches standard
+    cache. Anchor token ids are stored in meta.json per chunk so the splice
+    routine can insert them fresh at assembly time.
+
+    Goal: each chunk's drift direction in head-space should now be driven
+    by its *own* random anchor, breaking the cos(sib0_drift, sib1_drift)
+    ≈ 0.8 correlation we measured under shared-sink anchor v2.
+
+    chunk_0 (a_start=0) keeps the standalone build (sink IS its first M
+    tokens) and has anchor_ids=[].
+    """
+    out_dir = Path(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    device = next(model.parameters()).device
+    model_dtype = next(model.parameters()).dtype
+    tokens = tokenizer(text, return_tensors="pt").input_ids[0]
+    chunks = split_into_chunks(tokens, chunk_size=chunk_size)
+    print(f"Random-anchor cache build: {tokens.shape[0]} tok, "
+          f"{len(chunks)} chunks, M={anchor_M}, vocab=[{vocab_low}, {vocab_high})")
+
+    cfg = model.config
+    inv_freq = build_inv_freq(
+        head_dim=cfg.head_dim,
+        partial_rotary_factor=cfg.rope_parameters.get("partial_rotary_factor", 1.0),
+        rope_theta=cfg.rope_parameters["rope_theta"],
+    ).to(device)
+    vocab_size = int(getattr(cfg, "vocab_size", vocab_high))
+    hi = min(vocab_high, vocab_size - 10)
+    lo = max(vocab_low, 0)
+
+    chunk_text_pieces = []
+    chunk_tensors_list = []
+    anchor_ids_per_chunk: list[list[int]] = []
+
+    for i, ch in enumerate(chunks):
+        chunk_token_ids = tokens[ch.a_start:ch.a_end]
+        if ch.a_start == 0:
+            small_ids = chunk_token_ids.unsqueeze(0).to(device)
+            slice_off = 0
+            shift_delta = 0
+            anchor_ids = torch.zeros(0, dtype=torch.long)
+        else:
+            g = torch.Generator().manual_seed(seed * 1_000_003 + ch.chunk_id)
+            anchor_ids = torch.randint(lo, hi, (anchor_M,), generator=g,
+                                        dtype=torch.long)
+            small_ids = torch.cat(
+                [anchor_ids, chunk_token_ids], dim=0
+            ).unsqueeze(0).to(device)
+            slice_off = anchor_M
+            shift_delta = ch.a_start - anchor_M
+
+        with torch.no_grad(), capture_full_attn_kv(model) as kv_store:
+            out = model.model(input_ids=small_ids, use_cache=False)
+        last_h = out.last_hidden_state[0]
+
+        tensors = {"input_ids": chunk_token_ids.clone()}
+        for li in FULL_ATTN_LAYERS:
+            k_full = kv_store[li]["K"][0]
+            v_full = kv_store[li]["V"][0]
+            k_chunk = k_full[:, slice_off:, :].contiguous()
+            if shift_delta != 0:
+                k_chunk = shift_rope(
+                    k_chunk.unsqueeze(0).to(device=device, dtype=model_dtype),
+                    shift_delta, inv_freq,
+                ).squeeze(0).cpu().float()
+            tensors[f"K_l{li}"] = k_chunk.contiguous()
+            tensors[f"V_l{li}"] = v_full[:, slice_off:, :].contiguous()
+
+        tensors["repr_mean_last"] = last_h[slice_off:].mean(dim=0).float().cpu()
+        chunk_text_pieces.append(tokenizer.decode(chunk_token_ids, skip_special_tokens=False))
+        chunk_tensors_list.append(tensors)
+        anchor_ids_per_chunk.append(anchor_ids.tolist())
+
+    if embed_fn is not None:
+        reprs = embed_fn(chunk_text_pieces)
+        for tensors, vec in zip(chunk_tensors_list, reprs):
+            tensors["chunk_repr"] = vec.float().cpu().contiguous()
+
+    for ch, tensors in zip(chunks, chunk_tensors_list):
+        save_file(tensors, str(out_dir / f"chunk_{ch.chunk_id:05d}.safetensors"))
+
+    try:
+        from .runner import invalidate_chunk_ram
+        invalidate_chunk_ram(out_dir)
+    except ImportError:
+        pass
+
+    meta = {
+        "chunk_size": chunk_size,
+        "anchor_M": anchor_M,
+        "anchor_conditioned": True,
+        "filler_mode": "random_per_chunk",
+        "anchor_seed": seed,
+        "vocab_low": lo, "vocab_high": hi,
+        "num_tokens": int(tokens.shape[0]),
+        "num_chunks": len(chunks),
+        "chunks": [
+            {"id": c.chunk_id, "a_start": c.a_start, "a_end": c.a_end,
+             "num_tokens": c.num_tokens,
+             "text_preview": chunk_text_pieces[i][:120],
+             "anchor_ids": anchor_ids_per_chunk[i]}
+            for i, c in enumerate(chunks)
+        ],
+        "full_attn_layers": list(FULL_ATTN_LAYERS),
+    }
+    with open(out_dir / "meta.json", "w") as f:
+        json.dump(meta, f, indent=2)
+    print(f"Wrote {len(chunks)} random-anchor chunks + meta.json to {out_dir}")
     return chunks, meta
 
 

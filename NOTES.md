@@ -1,6 +1,8 @@
 # sprag — design notes & status
 
-> Last updated: 2026-05-25 (GPU-bringup session: Tesla T4, fp16 + SDPA).
+> Last updated: 2026-05-28 (α-blend cliff + value decomposition — most of
+> the win is the splice FORMAT, not the K/V cache; α<1.0 makes the cache
+> contribution edge-marginal but free).
 
 ## 1. Why this exists
 
@@ -800,6 +802,454 @@ passes. Three options:
    retrieval is the bigger lever for bookshop at top_k=6 (Jina's
    chunk_repr space mismatch). The chunk_repr ablation experiment
    is a separate axis from the splice quality work.
+
+## 5m. Anchor-conditioned cache — closes 7/11 of the gap on oracle
+
+§5j said the cache cost comes from `h_a^cache` ≠ `h_b^assembled`: the
+cache forward sees the full-haystack context, the assembly forward
+sees just sink + chunks + Q. To shrink that gap, change the cache
+build: per chunk, run a small forward of `[first M tokens of doc] +
+[chunk tokens]` instead of the one big haystack forward. Capture K/V
+for the chunk positions only. Post-shift K by `(a - M)` so on-disk
+format is identical to standard cache and the splice mechanism works
+unchanged.
+
+Edge case: chunk 0 starts at `a=0`, so prepending the sink would
+duplicate the first M tokens. Special-case chunk 0 to a standalone
+forward; its first M positions then *are* the sink K/V with no
+preceding context — exactly what `build_sink_placement` needs.
+
+Implementation: `build_anchor_chunk_cache` in `chunk_cache.py`,
+exposed via `scripts/12_sink_mk.py --cache_kind anchor`.
+
+### Direct K divergence (anchor cache vs current model)
+
+Re-running the §5j diagnostic with anchor cache, mean cos(K_fresh, K_shifted):
+
+| Layer | sink std | sink anchor | gold std | gold anchor | sib0 std | sib0 anchor |
+|---|---|---|---|---|---|---|
+| 3  | 1.000 | 1.000 | 0.886 | **1.0000** | 0.970 | 0.965 |
+| 7  | 1.000 | 1.000 | 0.740 | **1.0000** | 0.888 | 0.934 |
+| 11 | 1.000 | 1.000 | 0.512 | **1.0000** | 0.745 | 0.872 |
+| 15 | 1.000 | 1.000 | 0.558 | **1.0000** | 0.751 | 0.882 |
+| 19 | 1.000 | 1.000 | 0.670 | **1.0000** | 0.811 | 0.922 |
+| 23 | 1.000 | 1.000 | 0.662 | **1.0000** | 0.806 | 0.925 |
+
+Gold is now **numerically exact** across all 6 layers — anchor cache
+fully removes the drift for chunks placed first after sink. Sib0
+(placed second) and sib1 (placed third) still drift but less than
+under standard cache.
+
+### Accuracy
+
+| Setup | standard | anchor v2 | Δ |
+|---|---|---|---|
+| sink_oracle_k3 (gold-first ordering) | 47/60 | **54/60** | **+7** |
+| sink_k6 (Jina top-6, arbitrary order) | 43/60 | 35/60 | **−8** |
+
+The oracle pipeline closes 7 of the 11/60 cache cost; remaining 3 are
+from sib0/sib1 drift (chunks at positions 2/3 after sink) and a
+couple of bookshop binding errors not related to the cache.
+
+The retrieval pipeline regresses by 8. Anchor encodes "I am the first
+chunk after sink"; in sink_oracle_k3 that's true for gold and the
+result is great. In sink_k6, Jina orders by similarity — the gold
+might land at position 2, 3, or 4 — so anchor mismatches the actual
+placement. Across all 6 retrieved chunks, most aren't at position 1,
+so the cache is wrong for most of them.
+
+### What this opens up / closes
+
+- **The cache cost is not structural after all.** §5l said the
+  cache+splice ceiling was 47/60. With anchor it's at least 54/60 on
+  oracle, possibly higher with better anchor designs. The 11/60 cost
+  in §5j is largely a *build-time choice* (full-haystack forward),
+  not a fundamental limit of cache-and-splice.
+- **Anchor cache is placement-specific.** A cache built under
+  assumption X about assembly positions will fail when X doesn't
+  hold. The natural next move is multi-anchor cache (cache each
+  chunk under several assembly positions, pick the matching one at
+  query time) or a position-invariant cache build (e.g., anchor under
+  a "typical" mixed-position context).
+- **Reordering retrieval to gold-first would salvage anchor for
+  sink_k6.** If we could put the gold chunk first in the assembly,
+  sink_k6 would inherit sink_oracle_k3's +7. This couples cache
+  design to retrieval ordering — a deliberate co-design rather than
+  the orthogonal axes we have now.
+
+## 5n. Anchor shape sweep — neither multi-anchor nor bridge buy much
+
+§5m closed gold drift with a fixed [sink + chunk] anchor and reached
+54/60 on oracle. Two follow-ups asked whether a smarter anchor shape
+could move the needle further on the remaining 4/60.
+
+**(a) Multi-anchor cheap probe (`filler_mode="self_prev"`).** Instead of
+caching each chunk under "I am at position 1 after sink," cache it under
+"I am at position 2 after sink with a plausible chunk in front of me":
+`small_ids = [sink + chunk_{i-1} + chunk_i]`, K/V captured for the
+chunk_i slice only, then RoPE-shifted to wherever it lands at query
+time. Chunk 0 is special-cased (no sink), chunk 1 uses
+`[chunk_0 + chunk_1]` (chunk_0 already begins with the sink). Exposed
+via `--cache_kind anchor_prev` in `scripts/12_sink_mk.py`.
+
+**(b) Bridge tokens at splice time.** Insert a fresh copy of the first M
+doc tokens *between* every pair of cached chunks at splice time (not at
+cache build). Each cached chunk thus sees an "anchor right before it"
+in the assembled prompt, hopefully matching what the cache was built
+against. Modeled via `build_chunk_placements_bridge` in
+`scripts/12_sink_mk.py` with a new `bridge_oracle_k3` mode.
+
+Both runs, full MK suite, anchor cache:
+
+| Mode | total | vault | secret | bookshop |
+|---|---|---|---|---|
+| sink_oracle_k3 (anchor v2, §5m) | 54/60 | 19/22 | 10/10 | 25/28 |
+| **anchor_prev_oracle_k3** (multi-anchor probe) | 54/60 | 19/22 | 10/10 | 25/28 |
+| **bridge_oracle_k3** (M=4 fresh between chunks) | 53/60 | 18/22 | 10/10 | 25/28 |
+| raw_oracle_k3 (no splice) | 58/60 | 22/22 | 10/10 | 26/28 |
+
+Three variants of anchor shape all land in the 53–54/60 band. Whatever
+gates the residual 4/60 isn't *which* anchor we build/insert — it's
+something else inside the splice.
+
+## 5o. V diagnostic + gold-only splice — siblings are the entire residual gap
+
+Two final probes, both on `sink_oracle_k3` with anchor v2 cache.
+
+**(a) V-side direct diagnosis.** §5j only measured K(fresh) vs
+K(cache-shifted). Extended `scripts/13_diagnose_splice.py` to capture
+`V_fresh` and `V_cached` at the same chunk positions. For gold (placed
+first after sink) V cos = **1.0000** across all 6 layers — anchor cache
+makes V exact, same as K. For sibling chunks (placed 2nd / 3rd after
+sink) V cos ≈ 0.80, comparable to K cos. So V mismatch tracks K
+mismatch one-for-one; it is not a separate, larger axis of drift.
+
+Diagnostic data: `data/diag/splice_div_anchor_v2.json`.
+
+**(b) Gold-only splice.** If sibling K and V are both drifted (cos ≈ 0.8)
+and gold is exact, splice only the gold chunk's K/V; let the sibling
+chunks be present as raw token ids that the model attends to fresh
+during prefill. Same sequence length, same retrieval set, same
+positions — just stop overwriting K/V at sibling positions. Implemented
+as `gold_only_oracle_k3` mode in `scripts/12_sink_mk.py`.
+
+| Mode | total | vault | secret | bookshop |
+|---|---|---|---|---|
+| sink_oracle_k3 (anchor v2, splice all 3) | 54/60 | 19/22 | 10/10 | 25/28 |
+| **gold_only_oracle_k3** (splice gold only) | **58/60** | 22/22 | 10/10 | 26/28 |
+| raw_oracle_k3 (no splice) | 58/60 | 22/22 | 10/10 | 26/28 |
+
+Gold-only ties raw — splicing the gold chunk's K/V via anchor cache
+has **zero accuracy cost**. The entire 4/60 residual after §5m comes
+from splicing distractor siblings whose K/V drift to cos ≈ 0.8.
+
+### Why distractor splice hurts more than expected
+
+The drifted-K hypothesis would have predicted symmetric damage — gold
+should also lose accuracy in proportion to its drift. With anchor v2
+gold drift is gone (cos=1.0) and gold splice is free. But sibling drift
+of cos ≈ 0.8 *is not equivalent to having a moderately-similar K
+naturally*. Anchor-cached K/V at cos ≈ 0.8 sit off the model's training
+manifold: the K vector still attends to the sibling chunk, but with
+unnatural amplitude and direction. The model treats this as an
+adversarial-style anomaly rather than as a normal distractor, which is
+why pushing K/V through the *raw* forward (cos = 1 by construction) at
+those positions recovers the lost cases.
+
+Put differently: splice solves the "looking-at-me" problem (a chunk
+needs its own K/V at the right query positions), not the
+"looking-at-others" problem (a chunk needs to be looked at by neighbours
+with realistic K/V). Distractors don't need to "look at themselves"
+because they aren't the answer — they only need to be lookable-at by
+the model. Spliced K/V degrades that lookability without compensation.
+
+### What this changes about the path forward
+
+- **Cache+splice ceiling moves from 47/60 to ≥58/60 on oracle.** §5l's
+  pessimistic ceiling (47/60) and §5m's improved ceiling (54/60) both
+  assumed "splice every cached chunk we have." Lift that assumption and
+  the ceiling matches raw.
+- **Per-chunk splice policy.** In real RAG (no oracle), the practical
+  rule is: only splice chunks the system is confident about; let the
+  rest pass through as fresh tokens. Sequence length and per-query
+  compute are unchanged from full-splice, only the choice of *which
+  positions to overwrite K/V at* changes.
+- **Anchor cache is still load-bearing.** The 58/60 result only holds
+  because *gold* is built under anchor v2 (cos = 1.0). Standard-cache
+  gold at cos = 0.5 would still take a hit even if siblings are left
+  alone. Anchor cache is what makes gold splice free; gold-only is
+  what removes the sibling penalty.
+- **Open follow-ups (not yet done):**
+  - `gold_only` style applied to **sink_k6 (Jina retrieval)**: pick
+    only the top-1 (or only the chunks whose Jina score crosses a
+    threshold) for splice, let the rest pass fresh. If Jina's score
+    ranking correlates with "is gold," this should beat
+    sink_k6 (= 35/60 under anchor v2, regressed because most positions
+    don't match anchor) without giving up cache amortisation.
+  - "Why are off-manifold sibling K/V worse than no splice?" remains
+    informally answered. A scaling probe (interpolate
+    `K = α K_cached + (1-α) K_fresh` and measure accuracy vs α) would
+    show whether the relationship is monotone or has a cliff.
+
+Diagnostic data: `data/mk/gold_only_sink_oracle.json`,
+`data/mk/anchor_prev_sink_oracle.json`, `data/mk/bridge_sink_oracle.json`,
+`data/diag/splice_div_anchor_v2.json`.
+
+## 5p. Random-anchor cache — drift correlation is not causal
+
+§5o's 4/60 residual was attributed to "siblings' off-manifold K/V acts as
+adversarial noise." A drift-direction probe on the existing anchor v2
+diagnostic data (`data/diag/splice_div_anchor_v2.json` + new script
+`14_drift_correlation.py`) sharpened the picture:
+
+| layer | ‖dK_gold‖ | ‖dK_sib0‖ | ‖dK_sib1‖ | cos(sib0,sib1) | cos(gold,sib*) |
+|---|---|---|---|---|---|
+| L3 | 0.004 | 5.6 | 7.5 | **0.86** | ≈0 |
+| L11 | 0.009 | 9.7 | 13.6 | **0.79** | ≈0 |
+| L23 | 0.006 | 6.3 | 8.6 | **0.84** | ≈0 |
+
+Sibling drifts share a strong common direction (per-head cos ≈ 0.80 in
+head space). Hypothesis: this shared "I am a chunk right after sink, in
+a fresh short forward" signature *is* what makes 3-chunk splice fail —
+the model reads it as one unified off-manifold cue, not as 3 independent
+distractors.
+
+Test: per-chunk **unique random-token anchor** (`build_random_anchor_chunk_cache`
+in `chunk_cache.py`; `--cache_kind anchor_random` and
+`rnd_anchor_oracle_k3` mode in `scripts/12_sink_mk.py`). For chunk_i,
+sample M random vocab tokens seeded by `(case_id, chunk_id)`, cache via
+`[random_i + chunk_i]` short forward, splice with `random_i` inserted
+fresh right before chunk_i in the assembly. If the shared-direction
+hypothesis were right, decorrelating per-chunk drift directions should
+recover accuracy.
+
+**Result, full MK suite (60 queries):**
+
+| Mode | total | vault | secret | bookshop |
+|---|---|---|---|---|
+| sink_oracle_k3 (anchor v2) | 55/60 | 21/22 | 10/10 | 24/28 |
+| **rnd_anchor_oracle_k3** | **51/60** | 21/22 | 10/10 | **20/28** |
+| raw_oracle_k3 | 58/60 | 22/22 | 10/10 | 26/28 |
+
+Random anchor **regressed by 4/60** on bookshop. Drift re-measurement on
+the random-anchor cache (`scripts/15_drift_correlation_rnd.py` →
+`data/diag/drift_corr_anchor_random.json`):
+
+| layer | ‖dK_gold‖ | ‖dK_sib0‖ | ‖dK_sib1‖ | cos(sib0,sib1) |
+|---|---|---|---|---|
+| L3 | 1.7 | 5.1 | 6.8 | 0.83 |
+| L11 | 3.2 | 10.8 | 14.3 | 0.78 |
+| L23 | 1.9 | 6.8 | 8.7 | 0.81 |
+
+Two things drop out:
+
+1. **The sibling-drift correlation stayed at ≈0.80** despite per-chunk
+   unique anchors. Whatever drives the shared direction is not the anchor
+   identity — it's a deeper geometric property of short-forward-built K
+   at deep layers (likely "short-context K geometry" regardless of what
+   the short context is). Decorrelating the anchor doesn't decorrelate
+   the drift.
+2. **Gold drift jumped from ≈0 to 1.7–3.2** because random anchor breaks
+   gold's perfect-match property. In v2, gold's assembly prefix is
+   `[global_sink]` which matches the cache build's `[sink_tokens]`. In
+   random, gold's assembly prefix is `[global_sink + random_gold]` but
+   cache build saw only `[random_gold]` — so h diverges at gold. We gave
+   up gold's zero-drift for a sibling property that doesn't actually
+   exist.
+
+**Hypothesis disconfirmed.** Sibling drift direction shares a robust
+geometry that anchor choice can't move. The accuracy cost of multi-chunk
+splice is not driven by directional correlation.
+
+## 5q. Anchor M sweep — drift magnitude is not causal either
+
+If direction isn't causal, maybe **magnitude** is. Sweep
+`--anchor_M ∈ {4, 8, 16, 32}` (the cache-build prefix length) on
+sink_oracle_k3 with --M=4 sink at assembly held fixed.
+
+| anchor_M | sink_oracle_k3 | bookshop | drift on M=32 |
+|---|---|---|---|
+| 4 (§5m baseline) | 54-55/60 | 24/28 | sib0: 5.6–10.1 |
+| 8 | 54/60 | 24/28 | — |
+| 16 | 54/60 | 23/28 | — |
+| 32 | 54/60 | 23/28 | sib0: **4.5–8.2** (−15%) |
+
+`scripts/14_drift_correlation.py` (with new `--cache_dir_prefix` flag) on
+the M=32 cache (`data/diag/drift_corr_anchor_M32.json`):
+
+| layer | ‖dK_gold‖ | ‖dK_sib0‖ | ‖dK_sib1‖ | cos(sib0,sib1) |
+|---|---|---|---|---|
+| L3 | 1.3 | 4.5 | 6.4 | 0.85 |
+| L11 | 3.6 | 8.1 | 12.0 | 0.77 |
+| L23 | 2.4 | 5.1 | 7.5 | 0.81 |
+
+**Sibling magnitude did shrink ~15%** (sib0 5.6–10.1 → 4.5–8.2), but
+**accuracy didn't move**. As a bonus null, gold drift went UP (0 → 1.3–
+3.9) and accuracy STILL didn't move. So neither "smaller sibling drift
+helps" nor "smaller gold drift helps" is causal at this magnitude scale.
+Together with §5p:
+
+- §5p: anchor identity → drift direction unchanged → accuracy WORSE
+  (different reason: gold drift broke + gibberish tokens)
+- §5q: cache-build context length → drift magnitude −15%, gold magnitude
+  +large → accuracy unchanged
+
+The 4/60 sibling-splice cost is robust across "how we cache" tweaks.
+
+## 5r. α-blend cliff — and the actual decomposition of where speedup vs accuracy comes from
+
+What if the binary "splice all or splice none" framing is the right one?
+Tested by blending cached and fresh K/V at splice time:
+`K_spliced = α · K_cached + (1−α) · K_fresh`, same for V. Added `alpha`
+parameter to `assemble.patched_full_attn` and a `--reuse_cache` flag to
+`scripts/12_sink_mk.py` so we can sweep α without rebuilding the cache.
+
+| α | sink_oracle_k3 | per-q |
+|---|---|---|
+| 1.0 (full splice) | 54/60 | 1.12s |
+| 0.75 | **58/60** | 1.15s |
+| 0.5 | 58/60 | 1.16s |
+| 0.25 | 58/60 | 1.17s |
+| 0.0 (= raw, no splice) | 58/60 | 1.20s |
+
+**Complete step function.** Any α < 1.0 immediately recovers raw
+accuracy. The 4/60 cost lives entirely at α=1.0.
+
+Mechanism. `Q · K_spliced = α · Q·K_cached + (1−α) · Q·K_fresh`. With
+K_cached at cos≈0.8 vs K_fresh, the cached vector is 80% aligned but
+20% off-axis. At α=1.0, Q has only the off-axis version to attend with —
+20% misalignment is enough to scatter attention to the wrong sibling.
+At α=0.75, the 25% `Q·K_fresh` term carries the correct
+assembly-context signal and dominates the disambiguation; the
+75% cached component is treated as direction-noise and tolerated. The
+model needs *any* fresh signal at spliced positions; once present, the
+cached admixture doesn't hurt.
+
+### What this reveals about the value decomposition
+
+The user's question — *if we use the splice format but skip K/V cache,
+does the model still answer correctly?* — surfaces a sharper finding.
+
+| Mode | tokens | per-q | acc |
+|---|---|---|---|
+| baseline (full prompt) | 8147 | 2.81s | 57/60 |
+| raw_oracle_k3 (splice **format**, no K/V cache) | ~770 | 1.40s | **58/60** |
+| sink_oracle_k3 α=0.5 (format + cache K/V) | ~770 | 1.16s | 58/60 |
+| sink_oracle_k3 α=1.0 (format + full cache K/V) | ~770 | 1.12s | 54/60 |
+
+Decomposing the contributions:
+
+| Component | Speedup | Δ accuracy |
+|---|---|---|
+| Short assembly (vs full doc) | **2× (2.81 → 1.40s)** | +1/60 |
+| Sink prepend | bundled above | (rescues degenerate decode, §5i) |
+| Cache K/V replacement at α=1.0 | 1.25× (1.40 → 1.12s) | **−4/60** |
+| α=0.5 blend (keeps cache, fixes accuracy) | 1.21× (1.40 → 1.16s) | 0 |
+
+**Most of the win is from the FORMAT change**, not from the K/V cache.
+The K/V cache replacement adds at most 17% per-query speedup AND, at
+α=1.0, costs 4/60 accuracy. At α<1.0 the cache is essentially free on
+both axes but its contribution is the marginal one.
+
+This is a partially-negative result for the original ReAttention
+premise: "cache K/V at original positions, splice in" is small relative
+to "shorten the sequence and prepend a sink." The sequence-shortening
+trick is essentially classic RAG (retrieve and stuff).
+
+Side-by-side demonstration (case 0 / q0 — bookshop in Lisbon):
+- baseline: 8147 tokens → 4.90s, correctly outputs "Linden Street"
+- splice α=0.5: 788 tokens → 1.43s, correctly outputs "Linden Street"
+- 10.3× shorter input, 3.4× faster, equal accuracy
+
+### What's left for the cache K/V idea
+
+Where K/V replacement might earn its keep (untested):
+
+- **Longer chunks** (512, 1024 tokens) — chunk's standalone-text context
+  diverges more from the original-doc context; cache's "restore original
+  context" might matter more. See §5s.
+- **Longer assembly contexts** (64K, 128K) — same logic, scaled up.
+- **Cross-chunk reasoning tasks** — needles that require linking
+  information across chunks. The raw chunk text loses the cross-references
+  that cache-from-original might preserve.
+- **Tighter retrieval noise regimes** — when retrieved chunks are not
+  oracle and partial information is present.
+
+The 8K + 256-tok + needle-style MK suite does not exercise these regimes.
+The current verdict stands for this benchmark: cache K/V is edge
+optimization, format is the win.
+
+## 5s. Long-chunk benchmark — cache K/V loses what little edge it had
+
+§5r left one open hypothesis: cache K/V might earn its keep on longer
+chunks where each chunk loses more original-doc context. Tested at
+chunk_size=512 (vs the standard 256) on the same MK suite_8k, same
+α-blend sweep:
+
+| chunk_size | α | sink_oracle_k3 | bookshop | per-q |
+|---|---|---|---|---|
+| 256 | 1.0 | 54/60 | 24/28 | 1.12s |
+| 256 | 0.5 | 58/60 | 26/28 | 1.16s |
+| 256 | 0.0 (= raw) | 58/60 | 26/28 | 1.20s |
+| 512 | 1.0 | **52/60** | **21/28** | 1.23s |
+| 512 | 0.5 | 58/60 | 26/28 | 1.30s |
+| 512 | 0.0 | 58/60 | 26/28 | 1.31s |
+
+Two things, both opposite to the "long chunk helps cache" prediction:
+
+1. **The α=1.0 cost widened from −4/60 to −6/60**. Bigger chunk → larger
+   slice of positions where K_cached is off-axis relative to assembled
+   K_fresh → more attention misrouted. Cache K/V doesn't get "more
+   right" as chunks grow; it gets more wrong.
+2. **The per-query speed gap between α<1.0 (uses cache) and raw
+   (doesn't) collapsed**. At chunk_size=256, cache provided 17% extra
+   speedup (1.16 vs 1.20s). At chunk_size=512, the gap is 0.7% (1.30 vs
+   1.31s — noise). The k_proj/v_proj cost the cache saves is fixed per
+   position; per-query baseline grows linearly with assembly length, so
+   the relative cache benefit shrinks as chunks get bigger.
+
+### Combined verdict on the K/V cache mechanism
+
+Three lines of evidence land on the same conclusion:
+
+- §5p–q: drift direction and drift magnitude — robust to anchor tweaks,
+  so we can't engineer the cache to be "more correct" via cache-build
+  changes.
+- §5r: α-blend cliff — the K/V replacement at α=1.0 specifically costs
+  accuracy because it removes any assembly-context K_fresh component; at
+  α<1.0 the cache contribution is essentially free but marginal.
+- §5s: longer chunks make the α=1.0 cost worse AND the α<1.0 speed
+  benefit disappear.
+
+**On the 8K MK / 256–512-token-chunk / needle-style benchmark, the K/V
+cache substitution is not the source of value.** What matters:
+
+1. **Short-assembly format** (sink + retrieved chunks + Q ≈ 1–1.5K vs
+   8K full doc) — 2× per-query speedup, +1/60 accuracy. This is what
+   classic RAG already does.
+2. **Sink prepend** — prevents degenerate decode (§5i).
+3. **α<1.0 on the splice** — keeps the cache from being a footgun if
+   we do use the cache.
+
+The cache K/V replacement at any α is at best marginal speedup and at
+α=1.0 a known accuracy cost. **Default `alpha=0.5` (or `alpha=0.0` =
+just use raw retrieved chunks) is the right operating point** unless a
+future benchmark shows cache K/V provides accuracy on harder regimes.
+
+### Where cache K/V might still earn its keep (still untested)
+
+- **Contexts ≥ 32K** with longer assembly (top_k ≥ 10) where the
+  chunk-vs-original-doc context gap is much bigger, AND attention has
+  enough positions to need the "correct original-doc K" hint.
+- **Cross-chunk / multi-hop reasoning** — chunk-as-text loses links that
+  cache-from-original might preserve.
+- **Tight retrieval noise regimes** — when retrieved chunks are
+  partial / wrong / overlapping.
+
+None of these are testable on the current MK suite. Open question
+whether they're worth building new benchmarks for or whether the
+sprag project should re-scope around the format-change result and the
+amortization curve (which is real and well-documented in §5d).
 
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 

@@ -51,7 +51,7 @@ import torch
 from safetensors.torch import load_file
 
 from sprag.loader import load_model, FULL_ATTN_LAYERS
-from sprag.chunk_cache import build_chunk_cache, load_meta
+from sprag.chunk_cache import build_chunk_cache, build_anchor_chunk_cache, load_meta
 from sprag.embed import JinaEmbedder
 from sprag.assemble import ChunkPlacement, make_inv_freq_for
 from sprag.rope import shift_rope
@@ -119,7 +119,7 @@ def diagnose_one(model, tok, placements, prefix_ids, question, inv_freq):
             k_cached, v_cached = p.cached[li]
             k_shift = shift_rope(k_cached.unsqueeze(0), delta, inv_freq).squeeze(0)
             per_layer[li].append((p.b_start, p.length, p.a_start, delta,
-                                   k_shift, k_cached))
+                                   k_shift, k_cached, v_cached))
 
     originals = {}
 
@@ -143,13 +143,16 @@ def diagnose_one(model, tok, placements, prefix_ids, question, inv_freq):
             query_states, key_states = apply_rotary_pos_emb(query_states, key_states, cos, sin)
 
             if key_states.shape[-2] > 1:
-                for b_start, L, a_start, delta, k_shift, k_cached in per_layer[layer_idx]:
+                for b_start, L, a_start, delta, k_shift, k_cached, v_cached in per_layer[layer_idx]:
                     K_fresh = key_states[:, :, b_start:b_start+L, :].detach().clone()
+                    V_fresh = value_states[:, :, b_start:b_start+L, :].detach().clone()
                     captures[layer_idx].append({
                         "b_start": b_start, "length": L, "a_start": a_start, "delta": delta,
                         "K_fresh": K_fresh.float().cpu(),
                         "K_shifted": k_shift.unsqueeze(0).float().cpu(),
                         "K_cached": k_cached.unsqueeze(0).float().cpu(),
+                        "V_fresh": V_fresh.float().cpu(),
+                        "V_cached": v_cached.unsqueeze(0).float().cpu(),
                     })
                     key_states[:, :, b_start:b_start+L, :] = k_shift.to(
                         key_states.dtype).to(key_states.device)
@@ -212,6 +215,8 @@ def main():
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--chunk_size", type=int, default=256)
     ap.add_argument("--M", type=int, default=4)
+    ap.add_argument("--cache_kind", type=str, default="standard",
+                    choices=["standard", "anchor"])
     ap.add_argument("--limit_cases", type=int, default=None)
     args = ap.parse_args()
 
@@ -237,8 +242,13 @@ def main():
         cache_dir = args.out.parent / f"_diag_case{ci:02d}"
         if cache_dir.exists():
             shutil.rmtree(cache_dir)
-        build_chunk_cache(model, tok, haystack, cache_dir,
-                          chunk_size=args.chunk_size, embed_fn=emb.encode_passage)
+        if args.cache_kind == "anchor":
+            build_anchor_chunk_cache(model, tok, haystack, cache_dir,
+                                      chunk_size=args.chunk_size, anchor_M=args.M,
+                                      embed_fn=emb.encode_passage)
+        else:
+            build_chunk_cache(model, tok, haystack, cache_dir,
+                              chunk_size=args.chunk_size, embed_fn=emb.encode_passage)
         meta = load_meta(cache_dir)
         chunk_lookup = {c["id"]: c for c in meta["chunks"]}
 
@@ -270,6 +280,8 @@ def main():
                     Kf = cap["K_fresh"]
                     Ks = cap["K_shifted"]
                     Kc = cap["K_cached"]
+                    Vf = cap["V_fresh"]
+                    Vc = cap["V_cached"]
                     rows.append({
                         "case": ci, "qid": q["id"], "template_id": q["template_id"],
                         "template_name": template_names.get(q["template_id"], "?"),
@@ -278,6 +290,8 @@ def main():
                         "rel_cached":  relative_l2(Kf, Kc),
                         "cos_shifted": mean_cos(Kf, Ks),
                         "cos_cached":  mean_cos(Kf, Kc),
+                        "rel_v":       relative_l2(Vf, Vc),
+                        "cos_v":       mean_cos(Vf, Vc),
                     })
             print(f"  case {ci} q{q['id']} t{q['template_id']} captured "
                   f"{sum(len(v) for v in captures.values())} chunk-layers")
@@ -301,19 +315,23 @@ def main():
                 "rel_cached":  sum(r["rel_cached"]  for r in rs) / n,
                 "cos_shifted": sum(r["cos_shifted"] for r in rs) / n,
                 "cos_cached":  sum(r["cos_cached"]  for r in rs) / n,
+                "rel_v":       sum(r["rel_v"]       for r in rs) / n,
+                "cos_v":       sum(r["cos_v"]       for r in rs) / n,
                 "delta_mean":  sum(r["delta"]       for r in rs) / n,
             }
         return out
 
     print("\n=== Splice divergence by (layer, role) — all queries ===")
     print(f"{'layer':>5} {'role':>5} {'n':>4} {'delta':>6} "
-          f"{'relS':>7} {'relC':>7} {'cosS':>7} {'cosC':>7}")
+          f"{'relS':>7} {'relC':>7} {'cosS':>7} {'cosC':>7} "
+          f"{'relV':>7} {'cosV':>7}")
     a = agg(lambda r: True)
     for (li, role) in sorted(a):
         d = a[(li, role)]
         print(f"{li:>5} {role:>5} {d['n']:>4} {d['delta_mean']:>6.0f} "
               f"{d['rel_shifted']:>7.4f} {d['rel_cached']:>7.4f} "
-              f"{d['cos_shifted']:>7.4f} {d['cos_cached']:>7.4f}")
+              f"{d['cos_shifted']:>7.4f} {d['cos_cached']:>7.4f} "
+              f"{d['rel_v']:>7.4f} {d['cos_v']:>7.4f}")
 
     print("\n=== Per template (only role=gold) ===")
     for tname in ("vault", "secret-keeper", "bookshop"):

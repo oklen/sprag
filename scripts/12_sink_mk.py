@@ -38,7 +38,8 @@ import torch
 from safetensors.torch import load_file
 
 from sprag.loader import load_model, FULL_ATTN_LAYERS
-from sprag.chunk_cache import build_chunk_cache, load_meta
+from sprag.chunk_cache import (build_chunk_cache, build_anchor_chunk_cache,
+                                  build_random_anchor_chunk_cache, load_meta)
 from sprag.embed import JinaEmbedder
 from sprag.assemble import ChunkPlacement, patched_full_attn, make_inv_freq_for
 from sprag.retrieve import load_chunk_reprs, topk
@@ -127,6 +128,66 @@ def build_chunk_placements(cache_dir: Path, chunk_ids: list[int],
     return placements, flat
 
 
+def build_chunk_placements_bridge(cache_dir: Path, chunk_ids: list[int],
+                                    chunk_lookup: dict, bridge_ids: list[int],
+                                    b_offset: int
+                                    ) -> tuple[list[ChunkPlacement], list[int]]:
+    """Bridge mode: between retrieved chunks, insert `bridge_ids` as fresh tokens
+    (no placement → their K/V is computed in the current forward). The first
+    chunk has no bridge in front — the global sink (already in b_offset)
+    plays that role. Chunks are not stripped (anchor-cache K is clean at
+    the first positions, so the §5 sink_oracle_k3 strip is unnecessary).
+    """
+    M_bridge = len(bridge_ids)
+    placements, flat = [], []
+    cursor = b_offset
+    for i, cid in enumerate(chunk_ids):
+        if i > 0:
+            flat.extend(bridge_ids)
+            cursor += M_bridge
+        t = _load_chunk(cache_dir, cid)
+        ids = t["input_ids"]
+        L = int(ids.shape[0])
+        cached = {li: (t[f"K_l{li}"], t[f"V_l{li}"]) for li in FULL_ATTN_LAYERS}
+        placements.append(ChunkPlacement(
+            a_start=int(chunk_lookup[cid]["a_start"]),
+            b_start=cursor, length=L, cached=cached,
+        ))
+        flat.extend(ids.tolist())
+        cursor += L
+    return placements, flat
+
+
+def build_chunk_placements_random_anchor(
+    cache_dir: Path, chunk_ids: list[int], chunk_lookup: dict, b_offset: int,
+) -> tuple[list[ChunkPlacement], list[int]]:
+    """Random-per-chunk anchor splice. Each chunk's `anchor_ids` (stored in
+    meta.json by build_random_anchor_chunk_cache) is inserted as fresh
+    tokens *immediately before* the chunk's spliced positions. Cache was
+    built with the same anchor leading the small forward, so the local
+    prefix matches by construction and each chunk's drift direction is
+    driven by its *own* anchor instead of the shared sink."""
+    placements, flat = [], []
+    cursor = b_offset
+    for cid in chunk_ids:
+        meta_c = chunk_lookup[cid]
+        anchor_list = meta_c.get("anchor_ids", []) or []
+        if anchor_list:
+            flat.extend(anchor_list)
+            cursor += len(anchor_list)
+        t = _load_chunk(cache_dir, cid)
+        ids = t["input_ids"]
+        L = int(ids.shape[0])
+        cached = {li: (t[f"K_l{li}"], t[f"V_l{li}"]) for li in FULL_ATTN_LAYERS}
+        placements.append(ChunkPlacement(
+            a_start=int(meta_c["a_start"]),
+            b_start=cursor, length=L, cached=cached,
+        ))
+        flat.extend(ids.tolist())
+        cursor += L
+    return placements, flat
+
+
 def build_chunk_placements_nostrip(cache_dir: Path, chunk_ids: list[int],
                                     chunk_lookup: dict, b_offset: int
                                     ) -> tuple[list[ChunkPlacement], list[int]]:
@@ -150,13 +211,15 @@ def build_chunk_placements_nostrip(cache_dir: Path, chunk_ids: list[int],
 
 
 def run_assembled(model, tok, placements, prefix_ids, question, inv_freq,
-                   max_new_tokens, splice_layers=None, splice_kind="kv"):
+                   max_new_tokens, splice_layers=None, splice_kind="kv",
+                   alpha=1.0):
     prompt_tail_ids = tok("\n\nQ: " + question + "\nA:", add_special_tokens=False).input_ids
     device = next(model.parameters()).device
     inp = torch.tensor([prefix_ids + prompt_tail_ids], dtype=torch.long, device=device)
     with torch.no_grad(), patched_full_attn(model, placements, inv_freq=inv_freq,
                                               splice_layers=splice_layers,
-                                              splice_kind=splice_kind):
+                                              splice_kind=splice_kind,
+                                              alpha=alpha):
         out = model.generate(
             input_ids=inp, max_new_tokens=max_new_tokens,
             do_sample=False, use_cache=True, pad_token_id=tok.eos_token_id,
@@ -177,9 +240,25 @@ def main():
                     default=["oracle_k3", "sink_oracle_k3", "reattn_k6", "sink_k6"],
                     choices=["baseline", "oracle_k3", "sink_oracle_k3",
                              "reattn_k6", "sink_k6", "raw_oracle_k3",
-                             "partial_oracle_k3", "v_only_oracle_k3", "k_only_oracle_k3"])
+                             "partial_oracle_k3", "v_only_oracle_k3", "k_only_oracle_k3",
+                             "bridge_oracle_k3", "gold_only_oracle_k3",
+                             "rnd_anchor_oracle_k3"])
     ap.add_argument("--splice_layers", type=str, default="3,7",
                     help="comma-sep layer indices for partial_oracle_k3 mode")
+    ap.add_argument("--cache_kind", type=str, default="standard",
+                    choices=["standard", "anchor", "anchor_prev", "anchor_random"],
+                    help="standard = single full-doc forward (§5); "
+                         "anchor = per-chunk small forward with sink prefix (§5m); "
+                         "anchor_prev = per-chunk forward [sink + chunk_{i-1} + chunk_i] (§5n); "
+                         "anchor_random = per-chunk forward [unique random M tokens + chunk] (§5p)")
+    ap.add_argument("--anchor_M", type=int, default=4,
+                    help="sink-prefix length for cache_kind=anchor")
+    ap.add_argument("--alpha", type=float, default=1.0,
+                    help="Splice blend weight: spliced K = α·cached + (1-α)·fresh. "
+                         "α=1.0 default = full splice; α=0.0 = no splice.")
+    ap.add_argument("--reuse_cache", action="store_true",
+                    help="Don't rebuild per-case cache if it already exists "
+                         "(skip the rmtree). Saves time when sweeping splice-side params.")
     ap.add_argument("--limit_cases", type=int, default=None)
     args = ap.parse_args()
 
@@ -213,11 +292,34 @@ def main():
 
         cache_dir = args.out.parent / f"_sink_case{ci:02d}"
         if need_cache:
-            if cache_dir.exists():
-                shutil.rmtree(cache_dir)
-            build_chunk_cache(model, tok, haystack, cache_dir,
-                              chunk_size=args.chunk_size,
-                              embed_fn=emb.encode_passage)
+            cache_ready = args.reuse_cache and cache_dir.exists() and (cache_dir / "meta.json").exists()
+            if cache_ready:
+                meta = load_meta(cache_dir)
+                chunk_lookup = {c["id"]: c for c in meta["chunks"]}
+                if need_jina:
+                    jina_ids, jina_reprs = load_chunk_reprs(cache_dir)
+                # fall through to query loop, skip rebuild
+            else:
+                if cache_dir.exists():
+                    shutil.rmtree(cache_dir)
+            if cache_ready:
+                pass  # cache loaded above
+            elif args.cache_kind in ("anchor", "anchor_prev"):
+                build_anchor_chunk_cache(model, tok, haystack, cache_dir,
+                                          chunk_size=args.chunk_size,
+                                          anchor_M=args.anchor_M,
+                                          filler_mode=("self_prev" if args.cache_kind == "anchor_prev" else "none"),
+                                          embed_fn=emb.encode_passage)
+            elif args.cache_kind == "anchor_random":
+                build_random_anchor_chunk_cache(
+                    model, tok, haystack, cache_dir,
+                    chunk_size=args.chunk_size, anchor_M=args.anchor_M,
+                    seed=ci, embed_fn=emb.encode_passage,
+                )
+            else:
+                build_chunk_cache(model, tok, haystack, cache_dir,
+                                  chunk_size=args.chunk_size,
+                                  embed_fn=emb.encode_passage)
             meta = load_meta(cache_dir)
             chunk_lookup = {c["id"]: c for c in meta["chunks"]}
             if need_jina:
@@ -232,7 +334,9 @@ def main():
             other_needle_chunks: list[int] = []
             if any(m in args.modes for m in ("oracle_k3", "sink_oracle_k3",
                                               "raw_oracle_k3", "partial_oracle_k3",
-                                              "v_only_oracle_k3", "k_only_oracle_k3")):
+                                              "v_only_oracle_k3", "k_only_oracle_k3",
+                                              "bridge_oracle_k3", "gold_only_oracle_k3",
+                                              "rnd_anchor_oracle_k3")):
                 gold_needle = reconstruct_needle(q["template_id"], q["picks"])
                 gold_chunk = find_chunk_for_needle(cache_dir, meta, tok, gold_needle)
                 if gold_chunk < 0:
@@ -319,7 +423,8 @@ def main():
                 flat = sink_ids + ch_flat
                 t0 = time.time()
                 out = run_assembled(model, tok, placements, flat,
-                                     q["question"], inv_freq, args.max_new_tokens)
+                                     q["question"], inv_freq, args.max_new_tokens,
+                                     alpha=args.alpha)
                 dt = time.time() - t0
                 cls = classify(out, q["answer"], q["distractor_answers"])
                 counts["sink_oracle_k3"][cls] += 1
@@ -327,6 +432,92 @@ def main():
                 row["sink_oracle_k3"] = {"output": out, "class": cls, "time": dt,
                                            "assembled": ids_k3}
                 print(f"  q{q['id']} t{q['template_id']} sink_oracle_k3 "
+                      f"{dt:4.1f}s ids={ids_k3} [{cls:10s}] {out[:60]!r}")
+
+            if "gold_only_oracle_k3" in args.modes:
+                # Only the gold chunk's K/V is spliced; sib0/sib1 are present
+                # as raw tokens with fresh K/V. Tests whether splicing the
+                # distractor siblings (with anchor-cached K/V whose cos drops
+                # to ~0.8 vs fresh) is the 54-cap bottleneck.
+                ids_k3 = [gold_chunk] + other_needle_chunks[:2]
+                sink_pl, sink_ids = build_sink_placement(cache_dir, args.M)
+                t_gold = _load_chunk(cache_dir, gold_chunk)
+                gold_ids = t_gold["input_ids"].tolist()
+                L_gold = len(gold_ids)
+                cached_gold = {li: (t_gold[f"K_l{li}"], t_gold[f"V_l{li}"])
+                                for li in FULL_ATTN_LAYERS}
+                gold_pl = ChunkPlacement(
+                    a_start=int(chunk_lookup[gold_chunk]["a_start"]),
+                    b_start=args.M, length=L_gold, cached=cached_gold,
+                )
+                sib_flat: list = []
+                for cid in other_needle_chunks[:2]:
+                    sib_flat.extend(_load_chunk(cache_dir, cid)["input_ids"].tolist())
+                placements = [sink_pl, gold_pl]
+                flat = sink_ids + gold_ids + sib_flat
+                t0 = time.time()
+                out = run_assembled(model, tok, placements, flat,
+                                     q["question"], inv_freq, args.max_new_tokens)
+                dt = time.time() - t0
+                cls = classify(out, q["answer"], q["distractor_answers"])
+                counts["gold_only_oracle_k3"][cls] += 1
+                time_acc["gold_only_oracle_k3"] += dt
+                row["gold_only_oracle_k3"] = {"output": out, "class": cls, "time": dt,
+                                                "assembled": ids_k3}
+                print(f"  q{q['id']} t{q['template_id']} gold_only_oracle_k3 "
+                      f"{dt:4.1f}s ids={ids_k3} [{cls:10s}] {out[:60]!r}")
+
+            if "bridge_oracle_k3" in args.modes:
+                # Sink + chunk_A + bridge + chunk_B + bridge + chunk_C + question.
+                # Bridge = the M sink_ids (doc's first M tokens), inserted fresh
+                # between chunks so every spliced chunk has the same local
+                # token prefix that its anchor-cache build saw. First chunk has
+                # no bridge in front — the global sink already plays that role.
+                # Requires cache_kind=anchor (build = [sink + chunk]). Chunks
+                # not stripped (anchor cache's first K positions are clean).
+                ids_k3 = [gold_chunk] + other_needle_chunks[:2]
+                sink_pl, sink_ids = build_sink_placement(cache_dir, args.M)
+                ch_pl, ch_flat = build_chunk_placements_bridge(
+                    cache_dir, ids_k3, chunk_lookup, bridge_ids=sink_ids,
+                    b_offset=args.M)
+                placements = [sink_pl] + ch_pl
+                flat = sink_ids + ch_flat
+                t0 = time.time()
+                out = run_assembled(model, tok, placements, flat,
+                                     q["question"], inv_freq, args.max_new_tokens)
+                dt = time.time() - t0
+                cls = classify(out, q["answer"], q["distractor_answers"])
+                counts["bridge_oracle_k3"][cls] += 1
+                time_acc["bridge_oracle_k3"] += dt
+                row["bridge_oracle_k3"] = {"output": out, "class": cls, "time": dt,
+                                             "assembled": ids_k3}
+                print(f"  q{q['id']} t{q['template_id']} bridge_oracle_k3 "
+                      f"{dt:4.1f}s ids={ids_k3} [{cls:10s}] {out[:60]!r}")
+
+            if "rnd_anchor_oracle_k3" in args.modes:
+                # Sink + (random anchor_gold) + gold + (random anchor_sib0) + sib0
+                # + (random anchor_sib1) + sib1 + Q.
+                # Each chunk's K/V was cached under its own unique random-token
+                # anchor; we insert that same anchor fresh at splice time so
+                # the local prefix matches by construction. §5p probe of
+                # "decorrelating sibling drift directions".
+                # Requires cache_kind=anchor_random.
+                ids_k3 = [gold_chunk] + other_needle_chunks[:2]
+                sink_pl, sink_ids = build_sink_placement(cache_dir, args.M)
+                ch_pl, ch_flat = build_chunk_placements_random_anchor(
+                    cache_dir, ids_k3, chunk_lookup, b_offset=args.M)
+                placements = [sink_pl] + ch_pl
+                flat = sink_ids + ch_flat
+                t0 = time.time()
+                out = run_assembled(model, tok, placements, flat,
+                                     q["question"], inv_freq, args.max_new_tokens)
+                dt = time.time() - t0
+                cls = classify(out, q["answer"], q["distractor_answers"])
+                counts["rnd_anchor_oracle_k3"][cls] += 1
+                time_acc["rnd_anchor_oracle_k3"] += dt
+                row["rnd_anchor_oracle_k3"] = {"output": out, "class": cls, "time": dt,
+                                                 "assembled": ids_k3}
+                print(f"  q{q['id']} t{q['template_id']} rnd_anchor_oracle_k3 "
                       f"{dt:4.1f}s ids={ids_k3} [{cls:10s}] {out[:60]!r}")
 
             if "partial_oracle_k3" in args.modes:
