@@ -1,9 +1,12 @@
 # sprag — design notes & status
 
 > Last updated: 2026-05-29 (RGB benchmark — cache K/V net-negative on real
-> passages (§5u); per-subspace α probe (§5v); K-vs-V decomposition — the
-> splice cost is cache→assembly DRIFT, not a K–V binding law: on anchor cache
-> V is freely cacheable and the residual cost is K-only (§5w)).
+> passages (§5u); per-subspace α probe (§5v); K-vs-V decomposition on MK —
+> splice cost is cache→assembly DRIFT (§5w); BUT RGB validation falsifies it
+> (§5x) — drift/coherence/K-vs-V are synthetic-MK artifacts, on real passages
+> cache K/V is monotonically harmful regardless of construction. Robust
+> conclusion: sprag = short-assembly format + sink; K/V splice is the
+> incremental/negative piece).
 
 ## 1. Why this exists
 
@@ -1486,6 +1489,63 @@ Open: does this replicate on RGB? §5u showed standard-cache splice is
 net-negative on real passages; the §5w prediction is that **anchor-cache
 splice should close most of that gap on RGB**. Long-running validation
 queued (`scripts/16_rgb_eval.py --cache_kind anchor`, K-vs-V modes).
+**Answered in §5x: it does NOT — the drift/coherence story is a
+synthetic-suite artifact and does not transfer to real passages.**
+
+## 5x. RGB validation — the §5w drift story does NOT generalize
+
+Ran `scripts/16_rgb_eval.py --cache_kind anchor` over all 300 RGB en.json
+records (same Jina top-5 retrieval), adding `k_only_topk` / `v_only_topk`,
+to test the §5w prediction (anchor cache should rescue the splice). It is
+**falsified**. Side-by-side with the §5u standard-cache numbers:
+
+```
+config        K       V       RGB-standard(§5u)   RGB-anchor
+raw_topk      fresh   fresh        78.3%             78.3%
+blend α=0.5   0.5     0.5          75.3%             75.3%
+α=1.0         cached  cached       73.3%             69.3%   ⬅ anchor WORSE
+k_only        cached  fresh          —               73.0%
+v_only        fresh   cached         —               72.7%
+```
+
+All three MK phenomena collapse on real passages:
+
+1. **Anchor does not rescue the splice.** α=0.5 is identical (75.3%) and
+   α=1.0 is *worse* on anchor (69.3 vs 73.3) — opposite of MK (§5w: anchor
+   54 > standard 47).
+2. **K and V are symmetric** (k_only 73.0 ≈ v_only 72.7). The MK K-vs-V
+   asymmetry is gone.
+3. **No coherence catastrophe.** v_only = 72.7%, not the MK-standard
+   5/60 collapse. Breaking the pair is harmless here.
+
+RGB-anchor is cleanly monotonic: raw (78.3) > blend (75.3) > single-splice
+(~73) > both-cached (69.3). **More fresh = strictly better.**
+
+**Why the MK phenomena were artifacts.** The drift/coherence framing
+assumed a single coherent document in which a chunk's K/V meaningfully
+encodes its in-document context — which anchor caching can approximate, so
+"build near the assembly context" helps (MK). RGB "documents" are
+concatenations of *unrelated* passages; there is no original-doc context
+to preserve, the ReAttention premise is vacuous, and any cache K/V is just
+a staler version of fresh → monotonically harmful, K/V symmetric, no
+coherence to break. The synthetic MK haystack manufactured the drift,
+coherence, and K-vs-V structure; real RAG has none of it.
+
+### Robust cross-benchmark conclusion
+
+| benchmark | doc type | cache K/V splice |
+|---|---|---|
+| MK 8K/32K | one coherent synthetic doc | small +/− around format; anchor helps, α=1.0 footgun |
+| RGB | concatenated unrelated passages | **monotonically harmful**, all cache variants |
+
+Across MK and RGB the only consistently positive component is the
+**short-assembly format + sink** (2× speed at 8K, 11× at 32K, recall-bounded
+accuracy). The cache-K/V splice is at best a long-context speed micro-opt
+(only when prefill is actually skipped, §5d/§5t) and on real passages is a
+pure accuracy cost — no cache construction (standard/anchor), no
+K/V/subspace decomposition rescues it (§5u/§5v/§5w/§5x). Sprag should be
+framed as **format + sink**, with the K/V cache presented honestly as the
+incremental/negative piece it is. [[sprag-splice-decomp]]
 
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
