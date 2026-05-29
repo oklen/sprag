@@ -24,6 +24,10 @@ data/diag/_diag_case*/
 data/amort/_cache_*/
 data/mk/_cache_*/
 
+# External benchmark dumps (redownloadable; see data/benchmarks/README.md)
+data/benchmarks/*
+!data/benchmarks/README.md
+
 # Local logs
 *.log
 /tmp/
