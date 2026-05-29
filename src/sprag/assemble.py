@@ -40,18 +40,31 @@ def make_inv_freq_for(model) -> Tensor:
 def _patched_attn_forward_factory(attn_module, layer_idx: int,
                                   per_layer_splice: list[tuple[int, int, Tensor, Tensor]],
                                   splice_kind: str = "kv",
-                                  alpha: float = 1.0):
+                                  alpha: float = 1.0,
+                                  alpha_k_rot: float | None = None,
+                                  alpha_k_pass: float | None = None,
+                                  alpha_v: float | None = None):
     """Return a forward replacement that overwrites K and/or V at chunk positions.
 
     splice_kind: "kv" (default, both), "k" (only key), or "v" (only value).
     alpha: blend weight. spliced = alpha * cached + (1 - alpha) * fresh.
         alpha=1.0 is full splice (current behaviour); alpha=0.0 is no splice;
         intermediates probe the K/V drift tolerance curve.
+    alpha_k_rot / alpha_k_pass: per-subspace blend for K, splitting the head
+        at the rotary boundary (first rot_dim dims = RoPE-rotated, the rest =
+        pass-through). Default to `alpha` when None. Lets us localize the
+        α=1.0 footgun: is the sibling-misrouting in the position-coupled
+        (rotary) coords or the pure-content (pass-through) coords?
+    alpha_v: blend weight for V (no rotary structure). Defaults to `alpha`.
     """
 
     do_k = splice_kind in ("k", "kv")
     do_v = splice_kind in ("v", "kv")
-    blend = alpha != 1.0
+    a_rot = alpha if alpha_k_rot is None else alpha_k_rot
+    a_pass = alpha if alpha_k_pass is None else alpha_k_pass
+    a_v = alpha if alpha_v is None else alpha_v
+    blend_k = (a_rot != 1.0) or (a_pass != 1.0)
+    blend_v = a_v != 1.0
 
     def forward(hidden_states, position_embeddings, attention_mask,
                 past_key_values=None, cache_position=None, **kw):
@@ -70,6 +83,7 @@ def _patched_attn_forward_factory(attn_module, layer_idx: int,
 
         cos, sin = position_embeddings
         query_states, key_states = apply_rotary_pos_emb(query_states, key_states, cos, sin)
+        rot_dim = cos.shape[-1]  # rotary boundary: dims [0:rot_dim) rotated, rest pass-through
 
         # Splice only during prefill (multi-token forward). During decode the
         # chunk K/V is already inside past_key_values from the prefill step.
@@ -77,16 +91,24 @@ def _patched_attn_forward_factory(attn_module, layer_idx: int,
             for b_start, b_end, k_shift, v_shift in per_layer_splice:
                 if do_k:
                     k_cached = k_shift.to(key_states.dtype).to(key_states.device)
-                    if blend:
+                    if blend_k:
                         k_fresh = key_states[:, :, b_start:b_end, :]
-                        key_states[:, :, b_start:b_end, :] = alpha * k_cached + (1.0 - alpha) * k_fresh
+                        # per-subspace blend; both operands are already at phase
+                        # b, so this is a linear interpolation of k_raw content
+                        # split along the rotary boundary.
+                        blended = torch.empty_like(k_fresh)
+                        blended[..., :rot_dim] = (
+                            a_rot * k_cached[..., :rot_dim] + (1.0 - a_rot) * k_fresh[..., :rot_dim])
+                        blended[..., rot_dim:] = (
+                            a_pass * k_cached[..., rot_dim:] + (1.0 - a_pass) * k_fresh[..., rot_dim:])
+                        key_states[:, :, b_start:b_end, :] = blended
                     else:
                         key_states[:, :, b_start:b_end, :] = k_cached
                 if do_v:
                     v_cached = v_shift.to(value_states.dtype).to(value_states.device)
-                    if blend:
+                    if blend_v:
                         v_fresh = value_states[:, :, b_start:b_end, :]
-                        value_states[:, :, b_start:b_end, :] = alpha * v_cached + (1.0 - alpha) * v_fresh
+                        value_states[:, :, b_start:b_end, :] = a_v * v_cached + (1.0 - a_v) * v_fresh
                     else:
                         value_states[:, :, b_start:b_end, :] = v_cached
 
@@ -117,7 +139,10 @@ def patched_full_attn(model, placements: Sequence[ChunkPlacement],
                       inv_freq: Tensor | None = None,
                       splice_layers: Sequence[int] | None = None,
                       splice_kind: str = "kv",
-                      alpha: float = 1.0):
+                      alpha: float = 1.0,
+                      alpha_k_rot: float | None = None,
+                      alpha_k_pass: float | None = None,
+                      alpha_v: float | None = None):
     """Patch full-attn layers' forward to splice cached K/V (with Inverse-RoPE shift).
 
     placements: list of ChunkPlacement. Each placement contributes one splice per
@@ -154,7 +179,10 @@ def patched_full_attn(model, placements: Sequence[ChunkPlacement],
             originals[li] = attn.forward
             attn.forward = _patched_attn_forward_factory(attn, li, per_layer[li],
                                                           splice_kind=splice_kind,
-                                                          alpha=alpha)
+                                                          alpha=alpha,
+                                                          alpha_k_rot=alpha_k_rot,
+                                                          alpha_k_pass=alpha_k_pass,
+                                                          alpha_v=alpha_v)
         yield
     finally:
         for li, fn in originals.items():

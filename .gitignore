@@ -23,6 +23,7 @@ data/mk/_sink_case*/
 data/diag/_diag_case*/
 data/amort/_cache_*/
 data/mk/_cache_*/
+data/mk/subspace/_sink_case*/
 
 # External benchmark dumps (redownloadable; see data/benchmarks/README.md)
 data/benchmarks/*

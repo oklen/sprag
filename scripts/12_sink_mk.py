@@ -212,14 +212,17 @@ def build_chunk_placements_nostrip(cache_dir: Path, chunk_ids: list[int],
 
 def run_assembled(model, tok, placements, prefix_ids, question, inv_freq,
                    max_new_tokens, splice_layers=None, splice_kind="kv",
-                   alpha=1.0):
+                   alpha=1.0, alpha_k_rot=None, alpha_k_pass=None, alpha_v=None):
     prompt_tail_ids = tok("\n\nQ: " + question + "\nA:", add_special_tokens=False).input_ids
     device = next(model.parameters()).device
     inp = torch.tensor([prefix_ids + prompt_tail_ids], dtype=torch.long, device=device)
     with torch.no_grad(), patched_full_attn(model, placements, inv_freq=inv_freq,
                                               splice_layers=splice_layers,
                                               splice_kind=splice_kind,
-                                              alpha=alpha):
+                                              alpha=alpha,
+                                              alpha_k_rot=alpha_k_rot,
+                                              alpha_k_pass=alpha_k_pass,
+                                              alpha_v=alpha_v):
         out = model.generate(
             input_ids=inp, max_new_tokens=max_new_tokens,
             do_sample=False, use_cache=True, pad_token_id=tok.eos_token_id,
@@ -256,6 +259,15 @@ def main():
     ap.add_argument("--alpha", type=float, default=1.0,
                     help="Splice blend weight: spliced K = α·cached + (1-α)·fresh. "
                          "α=1.0 default = full splice; α=0.0 = no splice.")
+    ap.add_argument("--alpha_k_rot", type=float, default=None,
+                    help="Per-subspace K blend for the rotary dims [0:rot_dim). "
+                         "Defaults to --alpha. Probes whether the α=1.0 footgun "
+                         "lives in the position-coupled coords.")
+    ap.add_argument("--alpha_k_pass", type=float, default=None,
+                    help="Per-subspace K blend for the pass-through dims. "
+                         "Defaults to --alpha.")
+    ap.add_argument("--alpha_v", type=float, default=None,
+                    help="V blend weight (no rotary split). Defaults to --alpha.")
     ap.add_argument("--reuse_cache", action="store_true",
                     help="Don't rebuild per-case cache if it already exists "
                          "(skip the rmtree). Saves time when sweeping splice-side params.")
@@ -424,7 +436,10 @@ def main():
                 t0 = time.time()
                 out = run_assembled(model, tok, placements, flat,
                                      q["question"], inv_freq, args.max_new_tokens,
-                                     alpha=args.alpha)
+                                     alpha=args.alpha,
+                                     alpha_k_rot=args.alpha_k_rot,
+                                     alpha_k_pass=args.alpha_k_pass,
+                                     alpha_v=args.alpha_v)
                 dt = time.time() - t0
                 cls = classify(out, q["answer"], q["distractor_answers"])
                 counts["sink_oracle_k3"][cls] += 1

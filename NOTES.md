@@ -1,8 +1,8 @@
 # sprag — design notes & status
 
-> Last updated: 2026-05-28 (32K MK benchmark — short assembly wins +5/59
-> accuracy AND 11× speedup vs baseline; cache K/V's first non-negative
-> signal at long context but still marginal).
+> Last updated: 2026-05-29 (RGB benchmark — cache K/V net-negative on real
+> passages (§5u); per-subspace α probe — the RoPE rotary/pass split is not a
+> usable blend lever, coherence is the axis (§5v)).
 
 ## 1. Why this exists
 
@@ -1316,6 +1316,93 @@ are bigger. Sprag's value-prop, properly stated:
 > speedup vs full-prompt baseline at 32K. Cache K/V at α=0.5 adds
 > marginal accuracy and speed on top. Avoid α=1.0 (silent −4–6/59
 > accuracy cost regardless of context length).**
+
+## 5u. RGB benchmark — cache K/V is net-negative on real passages
+
+First eval on an external RAG benchmark (RGB, chen700564, `data/benchmarks/rgb/data/en.json`,
+300 records). Each record = a query + gold `answer` slots + `positive`
+(gold) and `negative` (distractor) passages. We concatenate the shuffled
+positive+negative into one ~8K-token noisy doc (median 40 passages),
+build a standard full-doc chunk cache (chunk_size=256), and compare four
+ways of answering with the **same** Jina top-5 retrieval where applicable.
+Scoring = RGB checkanswer (every answer slot's alias present in output).
+
+Code: `src/sprag/rgb.py` (loader+scorer), `scripts/16_rgb_eval.py`.
+
+```
+mode             acc          per-q   avg_tok
+baseline         259/300 86.3%  3.87s   8213    full noisy doc
+raw_topk         235/300 78.3%  1.95s   1291    sink + top-5, FRESH K/V
+splice_topk      226/300 75.3%  1.94s   1291    cached K/V, α=0.5
+splice_topk_a1   220/300 73.3%  1.94s   1291    cached K/V, α=1.0
+```
+
+Decomposition (each step uses the same chunks as the one above it):
+
+- **baseline → raw_topk: −8 pts.** Pure retrieval recall — Jina top-5 over
+  ~32 chunks misses gold passages (RGB has up to 34 golds + heavy noise +
+  12 multi-slot integration questions). Orthogonal to the splice; it's the
+  cost of doing RAG at all vs. stuffing everything. 2× speedup.
+- **raw_topk → splice_topk (α=0.5): −3 pts.** The clean cache-K/V cost,
+  identical retrieved chunks. On *real* passages the cache K/V is
+  **net-negative even at α=0.5** — the opposite of the MK suite (§5r,
+  where α<1.0 was free). The MK "cache is free" result leaned on oracle
+  retrieval + synthetic single-needle chunks; it does not transfer.
+- **α=0.5 → α=1.0: −2 more.** The §5r footgun **replicates** on a real
+  benchmark. α=1.0 remains strictly dominated.
+
+**Takeaway:** the §5t/§5r story ("format is the win, cache K/V is edge")
+holds *directionally*, but on real RAG the cache K/V edge flips negative.
+Sprag's defensible value-prop is the **short-assembly format + sink**
+(2× speed, recall-bounded accuracy); the K/V splice is a speed micro-opt
+that costs a few points of accuracy and should be presented as such, not
+as the mechanism. [[sprag-splice-decomp]]
+
+## 5v. Per-subspace α — the RoPE split is not a usable lever
+
+Probe (idea: blend only the rotated 64 dims or only the 192 pass-through
+dims of K). Qwen3.5 here: head_dim=256, partial_rotary_factor=0.25 →
+rotary dims [0:64) rotated, [64:256) pass-through; RoPE touches **Q,K
+only, never V**. After `shift_rope` both `k_cached` and `k_fresh` sit at
+the same phase R_b, so a post-RoPE blend is a linear interp of the raw-K
+*content* split along the rotary boundary (`assemble.py` `alpha_k_rot` /
+`alpha_k_pass` / `alpha_v`; `scripts/12` flags). All configs below share
+the same freshly-built standard 8K caches (sink_oracle_k3, M=4 S=4), so
+within-sweep comparison is valid.
+
+```
+cfg  K-rot   K-pass   V       correct/60
+A    cached  cached   cached      47      footgun ref (all cached)
+E    0.5     0.5      0.5         50      blend everything (recovery ref)
+B    cached  fresh    cached      35      freshen pass-through K only
+C    fresh   cached   cached      28      freshen rotary K only
+D    fresh   fresh    cached       5      freshen ALL K, V cached
+P    0.5     cached   0.5         43      blend rotary K + V
+Q    cached  0.5      0.5         45      blend pass-through K + V
+```
+
+Two stacked coherence constraints kill the subspace lever:
+
+1. **K–V coherence** (B/C/D): freshening K while V stays cached is
+   catastrophic — D = 5/60. Fresh K comes from the short-assembly
+   hidden-state regime, cached V from the full-doc regime; attention
+   weights from one regime indexing value vectors from the other is
+   garbage. (Matches the prior committed finding "K-V coherence is
+   non-negotiable".)
+2. **Within-K cross-dimension coherence** (P/Q): even with V riding along
+   (blended 0.5) to preserve K–V coherence, blending *one* K subspace
+   while caching the other lands P=43, Q=45 — **below** the all-cached
+   A=47, not between A and E. Splitting K's blend at the rotary boundary
+   introduces an internal-K incoherence that costs more than it buys.
+
+**Conclusion:** the α-blend is an all-or-nothing *direction* knob (how far
+the whole cached K/V moves toward fresh), **not** decomposable by RoPE
+subspace. Q (45) > P (43) is the only within-subspace signal — weakly
+hints rotary-K is the more splice-tolerant half — but it's 2/60 on a
+shallow cliff (47→50) and not worth leaning on. Caveat: this 8K
+standard-cache cliff (47→50, +3) is shallower than §5r's anchor-cache
+cliff (54→58, +4); absolute numbers differ by cache type, the ordering is
+internally consistent.
 
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
