@@ -1,8 +1,9 @@
 # sprag — design notes & status
 
 > Last updated: 2026-05-29 (RGB benchmark — cache K/V net-negative on real
-> passages (§5u); per-subspace α probe — the RoPE rotary/pass split is not a
-> usable blend lever, coherence is the axis (§5v)).
+> passages (§5u); per-subspace α probe (§5v); K-vs-V decomposition — the
+> splice cost is cache→assembly DRIFT, not a K–V binding law: on anchor cache
+> V is freely cacheable and the residual cost is K-only (§5w)).
 
 ## 1. Why this exists
 
@@ -1403,6 +1404,88 @@ shallow cliff (47→50) and not worth leaning on. Caveat: this 8K
 standard-cache cliff (47→50, +3) is shallower than §5r's anchor-cache
 cliff (54→58, +4); absolute numbers differ by cache type, the ordering is
 internally consistent.
+
+> **Correction (see §5w):** the "K and V are an indivisible pair" reading
+> below in the K-vs-V decomposition is a *standard-cache* artifact. On the
+> anchor cache, V can be cached independently (v_only = 58/60); the residual
+> splice cost is K-only. The real axis is cache→assembly *drift*, not a K–V
+> binding law.
+
+### K-vs-V decomposition (standard 8K cache)
+
+Does the splice cost come from K or V? Split via `splice_kind` "k"/"v"
+(`k_only_oracle_k3` / `v_only_oracle_k3`), α=1.0, same standard 8K caches:
+
+```
+config              K       V       correct/60   per-q
+raw_oracle_k3       fresh   fresh       58        1.36s   upper bound
+sink_oracle_k3      cached  cached      47        1.75s
+k_only              cached  fresh       29        1.77s
+v_only              fresh   cached       5        1.78s
+```
+
+On standard cache, **both single-splice configs are worse than splicing
+both** (29, 5 < 47), and v_only (fresh K + cached V) is catastrophic. Read
+naively this says "(K,V) is an indivisible pair, no reusable half." §5w
+shows that reading is cache-specific. Note also: splice is *slower* than
+raw here (1.75 vs 1.36s) — at 8K short assembly our impl recomputes fresh
+K/V then overwrites, so the cache is pure overhead; its speedup only
+materializes when prefill is actually skipped (32K amortization, §5d/§5t).
+
+## 5w. The splice cost is cache→assembly DRIFT, not a K–V binding law
+
+Re-ran the K-vs-V decomposition (§5v) on the **anchor** cache
+(`cache_kind=anchor`, `[sink+chunk]` per-chunk forward) vs the **standard**
+full-doc cache. Same 8K suite, sink_oracle_k3, M=4 S=4, α=1.0.
+
+```
+config       K       V       standard   anchor
+raw          fresh   fresh      58         58
+both cached  cached  cached     47         54
+k_only       cached  fresh      29         54
+v_only       fresh   cached      5         58   ⬅ flips
+E (α=0.5)    0.5     0.5        50         58
+```
+
+On the anchor cache the story inverts: **accuracy is governed almost
+entirely by K's freshness, and V is freely cacheable.**
+
+```
+K state            anchor acc
+fresh (v_only/raw)    58
+blended (E)           58
+cached (k_only/both)  54
+```
+
+v_only (cached V + fresh K) = 58 on anchor vs **5** on standard. The §5r
+4-point cliff is a **pure K phenomenon** here (cached K at cos≈0.8 misroutes
+attention; any fresh-K admixture fixes it) — exactly the §5r mechanism note.
+V was never the problem on anchor.
+
+**The unifying variable is drift, not coherence.** The §5v/§5v-decomp
+"indivisible pair" was a symptom of how far the cache sits from the
+assembly context:
+
+- **standard cache**: K/V built in full-doc context. cached V encodes "this
+  token after the entire document"; pairing it with fresh (assembly-context)
+  K is a severe mismatch → v_only collapses to 5. Both K and V drift hard,
+  so breaking the pair is catastrophic.
+- **anchor cache**: K/V built in `[sink+chunk]`, *near* the assembly
+  context. anchor-V ≈ assembly-V, so cached V + fresh K is fine (58). Only a
+  small residual K drift remains (54), erased by any blend.
+
+This is the original ReAttention premise vindicated and sharpened: **build
+chunk K/V in a near-deployment context (anchor-style) and the splice is
+viable; the residual cost lives in K and is removed by α<1.0.** Standard
+full-doc caching drifts too far and is net-harmful (§5u RGB confirms on real
+passages). Corollary: on anchor cache you *can* cache V and recompute K
+fresh (v_only, 58) — but that saves only v_proj, not the prefill, so it's
+not an efficiency win; the scientific value is localizing the cost to K.
+
+Open: does this replicate on RGB? §5u showed standard-cache splice is
+net-negative on real passages; the §5w prediction is that **anchor-cache
+splice should close most of that gap on RGB**. Long-running validation
+queued (`scripts/16_rgb_eval.py --cache_kind anchor`, K-vs-V modes).
 
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
