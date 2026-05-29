@@ -32,7 +32,8 @@ sys.path.insert(0, str(ROOT / "src"))
 import torch
 
 from sprag.loader import load_model, FULL_ATTN_LAYERS
-from sprag.chunk_cache import build_chunk_cache, build_anchor_chunk_cache, load_meta
+from sprag.chunk_cache import (build_chunk_cache, build_anchor_chunk_cache,
+                                  build_fixed_anchor_chunk_cache, load_meta)
 from sprag.embed import JinaEmbedder
 from sprag.assemble import make_inv_freq_for
 from sprag.retrieve import load_chunk_reprs, topk
@@ -93,10 +94,13 @@ def main():
                              "k_only_topk", "v_only_topk",
                              "oracle_raw", "oracle_splice"])
     ap.add_argument("--cache_kind", type=str, default="standard",
-                    choices=["standard", "anchor"],
+                    choices=["standard", "anchor", "fixed"],
                     help="standard = single full-doc forward; "
                          "anchor = per-chunk [sink+chunk] forward (§5w: lower "
-                         "cache->assembly drift, splice viable).")
+                         "cache->assembly drift, splice viable); "
+                         "fixed = per-chunk [fixed_anchor_token x M + chunk] forward, "
+                         "same fixed anchor placed once FRESH at the front of the "
+                         "assembly (§5y symmetric anchor).")
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--reuse_cache", action="store_true")
     ap.add_argument("--keep_cache", action="store_true",
@@ -153,6 +157,11 @@ def main():
                                          chunk_size=args.chunk_size,
                                          anchor_M=args.M, filler_mode="none",
                                          embed_fn=emb.encode_passage)
+            elif args.cache_kind == "fixed":
+                build_fixed_anchor_chunk_cache(model, tok, doc, cache_dir,
+                                               chunk_size=args.chunk_size,
+                                               anchor_M=args.M,
+                                               embed_fn=emb.encode_passage)
             else:
                 build_chunk_cache(model, tok, doc, cache_dir,
                                   chunk_size=args.chunk_size,
@@ -193,7 +202,10 @@ def main():
             out = run_baseline(model, tok, prompt, max_new_tokens=args.max_new_tokens)
             record("baseline", out, time.time() - t0, ntok)
 
-        sink_ids = _load_chunk(cache_dir, 0)["input_ids"][:args.M].tolist()
+        if args.cache_kind == "fixed":
+            sink_ids = [int(meta["anchor_token_id"])] * args.M
+        else:
+            sink_ids = _load_chunk(cache_dir, 0)["input_ids"][:args.M].tolist()
 
         for mode, ids in (("raw_topk", jina_top), ("oracle_raw", oracle_top)):
             if mode not in args.modes:
@@ -212,11 +224,17 @@ def main():
                 ("oracle_splice", oracle_top, args.alpha, "kv")):
             if mode not in args.modes:
                 continue
-            sink_pl, s_ids = build_sink_placement(cache_dir, args.M)
             ch_pl, ch_flat = build_chunk_placements_nostrip(
                 cache_dir, ids, chunk_lookup, b_offset=args.M)
-            placements = [sink_pl] + ch_pl
-            flat = s_ids + ch_flat
+            if args.cache_kind == "fixed":
+                # one fixed anchor placed FRESH at the front (no splice); chunks
+                # spliced after it (§5y symmetric anchor).
+                placements = ch_pl
+                flat = sink_ids + ch_flat
+            else:
+                sink_pl, s_ids = build_sink_placement(cache_dir, args.M)
+                placements = [sink_pl] + ch_pl
+                flat = s_ids + ch_flat
             ntok = len(flat) + len(tok("\n\nQ: " + rec.query + "\nA:",
                                        add_special_tokens=False).input_ids)
             t0 = time.time()

@@ -6,10 +6,12 @@
 > (§5x) — drift/coherence/K-vs-V are synthetic-MK artifacts, on real passages
 > cache K/V is monotonically harmful regardless of construction. Robust
 > conclusion: sprag = short-assembly format + sink; K/V splice is the
-> incremental/negative piece. Fixed symmetric anchor (§5y) ≈ doc-sink anchor:
-> a single front anchor only de-drifts the top-1 chunk, so the K-splice gap
-> survives; cleaner construction, not a better one — the α<1 blend still
-> carries the accuracy (fixed-anchor E(0.5)=60/60)).
+> incremental/negative piece. Fixed symmetric anchor (§5y): on MK ≈ doc-sink
+> anchor (single front anchor only de-drifts the top-1 chunk; E(0.5)=60/60),
+> but RGB validation (§5y-RGB) shows it's monotonic-harmful AND uniformly
+> WORSE than standard/anchor (raw 75.0/E 68.7/α1 64.0) — the bare endoftext
+> sink underperforms a content-bearing one even on the fresh path. Verdict:
+> cleaner construction, not a valuable one).
 
 ## 1. Why this exists
 
@@ -1595,6 +1597,42 @@ Two robust takeaways:
    special case, anchor K/V precomputable once across all docs) but not a
    *better* one. As always the blend, not the cache, carries the accuracy.
    [[sprag-splice-decomp]]
+
+### 5y-RGB. The MK "E(0.5) ≥ raw" win does NOT survive real passages
+
+The one place fixed anchor looked like it might beat fresh — MK E(α=0.5)=60/60
+vs raw 59 — was a synthetic-suite artifact (the §5x warning). Validated on all
+300 RGB en.json records (`scripts/16_rgb_eval.py --cache_kind fixed`, same Jina
+top-5, α=0.5):
+
+| cache_kind | raw | E(α0.5) | α=1.0 | k_only | v_only |
+|------------|-----|---------|-------|--------|--------|
+| standard (§5x) | 78.3 | 75.3 | 73.3 | — | — |
+| anchor (§5x)   | 78.3 | 75.3 | 69.3 | 73.0 | 72.7 |
+| **fixed**      | 75.0 | 68.7 | 64.0 | 63.0 | 66.7 |
+
+On RGB the fixed anchor is **monotonic-harmful AND uniformly worse than
+standard/anchor at every cell**: raw 75.0 > E(0.5) 68.7 > v_only 66.7 >
+both-cached 64.0 > k_only 63.0 — more fresh = strictly better, blend 6.3 pts
+*below* raw (vs MK where it was +1). Two reasons fixed is *worse* than the
+doc-sink anchor here:
+1. **The `<|endoftext|>` front anchor is a worse sink than the doc's natural
+   lead tokens even on the fresh path** — raw alone drops 78.3 → 75.0 (the only
+   difference for raw_topk is the M front tokens; everything else, incl.
+   retrieval reprs, is identical). A content-bearing sink primes better than a
+   bare boundary token.
+2. The `[<|endoftext|> + chunk]` build context is *further* from the RGB
+   assembly context (unrelated neighbour passages) than `[doc-lead + chunk]`,
+   so the cached K/V drifts more.
+
+**Settles the "is it valuable?" question: no.** The fixed symmetric anchor's
+sole apparent advantage was an MK artifact; on real RAG it underperforms the
+plain doc-sink anchor *and* fresh. Confirms §5x — symmetric build/use only
+de-drifts the top-1 chunk and only matters when there is coherent in-doc
+context to preserve, which real concatenated-passage RAG lacks. Robust
+conclusion unchanged: **format + sink (content-bearing) is the win; any cache
+K/V splice is incremental-to-negative, and a bare-token anchor is negative.**
+[[sprag-splice-decomp]]
 
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
