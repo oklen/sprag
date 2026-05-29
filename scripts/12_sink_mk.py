@@ -39,7 +39,8 @@ from safetensors.torch import load_file
 
 from sprag.loader import load_model, FULL_ATTN_LAYERS
 from sprag.chunk_cache import (build_chunk_cache, build_anchor_chunk_cache,
-                                  build_random_anchor_chunk_cache, load_meta)
+                                  build_random_anchor_chunk_cache,
+                                  build_fixed_anchor_chunk_cache, load_meta)
 from sprag.embed import JinaEmbedder
 from sprag.assemble import ChunkPlacement, patched_full_attn, make_inv_freq_for
 from sprag.retrieve import load_chunk_reprs, topk
@@ -188,6 +189,28 @@ def build_chunk_placements_random_anchor(
     return placements, flat
 
 
+def build_sink_assembly(cache_dir, meta, chunk_ids, chunk_lookup, M, S, cache_kind):
+    """Leading anchor + chunk placements for the sink-style modes.
+
+    cache_kind=="anchor_fixed": a single FIXED anchor token
+        (meta['anchor_token_id']) is placed FRESH at the front (no splice) and
+        chunks are left unstripped. Build and use share the identical front
+        anchor at position 0 with nothing before it, so the assembly context is
+        symmetric with the per-chunk build forward — zero cache->assembly drift
+        for the top-1 chunk.
+    else: chunk-0 sink spliced from cache + chunks stripped by S (the §5 path).
+    """
+    if cache_kind == "anchor_fixed":
+        front_ids = [int(meta["anchor_token_id"])] * M
+        ch_pl, ch_flat = build_chunk_placements_nostrip(
+            cache_dir, chunk_ids, chunk_lookup, b_offset=M)
+        return ch_pl, front_ids + ch_flat
+    sink_pl, sink_ids = build_sink_placement(cache_dir, M)
+    ch_pl, ch_flat = build_chunk_placements(
+        cache_dir, chunk_ids, chunk_lookup, S, b_offset=M)
+    return [sink_pl] + ch_pl, sink_ids + ch_flat
+
+
 def build_chunk_placements_nostrip(cache_dir: Path, chunk_ids: list[int],
                                     chunk_lookup: dict, b_offset: int
                                     ) -> tuple[list[ChunkPlacement], list[int]]:
@@ -249,11 +272,15 @@ def main():
     ap.add_argument("--splice_layers", type=str, default="3,7",
                     help="comma-sep layer indices for partial_oracle_k3 mode")
     ap.add_argument("--cache_kind", type=str, default="standard",
-                    choices=["standard", "anchor", "anchor_prev", "anchor_random"],
+                    choices=["standard", "anchor", "anchor_prev", "anchor_random",
+                             "anchor_fixed"],
                     help="standard = single full-doc forward (§5); "
                          "anchor = per-chunk small forward with sink prefix (§5m); "
                          "anchor_prev = per-chunk forward [sink + chunk_{i-1} + chunk_i] (§5n); "
-                         "anchor_random = per-chunk forward [unique random M tokens + chunk] (§5p)")
+                         "anchor_random = per-chunk forward [unique random M tokens + chunk] (§5p); "
+                         "anchor_fixed = per-chunk forward [fixed shared anchor token x M + chunk], "
+                         "same fixed anchor placed once FRESH at the front of the assembly "
+                         "(symmetric build/use, single front anchor).")
     ap.add_argument("--anchor_M", type=int, default=4,
                     help="sink-prefix length for cache_kind=anchor")
     ap.add_argument("--alpha", type=float, default=1.0,
@@ -327,6 +354,12 @@ def main():
                     model, tok, haystack, cache_dir,
                     chunk_size=args.chunk_size, anchor_M=args.anchor_M,
                     seed=ci, embed_fn=emb.encode_passage,
+                )
+            elif args.cache_kind == "anchor_fixed":
+                build_fixed_anchor_chunk_cache(
+                    model, tok, haystack, cache_dir,
+                    chunk_size=args.chunk_size, anchor_M=args.anchor_M,
+                    embed_fn=emb.encode_passage,
                 )
             else:
                 build_chunk_cache(model, tok, haystack, cache_dir,
@@ -403,7 +436,10 @@ def main():
                 # No splice: feed sink + gold + 2 sibling chunks as raw tokens,
                 # let the model re-run full attention. Sink = first M tokens of doc.
                 ids_k3 = [gold_chunk] + other_needle_chunks[:2]
-                sink_ids = _load_chunk(cache_dir, 0)["input_ids"][:args.M].tolist()
+                if args.cache_kind == "anchor_fixed":
+                    sink_ids = [int(meta["anchor_token_id"])] * args.M
+                else:
+                    sink_ids = _load_chunk(cache_dir, 0)["input_ids"][:args.M].tolist()
                 flat: list = list(sink_ids)
                 for cid in ids_k3:
                     flat.extend(_load_chunk(cache_dir, cid)["input_ids"].tolist())
@@ -428,11 +464,9 @@ def main():
 
             if "sink_oracle_k3" in args.modes:
                 ids_k3 = [gold_chunk] + other_needle_chunks[:2]
-                sink_pl, sink_ids = build_sink_placement(cache_dir, args.M)
-                ch_pl, ch_flat = build_chunk_placements(
-                    cache_dir, ids_k3, chunk_lookup, args.S, b_offset=args.M)
-                placements = [sink_pl] + ch_pl
-                flat = sink_ids + ch_flat
+                placements, flat = build_sink_assembly(
+                    cache_dir, meta, ids_k3, chunk_lookup, args.M, args.S,
+                    args.cache_kind)
                 t0 = time.time()
                 out = run_assembled(model, tok, placements, flat,
                                      q["question"], inv_freq, args.max_new_tokens,
@@ -567,11 +601,9 @@ def main():
                 # (or only K) overwritten from cache — the other is computed
                 # fresh over the assembled context.
                 ids_k3 = [gold_chunk] + other_needle_chunks[:2]
-                sink_pl, sink_ids = build_sink_placement(cache_dir, args.M)
-                ch_pl, ch_flat = build_chunk_placements(
-                    cache_dir, ids_k3, chunk_lookup, args.S, b_offset=args.M)
-                placements = [sink_pl] + ch_pl
-                flat = sink_ids + ch_flat
+                placements, flat = build_sink_assembly(
+                    cache_dir, meta, ids_k3, chunk_lookup, args.M, args.S,
+                    args.cache_kind)
                 t0 = time.time()
                 out = run_assembled(model, tok, placements, flat,
                                      q["question"], inv_freq, args.max_new_tokens,

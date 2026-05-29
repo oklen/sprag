@@ -1,0 +1,2966 @@
+{
+  "M": 4,
+  "S": 4,
+  "top_k": 6,
+  "rows": [
+    {
+      "case": 0,
+      "id": 0,
+      "template_id": 2,
+      "answer": "Linden",
+      "raw_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: When was the first commercial web browser, Netscape Navigator, released?\nA: Late 1994.\n\n",
+        "class": "correct",
+        "time": 1.9622645378112793,
+        "assembled": [
+          5,
+          9,
+          13
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Mulberry Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Mulberry Street.\n\n",
+        "class": "distractor",
+        "time": 1.6644666194915771,
+        "assembled": [
+          5,
+          9,
+          13
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Linden Street.\n\nQ:",
+        "class": "correct",
+        "time": 1.6653227806091309,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Mulberry Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Mulberry Street.\n\n",
+        "class": "distractor",
+        "time": 1.6374375820159912,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 0,
+      "id": 1,
+      "template_id": 2,
+      "answer": "Mulberry",
+      "raw_oracle_k3": {
+        "output": " On Mulberry Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: On Linden Street.\n\nQ: Where is the best",
+        "class": "correct",
+        "time": 1.80873703956604,
+        "assembled": [
+          9,
+          5,
+          13
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Mulberry Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Mulberry Street.\n\n",
+        "class": "correct",
+        "time": 1.6549618244171143,
+        "assembled": [
+          9,
+          5,
+          13
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Mulberry Street.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Mulberry Street.\n\nQ",
+        "class": "correct",
+        "time": 1.6204276084899902,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Mulberry Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Mulberry Street.\n\n",
+        "class": "correct",
+        "time": 1.6175463199615479,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 0,
+      "id": 2,
+      "template_id": 0,
+      "answer": "forty-two",
+      "raw_oracle_k3": {
+        "output": " Forty-two.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Linden Street.\n\nQ: What is",
+        "class": "correct",
+        "time": 1.7857015132904053,
+        "assembled": [
+          13,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA:",
+        "class": "correct",
+        "time": 1.6139187812805176,
+        "assembled": [
+          13,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: The",
+        "class": "correct",
+        "time": 1.6292154788970947,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " Forty-two.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: Mulberry Street.\n\nQ: What",
+        "class": "correct",
+        "time": 1.618283748626709,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 0,
+      "id": 3,
+      "template_id": 0,
+      "answer": "seventeen",
+      "raw_oracle_k3": {
+        "output": " The magic number stored in vault Alpha is seventeen.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: The best",
+        "class": "correct",
+        "time": 1.6229584217071533,
+        "assembled": [
+          17,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The magic number stored in vault Alpha is seventeen.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: The",
+        "class": "correct",
+        "time": 1.632840871810913,
+        "assembled": [
+          17,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The magic number stored in vault Alpha is seventeen.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: The",
+        "class": "correct",
+        "time": 1.6512854099273682,
+        "assembled": [
+          17,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " The magic number stored in vault Alpha is seventeen.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: The",
+        "class": "correct",
+        "time": 1.6271374225616455,
+        "assembled": [
+          17,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 0,
+      "id": 4,
+      "template_id": 2,
+      "answer": "Marigold",
+      "raw_oracle_k3": {
+        "output": " On Marigold Street.\n\nQ: What is the first commercial web browser?\nA: Netscape Navigator.\n\nQ: When was the first commercial",
+        "class": "correct",
+        "time": 1.6279959678649902,
+        "assembled": [
+          22,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Marigold Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Mulberry Street.",
+        "class": "correct",
+        "time": 1.6334834098815918,
+        "assembled": [
+          22,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Marigold Street.\n\nQ: What is the first commercial web browser?\nA: Netscape Navigator.\n\nQ: When was the first commercial",
+        "class": "correct",
+        "time": 1.65236234664917,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Marigold Street.\n\nQ: What is the first commercial web browser?\nA: Netscape Navigator.\n\nQ: Who invented the World Wide",
+        "class": "correct",
+        "time": 1.6368238925933838,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 0,
+      "id": 5,
+      "template_id": 1,
+      "answer": "Bridget ... cerulean",
+      "raw_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?",
+        "class": "correct",
+        "time": 1.8350622653961182,
+        "assembled": [
+          26,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: What is the best place to find a quiet bookshop in Tallinn",
+        "class": "correct",
+        "time": 1.6451373100280762,
+        "assembled": [
+          26,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?",
+        "class": "correct",
+        "time": 1.627051830291748,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: What is the best place to find a quiet bookshop in Tallinn",
+        "class": "correct",
+        "time": 1.629650592803955,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 1,
+      "id": 0,
+      "template_id": 2,
+      "answer": "Hawthorn",
+      "raw_oracle_k3": {
+        "output": " On Hawthorn Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Hawthorn Street.",
+        "class": "correct",
+        "time": 1.6271531581878662,
+        "assembled": [
+          5,
+          9,
+          13
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Hawthorn Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Hawthorn Street.",
+        "class": "correct",
+        "time": 1.642214059829712,
+        "assembled": [
+          5,
+          9,
+          13
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Hawthorn Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Hawthorn Street.",
+        "class": "correct",
+        "time": 1.632338285446167,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Hawthorn Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Hawthorn Street.",
+        "class": "correct",
+        "time": 1.6547975540161133,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 1,
+      "id": 1,
+      "template_id": 0,
+      "answer": "ninety-three",
+      "raw_oracle_k3": {
+        "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA",
+        "class": "correct",
+        "time": 1.6122729778289795,
+        "assembled": [
+          9,
+          5,
+          13
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " 93\n\nQ: What is the first version of the Linux kernel released in 1991?\nA: 91\n\nQ:",
+        "class": "correct",
+        "time": 1.597449541091919,
+        "assembled": [
+          9,
+          5,
+          13
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The secret keeper is Lenore and her favourite colour is cerulean. Please remember this for later.\n\nQ: What is the best place to find a",
+        "class": "other",
+        "time": 1.6165788173675537,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " 93\n\nQ: What is the first version of the Linux kernel released in 1991?\nA: 91\n\nQ:",
+        "class": "correct",
+        "time": 1.5813422203063965,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 1,
+      "id": 2,
+      "template_id": 1,
+      "answer": "Lenore ... cerulean",
+      "raw_oracle_k3": {
+        "output": " The secret keeper is Lenore and her favourite colour is cerulean.\n\nQ: What is the best place to find a quiet bookshop in Montev",
+        "class": "correct",
+        "time": 1.578061580657959,
+        "assembled": [
+          13,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The secret keeper is Lenore and her favourite colour is cerulean.\n\nQ: What is the history of computing?\nA: The history of computing",
+        "class": "correct",
+        "time": 1.6048510074615479,
+        "assembled": [
+          13,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The secret keeper is Lenore and her favourite colour is cerulean.\n\nQ: What is the best place to find a quiet bookshop in Montev",
+        "class": "correct",
+        "time": 1.6328742504119873,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " The secret keeper is Lenore and her favourite colour is cerulean.\n\nQ: What is the best place to find a quiet bookshop in Montev",
+        "class": "correct",
+        "time": 1.651724100112915,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 1,
+      "id": 3,
+      "template_id": 0,
+      "answer": "seventeen",
+      "raw_oracle_k3": {
+        "output": " Seventeen.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Hawthorn Street.\n\nQ",
+        "class": "correct",
+        "time": 1.6162919998168945,
+        "assembled": [
+          17,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The magic number stored in vault Sigma is 17.\n\nQ: What is the first version of the Linux kernel released in 1991?",
+        "class": "correct",
+        "time": 1.6630754470825195,
+        "assembled": [
+          17,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The magic number stored in vault Sigma is seventeen.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA:",
+        "class": "correct",
+        "time": 1.6366298198699951,
+        "assembled": [
+          17,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " The magic number stored in vault Sigma is seventeen.\n\nQ: What is the first message sent by the ENIAC?\nA: The first message sent",
+        "class": "correct",
+        "time": 1.6723814010620117,
+        "assembled": [
+          17,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 1,
+      "id": 4,
+      "template_id": 2,
+      "answer": "Marigold",
+      "raw_oracle_k3": {
+        "output": " On Marigold Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Marigold Street",
+        "class": "correct",
+        "time": 1.6578941345214844,
+        "assembled": [
+          22,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Marigold Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Hawthorn Street",
+        "class": "correct",
+        "time": 1.6754090785980225,
+        "assembled": [
+          22,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Marigold Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Marigold",
+        "class": "correct",
+        "time": 1.6808223724365234,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Marigold Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Marigold Street",
+        "class": "correct",
+        "time": 1.6890170574188232,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 1,
+      "id": 5,
+      "template_id": 2,
+      "answer": "Mulberry",
+      "raw_oracle_k3": {
+        "output": " On Mulberry Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Hawthorn Street.",
+        "class": "correct",
+        "time": 1.637209415435791,
+        "assembled": [
+          26,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Mulberry Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Mulberry Street.",
+        "class": "correct",
+        "time": 1.642148494720459,
+        "assembled": [
+          26,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Mulberry Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Mulberry Street.",
+        "class": "correct",
+        "time": 1.6386258602142334,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Mulberry Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Mulberry Street.",
+        "class": "correct",
+        "time": 1.616224765777588,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 2,
+      "id": 0,
+      "template_id": 2,
+      "answer": "Saffron",
+      "raw_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Saffron",
+        "class": "correct",
+        "time": 1.6204280853271484,
+        "assembled": [
+          5,
+          9,
+          13
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Saffron",
+        "class": "correct",
+        "time": 1.6490530967712402,
+        "assembled": [
+          5,
+          9,
+          13
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Saffron",
+        "class": "correct",
+        "time": 1.654125452041626,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Saffron",
+        "class": "correct",
+        "time": 1.6151437759399414,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 2,
+      "id": 1,
+      "template_id": 1,
+      "answer": "Octavia ... cerulean",
+      "raw_oracle_k3": {
+        "output": " The secret keeper is Octavia and her favourite colour is cerulean.\n\nQ: What is the best place to find a quiet bookshop in Montev",
+        "class": "correct",
+        "time": 1.6524240970611572,
+        "assembled": [
+          9,
+          5,
+          13
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The secret keeper is Octavia and her favourite colour is cerulean.\n\nQ: What is the best place to find a quiet bookshop in Montev",
+        "class": "correct",
+        "time": 1.6657965183258057,
+        "assembled": [
+          9,
+          5,
+          13
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The secret keeper is Octavia and her favourite colour is cerulean.\n\nQ: What is the best place to find a quiet bookshop in Tallinn",
+        "class": "correct",
+        "time": 1.653308629989624,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " The secret keeper is Octavia and her favourite colour is cerulean.\n\nQ: What is the best place to find a quiet bookshop in Montev",
+        "class": "correct",
+        "time": 1.6419165134429932,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 2,
+      "id": 2,
+      "template_id": 2,
+      "answer": "Hawthorn",
+      "raw_oracle_k3": {
+        "output": " On Hawthorn Street.\n\nQ: What is the best quiet bookshop in Montevideo?\nA: On Saffron Street.\n\nQ:",
+        "class": "correct",
+        "time": 1.6380538940429688,
+        "assembled": [
+          13,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Hawthorn Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Saffron Street",
+        "class": "correct",
+        "time": 1.640568494796753,
+        "assembled": [
+          13,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Hawthorn Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Saffron Street",
+        "class": "correct",
+        "time": 1.612253189086914,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Hawthorn Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Hawthorn Street.",
+        "class": "correct",
+        "time": 1.622483253479004,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 2,
+      "id": 3,
+      "template_id": 0,
+      "answer": "forty-two",
+      "raw_oracle_k3": {
+        "output": " The magic number stored in vault Sigma is forty-two.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA",
+        "class": "correct",
+        "time": 1.6127989292144775,
+        "assembled": [
+          18,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " 42\n\nQ: What is the first compiler called A-0 in?\nA: 1952\n\nQ: What was the first",
+        "class": "correct",
+        "time": 1.6385724544525146,
+        "assembled": [
+          18,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The magic number stored in vault Sigma is forty-two.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA",
+        "class": "correct",
+        "time": 1.6282422542572021,
+        "assembled": [
+          18,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " 42\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: Saffron Street\n\nQ:",
+        "class": "correct",
+        "time": 1.6148295402526855,
+        "assembled": [
+          18,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 2,
+      "id": 4,
+      "template_id": 0,
+      "answer": "one hundred and one",
+      "raw_oracle_k3": {
+        "output": " One hundred and one.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: Saffron Street.",
+        "class": "correct",
+        "time": 1.6140789985656738,
+        "assembled": [
+          22,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " One hundred and one.\n\nQ: What is the first compiler called A-0 in?\nA: 1952.\n\nQ: What",
+        "class": "correct",
+        "time": 1.628424882888794,
+        "assembled": [
+          22,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " One hundred and one.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: Saffron Street.",
+        "class": "correct",
+        "time": 1.6276378631591797,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " One hundred and one.\n\nQ: What is the first compiler called A-0?\nA: A-0.\n\nQ: Who invented the World",
+        "class": "correct",
+        "time": 1.6048133373260498,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 2,
+      "id": 5,
+      "template_id": 2,
+      "answer": "Linden",
+      "raw_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the first commercial web browser?\nA: Netscape Navigator.\n\nQ: Who invented the World Wide Web?",
+        "class": "correct",
+        "time": 1.797863245010376,
+        "assembled": [
+          26,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Saffron",
+        "class": "distractor",
+        "time": 1.614065170288086,
+        "assembled": [
+          26,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the first commercial web browser?\nA: Netscape Navigator.\n\nQ: When was the first commercial web browser",
+        "class": "correct",
+        "time": 1.6374971866607666,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Saffron Street.",
+        "class": "correct",
+        "time": 1.628687858581543,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 3,
+      "id": 0,
+      "template_id": 2,
+      "answer": "Mulberry",
+      "raw_oracle_k3": {
+        "output": " Mulberry Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: Mulberry Street.\n\nQ",
+        "class": "correct",
+        "time": 1.6493070125579834,
+        "assembled": [
+          5,
+          9,
+          13
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Mulberry Street.\n\nQ: Who invented the World Wide Web?\nA: Tim Berners-Lee.\n\nQ: When was the first commercial",
+        "class": "correct",
+        "time": 1.656674861907959,
+        "assembled": [
+          5,
+          9,
+          13
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " Mulberry Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: Mulberry Street.\n\nQ",
+        "class": "correct",
+        "time": 1.6362264156341553,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Mulberry Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Mulberry Street.",
+        "class": "correct",
+        "time": 1.6597363948822021,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 3,
+      "id": 1,
+      "template_id": 1,
+      "answer": "Helena ... indigo",
+      "raw_oracle_k3": {
+        "output": " The secret keeper is Helena and her favourite colour is indigo.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?",
+        "class": "correct",
+        "time": 1.62251877784729,
+        "assembled": [
+          9,
+          5,
+          13
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The secret keeper is Helena and her favourite colour is indigo.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\n",
+        "class": "correct",
+        "time": 1.662879228591919,
+        "assembled": [
+          9,
+          5,
+          13
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The secret keeper is Helena and her favourite colour is indigo.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?",
+        "class": "correct",
+        "time": 1.6666514873504639,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " The secret keeper is Helena and her favourite colour is indigo.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?",
+        "class": "correct",
+        "time": 1.627920150756836,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 3,
+      "id": 2,
+      "template_id": 2,
+      "answer": "Saffron",
+      "raw_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the best quiet bookshop in Montevideo?\nA: On Mulberry Street.\n\nQ:",
+        "class": "correct",
+        "time": 1.6463167667388916,
+        "assembled": [
+          13,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Mulberry Street",
+        "class": "correct",
+        "time": 1.6661372184753418,
+        "assembled": [
+          13,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Mulberry Street",
+        "class": "correct",
+        "time": 1.640059471130371,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Mulberry Street.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA: On Mulberry Street.\n\nQ: Where",
+        "class": "distractor",
+        "time": 1.6752874851226807,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 3,
+      "id": 3,
+      "template_id": 0,
+      "answer": "forty-two",
+      "raw_oracle_k3": {
+        "output": " The magic number stored in vault Delta is forty-two.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA",
+        "class": "correct",
+        "time": 1.6591699123382568,
+        "assembled": [
+          17,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " 42\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: Mulberry Street\n\nQ: What",
+        "class": "correct",
+        "time": 1.642411708831787,
+        "assembled": [
+          17,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The magic number stored in vault Delta is forty-two.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA",
+        "class": "correct",
+        "time": 1.665020227432251,
+        "assembled": [
+          17,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " 42\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: Mulberry Street\n\nQ: What",
+        "class": "correct",
+        "time": 1.660158634185791,
+        "assembled": [
+          17,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 3,
+      "id": 4,
+      "template_id": 0,
+      "answer": "ninety-three",
+      "raw_oracle_k3": {
+        "output": " The magic number stored in vault Gamma is ninety-three.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA",
+        "class": "correct",
+        "time": 1.6496059894561768,
+        "assembled": [
+          22,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " 93\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: Mulberry Street\n\nQ: What",
+        "class": "correct",
+        "time": 1.6447124481201172,
+        "assembled": [
+          22,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The magic number stored in vault Gamma is ninety-three.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA",
+        "class": "correct",
+        "time": 1.6428425312042236,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " 93\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: Mulberry Street\n\nQ: What",
+        "class": "correct",
+        "time": 1.6380927562713623,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 3,
+      "id": 5,
+      "template_id": 0,
+      "answer": "one hundred and one",
+      "raw_oracle_k3": {
+        "output": " One hundred and one.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Mulberry Street.",
+        "class": "correct",
+        "time": 1.6307380199432373,
+        "assembled": [
+          26,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " One hundred and one.\n\nQ: What is the first compiler called A-0 in 1952?\nA: A-0.\n\n",
+        "class": "correct",
+        "time": 1.6634962558746338,
+        "assembled": [
+          26,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " One hundred and one.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: Mulberry Street.\n\n",
+        "class": "correct",
+        "time": 1.638551950454712,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " One hundred and one.\n\nQ: What is the first compiler called A-0?\nA: The first compiler called A-0.\n\nQ:",
+        "class": "correct",
+        "time": 1.632150650024414,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 4,
+      "id": 0,
+      "template_id": 1,
+      "answer": "Bridget ... scarlet",
+      "raw_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: What is the best place to find a quiet bookshop in Reykjav",
+        "class": "correct",
+        "time": 1.6343538761138916,
+        "assembled": [
+          5,
+          9,
+          13
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: What is the first commercial web browser?\nA: The first commercial web",
+        "class": "correct",
+        "time": 1.6544218063354492,
+        "assembled": [
+          5,
+          9,
+          13
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: What is the best place to find a quiet bookshop in Reykjav",
+        "class": "correct",
+        "time": 1.6594970226287842,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: What is the first commercial web browser?\nA: The first commercial web",
+        "class": "correct",
+        "time": 1.6517879962921143,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 4,
+      "id": 1,
+      "template_id": 0,
+      "answer": "ninety-three",
+      "raw_oracle_k3": {
+        "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What is the first commercial web browser, Netscape Navigator, debuted in?\nA:",
+        "class": "correct",
+        "time": 1.6134099960327148,
+        "assembled": [
+          9,
+          5,
+          13
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " 93\n\nQ: What is the first version of the Linux kernel released in 1991?\nA: 1991\n\n",
+        "class": "correct",
+        "time": 1.6545624732971191,
+        "assembled": [
+          9,
+          5,
+          13
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What is the first commercial web browser, Netscape Navigator, debuted in?\nA:",
+        "class": "correct",
+        "time": 1.6543223857879639,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " 93\n\nQ: What is the first commercial web browser, Netscape Navigator, debuted in?\nA: Late 1994\n\nQ",
+        "class": "correct",
+        "time": 1.6494309902191162,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 4,
+      "id": 2,
+      "template_id": 2,
+      "answer": "Saffron",
+      "raw_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Reykjavik?\nA: On Saff",
+        "class": "correct",
+        "time": 1.5918951034545898,
+        "assembled": [
+          13,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Reykjavik?\nA: On Saff",
+        "class": "correct",
+        "time": 1.579549789428711,
+        "assembled": [
+          13,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Reykjavik?\nA: On Saff",
+        "class": "correct",
+        "time": 1.6059906482696533,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the first commercial web browser?\nA: Netscape Navigator.\n\nQ: What is the first version",
+        "class": "correct",
+        "time": 1.6104872226715088,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 4,
+      "id": 3,
+      "template_id": 2,
+      "answer": "Linden",
+      "raw_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the secret keeper?\nA: Bridget.\n\nQ: What is the magic number stored in vault Alpha?",
+        "class": "correct",
+        "time": 1.6237967014312744,
+        "assembled": [
+          17,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Linden Street.\n\nQ:",
+        "class": "correct",
+        "time": 1.623337984085083,
+        "assembled": [
+          17,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Linden Street.\n\nQ:",
+        "class": "correct",
+        "time": 1.6655097007751465,
+        "assembled": [
+          17,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the secret keeper in this document?\nA: Bridget.\n\nQ: What is the magic number stored in",
+        "class": "correct",
+        "time": 1.6199593544006348,
+        "assembled": [
+          17,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 4,
+      "id": 4,
+      "template_id": 0,
+      "answer": "one hundred and one",
+      "raw_oracle_k3": {
+        "output": " One hundred and one.\n\nQ: What is the first version of the Linux kernel released in 1991?\nA: Linus Torval",
+        "class": "correct",
+        "time": 1.6116232872009277,
+        "assembled": [
+          22,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The magic number stored in vault Sigma is one hundred and one.\n\nQ: What is the first commercial web browser?\nA: The first commercial web browser",
+        "class": "correct",
+        "time": 1.6501855850219727,
+        "assembled": [
+          22,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The magic number stored in vault Sigma is one hundred and one.\n\nQ: What is the first version of the Linux kernel released in 1991",
+        "class": "correct",
+        "time": 1.6293363571166992,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. The first commercial web browser, Netscape Navigator, debuted in late",
+        "class": "other",
+        "time": 1.6515593528747559,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 4,
+      "id": 5,
+      "template_id": 0,
+      "answer": "forty-two",
+      "raw_oracle_k3": {
+        "output": " Forty-two.\n\nQ: What is the first commercial web browser, Netscape Navigator,?\nA: Debuted in late 1994.",
+        "class": "correct",
+        "time": 1.6652748584747314,
+        "assembled": [
+          26,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What is the first version of the Linux kernel released in 1991?\n",
+        "class": "correct",
+        "time": 1.6460151672363281,
+        "assembled": [
+          26,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What is the first commercial web browser?\nA: Netscape Navigator.\n\nQ:",
+        "class": "correct",
+        "time": 1.6283247470855713,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What is the first version of the Linux kernel released in 1991?\n",
+        "class": "correct",
+        "time": 1.672884225845337,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 5,
+      "id": 0,
+      "template_id": 2,
+      "answer": "Mulberry",
+      "raw_oracle_k3": {
+        "output": " On Mulberry Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Linden Street.\n\nQ",
+        "class": "correct",
+        "time": 1.609527349472046,
+        "assembled": [
+          5,
+          9,
+          13
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Mulberry Street.\n\nQ: Who invented the World Wide Web?\nA: Tim Berners-Lee.\n\nQ: What is the best place",
+        "class": "correct",
+        "time": 1.6237647533416748,
+        "assembled": [
+          5,
+          9,
+          13
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Mulberry Street.\n\nQ: Who invented the World Wide Web?\nA: Tim Berners-Lee.\n\nQ: When was the first commercial",
+        "class": "correct",
+        "time": 1.6293745040893555,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Mulberry Street.\n\nQ: Who invented the World Wide Web?\nA: Charles Babbage.\n\nQ: What is the best place to find",
+        "class": "correct",
+        "time": 1.6119415760040283,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 5,
+      "id": 1,
+      "template_id": 1,
+      "answer": "Bridget ... scarlet",
+      "raw_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\n",
+        "class": "correct",
+        "time": 1.606680154800415,
+        "assembled": [
+          9,
+          5,
+          13
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?",
+        "class": "correct",
+        "time": 1.6313834190368652,
+        "assembled": [
+          9,
+          5,
+          13
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\n",
+        "class": "correct",
+        "time": 1.6075797080993652,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?",
+        "class": "correct",
+        "time": 1.6342439651489258,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 5,
+      "id": 2,
+      "template_id": 2,
+      "answer": "Linden",
+      "raw_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the best quiet bookshop in Lisbon?\nA: On Mulberry Street.\n\nQ: Where is the best",
+        "class": "correct",
+        "time": 1.5873041152954102,
+        "assembled": [
+          13,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Mulberry Street.\n\nQ",
+        "class": "correct",
+        "time": 1.6154403686523438,
+        "assembled": [
+          13,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Mulberry Street.\n\nQ:",
+        "class": "correct",
+        "time": 1.6126556396484375,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Mulberry Street.\n\nQ: What is the best quiet bookshop in Tallinn?\nA: On Mulberry Street.\n\nQ: Where is",
+        "class": "distractor",
+        "time": 1.5995206832885742,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 5,
+      "id": 3,
+      "template_id": 0,
+      "answer": "forty-two",
+      "raw_oracle_k3": {
+        "output": " Forty-two.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Mulberry Street.\n\nQ: What",
+        "class": "correct",
+        "time": 1.5981533527374268,
+        "assembled": [
+          18,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " Forty-two.\n\nQ: What is the first version of the Linux kernel released in?\nA: 1991.\n\nQ: What is",
+        "class": "correct",
+        "time": 1.6139464378356934,
+        "assembled": [
+          18,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " Forty-two.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: Mulberry Street.\n\nQ: What is",
+        "class": "correct",
+        "time": 1.6581449508666992,
+        "assembled": [
+          18,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " Forty-two.\n\nQ: What is the first message sent by the ARPANET?\nA: Between two nodes in October of 1969",
+        "class": "correct",
+        "time": 1.6494169235229492,
+        "assembled": [
+          18,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 5,
+      "id": 4,
+      "template_id": 2,
+      "answer": "Marigold",
+      "raw_oracle_k3": {
+        "output": " On Marigold Street.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Mulberry Street.\n\n",
+        "class": "correct",
+        "time": 1.609649658203125,
+        "assembled": [
+          22,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Marigold Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Marigold",
+        "class": "correct",
+        "time": 1.6531224250793457,
+        "assembled": [
+          22,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Marigold Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Marigold",
+        "class": "correct",
+        "time": 1.636382818222046,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Marigold Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Marigold",
+        "class": "correct",
+        "time": 1.5983424186706543,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 5,
+      "id": 5,
+      "template_id": 2,
+      "answer": "Saffron",
+      "raw_oracle_k3": {
+        "output": " Saffron Street.\n\nQ: What is the best quiet bookshop in Lisbon?\nA: Mulberry Street.\n\nQ: Where is the best",
+        "class": "correct",
+        "time": 1.636970043182373,
+        "assembled": [
+          26,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Mulberry Street.\n\n",
+        "class": "correct",
+        "time": 1.6286537647247314,
+        "assembled": [
+          26,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Mulberry Street.\n\n",
+        "class": "correct",
+        "time": 1.6121270656585693,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Mulberry Street.\n\n",
+        "class": "correct",
+        "time": 1.604745864868164,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 6,
+      "id": 0,
+      "template_id": 0,
+      "answer": "seventeen",
+      "raw_oracle_k3": {
+        "output": " The magic number stored in vault Gamma is seventeen.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: The best",
+        "class": "correct",
+        "time": 1.641279697418213,
+        "assembled": [
+          5,
+          9,
+          13
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " 17\n\nQ: What is the name of the first version of the Linux kernel?\nA: 1991\n\nQ: What was",
+        "class": "correct",
+        "time": 1.6470260620117188,
+        "assembled": [
+          5,
+          9,
+          13
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The magic number stored in vault Gamma is seventeen.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: The best",
+        "class": "correct",
+        "time": 1.642016887664795,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " 17\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: Marigold Street\n\nQ: What is",
+        "class": "correct",
+        "time": 1.6114387512207031,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 6,
+      "id": 1,
+      "template_id": 2,
+      "answer": "Marigold",
+      "raw_oracle_k3": {
+        "output": " On Marigold Street.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: On Marigold Street.",
+        "class": "correct",
+        "time": 1.6523590087890625,
+        "assembled": [
+          9,
+          5,
+          13
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Marigold Street.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: On Marigold Street.",
+        "class": "correct",
+        "time": 1.6593852043151855,
+        "assembled": [
+          9,
+          5,
+          13
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Marigold Street.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: On Marigold Street.",
+        "class": "correct",
+        "time": 1.6315436363220215,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Marigold Street.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: On Marigold Street.",
+        "class": "correct",
+        "time": 1.652933120727539,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 6,
+      "id": 2,
+      "template_id": 1,
+      "answer": "Marigold ... amber",
+      "raw_oracle_k3": {
+        "output": " The secret keeper is Marigold and her favourite colour is amber.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\n",
+        "class": "correct",
+        "time": 1.6691906452178955,
+        "assembled": [
+          13,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The secret keeper is Marigold and her favourite colour is amber.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\n",
+        "class": "correct",
+        "time": 1.6121158599853516,
+        "assembled": [
+          13,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The secret keeper is Marigold and her favourite colour is amber.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\n",
+        "class": "correct",
+        "time": 1.6416664123535156,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " The secret keeper is Marigold and her favourite colour is amber.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\n",
+        "class": "correct",
+        "time": 1.6283605098724365,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 6,
+      "id": 3,
+      "template_id": 2,
+      "answer": "Linden",
+      "raw_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the best quiet bookshop in Tallinn?\nA: On Linden Street.\n\nQ: Where is the best",
+        "class": "correct",
+        "time": 1.6133651733398438,
+        "assembled": [
+          18,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Linden Street.\n\nQ:",
+        "class": "correct",
+        "time": 1.6367225646972656,
+        "assembled": [
+          18,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Linden Street.\n\nQ:",
+        "class": "correct",
+        "time": 1.61277437210083,
+        "assembled": [
+          18,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Linden Street.\n\nQ:",
+        "class": "correct",
+        "time": 1.636430263519287,
+        "assembled": [
+          18,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 6,
+      "id": 4,
+      "template_id": 0,
+      "answer": "ninety-three",
+      "raw_oracle_k3": {
+        "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: The",
+        "class": "correct",
+        "time": 1.6457512378692627,
+        "assembled": [
+          22,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The magic number stored in vault Alpha is 93.\n\nQ: What was the first commercial web browser?\nA: The first commercial web browser was",
+        "class": "correct",
+        "time": 1.6401832103729248,
+        "assembled": [
+          22,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: The",
+        "class": "correct",
+        "time": 1.6218838691711426,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: The",
+        "class": "correct",
+        "time": 1.6297783851623535,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 6,
+      "id": 5,
+      "template_id": 0,
+      "answer": "forty-two",
+      "raw_oracle_k3": {
+        "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: On",
+        "class": "correct",
+        "time": 1.6356940269470215,
+        "assembled": [
+          26,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The ENIAC was unveiled to the public at the University of Pennsylvania in 1946. The ENIAC was unveiled to the public at the",
+        "class": "other",
+        "time": 1.639934778213501,
+        "assembled": [
+          26,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What is the first version of the Linux kernel released in 1991?\n",
+        "class": "correct",
+        "time": 1.6443099975585938,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What is the first version of the Linux kernel released in 1991?\n",
+        "class": "correct",
+        "time": 1.631345510482788,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 7,
+      "id": 0,
+      "template_id": 0,
+      "answer": "ninety-three",
+      "raw_oracle_k3": {
+        "output": " The magic number stored in vault Beta is ninety-three.\n\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored in vault",
+        "class": "correct",
+        "time": 1.6335914134979248,
+        "assembled": [
+          5,
+          9,
+          13
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The magic number stored in vault Beta is ninety-three.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA:",
+        "class": "correct",
+        "time": 1.6462347507476807,
+        "assembled": [
+          5,
+          9,
+          13
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The best place to find a quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document. John von Neumann formal",
+        "class": "other",
+        "time": 1.612189769744873,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " Forty-two.\n\nQ: What magic number is stored in vault Gamma?\nA: Forty-two.\n\nQ: What magic number is stored in vault Alpha",
+        "class": "distractor",
+        "time": 1.62449312210083,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 7,
+      "id": 1,
+      "template_id": 0,
+      "answer": "forty-two",
+      "raw_oracle_k3": {
+        "output": " Forty-two.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: Saffron Street.\n\nQ:",
+        "class": "correct",
+        "time": 1.611224889755249,
+        "assembled": [
+          9,
+          5,
+          13
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " Forty-two.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Saffron Street.\n\nQ",
+        "class": "correct",
+        "time": 1.6187386512756348,
+        "assembled": [
+          9,
+          5,
+          13
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " Forty-two.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: Saffron Street.\n\nQ:",
+        "class": "correct",
+        "time": 1.6403992176055908,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " Forty-two.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Saffron Street.\n\nQ",
+        "class": "correct",
+        "time": 1.6422119140625,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 7,
+      "id": 2,
+      "template_id": 2,
+      "answer": "Saffron",
+      "raw_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Saffron Street",
+        "class": "correct",
+        "time": 1.613870620727539,
+        "assembled": [
+          13,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Saffron Street",
+        "class": "correct",
+        "time": 1.623713493347168,
+        "assembled": [
+          13,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Saffron Street",
+        "class": "correct",
+        "time": 1.6108582019805908,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Saffron Street",
+        "class": "correct",
+        "time": 1.6312229633331299,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 7,
+      "id": 3,
+      "template_id": 2,
+      "answer": "Hawthorn",
+      "raw_oracle_k3": {
+        "output": " On Hawthorn Street.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: On Hawthorn Street.\n\nQ",
+        "class": "correct",
+        "time": 1.6231355667114258,
+        "assembled": [
+          17,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Hawthorn Street.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: On Hawthorn Street.\n\nQ",
+        "class": "correct",
+        "time": 1.6680362224578857,
+        "assembled": [
+          17,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Hawthorn Street.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: On Hawthorn Street.\n\nQ",
+        "class": "correct",
+        "time": 1.6356842517852783,
+        "assembled": [
+          17,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Hawthorn Street.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: On Hawthorn Street.\n\nQ",
+        "class": "correct",
+        "time": 1.6506409645080566,
+        "assembled": [
+          17,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 7,
+      "id": 4,
+      "template_id": 2,
+      "answer": "Linden",
+      "raw_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Linden Street.\n\nQ: Where",
+        "class": "correct",
+        "time": 1.6245496273040771,
+        "assembled": [
+          22,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Linden Street.\n\nQ: Where",
+        "class": "correct",
+        "time": 1.6556568145751953,
+        "assembled": [
+          22,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Linden Street.\n\nQ: Where",
+        "class": "correct",
+        "time": 1.6443092823028564,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Linden Street.\n\nQ: Where",
+        "class": "correct",
+        "time": 1.6449673175811768,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 7,
+      "id": 5,
+      "template_id": 1,
+      "answer": "Bridget ... cerulean",
+      "raw_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+        "class": "correct",
+        "time": 1.6443727016448975,
+        "assembled": [
+          26,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: What is the history of computing and its roots?\nA: The",
+        "class": "correct",
+        "time": 1.6640124320983887,
+        "assembled": [
+          26,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+        "class": "correct",
+        "time": 1.6358473300933838,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+        "class": "correct",
+        "time": 1.649043083190918,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 8,
+      "id": 0,
+      "template_id": 1,
+      "answer": "Marigold ... scarlet",
+      "raw_oracle_k3": {
+        "output": " The secret keeper is Marigold and her favourite colour is scarlet.\n\nQ: What is the best place to find a quiet bookshop in Tallinn",
+        "class": "correct",
+        "time": 1.6172010898590088,
+        "assembled": [
+          5,
+          9,
+          13
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The secret keeper is Marigold and her favourite colour is scarlet.\n\nQ: What is the best place to find a quiet bookshop in Tallinn",
+        "class": "correct",
+        "time": 1.642437219619751,
+        "assembled": [
+          5,
+          9,
+          13
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The secret keeper is Marigold and her favourite colour is scarlet.\n\nQ: What is the best place to find a quiet bookshop in Tallinn",
+        "class": "correct",
+        "time": 1.6497526168823242,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " The secret keeper is Marigold and her favourite colour is scarlet.\n\nQ: What is the best place to find a quiet bookshop in Tallinn",
+        "class": "correct",
+        "time": 1.6624445915222168,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 8,
+      "id": 1,
+      "template_id": 0,
+      "answer": "one hundred and one",
+      "raw_oracle_k3": {
+        "output": " One hundred and one.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Marigold Street.",
+        "class": "correct",
+        "time": 1.6303956508636475,
+        "assembled": [
+          9,
+          5,
+          13
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " One hundred and one.\n\nQ: What is the first commercial web browser?\nA: Netscape Navigator.\n\nQ: What is the first computer?",
+        "class": "correct",
+        "time": 1.685126781463623,
+        "assembled": [
+          9,
+          5,
+          13
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " One hundred and one.\n\nQ: What is the first commercial web browser?\nA: Netscape Navigator.\n\nQ: What is the first commercial web",
+        "class": "correct",
+        "time": 1.638049602508545,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " One hundred and one.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Marigold Street.",
+        "class": "correct",
+        "time": 1.6133451461791992,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 8,
+      "id": 2,
+      "template_id": 2,
+      "answer": "Marigold",
+      "raw_oracle_k3": {
+        "output": " On Marigold Street.\n\nQ: What is the secret keeper?\nA: Marigold.\n\nQ: What is the magic number stored in",
+        "class": "correct",
+        "time": 1.649216890335083,
+        "assembled": [
+          13,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Marigold Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Marigold Street",
+        "class": "correct",
+        "time": 1.6507987976074219,
+        "assembled": [
+          13,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Marigold Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Marigold Street",
+        "class": "correct",
+        "time": 1.6775166988372803,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Marigold Street.\n\nQ: What is the secret keeper?\nA: Marigold.\n\nQ: Where is the best quiet bookshop",
+        "class": "correct",
+        "time": 1.64619779586792,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 8,
+      "id": 3,
+      "template_id": 0,
+      "answer": "seventeen",
+      "raw_oracle_k3": {
+        "output": " The magic number stored in vault Gamma is seventeen.\n\nQ: What is the first commercial web browser?\nA: The first commercial web browser is Netscape",
+        "class": "correct",
+        "time": 1.6288402080535889,
+        "assembled": [
+          17,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The magic number stored in vault Gamma is seventeen.\n\nQ: What is the first commercial web browser?\nA: The first commercial web browser is Netscape",
+        "class": "correct",
+        "time": 1.6565990447998047,
+        "assembled": [
+          17,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The magic number stored in vault Gamma is seventeen.\n\nQ: What is the first commercial web browser?\nA: The first commercial web browser is Netscape",
+        "class": "correct",
+        "time": 1.6546084880828857,
+        "assembled": [
+          17,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " The magic number stored in vault Gamma is one hundred and one.\n\nQ: What is the first commercial web browser?\nA: The first commercial web browser",
+        "class": "distractor",
+        "time": 1.6463184356689453,
+        "assembled": [
+          17,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 8,
+      "id": 4,
+      "template_id": 2,
+      "answer": "Hawthorn",
+      "raw_oracle_k3": {
+        "output": " This information is unique to this document. John von Neumann formalised the stored-program architecture in his 1945 draft. Tim Berners-Lee",
+        "class": "other",
+        "time": 1.6566317081451416,
+        "assembled": [
+          22,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Hawthorn Street.\n\nQ: What is the best quiet bookshop in Kyoto?\nA: On Hawthorn Street.\n\nQ: Where is the",
+        "class": "correct",
+        "time": 1.6603748798370361,
+        "assembled": [
+          22,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Hawthorn Street.\n\nQ: What is the secret keeper of the ENIAC?\nA: The ENIAC was unveiled to the public at",
+        "class": "correct",
+        "time": 1.6301913261413574,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " This information is unique to this document. John von Neumann formalised the stored-program architecture in his 1945 draft. Tim Berners-Lee",
+        "class": "other",
+        "time": 1.6193296909332275,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 8,
+      "id": 5,
+      "template_id": 2,
+      "answer": "Saffron",
+      "raw_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the best quiet bookshop in Lisbon?\nA: On Saffron Street.\n\nQ: Where",
+        "class": "correct",
+        "time": 1.6422533988952637,
+        "assembled": [
+          26,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Saffron Street.",
+        "class": "correct",
+        "time": 1.6534662246704102,
+        "assembled": [
+          26,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the best quiet bookshop in Lisbon?\nA: On Saffron Street.\n\nQ: Where",
+        "class": "correct",
+        "time": 1.6301872730255127,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Saffron Street.\n\nQ: What is the secret keeper?\nA: Marigold.\n\nQ: What is the best place to find",
+        "class": "correct",
+        "time": 1.6454219818115234,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 9,
+      "id": 0,
+      "template_id": 0,
+      "answer": "forty-two",
+      "raw_oracle_k3": {
+        "output": " Forty-two.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Hawthorn Street.\n\nQ:",
+        "class": "correct",
+        "time": 1.6119039058685303,
+        "assembled": [
+          5,
+          9,
+          13
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " Forty-two\n\nQ: What is the first commercial web browser?\nA: Netscape Navigator\n\nQ: What is the first message sent between two nodes in",
+        "class": "correct",
+        "time": 1.6533942222595215,
+        "assembled": [
+          5,
+          9,
+          13
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " Forty-two.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Hawthorn Street.\n\nQ:",
+        "class": "correct",
+        "time": 1.6462862491607666,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " 42\n\nQ: What is the first message sent between two nodes in October of 1969?\nA: The ENIAC was",
+        "class": "correct",
+        "time": 1.6421334743499756,
+        "assembled": [
+          5,
+          9,
+          13
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 9,
+      "id": 1,
+      "template_id": 2,
+      "answer": "Hawthorn",
+      "raw_oracle_k3": {
+        "output": " On Hawthorn Street.\n\nThis information is unique to this document.\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in 1",
+        "class": "correct",
+        "time": 1.658752679824829,
+        "assembled": [
+          9,
+          5,
+          13
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Hawthorn Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Hawthorn Street.\n\n",
+        "class": "correct",
+        "time": 1.6472694873809814,
+        "assembled": [
+          9,
+          5,
+          13
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Hawthorn Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Hawthorn Street.\n\n",
+        "class": "correct",
+        "time": 1.6512048244476318,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Hawthorn Street.\n\nQ: What is the first commercial web browser?\nA: Netscape Navigator.\n\nQ: What is the first message sent",
+        "class": "correct",
+        "time": 1.623650074005127,
+        "assembled": [
+          9,
+          5,
+          13
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 9,
+      "id": 2,
+      "template_id": 1,
+      "answer": "Lenore ... amber",
+      "raw_oracle_k3": {
+        "output": " The secret keeper is Lenore and her favourite colour is amber.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\n",
+        "class": "correct",
+        "time": 1.5892715454101562,
+        "assembled": [
+          13,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The secret keeper is Lenore and her favourite colour is amber.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\n",
+        "class": "correct",
+        "time": 1.6659960746765137,
+        "assembled": [
+          13,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The secret keeper is Lenore and her favourite colour is amber.\n\nQ: What is the secret keeper and what is her favourite colour?\nA: The",
+        "class": "correct",
+        "time": 1.6500067710876465,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " The secret keeper is Lenore and her favourite colour is amber.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\n",
+        "class": "correct",
+        "time": 1.6440372467041016,
+        "assembled": [
+          13,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 9,
+      "id": 3,
+      "template_id": 2,
+      "answer": "Marigold",
+      "raw_oracle_k3": {
+        "output": " The best quiet bookshop in Montevideo is on Marigold Street.\n\nQ: What is the best quiet bookshop in Montevideo?\n",
+        "class": "correct",
+        "time": 1.6530992984771729,
+        "assembled": [
+          18,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Hawthorn Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Hawthorn Street.\n\n",
+        "class": "distractor",
+        "time": 1.637885570526123,
+        "assembled": [
+          18,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The best quiet bookshop in Montevideo is on Marigold Street.\n\nQ: What is the best quiet bookshop in Montevideo?\n",
+        "class": "correct",
+        "time": 1.657907247543335,
+        "assembled": [
+          18,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Hawthorn Street.\n\nQ: What is the best quiet bookshop in Montevideo?\nA: On Hawthorn Street.\n\nQ: Where",
+        "class": "distractor",
+        "time": 1.6670420169830322,
+        "assembled": [
+          18,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 9,
+      "id": 4,
+      "template_id": 0,
+      "answer": "seventeen",
+      "raw_oracle_k3": {
+        "output": " The magic number stored in vault Beta is seventeen.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: The",
+        "class": "correct",
+        "time": 1.6616389751434326,
+        "assembled": [
+          22,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " The magic number stored in vault Beta is seventeen.\n\nQ: What is the first version of the Linux kernel released in 1991?\nA",
+        "class": "correct",
+        "time": 1.662754774093628,
+        "assembled": [
+          22,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " The magic number stored in vault Beta is seventeen.\n\nQ: What is the first commercial web browser?\nA: Netscape Navigator.\n\nQ: What",
+        "class": "correct",
+        "time": 1.66294527053833,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " The magic number stored in vault Beta is seventeen.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: The",
+        "class": "correct",
+        "time": 1.6313083171844482,
+        "assembled": [
+          22,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    },
+    {
+      "case": 9,
+      "id": 5,
+      "template_id": 2,
+      "answer": "Linden",
+      "raw_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Hawthorn Street.\n\nQ",
+        "class": "correct",
+        "time": 1.6187989711761475,
+        "assembled": [
+          26,
+          5,
+          9
+        ]
+      },
+      "sink_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Linden Street.\n\nQ:",
+        "class": "correct",
+        "time": 1.6342692375183105,
+        "assembled": [
+          26,
+          5,
+          9
+        ]
+      },
+      "v_only_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Linden Street.\n\nQ:",
+        "class": "correct",
+        "time": 1.650233507156372,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_kind": "v"
+      },
+      "k_only_oracle_k3": {
+        "output": " On Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Linden Street.\n\nQ:",
+        "class": "correct",
+        "time": 1.6143741607666016,
+        "assembled": [
+          26,
+          5,
+          9
+        ],
+        "splice_kind": "k"
+      }
+    }
+  ],
+  "counts": {
+    "raw_oracle_k3": {
+      "correct": 59,
+      "distractor": 0,
+      "other": 1
+    },
+    "sink_oracle_k3": {
+      "correct": 56,
+      "distractor": 3,
+      "other": 1
+    },
+    "k_only_oracle_k3": {
+      "correct": 52,
+      "distractor": 6,
+      "other": 2
+    },
+    "v_only_oracle_k3": {
+      "correct": 58,
+      "distractor": 0,
+      "other": 2
+    }
+  },
+  "per_tmpl": {
+    "2": {
+      "raw_oracle_k3": {
+        "correct": 27,
+        "n": 28
+      },
+      "sink_oracle_k3": {
+        "correct": 25,
+        "n": 28
+      },
+      "k_only_oracle_k3": {
+        "correct": 23,
+        "n": 28
+      },
+      "v_only_oracle_k3": {
+        "correct": 28,
+        "n": 28
+      }
+    },
+    "0": {
+      "raw_oracle_k3": {
+        "correct": 22,
+        "n": 22
+      },
+      "sink_oracle_k3": {
+        "correct": 21,
+        "n": 22
+      },
+      "k_only_oracle_k3": {
+        "correct": 19,
+        "n": 22
+      },
+      "v_only_oracle_k3": {
+        "correct": 20,
+        "n": 22
+      }
+    },
+    "1": {
+      "raw_oracle_k3": {
+        "correct": 10,
+        "n": 10
+      },
+      "sink_oracle_k3": {
+        "correct": 10,
+        "n": 10
+      },
+      "k_only_oracle_k3": {
+        "correct": 10,
+        "n": 10
+      },
+      "v_only_oracle_k3": {
+        "correct": 10,
+        "n": 10
+      }
+    }
+  },
+  "skipped_no_gold": 0
+}

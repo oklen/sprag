@@ -418,6 +418,119 @@ def build_random_anchor_chunk_cache(
     return chunks, meta
 
 
+def build_fixed_anchor_chunk_cache(
+    model,
+    tokenizer,
+    text: str,
+    out_dir: Path,
+    chunk_size: int = 512,
+    anchor_M: int = 4,
+    anchor_token_id: int | None = None,
+    embed_fn=None,
+):
+    """Fixed shared anchor (the symmetric-anchor probe).
+
+    Every chunk — INCLUDING chunk 0, no special case — is built via a short
+    forward of [anchor_M copies of one FIXED, content-independent token] +
+    [chunk]. K is Inverse-RoPE-shifted (a_start - anchor_M) back to the
+    chunk's canonical doc position so the on-disk format matches the standard
+    cache. The same fixed anchor is placed once, FRESH, at the very front of
+    the assembly (no per-chunk anchors). Because the anchor sits at position 0
+    with nothing before it in *both* build and use, its K/V is identical
+    across the two — the build/use context is symmetric, so the top-1 chunk
+    sees exactly its build-time prefix (zero cache->assembly drift).
+
+    Contrast with build_anchor_chunk_cache (sink = the doc's first M tokens,
+    content-dependent, chunk 0 special-cased standalone). Qwen3.5 has no BOS;
+    default anchor token = <|endoftext|> (the doc-boundary / attention-sink
+    analog). anchor_token_id is recorded in meta.json for the assembler.
+    """
+    out_dir = Path(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    device = next(model.parameters()).device
+    model_dtype = next(model.parameters()).dtype
+    if anchor_token_id is None:
+        anchor_token_id = tokenizer.convert_tokens_to_ids("<|endoftext|>")
+    anchor_token_id = int(anchor_token_id)
+    anchor_ids = torch.full((anchor_M,), anchor_token_id, dtype=torch.long)
+
+    tokens = tokenizer(text, return_tensors="pt").input_ids[0]
+    chunks = split_into_chunks(tokens, chunk_size=chunk_size)
+    print(f"Fixed-anchor cache build: {tokens.shape[0]} tok, {len(chunks)} chunks, "
+          f"M={anchor_M}, anchor_token_id={anchor_token_id}")
+
+    cfg = model.config
+    inv_freq = build_inv_freq(
+        head_dim=cfg.head_dim,
+        partial_rotary_factor=cfg.rope_parameters.get("partial_rotary_factor", 1.0),
+        rope_theta=cfg.rope_parameters["rope_theta"],
+    ).to(device)
+
+    chunk_text_pieces = []
+    chunk_tensors_list = []
+
+    for ch in chunks:
+        chunk_token_ids = tokens[ch.a_start:ch.a_end]
+        small_ids = torch.cat([anchor_ids, chunk_token_ids], dim=0).unsqueeze(0).to(device)
+        slice_off = anchor_M
+        shift_delta = ch.a_start - anchor_M
+        with torch.no_grad(), capture_full_attn_kv(model) as kv_store:
+            out = model.model(input_ids=small_ids, use_cache=False)
+        last_h = out.last_hidden_state[0]
+
+        tensors = {"input_ids": chunk_token_ids.clone()}
+        for li in FULL_ATTN_LAYERS:
+            k_full = kv_store[li]["K"][0]
+            v_full = kv_store[li]["V"][0]
+            k_chunk = k_full[:, slice_off:, :].contiguous()
+            if shift_delta != 0:
+                k_chunk = shift_rope(
+                    k_chunk.unsqueeze(0).to(device=device, dtype=model_dtype),
+                    shift_delta, inv_freq,
+                ).squeeze(0).cpu().float()
+            tensors[f"K_l{li}"] = k_chunk.contiguous()
+            tensors[f"V_l{li}"] = v_full[:, slice_off:, :].contiguous()
+
+        tensors["repr_mean_last"] = last_h[slice_off:].mean(dim=0).float().cpu()
+        chunk_text_pieces.append(tokenizer.decode(chunk_token_ids, skip_special_tokens=False))
+        chunk_tensors_list.append(tensors)
+
+    if embed_fn is not None:
+        reprs = embed_fn(chunk_text_pieces)
+        for tensors, vec in zip(chunk_tensors_list, reprs):
+            tensors["chunk_repr"] = vec.float().cpu().contiguous()
+
+    for ch, tensors in zip(chunks, chunk_tensors_list):
+        save_file(tensors, str(out_dir / f"chunk_{ch.chunk_id:05d}.safetensors"))
+
+    try:
+        from .runner import invalidate_chunk_ram
+        invalidate_chunk_ram(out_dir)
+    except ImportError:
+        pass
+
+    meta = {
+        "chunk_size": chunk_size,
+        "anchor_M": anchor_M,
+        "anchor_conditioned": True,
+        "filler_mode": "fixed",
+        "anchor_token_id": anchor_token_id,
+        "num_tokens": int(tokens.shape[0]),
+        "num_chunks": len(chunks),
+        "chunks": [
+            {"id": c.chunk_id, "a_start": c.a_start, "a_end": c.a_end,
+             "num_tokens": c.num_tokens, "text_preview": chunk_text_pieces[i][:120]}
+            for i, c in enumerate(chunks)
+        ],
+        "full_attn_layers": list(FULL_ATTN_LAYERS),
+    }
+    with open(out_dir / "meta.json", "w") as f:
+        json.dump(meta, f, indent=2)
+    print(f"Wrote {len(chunks)} fixed-anchor chunks + meta.json to {out_dir}")
+    return chunks, meta
+
+
 def load_chunk(out_dir: Path, chunk_id: int) -> dict[str, Tensor]:
     from safetensors.torch import load_file as _load
     return _load(str(Path(out_dir) / f"chunk_{chunk_id:05d}.safetensors"))

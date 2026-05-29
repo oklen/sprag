@@ -6,7 +6,10 @@
 > (§5x) — drift/coherence/K-vs-V are synthetic-MK artifacts, on real passages
 > cache K/V is monotonically harmful regardless of construction. Robust
 > conclusion: sprag = short-assembly format + sink; K/V splice is the
-> incremental/negative piece).
+> incremental/negative piece. Fixed symmetric anchor (§5y) ≈ doc-sink anchor:
+> a single front anchor only de-drifts the top-1 chunk, so the K-splice gap
+> survives; cleaner construction, not a better one — the α<1 blend still
+> carries the accuracy (fixed-anchor E(0.5)=60/60)).
 
 ## 1. Why this exists
 
@@ -1546,6 +1549,52 @@ pure accuracy cost — no cache construction (standard/anchor), no
 K/V/subspace decomposition rescues it (§5u/§5v/§5w/§5x). Sprag should be
 framed as **format + sink**, with the K/V cache presented honestly as the
 incremental/negative piece it is. [[sprag-splice-decomp]]
+
+## 5y. Fixed symmetric anchor — build≡use only fixes the top-1 chunk
+
+§5w's anchor cache used the doc's first M tokens as the per-chunk sink
+(content-dependent, chunk 0 special-cased). Tested a cleaner, fully
+symmetric variant — `cache_kind=anchor_fixed`, `build_fixed_anchor_chunk_cache`:
+one FIXED content-independent token (`<|endoftext|>`×M — Qwen3.5 has no BOS,
+so endoftext is the doc-boundary/sink analog) leads every chunk's build
+forward (no chunk-0 special case), and the SAME fixed anchor is placed once,
+FRESH, at the front of the assembly (`build_sink_assembly`). The anchor sits
+at position 0 with nothing before it in both build and use, so its K/V is
+bit-identical across the two → the top-1 chunk sees exactly its build context
+(zero cache→assembly drift). suite_8k, oracle k=3, M=4:
+
+| config        | K      | V      | standard | doc-sink anchor | fixed anchor |
+|---------------|--------|--------|----------|-----------------|--------------|
+| raw           | fresh  | fresh  | 58       | 58              | 59           |
+| both (α=1.0)  | cached | cached | 47       | 54              | 56           |
+| E (α=0.5)     | 0.5    | 0.5    | 50       | 58              | **60**       |
+| k_only        | cached | fresh  | 29       | 54              | 52           |
+| v_only        | fresh  | cached | 5        | 58              | 58           |
+
+**Fixed ≈ doc-sink anchor within n=60 noise; the symmetric front anchor does
+NOT close the K-splice gap.** at α=1.0 both-cached 56 / k_only 52 still sit
+below raw 59 — the same residual K cost §5w localized. Reason: a single front
+anchor makes build≡use ONLY for the top-1 chunk. In oracle-k3 (gold + 2
+siblings) the chunks landing at assembly positions 2–3 were each built as
+`[anchor + chunk_i]` (seeing only the anchor in front) but deployed behind 1–2
+other chunks, so their K is still computed in the wrong local context — that
+unaddressed multi-chunk drift is the surviving ~3/60. Making *all* chunks
+symmetric would require building each in its real multi-chunk assembly context
+(≈ `anchor_prev`, §5n), defeating the precompute-once win.
+
+Two robust takeaways:
+1. **The anchor pattern is content-independent.** V freely cacheable
+   (v_only 58 = raw) and cost localized to K (k_only/both < raw) reproduce
+   under a fixed token, so §5w's effect is about the per-chunk *near-context
+   build*, not what the sink says. Standard full-doc caching (v_only 5) remains
+   the only catastrophic construction.
+2. **`E (α=0.5) = 60/60` is the best cell in the whole §5w/§5y grid** — but
+   that's the α<1.0 blend doing the work (§5/§5t: admixing fresh K restores the
+   assembly signal), not the fixed anchor per se; doc-sink E was already 58.
+   Fixed anchor is a *cleaner* construction (content-independent, no chunk-0
+   special case, anchor K/V precomputable once across all docs) but not a
+   *better* one. As always the blend, not the cache, carries the accuracy.
+   [[sprag-splice-decomp]]
 
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
