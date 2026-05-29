@@ -32,7 +32,7 @@ sys.path.insert(0, str(ROOT / "src"))
 import torch
 
 from sprag.loader import load_model, FULL_ATTN_LAYERS
-from sprag.chunk_cache import build_chunk_cache, load_meta
+from sprag.chunk_cache import build_chunk_cache, build_anchor_chunk_cache, load_meta
 from sprag.embed import JinaEmbedder
 from sprag.assemble import make_inv_freq_for
 from sprag.retrieve import load_chunk_reprs, topk
@@ -90,17 +90,27 @@ def main():
     ap.add_argument("--modes", nargs="+",
                     default=["baseline", "raw_topk", "splice_topk", "splice_topk_a1"],
                     choices=["baseline", "raw_topk", "splice_topk", "splice_topk_a1",
+                             "k_only_topk", "v_only_topk",
                              "oracle_raw", "oracle_splice"])
+    ap.add_argument("--cache_kind", type=str, default="standard",
+                    choices=["standard", "anchor"],
+                    help="standard = single full-doc forward; "
+                         "anchor = per-chunk [sink+chunk] forward (§5w: lower "
+                         "cache->assembly drift, splice viable).")
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--reuse_cache", action="store_true")
     ap.add_argument("--keep_cache", action="store_true",
                     help="keep per-case cache dirs (default: delete after each "
                          "record to bound disk at ~one case)")
+    ap.add_argument("--resume", action="store_true",
+                    help="if --out exists, load its rows and skip cases already "
+                         "done (for long unattended runs).")
     args = ap.parse_args()
 
     recs = load_rgb(args.data, limit=args.limit)
     print(f"RGB eval: {len(recs)} records  chunk_size={args.chunk_size} "
-          f"M={args.M} top_k={args.top_k} alpha={args.alpha} modes={args.modes}")
+          f"M={args.M} top_k={args.top_k} alpha={args.alpha} "
+          f"cache_kind={args.cache_kind} modes={args.modes}")
 
     model, tok, _ = load_model()
     device = next(model.parameters()).device
@@ -111,10 +121,25 @@ def main():
     time_acc = {m: 0.0 for m in args.modes}
     tok_acc = {m: 0 for m in args.modes}
     rows = []
+    done_cases: set[int] = set()
+    if args.resume and args.out.exists():
+        prev = json.loads(args.out.read_text())
+        for r in prev.get("rows", []):
+            rows.append(r)
+            done_cases.add(r["case"])
+            for m in args.modes:
+                if m in r:
+                    counts[m]["n"] += 1
+                    counts[m]["correct"] += (r[m]["class"] == "correct")
+                    time_acc[m] += r[m].get("time", 0.0)
+                    tok_acc[m] += r[m].get("ntok", 0)
+        print(f"  resume: {len(done_cases)} cases already done")
     use_oracle = any(m.startswith("oracle") for m in args.modes)
     use_topk = any(m.endswith("topk") for m in args.modes)
 
     for ci, rec in enumerate(recs):
+        if ci in done_cases:
+            continue
         passages, _is_gold = rec.passages_shuffled(seed=ci)
         doc = "\n\n".join(passages)
         cache_dir = args.out.parent / f"_rgb_case{ci:04d}"
@@ -123,9 +148,15 @@ def main():
         if not ready:
             if cache_dir.exists():
                 shutil.rmtree(cache_dir)
-            build_chunk_cache(model, tok, doc, cache_dir,
-                              chunk_size=args.chunk_size,
-                              embed_fn=emb.encode_passage)
+            if args.cache_kind == "anchor":
+                build_anchor_chunk_cache(model, tok, doc, cache_dir,
+                                         chunk_size=args.chunk_size,
+                                         anchor_M=args.M, filler_mode="none",
+                                         embed_fn=emb.encode_passage)
+            else:
+                build_chunk_cache(model, tok, doc, cache_dir,
+                                  chunk_size=args.chunk_size,
+                                  embed_fn=emb.encode_passage)
         meta = load_meta(cache_dir)
         chunk_lookup = {c["id"]: c for c in meta["chunks"]}
 
@@ -172,9 +203,13 @@ def main():
                                 rec.query, args.max_new_tokens)
             record(mode, out, time.time() - t0, ntok)
 
-        for mode, ids, a in (("splice_topk", jina_top, args.alpha),
-                             ("splice_topk_a1", jina_top, 1.0),
-                             ("oracle_splice", oracle_top, args.alpha)):
+        # (mode, retrieved ids, alpha, splice_kind)
+        for mode, ids, a, kind in (
+                ("splice_topk", jina_top, args.alpha, "kv"),
+                ("splice_topk_a1", jina_top, 1.0, "kv"),
+                ("k_only_topk", jina_top, 1.0, "k"),   # K cached, V fresh
+                ("v_only_topk", jina_top, 1.0, "v"),   # V cached, K fresh
+                ("oracle_splice", oracle_top, args.alpha, "kv")):
             if mode not in args.modes:
                 continue
             sink_pl, s_ids = build_sink_placement(cache_dir, args.M)
@@ -186,7 +221,8 @@ def main():
                                        add_special_tokens=False).input_ids)
             t0 = time.time()
             out = run_assembled(model, tok, placements, flat, rec.query,
-                                inv_freq, args.max_new_tokens, alpha=a)
+                                inv_freq, args.max_new_tokens, alpha=a,
+                                splice_kind=kind)
             record(mode, out, time.time() - t0, ntok)
 
         rows.append(row)
@@ -195,6 +231,7 @@ def main():
         with args.out.open("w") as f:
             json.dump({"data": str(args.data), "chunk_size": args.chunk_size,
                        "M": args.M, "top_k": args.top_k, "alpha": args.alpha,
+                       "cache_kind": args.cache_kind,
                        "counts": counts, "rows": rows}, f, indent=2)
 
     print(f"\n=== RGB summary ===  {len(rows)} records  alpha={args.alpha}")
