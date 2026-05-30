@@ -38,7 +38,8 @@ from sprag.chunk_cache import capture_full_attn_kv, split_into_chunks
 from sprag.embed import JinaEmbedder  # noqa: F401 (kept for parity / future retrieval)
 from sprag.assemble import (DeltaPlacement, patched_full_attn_delta, make_inv_freq_for,
                             patched_linear_state, compute_chunk_linear_states,
-                            compute_running_linear_states)
+                            compute_running_linear_states,
+                            ChunkPlacement, patched_full_attn)
 
 _spec = importlib.util.spec_from_file_location("mk12", ROOT / "scripts" / "12_sink_mk.py")
 mk = importlib.util.module_from_spec(_spec)
@@ -57,7 +58,7 @@ def build_delta_kv(model, tok, tokens, chunks, anchor_ids, device):
     full_K = {li: kv_full[li]["K"][0] for li in FULL_ATTN_LAYERS}  # (n_kv, M+N, hd)
     full_V = {li: kv_full[li]["V"][0] for li in FULL_ATTN_LAYERS}
 
-    delta, canon = {}, {}
+    delta, full, canon = {}, {}, {}
     for ch in chunks:
         a0, a1 = ch.a_start, ch.a_end
         cp = M + a0                                   # build position of chunk
@@ -69,16 +70,18 @@ def build_delta_kv(model, tok, tokens, chunks, anchor_ids, device):
                                dtype=torch.long, device=device)
         with torch.no_grad(), capture_full_attn_kv(model) as kv_pos:
             model(input_ids=ids, position_ids=pos_ids, use_cache=False)
-        d = {}
+        d, f = {}, {}
         for li in FULL_ATTN_LAYERS:
-            fK = full_K[li][:, cp:M + a1, :]
-            fV = full_V[li][:, cp:M + a1, :]
+            fK = full_K[li][:, cp:M + a1, :].contiguous()
+            fV = full_V[li][:, cp:M + a1, :].contiguous()
             pK = kv_pos[li]["K"][0][:, M:, :]
             pV = kv_pos[li]["V"][0][:, M:, :]
             d[li] = ((fK - pK).contiguous(), (fV - pV).contiguous())
+            f[li] = (fK, fV)              # full cache for the `replace` (pos_new) mode
         delta[ch.chunk_id] = d
+        full[ch.chunk_id] = f
         canon[ch.chunk_id] = cp
-    return delta, canon
+    return delta, full, canon
 
 
 def build_delta_linear(model, tok, tokens, chunks, anchor_ids, device):
@@ -121,6 +124,11 @@ def main():
     ap.add_argument("--alphas", type=float, nargs="+", default=[0.0, 0.5, 1.0])
     ap.add_argument("--target", choices=["kv", "linear", "both"], default="kv",
                     help="which family the full−pos+fresh delta is applied to")
+    ap.add_argument("--mode", choices=["add", "replace"], default="add",
+                    help="add = full−pos+fresh (residual ADDED onto fresh, §5aa); "
+                         "replace = pos_new+(full−pos) = shift(full) REPLACING fresh "
+                         "(the coherent variant; reduces to a standard cached splice). "
+                         "replace is kv-only.")
     ap.add_argument("--limit_cases", type=int, default=None)
     args = ap.parse_args()
 
@@ -147,9 +155,9 @@ def main():
         tokens = tok(haystack, return_tensors="pt").input_ids[0]
         chunks = split_into_chunks(tokens, chunk_size=args.chunk_size)
         chunk_by_id = {c.chunk_id: c for c in chunks}
-        delta = canon = delta_lin = None
+        delta = full_kv = canon = delta_lin = None
         if args.target in ("kv", "both"):
-            delta, canon = build_delta_kv(model, tok, tokens, chunks, anchor_ids, device)
+            delta, full_kv, canon = build_delta_kv(model, tok, tokens, chunks, anchor_ids, device)
         if args.target in ("linear", "both"):
             delta_lin = build_delta_linear(model, tok, tokens, chunks, anchor_ids, device)
         print(f"case{ci}: {len(chunks)} chunks, delta built ({args.target})")
@@ -176,9 +184,14 @@ def main():
                 ch = chunk_by_id[cid]
                 ctoks = tokens[ch.a_start:ch.a_end].tolist()
                 if args.target in ("kv", "both"):
-                    placements.append(DeltaPlacement(
-                        b_start=cursor, length=len(ctoks),
-                        canon_pos=canon[cid], delta=delta[cid]))
+                    if args.mode == "replace":
+                        placements.append(ChunkPlacement(
+                            a_start=canon[cid], b_start=cursor, length=len(ctoks),
+                            cached=full_kv[cid]))
+                    else:
+                        placements.append(DeltaPlacement(
+                            b_start=cursor, length=len(ctoks),
+                            canon_pos=canon[cid], delta=delta[cid]))
                 flat.extend(ctoks)
                 cursor += len(ctoks)
             tail = tok("\n\nQ: " + q["question"] + "\nA:", add_special_tokens=False).input_ids
@@ -199,8 +212,12 @@ def main():
                 t0 = time.time()
                 with torch.no_grad(), contextlib.ExitStack() as stack:
                     if args.target in ("kv", "both"):
-                        stack.enter_context(patched_full_attn_delta(
-                            model, placements, inv_freq=inv_freq, alpha=a))
+                        if args.mode == "replace":
+                            stack.enter_context(patched_full_attn(
+                                model, placements, inv_freq=inv_freq, alpha=a))
+                        else:
+                            stack.enter_context(patched_full_attn_delta(
+                                model, placements, inv_freq=inv_freq, alpha=a))
                     if args.target in ("linear", "both"):
                         stack.enter_context(patched_linear_state(
                             model, composed, alpha=a, additive=True))

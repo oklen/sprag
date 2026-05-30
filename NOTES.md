@@ -1748,10 +1748,27 @@ term should instead be the **new-position anchor-only baseline** (`pos` rebuilt
 at the assembly position), giving `pos_new + (full−pos) ≈ full rebased` — but
 that is just the ordinary cached-chunk splice (§5w), which we already know is
 incremental-to-negative. So the residual construction adds nothing the plain
-splice doesn't, and the additive form is strictly worse. Consistent with the
-whole arc: **every cache manipulation — replace, blend, or residual-add, on K/V,
-linear, or both — is free-at-best and never better than fresh recompute over the
-short assembly.** [[sprag-splice-decomp]]
+splice doesn't, and the additive form is strictly worse.
+
+**Empirical confirmation of the diagnosis** (`--mode replace`, K/V, n=60).
+Replacing `+fresh` with `pos_new+(full−pos)=shift(full)` (i.e. REPLACE the fresh
+K/V with the shifted real-context cache instead of ADDING the residual onto it):
+
+| α | 0 | 0.25 | 0.5 | 0.75 | 1.0 |
+|---|---|------|-----|------|-----|
+| add (fresh + residual)     | 59 | 51 | 36 | 18 | **6** |
+| replace (= shift(full))    | 59 | 53 | 44 | 32 | **29** |
+
+Same residual information, but the coherent REPLACE form **degrades gracefully
+into the standard-splice band (29/60 at α=1, ≈ §5w standard full-doc cache)
+instead of collapsing (6/60)**. This isolates the cause: the collapse was the
+additive double-counting against an already-complete `fresh`, not the residual
+itself. And the punchline survives — even the graceful replace is still ≤ fresh
+(29 < 59), i.e. the residual idea *made coherent is the standard splice*, which
+is incremental-to-negative. Consistent with the whole arc: **every cache
+manipulation — replace, blend, or residual-add, on K/V, linear, or both — is
+free-at-best and never better than fresh recompute over the short assembly.**
+[[sprag-splice-decomp]]
 
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
