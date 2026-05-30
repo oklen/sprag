@@ -63,6 +63,16 @@ def find_oracle_chunks(cache_dir: Path, meta, tok, slots, k: int) -> list[int]:
     return hits
 
 
+def u_shape(ranked):
+    """Lost-in-the-middle mitigation (§5ac): place the most-relevant chunks at the
+    ENDS, weakest in the MIDDLE. `ranked` = ids most-relevant-first.
+    [1,2,3,4,5] -> [1,3,5,4,2] (1 at front, 2 at back, weakest 5 in the middle)."""
+    left, right = [], []
+    for i, x in enumerate(ranked):
+        (left if i % 2 == 0 else right).append(x)
+    return left + right[::-1]
+
+
 def run_raw(model, tok, device, sink_ids, chunk_ids, cache_dir, question, max_new):
     """sink + chunks as fresh tokens, plain generate (no splice)."""
     flat = list(sink_ids)
@@ -92,6 +102,7 @@ def main():
                     default=["baseline", "raw_topk", "splice_topk", "splice_topk_a1"],
                     choices=["baseline", "raw_topk", "splice_topk", "splice_topk_a1",
                              "k_only_topk", "v_only_topk",
+                             "ushape_topk", "rev_topk",
                              "oracle_raw", "oracle_splice"])
     ap.add_argument("--cache_kind", type=str, default="standard",
                     choices=["standard", "anchor", "fixed", "indep"],
@@ -216,7 +227,10 @@ def main():
         else:
             sink_ids = _load_chunk(cache_dir, 0)["input_ids"][:args.M].tolist()
 
-        for mode, ids in (("raw_topk", jina_top), ("oracle_raw", oracle_top)):
+        for mode, ids in (("raw_topk", jina_top),
+                          ("ushape_topk", u_shape(jina_top) if jina_top else None),
+                          ("rev_topk", jina_top[::-1] if jina_top else None),
+                          ("oracle_raw", oracle_top)):
             if mode not in args.modes:
                 continue
             t0 = time.time()

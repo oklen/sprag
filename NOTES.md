@@ -1923,6 +1923,26 @@ different mechanism — longer chunks → fewer chunks → fewer middle slots �
 lost-in-the-middle. This is an accuracy-improvement direction independent of the
 cache work. [[sprag-splice-decomp]]
 
+**RGB result — the cheap fix is a wash (route a).** Tried U-shaped relevance
+ordering on RGB (300 rec, `scripts/16_rgb_eval.py --modes raw_topk ushape_topk
+rev_topk`; `ushape_topk` = top Jina chunks at the ends, weakest in the middle;
+`rev_topk` = most-relevant last):
+
+| mode | acc | McNemar vs raw |
+|------|-----|----------------|
+| raw_topk (most-relevant-first) | 78.3 | — |
+| ushape_topk | 80.0 (+1.7) | p=0.50 **(ns)** |
+| rev_topk    | 77.3 (−1.0) | p=0.77 (ns) |
+
+The +1.7 is **not significant** (discordance 20 vs 15 = net +5 queries, noise);
+`rev ≈ raw` confirms first≈last on RGB too. **Lost-in-the-middle is real but a
+minor lever on RGB** — the dominant error is retrieval recall (raw 78.3 ≪
+full-context baseline 86.3 = §5u: the right chunk often isn't in top-5, and no
+reordering fixes an un-retrieved chunk). So route (b), the k×-compute
+averaged-distribution ensemble, is a weak bet (position headroom is small once
+the top chunks are already at the ends) — not pursued. Position bias =
+real-but-minor, dwarfed by retrieval recall. [[sprag-splice-decomp]]
+
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
 The headline value-prop test from §7.2. One 16,333-tok haystack with 8
