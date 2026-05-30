@@ -1765,10 +1765,32 @@ instead of collapsing (6/60)**. This isolates the cause: the collapse was the
 additive double-counting against an already-complete `fresh`, not the residual
 itself. And the punchline survives — even the graceful replace is still ≤ fresh
 (29 < 59), i.e. the residual idea *made coherent is the standard splice*, which
-is incremental-to-negative. Consistent with the whole arc: **every cache
-manipulation — replace, blend, or residual-add, on K/V, linear, or both — is
-free-at-best and never better than fresh recompute over the short assembly.**
-[[sprag-splice-decomp]]
+is incremental-to-negative.
+
+**Decomposing the 29 (here) vs 54 (anchor cache, §5w) gap** — replace α=1, n=60,
+adding the §5w setup knobs one at a time:
+
+| setup (replace, α=1) | correct/60 |
+|----------------------|-----------|
+| eot sink, no strip (here) | 29 |
+| + strip 4 (drop chunk head) | 28 |
+| + strip 4 **+ doc-lead sink** | **41** |
+| §5w standard cache (for ref) | ~47 |
+| §5w **anchor** cache (near-context) | **54** |
+
+Surprise: **chunk-strip is ≈ inert here (29→28); the sink swap (eot→doc-lead)
+does the work (→41)** — a content-bearing sink primes generation better (cf.
+§5y). So 29→41 is pure *setup* (dominated by the sink). The residual **41→54
+gap is the genuine drift**: this experiment's `full` cache is built in the
+chunk's *entire real preceding document* (far from the short assembly), whereas
+§5w's anchor cache is built in a *short near-deployment context* `[anchor][chunk]`
+(≈ assembly) → low drift. The delta method is structurally married to the
+high-drift `full` cache: if `full` used the low-drift anchor context, `full≈pos`
+and the residual vanishes. So it can never reach the anchor cache's 54/60 (let
+alone §5y fixed-anchor's E(0.5)=60, which also leaned on an α=0.5 *blend* + that
+near-context build). Consistent with the whole arc: **every cache manipulation —
+replace, blend, or residual-add, on K/V, linear, or both — is free-at-best and
+never better than fresh recompute over the short assembly.** [[sprag-splice-decomp]]
 
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 

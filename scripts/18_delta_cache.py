@@ -129,6 +129,12 @@ def main():
                          "replace = pos_new+(full−pos) = shift(full) REPLACING fresh "
                          "(the coherent variant; reduces to a standard cached splice). "
                          "replace is kv-only.")
+    ap.add_argument("--strip", type=int, default=0,
+                    help="(replace mode) drop the first S tokens of each chunk — the "
+                         "most drift-prone boundary tokens (§5w sink_oracle_k3 used S=4).")
+    ap.add_argument("--sink_doclead", action="store_true",
+                    help="(replace mode) use the doc's first M tokens as the sink "
+                         "instead of the eot anchor (§5w setup).")
     ap.add_argument("--limit_cases", type=int, default=None)
     args = ap.parse_args()
 
@@ -178,16 +184,21 @@ def main():
                     sib.append(c)
             ids_k3 = [gold] + sib[:2]
 
-            flat = list(anchor_ids)
+            sink_ids = tokens[:args.M].tolist() if args.sink_doclead else list(anchor_ids)
+            flat = list(sink_ids)
             placements, cursor = [], args.M
             for cid in ids_k3:
                 ch = chunk_by_id[cid]
                 ctoks = tokens[ch.a_start:ch.a_end].tolist()
                 if args.target in ("kv", "both"):
                     if args.mode == "replace":
+                        S = args.strip
+                        ctoks = ctoks[S:]                 # drop drift-prone head
+                        cached = {li: (fK[:, S:, :].contiguous(), fV[:, S:, :].contiguous())
+                                  for li, (fK, fV) in full_kv[cid].items()}
                         placements.append(ChunkPlacement(
-                            a_start=canon[cid], b_start=cursor, length=len(ctoks),
-                            cached=full_kv[cid]))
+                            a_start=canon[cid] + S, b_start=cursor, length=len(ctoks),
+                            cached=cached))
                     else:
                         placements.append(DeltaPlacement(
                             b_start=cursor, length=len(ctoks),
