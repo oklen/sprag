@@ -1,0 +1,2107 @@
+{
+ "M": 4,
+ "chunk_size": 256,
+ "alphas": [
+  0.0,
+  0.25,
+  0.5,
+  0.75,
+  1.0
+ ],
+ "summary": {
+  "a0": {
+   "correct": 58,
+   "n": 60,
+   "acc": 0.9666666666666667
+  },
+  "a0.25": {
+   "correct": 57,
+   "n": 60,
+   "acc": 0.95
+  },
+  "a0.5": {
+   "correct": 54,
+   "n": 60,
+   "acc": 0.9
+  },
+  "a0.75": {
+   "correct": 53,
+   "n": 60,
+   "acc": 0.8833333333333333
+  },
+  "a1": {
+   "correct": 17,
+   "n": 60,
+   "acc": 0.2833333333333333
+  }
+ },
+ "counts": {
+  "a0": {
+   "correct": 58,
+   "distractor": 1,
+   "other": 1
+  },
+  "a0.25": {
+   "correct": 57,
+   "distractor": 2,
+   "other": 1
+  },
+  "a0.5": {
+   "correct": 54,
+   "distractor": 0,
+   "other": 6
+  },
+  "a0.75": {
+   "correct": 53,
+   "distractor": 0,
+   "other": 7
+  },
+  "a1": {
+   "correct": 17,
+   "distractor": 2,
+   "other": 41
+  }
+ },
+ "rows": [
+  {
+   "case": 0,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": " [Answer]\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Lisbon is on **Linden Street**.",
+    "class": "correct",
+    "time": 2.0182993412017822
+   },
+   "a0.25": {
+    "output": " [Answer]\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Lisbon is on **Linden Street**.",
+    "class": "correct",
+    "time": 1.6727075576782227
+   },
+   "a0.5": {
+    "output": " [Insert Answer]\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Lisbon is on **Linden Street",
+    "class": "correct",
+    "time": 1.6136722564697266
+   },
+   "a0.75": {
+    "output": " [Insert Answer]\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Lisbon is on **Linden Street",
+    "class": "correct",
+    "time": 1.616668939590454
+   },
+   "a1": {
+    "output": " [Insert the specific location]\n\nThe first commercial web wrote algorithmic notes for Babbage's Analytical Engine in 1843. Grace Hopper",
+    "class": "other",
+    "time": 1.5844767093658447
+   }
+  },
+  {
+   "case": 0,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": " The best quiet bookshop in Tallinn is on Mulberry Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: The best",
+    "class": "correct",
+    "time": 1.821169376373291
+   },
+   "a0.25": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Mulberry Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\n",
+    "class": "correct",
+    "time": 1.5928170680999756
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Mulberry Street. This information is unique to this document. Tim Berners-Lee invented",
+    "class": "correct",
+    "time": 1.5823776721954346
+   },
+   "a0.75": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. The transistor was invented at Bell Labs by Bardeen, Bratt",
+    "class": "other",
+    "time": 1.589315414428711
+   },
+   "a1": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. The transistor was invented at Bell Labs by Bardeen, Bratt",
+    "class": "other",
+    "time": 1.5643301010131836
+   }
+  },
+  {
+   "case": 0,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: The",
+    "class": "correct",
+    "time": 1.7867083549499512
+   },
+   "a0.25": {
+    "output": " The magic number stored in vault Beta is forty-two.\n\nThe first commercial web browser, Netscape Navigator, debuted in late 1994.\n\n",
+    "class": "correct",
+    "time": 1.5787458419799805
+   },
+   "a0.5": {
+    "output": " The magic number stored in vault Beta is forty-two.\n\nThe first commercial web browser, Netscape Navigator, debuted in late 1994.\n\n",
+    "class": "correct",
+    "time": 1.5752291679382324
+   },
+   "a0.75": {
+    "output": " The transistor was invented at Bell Labs by Bardeen, Brattain and Shockley. The transistor was invented at Bell Labs by Bardeen, Brattain",
+    "class": "other",
+    "time": 1.6046559810638428
+   },
+   "a1": {
+    "output": " The transistor was invented at Bell Labs by Bardeen, Brattain and Shockley. The transistor was invented at Bell Labs by Bardeen, Brattain",
+    "class": "other",
+    "time": 1.6025869846343994
+   }
+  },
+  {
+   "case": 0,
+   "id": 3,
+   "ids_k3": [
+    17,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nseventeen",
+    "class": "correct",
+    "time": 0.5563747882843018
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nseventeen.\n\n(Note: The text provided contains a repetition of the sentence \"The first commercial web. John von Neumann formal",
+    "class": "correct",
+    "time": 1.5476665496826172
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Alpha is **seventeen**.\n\n(Note: This appears to be a reference to the \"magic number",
+    "class": "correct",
+    "time": 1.5354931354522705
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Alpha is **seventeen**.\n\n(Note: The text contains a few",
+    "class": "correct",
+    "time": 1.5506832599639893
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, here are the answers to your questions:\n\n*   **What magic number is stored in vault Alpha?**",
+    "class": "other",
+    "time": 1.5353832244873047
+   }
+  },
+  {
+   "case": 0,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nMarigold Street.\n\n(Note: The text provided contains several inconsistencies, such as listing \"Linden Street\" and \"Mulberry",
+    "class": "correct",
+    "time": 1.5425190925598145
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(Note: The text provided contains a few inconsistencies, such as listing \"Linden Street\" twice and mentioning \"",
+    "class": "distractor",
+    "time": 1.5454556941986084
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Kyoto is on **Marigold Street**.\n\n(Note",
+    "class": "correct",
+    "time": 1.5409917831420898
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Kyoto is on **Marigold Street**.\n\n(Note",
+    "class": "correct",
+    "time": 1.5516984462738037
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Kyoto is on **Marigold Street**.\n\n(Note",
+    "class": "correct",
+    "time": 1.5717487335205078
+   }
+  },
+  {
+   "case": 0,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.7583675384521484
+   },
+   "a0.25": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.58268404006958
+   },
+   "a0.5": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nThe first commercial web in the late 1950s through work by",
+    "class": "correct",
+    "time": 1.5403218269348145
+   },
+   "a0.75": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nThe first commercial web in the late 1950s through work by",
+    "class": "correct",
+    "time": 1.573249340057373
+   },
+   "a1": {
+    "output": " The first commercial web in the late 1950s through work by Kilby and Noyce. The IBM System/360 family unified",
+    "class": "other",
+    "time": 1.6325490474700928
+   }
+  },
+  {
+   "case": 1,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nHawthorn Street",
+    "class": "correct",
+    "time": 0.6405863761901855
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nHawthorn Street.\n\n(Note: This information is unique to this document.)",
+    "class": "correct",
+    "time": 1.1670277118682861
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, there is no mention of a specific location for a quiet bookshop in Montevideo. The text contains",
+    "class": "other",
+    "time": 1.5667307376861572
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the specific location of the best quiet bookshop in Montevideo is not mentioned. The text contains historical",
+    "class": "other",
+    "time": 1.5609028339385986
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Montevideo is on Hawthorn Street.\n\n(Note",
+    "class": "correct",
+    "time": 1.549516201019287
+   }
+  },
+  {
+   "case": 1,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n93",
+    "class": "correct",
+    "time": 0.5006201267242432
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\n93",
+    "class": "correct",
+    "time": 0.5051350593566895
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\n93",
+    "class": "correct",
+    "time": 0.5068974494934082
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Alpha is **93**.\n\n(Note: This appears to be a reference to the \"magic number\"",
+    "class": "correct",
+    "time": 1.5696752071380615
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Alpha is **ninety-three**.\n\n(Note: The text also mentions that",
+    "class": "correct",
+    "time": 1.5983803272247314
+   }
+  },
+  {
+   "case": 1,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The secret keeper is Lenore and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.6143155097961426
+   },
+   "a0.25": {
+    "output": " The secret keeper is Lenore and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.62734055519104
+   },
+   "a0.5": {
+    "output": " The secret keeper is Lenore and her favourite colour is cerulean.\n\nThe following are questions that have been asked in the context of the previous paragraph.",
+    "class": "correct",
+    "time": 1.6043624877929688
+   },
+   "a0.75": {
+    "output": " The secret keeper is Lenore and her favourite colour is cerulean.\n\nThe history of computing has roots in attempts to mechanize counting in the 1",
+    "class": "correct",
+    "time": 1.587787389755249
+   },
+   "a1": {
+    "output": " The transistor was invented at Bell Labs by Bardeen, Brattain and Shockley. The transistor was invented at Bell Labs by Bardeen, Brattain",
+    "class": "other",
+    "time": 1.562098741531372
+   }
+  },
+  {
+   "case": 1,
+   "id": 3,
+   "ids_k3": [
+    17,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nseventeen",
+    "class": "correct",
+    "time": 0.5472269058227539
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nseventeen",
+    "class": "correct",
+    "time": 0.5534353256225586
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Sigma is **seventeen**.\n\n(Note: The text also mentions \"",
+    "class": "correct",
+    "time": 1.5812013149261475
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Sigma is **seventeen**.\n\n(Note: The text also mentions the",
+    "class": "correct",
+    "time": 1.5619757175445557
+   },
+   "a1": {
+    "output": "\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA:\n\nQ: What is the best place to find",
+    "class": "other",
+    "time": 1.6123619079589844
+   }
+  },
+  {
+   "case": 1,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nMarigold Street.\n\n*(Note: This information is unique to this document.)*",
+    "class": "correct",
+    "time": 1.2172772884368896
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nMarigold Street.\n\n(Note: The text provided contains a duplicate entry for the same information, listing \"Marigold Street\"",
+    "class": "correct",
+    "time": 1.6007633209228516
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Tallinn is on **Marigold Street**.\n\n",
+    "class": "correct",
+    "time": 1.5940577983856201
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Tallinn is on **Marigold Street**.\n\n",
+    "class": "correct",
+    "time": 1.565842866897583
+   },
+   "a1": {
+    "output": "\n\nThe IBM System/360 family unified mainframe architecture beginning in 1964. The ARPANET sent its first message between two nodes",
+    "class": "other",
+    "time": 1.566112756729126
+   }
+  },
+  {
+   "case": 1,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nMulberry Street",
+    "class": "correct",
+    "time": 0.5432310104370117
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\n(Note: The text provided contains a significant factual error regarding the location of the best quiet bookshop in Kyoto.",
+    "class": "correct",
+    "time": 1.5492985248565674
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Kyoto is on **Mulberry Street**.\n\n(Note:",
+    "class": "correct",
+    "time": 1.5597760677337646
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Kyoto is on **Mulberry Street**.\n\n(Note:",
+    "class": "correct",
+    "time": 1.5577824115753174
+   },
+   "a1": {
+    "output": "\n\nThe IBM PC was released in August of 1981 and rapidly defined a standard. The history of computing has roots in attempts to mechanize counting",
+    "class": "other",
+    "time": 1.53643798828125
+   }
+  },
+  {
+   "case": 2,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": " On Saffron Street.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA: On Saffron Street.\n\nQ",
+    "class": "correct",
+    "time": 1.5357446670532227
+   },
+   "a0.25": {
+    "output": " On Saffron Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Hawthorn Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 1.5413694381713867
+   },
+   "a0.5": {
+    "output": " On Saffron Street.\n\nThe IBM PC was released in August of 1981 and rapidly defined a standard. The first commercial web browser,",
+    "class": "correct",
+    "time": 1.5536134243011475
+   },
+   "a0.75": {
+    "output": " On Saffron Street. This information is unique to this document. John von Neumann formalised the stored-program architecture in his 1945 draft",
+    "class": "correct",
+    "time": 1.5561802387237549
+   },
+   "a1": {
+    "output": " On Saffron Street, Montevideo, there is a quiet bookshop. The IBM PC was released in August of 1981 and rapidly",
+    "class": "correct",
+    "time": 1.565382719039917
+   }
+  },
+  {
+   "case": 2,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": " The secret keeper is Octavia and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.5276837348937988
+   },
+   "a0.25": {
+    "output": " The secret keeper is Octavia and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.5462415218353271
+   },
+   "a0.5": {
+    "output": " The secret keeper is Octavia and her favourite colour is cerulean.\n\nThe IBM PC was released in August of 1981 and rapidly defined",
+    "class": "correct",
+    "time": 1.5376403331756592
+   },
+   "a0.75": {
+    "output": " The secret keeper is Octavia and her favourite colour is cerulean.\n\nThe IBM PC was released in August of 1981 and rapidly defined",
+    "class": "correct",
+    "time": 1.554236888885498
+   },
+   "a1": {
+    "output": " The IBM PC was released in August of 1981 and rapidly defined a standard. The first commercial web browser, Netscape Navigator, debuted in late",
+    "class": "other",
+    "time": 1.5545744895935059
+   }
+  },
+  {
+   "case": 2,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nHawthorn Street.\n\n(Note: The text provided contains several repetitions of the same sentence and includes unrelated facts about Google, the",
+    "class": "correct",
+    "time": 1.5553009510040283
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nHawthorn Street.\n\n(Note: The text provided contains several repetitions of the same sentence and a few unrelated facts, but the",
+    "class": "correct",
+    "time": 1.565460443496704
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe best quiet bookshop in Tallinn is on Hawthorn Street.\n\n(Note: This information is unique to this document.)\n\nQ",
+    "class": "correct",
+    "time": 1.5680961608886719
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nThe best quiet bookshop in Tallinn is on Hawthorn Street.\n\n(Note: This information is unique to this document.)\n\nQ",
+    "class": "correct",
+    "time": 1.562314748764038
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nThe IBM PC was released in August of 1981 and rapidly defined a standard. Integrated circuits emerged in the late 1",
+    "class": "other",
+    "time": 1.5400302410125732
+   }
+  },
+  {
+   "case": 2,
+   "id": 3,
+   "ids_k3": [
+    18,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n42",
+    "class": "correct",
+    "time": 0.49320411682128906
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\n42",
+    "class": "correct",
+    "time": 0.5071685314178467
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Sigma is **42**.\n\n(Note: This specific detail appears in the context of the IBM PC's",
+    "class": "correct",
+    "time": 1.5554156303405762
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Sigma is **forty-two**.\n\n(Note: This specific detail appears in the context of the IBM PC",
+    "class": "correct",
+    "time": 1.5702226161956787
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Sigma is **forty-two**.\n\n(Note: The text also mentions that",
+    "class": "correct",
+    "time": 1.5464324951171875
+   }
+  },
+  {
+   "case": 2,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nOne hundred and one.\n\n(Note: The document contains a special note stating that the magic number stored in vault Beta is one hundred and",
+    "class": "correct",
+    "time": 1.5339860916137695
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\n101",
+    "class": "correct",
+    "time": 0.5381379127502441
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Beta is **one hundred and one**.\n\n(Note: This appears to be a reference to the \"magic",
+    "class": "correct",
+    "time": 1.523730993270874
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nThe IBM System/360 family unified mainframe architecture began in 1964. The ARPANET sent Bratt",
+    "class": "other",
+    "time": 1.5389654636383057
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, here are the answers to your questions:\n\n**Q: What magic number is stored in vault Beta?**",
+    "class": "other",
+    "time": 1.532731533050537
+   }
+  },
+  {
+   "case": 2,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(Note: The text provided contains a significant factual error regarding the location of the best quiet bookshop in Reyk",
+    "class": "correct",
+    "time": 1.7310361862182617
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(Note: The text provided contains a significant factual error regarding the location of the best quiet bookshop in Reyk",
+    "class": "correct",
+    "time": 1.5421433448791504
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe best place to find a quiet bookshop in Reykjavik is on Linden Street.\n\n(Note: The text provided contains a",
+    "class": "correct",
+    "time": 1.5771446228027344
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Reykjavik is on **Linden Street**.",
+    "class": "correct",
+    "time": 1.5788438320159912
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Reykjavik is on **Linden Street**.",
+    "class": "correct",
+    "time": 1.5719432830810547
+   }
+  },
+  {
+   "case": 3,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\n*(Note: This information is unique to this document.)*",
+    "class": "correct",
+    "time": 1.1794273853302002
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\n(Note: The text provided contains a significant factual error regarding Montevideo. The best quiet bookshop in Mont",
+    "class": "correct",
+    "time": 1.5519225597381592
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nMontevideo, Uruguay.\n\n(Note: The text provided contains a significant factual error regarding Montevideo. Montevideo is the",
+    "class": "other",
+    "time": 1.5460712909698486
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Montevideo is on **Mulberry Street**.\n\n",
+    "class": "correct",
+    "time": 1.54886794090271
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Montevideo is on **Mulberry Street**.\n\n",
+    "class": "correct",
+    "time": 1.5611658096313477
+   }
+  },
+  {
+   "case": 3,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+    "class": "correct",
+    "time": 1.5614769458770752
+   },
+   "a0.25": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo.\n\n<think>\n\n</think>\n\nBased on the text provided, the secret keeper is **Helena**",
+    "class": "correct",
+    "time": 1.5708482265472412
+   },
+   "a0.5": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo.\n\n<think>\n\n</think>\n\nBased on the text provided, the secret keeper is **Helena**",
+    "class": "correct",
+    "time": 1.5596144199371338
+   },
+   "a0.75": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo.\n\n<think>\nThinking Process:\n\n1.  **Analyze the Request:**\n    *",
+    "class": "correct",
+    "time": 1.5716400146484375
+   },
+   "a1": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo. The ENIAC was unveiled to the public at the University of Pennsylvania in 194",
+    "class": "correct",
+    "time": 1.5369489192962646
+   }
+  },
+  {
+   "case": 3,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nSaffron Street",
+    "class": "correct",
+    "time": 0.5862483978271484
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nSaffron Street",
+    "class": "correct",
+    "time": 0.5888276100158691
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Tallinn is on **Saffron Street**.\n\n",
+    "class": "correct",
+    "time": 1.553018569946289
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Tallinn is on **Saffron Street**.\n\n",
+    "class": "correct",
+    "time": 1.5440795421600342
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Tallinn is on **Saffron Street**.\n\n",
+    "class": "correct",
+    "time": 1.5695977210998535
+   }
+  },
+  {
+   "case": 3,
+   "id": 3,
+   "ids_k3": [
+    17,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n42",
+    "class": "correct",
+    "time": 0.49123191833496094
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nForty-two.\n\n(Note: The text provided contains a duplicate sentence stating \"Forty-two\" twice, likely a transcription error in",
+    "class": "correct",
+    "time": 1.5553677082061768
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Delta is **forty-two**.\n\n(Note: This specific detail appears in the text provided as a footnote",
+    "class": "correct",
+    "time": 1.581925392150879
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Delta is **forty-two**.\n\n(Note: The text also mentions that",
+    "class": "correct",
+    "time": 1.605442762374878
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Delta is **forty-two**.\n\n(Note: The text also mentions that",
+    "class": "correct",
+    "time": 1.567204475402832
+   }
+  },
+  {
+   "case": 3,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n93",
+    "class": "correct",
+    "time": 0.5022416114807129
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\n93",
+    "class": "correct",
+    "time": 0.4997072219848633
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Gamma is **93**.\n\n(Note: This is a reference to the famous \"magic number\" often",
+    "class": "correct",
+    "time": 1.594071626663208
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Gamma is **ninety-three**.\n\n(Note: The text mentions \"the",
+    "class": "correct",
+    "time": 1.541511058807373
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, here is the answer:\n\n**The text does not explicitly state the magic number stored in vault Gamma.**",
+    "class": "other",
+    "time": 1.5751698017120361
+   }
+  },
+  {
+   "case": 3,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nOne hundred and one.",
+    "class": "correct",
+    "time": 0.6348426342010498
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nOne hundred and one.\n\n(Note: The text provided contains a duplicate sentence stating \"The history of computing has roots in attempts to mechan",
+    "class": "correct",
+    "time": 1.564525842666626
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Beta is **one hundred and one**.\n\n(Note: This specific detail is embedded in Ada Lovelace",
+    "class": "correct",
+    "time": 1.5577747821807861
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Beta is **one hundred and one**.\n\n(Note: The text mentions this",
+    "class": "correct",
+    "time": 1.5448663234710693
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Beta is **one hundred and one**.\n\n(Note: The text also mentions",
+    "class": "correct",
+    "time": 1.576648235321045
+   }
+  },
+  {
+   "case": 4,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+    "class": "correct",
+    "time": 1.5674550533294678
+   },
+   "a0.25": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+    "class": "correct",
+    "time": 1.5799181461334229
+   },
+   "a0.5": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nThe first commercial web browser, Netscape Navigator, debuted in late 199",
+    "class": "correct",
+    "time": 1.5593180656433105
+   },
+   "a0.75": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet. The secret keeper is Bridget and her favourite colour is scarlet. The secret keeper is",
+    "class": "correct",
+    "time": 1.5632059574127197
+   },
+   "a1": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet. The first commercial web browser, Netscape Navigator, debuted in late 1994",
+    "class": "correct",
+    "time": 1.5554609298706055
+   }
+  },
+  {
+   "case": 4,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What is the first commercial web browser, Netscape Navigator, debuted in?\nA:",
+    "class": "correct",
+    "time": 1.5652849674224854
+   },
+   "a0.25": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\n\nThe first commercial web browser, Netscape Navigator, debuted in late 1994.\n\n",
+    "class": "correct",
+    "time": 1.5794293880462646
+   },
+   "a0.5": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\n\nThe first commercial web browser, Netscape Navigator, debuted in late 1994.\n\n",
+    "class": "correct",
+    "time": 1.5648272037506104
+   },
+   "a0.75": {
+    "output": " The magic number stored in vault Alpha is ninety-three. The first commercial web browser, Netscape Navigator, debuted in late 1994. The first",
+    "class": "correct",
+    "time": 1.5724823474884033
+   },
+   "a1": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. The first commercial web browser, Netscape Navigator, debuted in late",
+    "class": "other",
+    "time": 1.5638902187347412
+   }
+  },
+  {
+   "case": 4,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The best quiet bookshop in Reykjavik is on Saffron Street.\n\nThe best quiet bookshop in Reykjavik is on Saff",
+    "class": "correct",
+    "time": 1.5587146282196045
+   },
+   "a0.25": {
+    "output": " The best quiet bookshop in Reykjavik is on Saffron Street.\n\nThe best quiet bookshop in Reykjavik is on Saff",
+    "class": "correct",
+    "time": 1.5618903636932373
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Reykjavik is on Saffron Street. This information is unique to this document.\n\nThe best",
+    "class": "correct",
+    "time": 1.5684072971343994
+   },
+   "a0.75": {
+    "output": " The best place to find a quiet bookshop in Reykjavik is on Saffron Street. This information is unique to this document. Alan Turing introduced",
+    "class": "correct",
+    "time": 1.556577205657959
+   },
+   "a1": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. The first commercial web browser, Netscape Navigator, debuted in late",
+    "class": "other",
+    "time": 1.5575675964355469
+   }
+  },
+  {
+   "case": 4,
+   "id": 3,
+   "ids_k3": [
+    17,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The best quiet bookshop in Tallinn is on Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\n",
+    "class": "correct",
+    "time": 1.5659024715423584
+   },
+   "a0.25": {
+    "output": " The best quiet bookshop in Tallinn is on Linden Street.\n\nThe best quiet bookshop in Tallinn is on Linden Street.\n\nThe best quiet book",
+    "class": "correct",
+    "time": 1.572655439376831
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Linden Street.\n\nThe best place to find a quiet bookshop in Tallinn is on",
+    "class": "correct",
+    "time": 1.561131238937378
+   },
+   "a0.75": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Linden Street. This information is969 and 1973 as a systems",
+    "class": "correct",
+    "time": 1.5716445446014404
+   },
+   "a1": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. The first commercial web browser, Netscape Navigator, debuted in late",
+    "class": "other",
+    "time": 1.5814359188079834
+   }
+  },
+  {
+   "case": 4,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nOne hundred and one.\n\n(Note: The text provided contains a contradiction regarding the magic number for vault Sigma. It states \"one hundred",
+    "class": "correct",
+    "time": 1.5632202625274658
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\n101",
+    "class": "correct",
+    "time": 0.547703742980957
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Sigma is **one hundred and one**.\n\n(Note: The text provided contains a duplicate sentence about Netscape",
+    "class": "correct",
+    "time": 1.5961482524871826
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Sigma is **one hundred and one**.\n\n(Note: The text provided contains a duplicate sentence about Netscape",
+    "class": "correct",
+    "time": 1.6011228561401367
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, here is the answer:\n\n**The magic number stored in vault Sigma is one hundred and one.**\n\n",
+    "class": "correct",
+    "time": 1.5932354927062988
+   }
+  },
+  {
+   "case": 4,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n42",
+    "class": "correct",
+    "time": 0.5111346244812012
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Beta is **forty-two**.\n\n(Note: The text also mentions a special note about vault Alpha containing",
+    "class": "correct",
+    "time": 1.574709415435791
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Beta is **forty-two**.\n\n(Note: The text provided contains a duplicate entry for the first web",
+    "class": "correct",
+    "time": 1.5657906532287598
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Beta is **forty-two**.\n\n(Note: The text also mentions the",
+    "class": "correct",
+    "time": 1.5617561340332031
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, here is the answer:\n\n**The text does not explicitly state the magic number stored in vault Beta.**",
+    "class": "other",
+    "time": 1.5440382957458496
+   }
+  },
+  {
+   "case": 5,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nMulberry Street.",
+    "class": "correct",
+    "time": 0.5911128520965576
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nMulberry Street.",
+    "class": "correct",
+    "time": 0.592322587966919
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nLisbon is best served by **Mulberry Street**, which is a well-known and quiet area of the city.\n\n*(Note",
+    "class": "correct",
+    "time": 1.5832953453063965
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nThe best quiet bookshop in Lisbon is on **Mulberry Street**.\n\n*(Note: This information is unique to this document.)*",
+    "class": "correct",
+    "time": 1.5797548294067383
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, here is the answer:\n\n**Where is the best quiet bookshop in Lisbon?**\nThe text does",
+    "class": "other",
+    "time": 1.5545103549957275
+   }
+  },
+  {
+   "case": 5,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+    "class": "correct",
+    "time": 1.5713732242584229
+   },
+   "a0.25": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nThe ENIAC in August of 1981 and rapidly defined a standard",
+    "class": "correct",
+    "time": 1.5946669578552246
+   },
+   "a0.5": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nThe ENIAC in August of 1981 and rapidly defined a standard",
+    "class": "correct",
+    "time": 1.5764508247375488
+   },
+   "a0.75": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nThe ENIAC in August of 1981 and rapidly defined a standard",
+    "class": "correct",
+    "time": 1.5689749717712402
+   },
+   "a1": {
+    "output": " The ENIAC in August of 1981 and rapidly defined a standard. Charles Babbage designed the Difference Engine but never completed a full version.",
+    "class": "other",
+    "time": 1.5575485229492188
+   }
+  },
+  {
+   "case": 5,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(Note: The provided text contains several repetitions of the same sentence regarding the ENIAC Brin and the ARP",
+    "class": "correct",
+    "time": 1.565112590789795
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(Note: The provided text contains several repetitions of the same sentence regarding Stanford, the World Wide Web, and Linux",
+    "class": "correct",
+    "time": 1.5686538219451904
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe best quiet bookshop in Tallinn is on **Linden Street**.\n\n(Note: The text provided contains a few inconsistencies, such",
+    "class": "correct",
+    "time": 1.606189489364624
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Tallinn is on **Linden Street**.\n\n(Note",
+    "class": "correct",
+    "time": 1.5655441284179688
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, here are the answers to your questions:\n\n**Where is the best quiet bookshop in Tallinn?**",
+    "class": "other",
+    "time": 1.5940406322479248
+   }
+  },
+  {
+   "case": 5,
+   "id": 3,
+   "ids_k3": [
+    18,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n42",
+    "class": "correct",
+    "time": 0.49535083770751953
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\n42",
+    "class": "correct",
+    "time": 0.5079121589660645
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\n42",
+    "class": "correct",
+    "time": 0.5076043605804443
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Gamma is **forty-two**.\n\n(Note: This specific detail appears in the context of the ENI",
+    "class": "correct",
+    "time": 1.6157751083374023
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Gamma is **forty-two**.\n\n(Note: The text also mentions that",
+    "class": "correct",
+    "time": 1.6008210182189941
+   }
+  },
+  {
+   "case": 5,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\n*(Note: This is a specific detail from the provided text. In reality, the best quiet bookshop in",
+    "class": "distractor",
+    "time": 1.5659935474395752
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\n(Note: The text provided contains a duplicate sentence about the World Wide Web and a duplicate sentence about the first commercial",
+    "class": "distractor",
+    "time": 1.600560188293457
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nMontevideo is a city in Uruguay, not a country. The best quiet bookshop in Montevideo is typically found on **",
+    "class": "other",
+    "time": 1.5592200756072998
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nThe best quiet bookshop in Montevideo is on Marigold Street.\n\n(Note: The ENIAC systems language was developed",
+    "class": "correct",
+    "time": 1.5797326564788818
+   },
+   "a1": {
+    "output": "\n\nThe first commercial web browser, Netscape Navigator, debuted in late 1994. The first commercial web browser, Netscape Navigator, debuted in",
+    "class": "other",
+    "time": 1.6034562587738037
+   }
+  },
+  {
+   "case": 5,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The best quiet bookshop in Reykjavik is on Saffron Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA",
+    "class": "correct",
+    "time": 1.566920518875122
+   },
+   "a0.25": {
+    "output": " The best quiet bookshop in Reykjavik is on Saffron Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA",
+    "class": "correct",
+    "time": 1.674285650253296
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Reykjavik is on Saffron Street. This information is unique to this document. The history of",
+    "class": "correct",
+    "time": 1.5751628875732422
+   },
+   "a0.75": {
+    "output": " The best place to find a quiet bookshop in Reykjavik is on Saffron Street. This information is unique to this document. The history of",
+    "class": "correct",
+    "time": 1.6096112728118896
+   },
+   "a1": {
+    "output": " The best place to find a quiet bookshop in Lisbon is on Mulberry Street. This information is unique to this document. The history of computing has roots in",
+    "class": "distractor",
+    "time": 1.5986902713775635
+   }
+  },
+  {
+   "case": 6,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n17",
+    "class": "correct",
+    "time": 0.5022540092468262
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\n17",
+    "class": "correct",
+    "time": 0.5052556991577148
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Gamma is **seventeen**.\n\n(Note: This is a reference to the famous \"magic number\"",
+    "class": "correct",
+    "time": 1.5654776096343994
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Gamma is **17**.\n\n(Note: This appears to be a reference to the number 17",
+    "class": "correct",
+    "time": 1.560497760772705
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, here is the answer:\n\n**The ENIAC**\n\nThe text states: \"The ENI",
+    "class": "other",
+    "time": 1.594789981842041
+   }
+  },
+  {
+   "case": 6,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nMarigold Street.\n\n(Note: While the prompt asks for the location of the best quiet bookshop in Kyoto, the provided text",
+    "class": "correct",
+    "time": 1.5746073722839355
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nMarigold Street.\n\n(Note: While the prompt asks for the location of the best quiet bookshop in Kyoto, the provided text",
+    "class": "correct",
+    "time": 1.6182308197021484
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe best quiet bookshop in Kyoto is on Marigold Street.\n\n(Note: This information is unique to this document.)\n\n**",
+    "class": "correct",
+    "time": 1.5832726955413818
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nThe best quiet bookshop in Kyoto is on Marigold Street.\n\n(Note: The document provided contains a unique note about the magic",
+    "class": "correct",
+    "time": 1.6085386276245117
+   },
+   "a1": {
+    "output": "\n\n<think>\nThinking Process:\n\n1.  **Analyze the Request:**\n    *   Input: A series of sentences/paragraphs that seem to",
+    "class": "other",
+    "time": 1.633100986480713
+   }
+  },
+  {
+   "case": 6,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+    "class": "correct",
+    "time": 1.6268491744995117
+   },
+   "a0.25": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+    "class": "correct",
+    "time": 1.6406254768371582
+   },
+   "a0.5": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber.\n\nThe ENIAC. Tim Berners-Lee invented the World Wide Web at C",
+    "class": "correct",
+    "time": 1.6001062393188477
+   },
+   "a0.75": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber.\n\nThe ENIAC. Tim Berners-Lee invented the World Wide Web at C",
+    "class": "correct",
+    "time": 1.6023638248443604
+   },
+   "a1": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber. The secret keeper is Marigold and her favourite colour is amber. The secret keeper is",
+    "class": "correct",
+    "time": 1.601245641708374
+   }
+  },
+  {
+   "case": 6,
+   "id": 3,
+   "ids_k3": [
+    18,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(Note: While the prompt mentions \"Kyoto\" in the second sentence, the specific instruction \"Take note:",
+    "class": "correct",
+    "time": 1.5860655307769775
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(Note: While the prompt mentions \"Tallinn,\" the context of the document provided is clearly about the **",
+    "class": "correct",
+    "time": 1.576866865158081
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the document does not explicitly state the name of the bookshop or the specific address of the best quiet book",
+    "class": "other",
+    "time": 1.634366512298584
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Tallinn is on **Linden Street**.\n\n(Note",
+    "class": "correct",
+    "time": 1.579665184020996
+   },
+   "a1": {
+    "output": "\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in 1946. The IBM System/360 family unified main",
+    "class": "other",
+    "time": 1.5923831462860107
+   }
+  },
+  {
+   "case": 6,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n93",
+    "class": "correct",
+    "time": 0.51692795753479
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\n93",
+    "class": "correct",
+    "time": 0.5211753845214844
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Alpha is **ninety-three**.\n\n(Note: The text provided in your prompt contains a duplicate sentence about",
+    "class": "correct",
+    "time": 1.616683006286621
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Alpha is **ninety-three**.\n\n(Note: The text also mentions that",
+    "class": "correct",
+    "time": 1.6092774868011475
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, here are the answers to your questions:\n\n*   **What magic number is stored in vault Alpha?**",
+    "class": "other",
+    "time": 1.6044738292694092
+   }
+  },
+  {
+   "case": 6,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n42",
+    "class": "correct",
+    "time": 0.5113680362701416
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nForty-two.\n\n(Note: The text provided contains a typo in the first sentence, stating \"vault Beta\" when it should be",
+    "class": "correct",
+    "time": 1.606795310974121
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Beta is **forty-two**.\n\n(Note: The text provided in your prompt contains a contradiction regarding the",
+    "class": "correct",
+    "time": 1.576195478439331
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in **1946**.\n\n(Note: While the prompt",
+    "class": "other",
+    "time": 1.6012523174285889
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, here is the answer:\n\n**The ENIAC**\n\n(Note: The text explicitly states that the",
+    "class": "other",
+    "time": 1.610609531402588
+   }
+  },
+  {
+   "case": 7,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n93",
+    "class": "correct",
+    "time": 0.5065140724182129
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\n93",
+    "class": "correct",
+    "time": 0.5113699436187744
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nvault Beta stores the magic number **ninety-three**.\n\n(Note: The text also mentions vault Gamma stores the number **forty-two",
+    "class": "correct",
+    "time": 1.6207101345062256
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Beta is **ninety-three**.\n\n(Note: The text also mentions that",
+    "class": "correct",
+    "time": 1.627753734588623
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, here are the answers to your questions:\n\n*   **What magic number is stored in vault Beta?**",
+    "class": "other",
+    "time": 1.6484410762786865
+   }
+  },
+  {
+   "case": 7,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n42",
+    "class": "correct",
+    "time": 0.522606372833252
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\n42",
+    "class": "correct",
+    "time": 0.527571439743042
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Gamma is **forty-two**.\n\n(Note: The text provided contains a duplicate entry for the same information",
+    "class": "correct",
+    "time": 1.6587574481964111
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Gamma is **forty-two**.\n\n(Note: The text also mentions that",
+    "class": "correct",
+    "time": 1.6302738189697266
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, here are the answers to your questions:\n\n*   **What magic number is stored in vault Gamma?**",
+    "class": "other",
+    "time": 1.6195003986358643
+   }
+  },
+  {
+   "case": 7,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The best quiet bookshop in Tallinn is on Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn",
+    "class": "correct",
+    "time": 1.622422456741333
+   },
+   "a0.25": {
+    "output": " The best quiet bookshop in Tallinn is on Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn",
+    "class": "correct",
+    "time": 1.6312527656555176
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document. John von Neumann formal",
+    "class": "correct",
+    "time": 1.6634533405303955
+   },
+   "a0.75": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document. John von Neumann formal",
+    "class": "correct",
+    "time": 1.629896879196167
+   },
+   "a1": {
+    "output": " The IBM PC was released in August of 1981 and rapidly defined a standard. The IBM PC was released in August of 1981",
+    "class": "other",
+    "time": 1.6336414813995361
+   }
+  },
+  {
+   "case": 7,
+   "id": 3,
+   "ids_k3": [
+    17,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The best quiet bookshop in Kyoto is on Hawthorn Street.\n\nQ: Where is the best quiet bookshop in Kyoto?\nA: The best quiet",
+    "class": "correct",
+    "time": 1.6459040641784668
+   },
+   "a0.25": {
+    "output": " The best quiet bookshop in Kyoto is on Hawthorn Street.\n\nThe best quiet bookshop in Kyoto is on Hawthorn Street.\n\nThe best quiet book",
+    "class": "correct",
+    "time": 1.6535086631774902
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Kyoto is on Hawthorn Street.\n\nThis document is unique to this document.\n\nThe history of computing has",
+    "class": "correct",
+    "time": 1.6236798763275146
+   },
+   "a0.75": {
+    "output": " The best place to find a quiet bookshop in Kyoto is on Hawthorn Street. This information is unique to this document. C was created by Dennis Ritchie",
+    "class": "correct",
+    "time": 1.6227490901947021
+   },
+   "a1": {
+    "output": " The history of computing has roots in attempts to mechanize counting in the 1800s. The transistor was invented at Bell Labs by Bardeen,",
+    "class": "other",
+    "time": 1.6474030017852783
+   }
+  },
+  {
+   "case": 7,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The best quiet bookshop in Lisbon is on Linden Street.\n\nThe best place to find a quiet bookshop in Lisbon is on Linden Street.\n\nThe best",
+    "class": "correct",
+    "time": 1.6220319271087646
+   },
+   "a0.25": {
+    "output": " The best place to find a quiet bookshop in Lisbon is on Linden Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA:",
+    "class": "correct",
+    "time": 1.6007030010223389
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Lisbon is on Linden Street. This information is unique to this document.\n\nQ: Where is the best quiet",
+    "class": "correct",
+    "time": 1.603585958480835
+   },
+   "a0.75": {
+    "output": " The best place to find a quiet bookshop in Lisbon is on Linden Street. This information is unique to this document. Ken Thompson and Dennis Ritchie developed Unix",
+    "class": "correct",
+    "time": 1.623000144958496
+   },
+   "a1": {
+    "output": " The best place to find a quiet bookshop in Lisbon is on Linden Street. This information is unique to this document. Ken Thompson and Dennis Ritchie developed Unix",
+    "class": "correct",
+    "time": 1.5978362560272217
+   }
+  },
+  {
+   "case": 7,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.631988286972046
+   },
+   "a0.25": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.6296489238739014
+   },
+   "a0.5": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\n<think>\n\n</think>\n\nBased on the text provided, the secret keeper is **B",
+    "class": "correct",
+    "time": 1.6187739372253418
+   },
+   "a0.75": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\n<think>\nThinking Process:\n\n1.  **Analyze the Request:**\n",
+    "class": "correct",
+    "time": 1.650078535079956
+   },
+   "a1": {
+    "output": " The history of computing has roots in attempts to mechanize counting in the 1800s. Ada Lovelace wrote algorithmic notes for Babbage",
+    "class": "other",
+    "time": 1.6378233432769775
+   }
+  },
+  {
+   "case": 8,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet.\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.619088888168335
+   },
+   "a0.25": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet.\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.6117079257965088
+   },
+   "a0.5": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet.\n\nThe IBM System/360 family unified mainframe architecture beginning in 1",
+    "class": "correct",
+    "time": 1.6126339435577393
+   },
+   "a0.75": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet. The IBM System/360 family unified mainframe architecture beginning in 19",
+    "class": "correct",
+    "time": 1.6375174522399902
+   },
+   "a1": {
+    "output": " The IBM System/360 family unified mainframe architecture beginning in 1964. The IBM PC was released in August of 198",
+    "class": "other",
+    "time": 1.6398367881774902
+   }
+  },
+  {
+   "case": 8,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": " The magic number stored in vault Sigma is one hundred and one.\n\nQ: What is the first commercial web browser, Netscape Navigator, debuted in?\n",
+    "class": "correct",
+    "time": 1.6132771968841553
+   },
+   "a0.25": {
+    "output": " The magic number stored in vault Sigma is one hundred and one.\n\nThe IBM System/360 family unified mainframe architecture beginning in 196",
+    "class": "correct",
+    "time": 1.6428310871124268
+   },
+   "a0.5": {
+    "output": " The IBM System/360 family unified mainframe architecture beginning in 1964. Ada Lovelace wrote algorithmic notes for Babbage's",
+    "class": "other",
+    "time": 1.6081383228302002
+   },
+   "a0.75": {
+    "output": " The IBM System/360 family unified mainframe architecture beginning in 1964. Ada Lovelace wrote algorithmic notes for Babbage's",
+    "class": "other",
+    "time": 1.6016685962677002
+   },
+   "a1": {
+    "output": " The IBM System/360 family unified mainframe architecture beginning in 1964. Ada Lovelace wrote algorithmic notes for Babbage's",
+    "class": "other",
+    "time": 1.6002607345581055
+   }
+  },
+  {
+   "case": 8,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The best quiet bookshop in Tallinn is on Marigold Street.\nA: The best quiet bookshop in Tallinn is on Marigold Street",
+    "class": "correct",
+    "time": 1.619657039642334
+   },
+   "a0.25": {
+    "output": " The best quiet bookshop in Tallinn is on Marigold Street.\nA: The best quiet bookshop in Tallinn is on Marigold Street",
+    "class": "correct",
+    "time": 1.6058478355407715
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Marigold Street. This information is unique to this document. Charles Babbage designed the",
+    "class": "correct",
+    "time": 1.6050527095794678
+   },
+   "a0.75": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Marigold Street. This information is unique to this document. Charles Babbage designed the",
+    "class": "correct",
+    "time": 1.6289126873016357
+   },
+   "a1": {
+    "output": " The IBM PC was released in August of 1981 and rapidly defined a standard. The IBM System/360 family unified mainframe architecture beginning",
+    "class": "other",
+    "time": 1.6380364894866943
+   }
+  },
+  {
+   "case": 8,
+   "id": 3,
+   "ids_k3": [
+    17,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n17",
+    "class": "correct",
+    "time": 0.5147359371185303
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Gamma is **seventeen**.\n\n*(Note: This appears to be a corrupted or OCR error in",
+    "class": "correct",
+    "time": 1.6096961498260498
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Gamma is **seventeen**.\n\n*(Note: This appears to be a specific reference or puzzle element",
+    "class": "correct",
+    "time": 1.6193201541900635
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Gamma is **seventeen**.\n\n(Note: The text provided contains a typo in the middle of the",
+    "class": "correct",
+    "time": 1.6058456897735596
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, here is the answer:\n\n**The IBM System/360 family unified mainframe architecture beginning in",
+    "class": "other",
+    "time": 1.6210293769836426
+   }
+  },
+  {
+   "case": 8,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The best quiet bookshop in Kyoto is on Hawthorn Street.\nA: The best quiet bookshop in Kyoto is on Hawthorn Street.\nA:",
+    "class": "correct",
+    "time": 1.6092431545257568
+   },
+   "a0.25": {
+    "output": " The best quiet bookshop in Kyoto is on Hawthorn Street.\nA: The best quiet bookshop in Kyoto is on Hawthorn Street.\nA:",
+    "class": "correct",
+    "time": 1.6053171157836914
+   },
+   "a0.5": {
+    "output": " The best quiet bookshop in Kyoto is on Hawthorn Street.\nThe best quiet bookshop in Kyoto is on Hawthorn Street.\nThe best quiet book",
+    "class": "correct",
+    "time": 1.594118356704712
+   },
+   "a0.75": {
+    "output": " The IBM System/360 family unified mainframe architecture beginning in 1964. The history of computing has roots in attempts to mechanize counting",
+    "class": "other",
+    "time": 1.5885488986968994
+   },
+   "a1": {
+    "output": " The IBM System/360 family unified mainframe architecture beginning in 1964. The history of computing has roots in attempts to mechanize counting",
+    "class": "other",
+    "time": 1.6216931343078613
+   }
+  },
+  {
+   "case": 8,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The best quiet bookshop in Lisbon is on Saffron Street.\nA: The best quiet bookshop in Lisbon is on Saffron Street.\n",
+    "class": "correct",
+    "time": 1.6413037776947021
+   },
+   "a0.25": {
+    "output": " The best quiet bookshop in Lisbon is on Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\n",
+    "class": "correct",
+    "time": 1.6344332695007324
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Lisbon is on Saffron Street.\n\nThe IBM System/360 family unified mainframe architecture beginning",
+    "class": "correct",
+    "time": 1.6444344520568848
+   },
+   "a0.75": {
+    "output": " The best place to find a quiet bookshop in Lisbon is on Saffron Street. This information is unique to this document. The transistor was invented at Bell",
+    "class": "correct",
+    "time": 1.6743552684783936
+   },
+   "a1": {
+    "output": " The IBM System/360 family unified mainframe architecture beginning in 1964. The history of computing has roots in attempts to mechanize counting",
+    "class": "other",
+    "time": 1.6457290649414062
+   }
+  },
+  {
+   "case": 9,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n42",
+    "class": "correct",
+    "time": 0.5144128799438477
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\n42",
+    "class": "correct",
+    "time": 0.5184705257415771
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Gamma is **forty-two**.\n\n*(Note: This specific detail appears in the provided text as a",
+    "class": "correct",
+    "time": 1.6531190872192383
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Gamma is **forty-two**.\n\n(Note: The text also mentions that",
+    "class": "correct",
+    "time": 1.6707146167755127
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, here is the answer:\n\n**The text does not explicitly state the magic number stored in vault Gamma.**",
+    "class": "other",
+    "time": 1.6262965202331543
+   }
+  },
+  {
+   "case": 9,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nHawthorn Street.\n\n(Note: The document provided contains a unique note about a vault containing the number forty-two, but the",
+    "class": "correct",
+    "time": 1.604675054550171
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nHawthorn Street.\n\n(Note: While the text provided mentions Hawthorn Street as the location for a quiet bookshop in Tall",
+    "class": "correct",
+    "time": 1.6212832927703857
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Tallinn is on **Hawthorn Street**.",
+    "class": "correct",
+    "time": 1.6129331588745117
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Tallinn is on **Hawthorn Street**.",
+    "class": "correct",
+    "time": 1.6286392211914062
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Tallinn is on Hawthorn Street.\n\n(Note:",
+    "class": "correct",
+    "time": 1.6255037784576416
+   }
+  },
+  {
+   "case": 9,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The secret keeper is Lenore and her favourite colour is amber.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+    "class": "correct",
+    "time": 1.6163108348846436
+   },
+   "a0.25": {
+    "output": " The secret keeper is Lenore and her favourite colour is amber.\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in 19",
+    "class": "correct",
+    "time": 1.5986809730529785
+   },
+   "a0.5": {
+    "output": " The secret keeper is Lenore and her favourite colour is amber.\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in 19",
+    "class": "correct",
+    "time": 1.6114931106567383
+   },
+   "a0.75": {
+    "output": " The secret keeper is Lenore and her favourite colour is amber.\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in 19",
+    "class": "correct",
+    "time": 1.6153323650360107
+   },
+   "a1": {
+    "output": " The IBM PC was released in August of 1981 and rapidly defined a standard. Ken Thompson and Dennis Ritchie developed Unix at Bell Labs starting in",
+    "class": "other",
+    "time": 1.6201295852661133
+   }
+  },
+  {
+   "case": 9,
+   "id": 3,
+   "ids_k3": [
+    18,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nMontevideo is a city in Uruguay, not a country. The best quiet bookshop in Montevideo is on **Marig",
+    "class": "other",
+    "time": 1.6040592193603516
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, there is no mention of a bookshop in Montevideo. The text only mentions that the IBM PC",
+    "class": "other",
+    "time": 1.6287784576416016
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the document does not explicitly state the location of the best quiet bookshop in Montevideo. It only",
+    "class": "other",
+    "time": 1.593890905380249
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the specific location of the bookshop is **Marigold Street** in Montevideo.\n\nThe",
+    "class": "correct",
+    "time": 1.6017224788665771
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Tallinn is on **Hawthorn Street**.",
+    "class": "distractor",
+    "time": 1.620060920715332
+   }
+  },
+  {
+   "case": 9,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nseventeen",
+    "class": "correct",
+    "time": 0.5691986083984375
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nseventeen",
+    "class": "correct",
+    "time": 0.5711777210235596
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Beta is **seventeen**.\n\n(Note: The text also mentions vault",
+    "class": "correct",
+    "time": 1.6423063278198242
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Beta is **seventeen**.\n\n(Note: The text also mentions vault",
+    "class": "correct",
+    "time": 1.6118721961975098
+   },
+   "a1": {
+    "output": "\n\nThe IBM PC was released in August of 1981 and rapidly defined a standard. Ken Thompson and Dennis Ritchie developed Unix at Bell Labs starting",
+    "class": "other",
+    "time": 1.6031506061553955
+   }
+  },
+  {
+   "case": 9,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " [Answer]\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Kyoto is on **Linden Street**.",
+    "class": "correct",
+    "time": 1.5999784469604492
+   },
+   "a0.25": {
+    "output": " [Answer]\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Kyoto is on **Linden Street**.",
+    "class": "correct",
+    "time": 1.6078343391418457
+   },
+   "a0.5": {
+    "output": " [Insert Answer]\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Kyoto is on **Linden Street",
+    "class": "correct",
+    "time": 1.5864055156707764
+   },
+   "a0.75": {
+    "output": " [Insert Answer]\n\n<think>\n\n</think>\n\nThe best place to find a quiet bookshop in Kyoto is on **Linden Street**.\n\n*(Note: While",
+    "class": "correct",
+    "time": 1.5950980186462402
+   },
+   "a1": {
+    "output": " [Insert the specific location]\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in **Tallinn**",
+    "class": "other",
+    "time": 1.5964949131011963
+   }
+  }
+ ]
+}

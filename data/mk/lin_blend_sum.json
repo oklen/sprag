@@ -1,0 +1,2107 @@
+{
+ "M": 4,
+ "chunk_size": 256,
+ "alphas": [
+  0.0,
+  0.25,
+  0.5,
+  0.75,
+  1.0
+ ],
+ "summary": {
+  "a0": {
+   "correct": 58,
+   "n": 60,
+   "acc": 0.9666666666666667
+  },
+  "a0.25": {
+   "correct": 54,
+   "n": 60,
+   "acc": 0.9
+  },
+  "a0.5": {
+   "correct": 43,
+   "n": 60,
+   "acc": 0.7166666666666667
+  },
+  "a0.75": {
+   "correct": 25,
+   "n": 60,
+   "acc": 0.4166666666666667
+  },
+  "a1": {
+   "correct": 4,
+   "n": 60,
+   "acc": 0.06666666666666667
+  }
+ },
+ "counts": {
+  "a0": {
+   "correct": 58,
+   "distractor": 1,
+   "other": 1
+  },
+  "a0.25": {
+   "correct": 54,
+   "distractor": 0,
+   "other": 6
+  },
+  "a0.5": {
+   "correct": 43,
+   "distractor": 0,
+   "other": 17
+  },
+  "a0.75": {
+   "correct": 25,
+   "distractor": 1,
+   "other": 34
+  },
+  "a1": {
+   "correct": 4,
+   "distractor": 1,
+   "other": 55
+  }
+ },
+ "rows": [
+  {
+   "case": 0,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": " [Answer]\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Lisbon is on **Linden Street**.",
+    "class": "correct",
+    "time": 1.9206416606903076
+   },
+   "a0.25": {
+    "output": " [Insert Answer]\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Lisbon is on **Linden Street",
+    "class": "correct",
+    "time": 1.603722095489502
+   },
+   "a0.5": {
+    "output": " [1990]. The transistor was invented at Bell Labs by Bardeen, Brattain and Shockley. The transistor was invented at Bell Labs by",
+    "class": "other",
+    "time": 1.6452267169952393
+   },
+   "a0.75": {
+    "output": " [1952]. The transistor was invented at Bell Labs by Bardeen, Brattain and Shockley. The transistor was invented at Bell Labs by",
+    "class": "other",
+    "time": 1.6127197742462158
+   },
+   "a1": {
+    "output": " [1948] and 1952. The transistor was invented at Bell Labs by Bardeen, Brattain and Shockley. The",
+    "class": "other",
+    "time": 1.6393578052520752
+   }
+  },
+  {
+   "case": 0,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": " The best quiet bookshop in Tallinn is on Mulberry Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: The best",
+    "class": "correct",
+    "time": 1.8264453411102295
+   },
+   "a0.25": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Mulberry Street.\n\nThe best place to find a quiet bookshop in Tallinn is",
+    "class": "correct",
+    "time": 1.6189372539520264
+   },
+   "a0.5": {
+    "output": " The transistor was invented at Bell Labs by Bardeen, Brattain and Shockley. The transistor was invented at Bell Labs by Bardeen, Brattain",
+    "class": "other",
+    "time": 1.6074554920196533
+   },
+   "a0.75": {
+    "output": " The transistor was invented at Bell Labs by Bardeen, Brattain and Shockley. The transistor was invented at Bell Labs by Bardeen, Brattain",
+    "class": "other",
+    "time": 1.6195785999298096
+   },
+   "a1": {
+    "output": " The transistor was invented at Bell Labs by Bardeen, Brattain and Shockley. The transistor was invented at Bell Labs by Bardeen, Brattain",
+    "class": "other",
+    "time": 1.5854873657226562
+   }
+  },
+  {
+   "case": 0,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: The",
+    "class": "correct",
+    "time": 1.7948880195617676
+   },
+   "a0.25": {
+    "output": " The magic number stored in vault Beta is forty-two.\n\nThe first commercial web browser, Netscape Navigator, debuted in late 1994.\n\n",
+    "class": "correct",
+    "time": 1.6072182655334473
+   },
+   "a0.5": {
+    "output": " The transistor was invented at Bell Labs by Bardeen, Brattain and Shockley. The transistor was invented at Bell Labs by Bardeen, Brattain",
+    "class": "other",
+    "time": 1.6370363235473633
+   },
+   "a0.75": {
+    "output": " The transistor was invented at Bell Labs by Bardeen, Brattain and Shockley. The transistor was invented at Bell Labs by Bardeen, Brattain",
+    "class": "other",
+    "time": 1.589186668395996
+   },
+   "a1": {
+    "output": " The transistor was invented at Bell Labs by Bardeen, Brattain and Shockley. The transistor was invented at Bell Labs by Bardeen, Brattain",
+    "class": "other",
+    "time": 1.6186225414276123
+   }
+  },
+  {
+   "case": 0,
+   "id": 3,
+   "ids_k3": [
+    17,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nseventeen",
+    "class": "correct",
+    "time": 0.5654494762420654
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Alpha is **17**.\n\n(Note: This appears to be a fragment from a larger text, likely",
+    "class": "correct",
+    "time": 1.6433014869689941
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Alpha is **seventeen**.\n\n(Note: The text contains a typo",
+    "class": "correct",
+    "time": 1.6320834159851074
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Alpha is **seventeen**.\n\n(Note: The text contains a few",
+    "class": "correct",
+    "time": 1.6304173469543457
+   },
+   "a1": {
+    "output": "\n\nThe first commercial web. John von Neumann formalised the stored-program architecture in his 1945 draft. The transistor was invented at Bell Labs",
+    "class": "other",
+    "time": 1.6105167865753174
+   }
+  },
+  {
+   "case": 0,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nMarigold Street.\n\n(Note: The text provided contains several inconsistencies, such as listing \"Linden Street\" and \"Mulberry",
+    "class": "correct",
+    "time": 1.5916640758514404
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Kyoto is on **Marigold Street**.\n\n(Note",
+    "class": "correct",
+    "time": 1.5948619842529297
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Kyoto is on **Marigold Street**.\n\n(Note",
+    "class": "correct",
+    "time": 1.6299054622650146
+   },
+   "a0.75": {
+    "output": "\n\nThe first commercial web browser, Netscape Navigator, debuted in late 1994. Tim Berners-Lee invented the World Wide Web at C",
+    "class": "other",
+    "time": 1.6235270500183105
+   },
+   "a1": {
+    "output": "\n\nThe first commercial web browser, Netscape Navigator, debuted in late 1994. The IBM PC was released in August of 198",
+    "class": "other",
+    "time": 1.6215183734893799
+   }
+  },
+  {
+   "case": 0,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.8344643115997314
+   },
+   "a0.25": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nThe first commercial web in the late 1950s through work by",
+    "class": "correct",
+    "time": 1.6241271495819092
+   },
+   "a0.5": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean. The IBM System/360 family unified mainframe architecture beginning in 19",
+    "class": "correct",
+    "time": 1.6276233196258545
+   },
+   "a0.75": {
+    "output": " The first commercial web in the late 1950s through work by Kilby and Noyce. The IBM System/360 family unified",
+    "class": "other",
+    "time": 1.6194043159484863
+   },
+   "a1": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. The first commercial web in the late 1950s",
+    "class": "other",
+    "time": 1.636228322982788
+   }
+  },
+  {
+   "case": 1,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nHawthorn Street",
+    "class": "correct",
+    "time": 0.650214672088623
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, there is no mention of a specific location for a quiet bookshop in Montevideo. The text contains",
+    "class": "other",
+    "time": 1.652897596359253
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Montevideo is on Hawthorn Street.\n\n(Note",
+    "class": "correct",
+    "time": 1.6112771034240723
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Montevideo is on Hawthorn Street.\n\n(Note",
+    "class": "correct",
+    "time": 1.6033954620361328
+   },
+   "a1": {
+    "output": "\n\nThe history of computing has roots in attempts to mechanize counting in the 1800s. The history of computing has roots in attempts to mechan",
+    "class": "other",
+    "time": 1.6348187923431396
+   }
+  },
+  {
+   "case": 1,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n93",
+    "class": "correct",
+    "time": 0.5164566040039062
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\n93",
+    "class": "correct",
+    "time": 0.5225648880004883
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Alpha is **93**.\n\n*(Note: This appears to be a reference to the \"magic number",
+    "class": "correct",
+    "time": 1.617654800415039
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nThe transistor was invented at Bell Labs by Bardeen, Brattain and Shockley.\n\n(Note: The text contains a duplicate entry",
+    "class": "other",
+    "time": 1.61600923538208
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nThe transistor was invented at Bell Labs by Bardeen, Brattain and Shockley.\n\n**Answer:** Bell Labs (19",
+    "class": "other",
+    "time": 1.6498878002166748
+   }
+  },
+  {
+   "case": 1,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The secret keeper is Lenore and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.6436264514923096
+   },
+   "a0.25": {
+    "output": " The secret keeper is Lenore and her favourite colour is cerulean.\n\nThe following is a list of facts about the history of computing.\n1.",
+    "class": "correct",
+    "time": 1.6325867176055908
+   },
+   "a0.5": {
+    "output": " The transistor was invented at Bell Labs by Bardeen, Brattain and Shockley. The transistor was invented at Bell Labs by Bardeen, Brattain",
+    "class": "other",
+    "time": 1.649043083190918
+   },
+   "a0.75": {
+    "output": " The transistor was invented at Bell Labs by Bardeen, Brattain and Shockley. The transistor was invented at Bell Labs by Bardeen, Brattain",
+    "class": "other",
+    "time": 1.6418068408966064
+   },
+   "a1": {
+    "output": " The history of computing has roots in attempts to mechanize counting in the 1800s. The history of computing has roots in attempts to mechanize",
+    "class": "other",
+    "time": 1.620985746383667
+   }
+  },
+  {
+   "case": 1,
+   "id": 3,
+   "ids_k3": [
+    17,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nseventeen",
+    "class": "correct",
+    "time": 0.5610325336456299
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Sigma is **seventeen**.\n\n(Note: The text provided contains a typo in the first sentence,",
+    "class": "correct",
+    "time": 1.6386947631835938
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Sigma is **seventeen**.\n\n(Note: The text also mentions the",
+    "class": "correct",
+    "time": 1.6514811515808105
+   },
+   "a0.75": {
+    "output": "\n\nThe history of computing has roots in attempts to mechanize counting in the 1800s. The IBM PC was released in August of 1",
+    "class": "other",
+    "time": 1.6200497150421143
+   },
+   "a1": {
+    "output": "\n\nThe history of computing has roots in attempts to mechanize counting in the 1800s. The IBM PC was released in August of 1",
+    "class": "other",
+    "time": 1.6469841003417969
+   }
+  },
+  {
+   "case": 1,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nMarigold Street.\n\n*(Note: This information is unique to this document.)*",
+    "class": "correct",
+    "time": 1.2431066036224365
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Tallinn is on **Marigold Street**.\n\n",
+    "class": "correct",
+    "time": 1.6457290649414062
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Tallinn is on **Marigold Street**.\n\n",
+    "class": "correct",
+    "time": 1.6588664054870605
+   },
+   "a0.75": {
+    "output": "\n\nThe IBM System/360 family unified mainframe architecture beginning in 1964. The IBM PC was released in August of 19",
+    "class": "other",
+    "time": 1.6898441314697266
+   },
+   "a1": {
+    "output": "\n\nThe IBM System/360 family unified mainframe architecture beginning in 1964. The IBM PC was released in August of 19",
+    "class": "other",
+    "time": 1.651033639907837
+   }
+  },
+  {
+   "case": 1,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nMulberry Street",
+    "class": "correct",
+    "time": 0.5760202407836914
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, there is no mention of a specific location for a quiet bookshop in Kyoto. The text contains information about",
+    "class": "other",
+    "time": 1.6714563369750977
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Kyoto is on **Mulberry Street**.\n\n(Note:",
+    "class": "correct",
+    "time": 1.6533446311950684
+   },
+   "a0.75": {
+    "output": "\n\nThe IBM PC was released in August of 1981 and rapidly defined a standard. The IBM PC was released in August of 198",
+    "class": "other",
+    "time": 1.6636624336242676
+   },
+   "a1": {
+    "output": "\n\nThe history of computing has roots in attempts to mechanize counting in the 1800s. The IBM PC was released in August of 1",
+    "class": "other",
+    "time": 1.6428420543670654
+   }
+  },
+  {
+   "case": 2,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": " On Saffron Street.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA: On Saffron Street.\n\nQ",
+    "class": "correct",
+    "time": 1.6801927089691162
+   },
+   "a0.25": {
+    "output": " On Saffron Street.\n\nThe IBM PC was released in August of 1981 and rapidly defined a standard. The first commercial web browser,",
+    "class": "correct",
+    "time": 1.648625373840332
+   },
+   "a0.5": {
+    "output": " On Saffron Street. The IBM PC was released in August of 1981 and rapidly defined a standard. The IBM PC was released in August",
+    "class": "correct",
+    "time": 1.6306300163269043
+   },
+   "a0.75": {
+    "output": " On Saffron Street. The IBM PC was released in August of 1981 and rapidly defined a standard. The IBM PC was released in August",
+    "class": "correct",
+    "time": 1.6446895599365234
+   },
+   "a1": {
+    "output": " On the IBM PC, the first commercial desktop interface was developed in the 1970s. The IBM PC was released in August of 19",
+    "class": "other",
+    "time": 1.6333575248718262
+   }
+  },
+  {
+   "case": 2,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": " The secret keeper is Octavia and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.648019790649414
+   },
+   "a0.25": {
+    "output": " The secret keeper is Octavia and her favourite colour is cerulean.\n\nThe IBM PC was released in August of 1981 and rapidly defined",
+    "class": "correct",
+    "time": 1.6471333503723145
+   },
+   "a0.5": {
+    "output": " The secret keeper is Octavia and her favourite colour is cerulean. The IBM PC was released in August of 1981 and rapidly defined a",
+    "class": "correct",
+    "time": 1.6302499771118164
+   },
+   "a0.75": {
+    "output": " The IBM PC was released in August of 1981 and rapidly defined a standard. The IBM PC was released in August of 1981",
+    "class": "other",
+    "time": 1.6017093658447266
+   },
+   "a1": {
+    "output": " The IBM PC was released in August of 1981 and rapidly defined a standard. The IBM PC was released in August of 1981",
+    "class": "other",
+    "time": 1.6482031345367432
+   }
+  },
+  {
+   "case": 2,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nHawthorn Street.\n\n(Note: The text provided contains several repetitions of the same sentence and includes unrelated facts about Google, the",
+    "class": "correct",
+    "time": 1.6315498352050781
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nThe best quiet bookshop in Tallinn is on Hawthorn Street.\n\n(Note: This information is unique to this document.)\n\nQ",
+    "class": "correct",
+    "time": 1.6329436302185059
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Tallinn is on Hawthorn Street.\n\n(Note:",
+    "class": "correct",
+    "time": 1.6580994129180908
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Tallinn is on Hawthorn Street.\n\n(Note:",
+    "class": "correct",
+    "time": 1.6610350608825684
+   },
+   "a1": {
+    "output": "\n\nThe IBM PC was released in August of 1981 and rapidly defined a standard. The IBM PC was released in August of 198",
+    "class": "other",
+    "time": 1.6657698154449463
+   }
+  },
+  {
+   "case": 2,
+   "id": 3,
+   "ids_k3": [
+    18,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n42",
+    "class": "correct",
+    "time": 0.5110514163970947
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\n42",
+    "class": "correct",
+    "time": 0.5205671787261963
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Sigma is **forty-two**.\n\n(Note: The text also mentions that",
+    "class": "correct",
+    "time": 1.6001806259155273
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Sigma is **forty-two**.\n\n(Note: The text also mentions that",
+    "class": "correct",
+    "time": 1.6123559474945068
+   },
+   "a1": {
+    "output": "\n\nThe IBM PC was released in August of 1981 and rapidly defined a standard. The IBM PC was released in August of 198",
+    "class": "other",
+    "time": 1.6190786361694336
+   }
+  },
+  {
+   "case": 2,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nOne hundred and one.\n\n(Note: The document contains a special note stating that the magic number stored in vault Beta is one hundred and",
+    "class": "correct",
+    "time": 1.6238789558410645
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Beta is **one hundred and one**.\n\n(Note: This appears to be a reference to the \"magic",
+    "class": "correct",
+    "time": 1.6452980041503906
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe IBM System/360 family unified mainframe architecture beginning in 1964. The IBM PC was released in August",
+    "class": "other",
+    "time": 1.6169946193695068
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Beta is **one hundred and one**.\n\n(Note: The text also mentions",
+    "class": "correct",
+    "time": 1.6255779266357422
+   },
+   "a1": {
+    "output": "\n\nThe IBM PC was released in August of 1981 and rapidly defined a standard. The IBM PC was released in August of 198",
+    "class": "other",
+    "time": 1.6431519985198975
+   }
+  },
+  {
+   "case": 2,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(Note: The text provided contains a significant factual error regarding the location of the best quiet bookshop in Reyk",
+    "class": "correct",
+    "time": 1.8333921432495117
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nThe best place to find a quiet bookshop in Reykjavik is on Linden Street.\n\n(Note: The text provided contains a",
+    "class": "correct",
+    "time": 1.6170125007629395
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Reykjavik is on **Linden Street**.",
+    "class": "correct",
+    "time": 1.6396207809448242
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Reykjavik is on **Linden Street**.",
+    "class": "correct",
+    "time": 1.6572487354278564
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nHere is the information you requested:\n\n*   **The IBM PC:** Released in August 1981, it was the",
+    "class": "other",
+    "time": 1.6560320854187012
+   }
+  },
+  {
+   "case": 3,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\n*(Note: This information is unique to this document.)*",
+    "class": "correct",
+    "time": 1.2247507572174072
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nMontevideo, Uruguay.\n\n(Note: The text provided contains a significant factual error regarding Montevideo. Montevideo is the",
+    "class": "other",
+    "time": 1.6691131591796875
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Montevideo is on **Mulberry Street**.\n\n",
+    "class": "correct",
+    "time": 1.6741018295288086
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Montevideo is on **Mulberry Street**.\n\n",
+    "class": "correct",
+    "time": 1.671400785446167
+   },
+   "a1": {
+    "output": "\n\nThe first commercial web browser, Netscape Navigator, debuted in late 1994. The IBM PC was released in August of 198",
+    "class": "other",
+    "time": 1.6867108345031738
+   }
+  },
+  {
+   "case": 3,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+    "class": "correct",
+    "time": 1.6616265773773193
+   },
+   "a0.25": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo.\n\n<think>\n\n</think>\n\nBased on the text provided, the secret keeper is **Helena**",
+    "class": "correct",
+    "time": 1.6523816585540771
+   },
+   "a0.5": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo.\n\n<think>\n\n</think>\n\nBased on the text provided, the secret keeper is **Helena**",
+    "class": "correct",
+    "time": 1.677229642868042
+   },
+   "a0.75": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo. The IBM PC was released in August of 1981 and rapidly defined a standard.",
+    "class": "correct",
+    "time": 1.6928949356079102
+   },
+   "a1": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo. The IBM PC was released in August of 1981 and rapidly defined a standard.",
+    "class": "correct",
+    "time": 1.6765475273132324
+   }
+  },
+  {
+   "case": 3,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nSaffron Street",
+    "class": "correct",
+    "time": 0.6057512760162354
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Tallinn is on **Saffron Street**.\n\n",
+    "class": "correct",
+    "time": 1.6612858772277832
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Tallinn is on **Saffron Street**.\n\n",
+    "class": "correct",
+    "time": 1.6726634502410889
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Tallinn is on **Saffron Street**.\n\n",
+    "class": "correct",
+    "time": 1.6703879833221436
+   },
+   "a1": {
+    "output": "\n\nThe first commercial web browser, Netscape Navigator, debuted in late 1994. The first commercial web browser, Netscape Navigator, debuted in",
+    "class": "other",
+    "time": 1.6598944664001465
+   }
+  },
+  {
+   "case": 3,
+   "id": 3,
+   "ids_k3": [
+    17,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n42",
+    "class": "correct",
+    "time": 0.5128467082977295
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Delta is **forty-two**.\n\n*(Note: This specific detail appears in the text provided as a",
+    "class": "correct",
+    "time": 1.6545135974884033
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Delta is **forty-two**.\n\n(Note: The text also mentions that",
+    "class": "correct",
+    "time": 1.6215629577636719
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Delta is **forty-two**.\n\n(Note: The text also mentions that",
+    "class": "correct",
+    "time": 1.6370558738708496
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Delta is **forty-two**.\n\n(Note: The text contains a duplicate",
+    "class": "correct",
+    "time": 1.647240400314331
+   }
+  },
+  {
+   "case": 3,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n93",
+    "class": "correct",
+    "time": 0.512833833694458
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Gamma is **93**.\n\n(Note: This is a reference to the famous \"magic number\" often",
+    "class": "correct",
+    "time": 1.66310453414917
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Gamma is **ninety-three**.\n\n(Note: The text also mentions that",
+    "class": "correct",
+    "time": 1.6337969303131104
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Gamma is **ninety-three**.\n\n(Note: The text also mentions that",
+    "class": "correct",
+    "time": 1.6598999500274658
+   },
+   "a1": {
+    "output": "\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in 1946. The ENIAC was unveiled to the public at",
+    "class": "other",
+    "time": 1.6558837890625
+   }
+  },
+  {
+   "case": 3,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nOne hundred and one.",
+    "class": "correct",
+    "time": 0.6619980335235596
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Beta is **one hundred and one**.\n\n(Note: This is a reference to the famous \"magic number",
+    "class": "correct",
+    "time": 1.6718218326568604
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Beta is **one hundred and one**.\n\n(Note: The text also mentions",
+    "class": "correct",
+    "time": 1.6191256046295166
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Beta is **one hundred and one**.\n\n(Note: The text also mentions",
+    "class": "correct",
+    "time": 1.604179859161377
+   },
+   "a1": {
+    "output": "\n\nThe history of computing has roots in attempts to mechanize counting in the 1800s. Ada Lovelace wrote algorithmic notes for B",
+    "class": "other",
+    "time": 1.6385419368743896
+   }
+  },
+  {
+   "case": 4,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+    "class": "correct",
+    "time": 1.629650354385376
+   },
+   "a0.25": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nThe first commercial web browser, Netscape Navigator, debuted in late 199",
+    "class": "correct",
+    "time": 1.6144676208496094
+   },
+   "a0.5": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet. The first commercial web browser, Netscape Navigator, debuted in late 1994",
+    "class": "correct",
+    "time": 1.6452581882476807
+   },
+   "a0.75": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet. The first commercial web browser, Netscape Navigator, debuted in late 1994",
+    "class": "correct",
+    "time": 1.6578989028930664
+   },
+   "a1": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. The first commercial web browser, Netscape Navigator, debuted in late",
+    "class": "other",
+    "time": 1.595865249633789
+   }
+  },
+  {
+   "case": 4,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What is the first commercial web browser, Netscape Navigator, debuted in?\nA:",
+    "class": "correct",
+    "time": 1.6090073585510254
+   },
+   "a0.25": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\n\nThe first commercial web browser, Netscape Navigator, debuted in late 1994.\n\n",
+    "class": "correct",
+    "time": 1.6055357456207275
+   },
+   "a0.5": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. The first commercial web browser, Netscape Navigator, debuted in late",
+    "class": "other",
+    "time": 1.613842487335205
+   },
+   "a0.75": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. The first commercial web browser, Netscape Navigator, debuted in late",
+    "class": "other",
+    "time": 1.6212551593780518
+   },
+   "a1": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. The first commercial web browser, Netscape Navigator, debuted in late",
+    "class": "other",
+    "time": 1.62391996383667
+   }
+  },
+  {
+   "case": 4,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The best quiet bookshop in Reykjavik is on Saffron Street.\n\nThe best quiet bookshop in Reykjavik is on Saff",
+    "class": "correct",
+    "time": 1.624417781829834
+   },
+   "a0.25": {
+    "output": " The best place to find a quiet bookshop in Reykjavik is on Saffron Street.\n\nThe best place to find a quiet bookshop in",
+    "class": "correct",
+    "time": 1.609710931777954
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Reykjavik is on Saffron Street. The first commercial web browser, Netscape Navigator, debuted",
+    "class": "correct",
+    "time": 1.5892322063446045
+   },
+   "a0.75": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. The first commercial web browser, Netscape Navigator, debuted in late",
+    "class": "other",
+    "time": 1.6192612648010254
+   },
+   "a1": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. The first commercial web browser, Netscape Navigator, debuted in late",
+    "class": "other",
+    "time": 1.5966572761535645
+   }
+  },
+  {
+   "case": 4,
+   "id": 3,
+   "ids_k3": [
+    17,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The best quiet bookshop in Tallinn is on Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\n",
+    "class": "correct",
+    "time": 1.5984883308410645
+   },
+   "a0.25": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Linden Street.\n\nThe best place to find a quiet bookshop in Tallinn is on",
+    "class": "correct",
+    "time": 1.581498146057129
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Linden Street. The best place to find a quiet bookshop in Tallinn is on Linden",
+    "class": "correct",
+    "time": 1.6003832817077637
+   },
+   "a0.75": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. John von Neumann formalised the stored-program architecture in his ",
+    "class": "other",
+    "time": 1.6182286739349365
+   },
+   "a1": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. The first commercial web browser, Netscape Navigator, debuted in late",
+    "class": "other",
+    "time": 1.631270408630371
+   }
+  },
+  {
+   "case": 4,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nOne hundred and one.\n\n(Note: The text provided contains a contradiction regarding the magic number for vault Sigma. It states \"one hundred",
+    "class": "correct",
+    "time": 1.662926197052002
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nvault Sigma is stored with the magic number **one hundred and one**.\n\n(Note: The text provided contains a contradiction regarding the magic number",
+    "class": "correct",
+    "time": 1.6310787200927734
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Sigma is **one hundred and one**.\n\n(Note: The text provided contains a repetition of the sentence \"",
+    "class": "correct",
+    "time": 1.6468043327331543
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Sigma is **one hundred and one**.\n\n(Note: The text also mentions",
+    "class": "correct",
+    "time": 1.6217236518859863
+   },
+   "a1": {
+    "output": "\n\nThe first commercial web browser, Netscape Navigator, debuted in late 1994. The first commercial web browser, Netscape Navigator, debuted in",
+    "class": "other",
+    "time": 1.6394009590148926
+   }
+  },
+  {
+   "case": 4,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n42",
+    "class": "correct",
+    "time": 0.5167481899261475
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Beta is **forty-two**.\n\n(Note: The text provided contains a typo in the first sentence,",
+    "class": "correct",
+    "time": 1.6010611057281494
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe first commercial web browser, Netscape Navigator, debuted in late 1994.\n\n(Note: The text provided contains a",
+    "class": "other",
+    "time": 1.6185145378112793
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Beta is **forty-two**.\n\n(Note: The text also mentions the",
+    "class": "correct",
+    "time": 1.6221075057983398
+   },
+   "a1": {
+    "output": "\n\nThe first commercial web browser, Netscape Navigator, debuted in late 1994. The first commercial web browser, Netscape Navigator, debuted in",
+    "class": "other",
+    "time": 1.612285852432251
+   }
+  },
+  {
+   "case": 5,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nMulberry Street.",
+    "class": "correct",
+    "time": 0.6105453968048096
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\n*(Note: This is a specific detail from the provided text. In reality, the best quiet bookshop in",
+    "class": "correct",
+    "time": 1.6182246208190918
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe best quiet bookshop in Lisbon is on Mulberry Street.\n\nThis information is unique to this document. Ada Lovelace wrote",
+    "class": "correct",
+    "time": 1.6197960376739502
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Lisbon is on **Mulberry Street**.\n\n*(Note",
+    "class": "correct",
+    "time": 1.6173088550567627
+   },
+   "a1": {
+    "output": "\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in 1946. The IBM System/360 family unified main",
+    "class": "other",
+    "time": 1.6154539585113525
+   }
+  },
+  {
+   "case": 5,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+    "class": "correct",
+    "time": 1.629370927810669
+   },
+   "a0.25": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nThe ENIAC in August of 1981 and rapidly defined a standard",
+    "class": "correct",
+    "time": 1.6356801986694336
+   },
+   "a0.5": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet. The IBM System/360 family unified mainframe architecture beginning in 196",
+    "class": "correct",
+    "time": 1.620769739151001
+   },
+   "a0.75": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet. The IBM System/360 family unified mainframe architecture beginning in 196",
+    "class": "correct",
+    "time": 1.6368157863616943
+   },
+   "a1": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet. The IBM System/360 family unified mainframe architecture beginning in 196",
+    "class": "correct",
+    "time": 1.646331787109375
+   }
+  },
+  {
+   "case": 5,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(Note: The provided text contains several repetitions of the same sentence regarding the ENIAC Brin and the ARP",
+    "class": "correct",
+    "time": 1.6515915393829346
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nThe best quiet bookshop in Tallinn is on **Linden Street**.\n\n*(Note: This information is unique to this document.",
+    "class": "correct",
+    "time": 1.645362138748169
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe best quiet bookshop in Tallinn is on **Linden Street**.\n\n*(Note: This information is unique to this document.",
+    "class": "correct",
+    "time": 1.6206536293029785
+   },
+   "a0.75": {
+    "output": "\n\nThe ENIAC Brin at Stanford in September 1998. Charles Babbage designed the Difference Engine but never completed a full version. The",
+    "class": "other",
+    "time": 1.6050922870635986
+   },
+   "a1": {
+    "output": "\n\nThe ENIAC Brin at Stanford in September 1998. Charles Babbage designed the Difference Engine but never completed a full version. The",
+    "class": "other",
+    "time": 1.5833015441894531
+   }
+  },
+  {
+   "case": 5,
+   "id": 3,
+   "ids_k3": [
+    18,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n42",
+    "class": "correct",
+    "time": 0.5126659870147705
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\n42",
+    "class": "correct",
+    "time": 0.5086796283721924
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Gamma is **42**.\n\n(Note: This appears to be a reference to the number 42",
+    "class": "correct",
+    "time": 1.6104822158813477
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Gamma is **42**.\n\n(Note: The text provided contains a few typos, such as \"",
+    "class": "correct",
+    "time": 1.6129236221313477
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nThe ENIAC969. Buried in this document is a special note: the magic number stored in vault Gamma is forty",
+    "class": "other",
+    "time": 1.6037487983703613
+   }
+  },
+  {
+   "case": 5,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nMulberry Street.\n\n*(Note: This is a specific detail from the provided text. In reality, the best quiet bookshop in",
+    "class": "distractor",
+    "time": 1.6217527389526367
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nMontevideo, Uruguay.\n\n(Note: The provided text contains a duplicate sentence about the first commercial web browser and the first commercial web",
+    "class": "other",
+    "time": 1.6002116203308105
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe best place to find a quiet bookshop in Montevideo is on Marigold Street.\n\nThis information is unique to this",
+    "class": "correct",
+    "time": 1.6127808094024658
+   },
+   "a0.75": {
+    "output": "\n\nThe first commercial web browser, Netscape Navigator, debuted in late 1994. The first commercial web browser, Netscape Navigator, debuted in",
+    "class": "other",
+    "time": 1.6015706062316895
+   },
+   "a1": {
+    "output": "\n\nThe first commercial web browser, Netscape Navigator, debuted in late 1994. The first commercial web browser, Netscape Navigator, debuted in",
+    "class": "other",
+    "time": 1.5937488079071045
+   }
+  },
+  {
+   "case": 5,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The best quiet bookshop in Reykjavik is on Saffron Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA",
+    "class": "correct",
+    "time": 1.6256370544433594
+   },
+   "a0.25": {
+    "output": " The best quiet bookshop in Reykjavik is on Saffron Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA",
+    "class": "correct",
+    "time": 1.6375508308410645
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Reykjavik is on Saffron Street. The best place to find a quiet bookshop in Rey",
+    "class": "correct",
+    "time": 1.637814998626709
+   },
+   "a0.75": {
+    "output": " The best place to find a quiet bookshop in Reykjavik is on Mulberry Street. The best place to find a quiet bookshop in Reyk",
+    "class": "distractor",
+    "time": 1.6404273509979248
+   },
+   "a1": {
+    "output": " The best place to find a quiet bookshop in Reykjavik is on Mulberry Street. The first commercial web browser, Netscape Navigator, debuted in",
+    "class": "distractor",
+    "time": 1.5924854278564453
+   }
+  },
+  {
+   "case": 6,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n17",
+    "class": "correct",
+    "time": 0.5198936462402344
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\n17",
+    "class": "correct",
+    "time": 0.5210771560668945
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Gamma is **17**.\n\n(Note: This appears to be a reference to the number 17",
+    "class": "correct",
+    "time": 1.622814655303955
+   },
+   "a0.75": {
+    "output": "\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in 1946. The IBM Systemee invented the World Wide Web at",
+    "class": "other",
+    "time": 1.6445856094360352
+   },
+   "a1": {
+    "output": "\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in 1946. The IBM Systemee invented the World Wide Web at",
+    "class": "other",
+    "time": 1.6379783153533936
+   }
+  },
+  {
+   "case": 6,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nMarigold Street.\n\n(Note: While the prompt asks for the location of the best quiet bookshop in Kyoto, the provided text",
+    "class": "correct",
+    "time": 1.6161596775054932
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nThe best quiet bookshop in Kyoto is on Marigold Street.\n\n(Note: This information is unique to this document.)\n\n**",
+    "class": "correct",
+    "time": 1.6315054893493652
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe best quiet bookshop in Kyoto is on Marigold Street.\n\n(Note: The provided text contains a duplicate entry for the same",
+    "class": "correct",
+    "time": 1.628342866897583
+   },
+   "a0.75": {
+    "output": "\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in 1946. The IBM System/360 family unified main",
+    "class": "other",
+    "time": 1.6355922222137451
+   },
+   "a1": {
+    "output": "\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in 1946. The IBM System/360 family unified main",
+    "class": "other",
+    "time": 1.6583831310272217
+   }
+  },
+  {
+   "case": 6,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+    "class": "correct",
+    "time": 1.6556675434112549
+   },
+   "a0.25": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber.\n\nThe ENIAC. Tim Berners-Lee invented the World Wide Web at C",
+    "class": "correct",
+    "time": 1.6451828479766846
+   },
+   "a0.5": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber. The secret keeper is Marigold and her favourite colour is amber. The secret keeper is",
+    "class": "correct",
+    "time": 1.6488442420959473
+   },
+   "a0.75": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber. The IBM PC was released in August of 1981 and rapidly defined a standard",
+    "class": "correct",
+    "time": 1.635667085647583
+   },
+   "a1": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber. The IBM PC was released in August of 1981 and rapidly defined a standard",
+    "class": "correct",
+    "time": 1.6382315158843994
+   }
+  },
+  {
+   "case": 6,
+   "id": 3,
+   "ids_k3": [
+    18,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nLinden Street.\n\n(Note: While the prompt mentions \"Kyoto\" in the second sentence, the specific instruction \"Take note:",
+    "class": "correct",
+    "time": 1.6394224166870117
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nThe best place to find a quiet bookshop in Tallinn is on Linden Street.\n\n(Note: This information is unique to this document",
+    "class": "correct",
+    "time": 1.6314308643341064
+   },
+   "a0.5": {
+    "output": "\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in 1946. The IBM System/360 family unified main",
+    "class": "other",
+    "time": 1.6495797634124756
+   },
+   "a0.75": {
+    "output": "\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in 1946. The IBM Systemee invented the World Wide Web at",
+    "class": "other",
+    "time": 1.6250288486480713
+   },
+   "a1": {
+    "output": "\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in 1946. The IBM Systemee invented the World Wide Web at",
+    "class": "other",
+    "time": 1.633727788925171
+   }
+  },
+  {
+   "case": 6,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n93",
+    "class": "correct",
+    "time": 0.5190165042877197
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Alpha is **ninety-three**.\n\n*(Note: This specific detail appears in the provided text snippet,",
+    "class": "correct",
+    "time": 1.611234426498413
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe ENIAC0s. The IBM PC was released in August of 1981 and rapidly defined a standard. Bur",
+    "class": "other",
+    "time": 1.6206779479980469
+   },
+   "a0.75": {
+    "output": "\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in 1946. The IBM PC was released in August of 1",
+    "class": "other",
+    "time": 1.6447691917419434
+   },
+   "a1": {
+    "output": "\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in 1946. The IBM PC was released in August of 1",
+    "class": "other",
+    "time": 1.6434767246246338
+   }
+  },
+  {
+   "case": 6,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n42",
+    "class": "correct",
+    "time": 0.5103483200073242
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nvault Beta is stored with the magic number **42**.\n\n(Note: The text provided contains a typo in the prompt, stating \"",
+    "class": "correct",
+    "time": 1.6261177062988281
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in 1946.\n\n*(Note: The text",
+    "class": "other",
+    "time": 1.6028215885162354
+   },
+   "a0.75": {
+    "output": "\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in 1946. The IBM Systemee invented the World Wide Web at",
+    "class": "other",
+    "time": 1.6349759101867676
+   },
+   "a1": {
+    "output": "\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in 1946. The IBM Systemee invented the World Wide Web at",
+    "class": "other",
+    "time": 1.6344482898712158
+   }
+  },
+  {
+   "case": 7,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n93",
+    "class": "correct",
+    "time": 0.5203065872192383
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Beta is **ninety-three**.\n\n(Note: The text provided contains a duplicate entry for the same information",
+    "class": "correct",
+    "time": 1.6481363773345947
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Beta is **ninety-three**.\n\n(Note: The text also mentions that",
+    "class": "correct",
+    "time": 1.6719355583190918
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Beta is **ninety-three**.\n\n(Note: The text also mentions that",
+    "class": "correct",
+    "time": 1.657020092010498
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, here are the facts regarding the history of computing:\n\n*   **Ada Lovelace** invented the",
+    "class": "other",
+    "time": 1.634005069732666
+   }
+  },
+  {
+   "case": 7,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n42",
+    "class": "correct",
+    "time": 0.510728120803833
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\n42",
+    "class": "correct",
+    "time": 0.5156993865966797
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nvault Gamma is **42**.\n\n(Note: The text provided contains a duplicate entry for the phrase \"The history of computing has roots",
+    "class": "correct",
+    "time": 1.6258997917175293
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Gamma is **forty-two**.\n\n(Note: The text also mentions that",
+    "class": "correct",
+    "time": 1.6148412227630615
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, here are the facts regarding the history of computing:\n\n*   **Ada Lovelace:** She wrote",
+    "class": "other",
+    "time": 1.6272459030151367
+   }
+  },
+  {
+   "case": 7,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The best quiet bookshop in Tallinn is on Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn",
+    "class": "correct",
+    "time": 1.6397006511688232
+   },
+   "a0.25": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Saffron Street.\n\nThe best place to find a quiet bookshop in Tallinn",
+    "class": "correct",
+    "time": 1.6187233924865723
+   },
+   "a0.5": {
+    "output": " The IBM PC was released in August of 1981 and rapidly defined a standard. The IBM PC was released in August of 1981",
+    "class": "other",
+    "time": 1.6041874885559082
+   },
+   "a0.75": {
+    "output": " The IBM PC was released in August of 1981 and rapidly defined a standard. The IBM PC was released in August of 1981",
+    "class": "other",
+    "time": 1.6163434982299805
+   },
+   "a1": {
+    "output": " The IBM PC was released in August of 1981 and rapidly defined a standard. The IBM PC was released in August of 1981",
+    "class": "other",
+    "time": 1.6113622188568115
+   }
+  },
+  {
+   "case": 7,
+   "id": 3,
+   "ids_k3": [
+    17,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The best quiet bookshop in Kyoto is on Hawthorn Street.\n\nQ: Where is the best quiet bookshop in Kyoto?\nA: The best quiet",
+    "class": "correct",
+    "time": 1.6070480346679688
+   },
+   "a0.25": {
+    "output": " The best place to find a quiet bookshop in Kyoto is on Hawthorn Street.\n\nThe best place to find a quiet bookshop in Kyoto is on Hawth",
+    "class": "correct",
+    "time": 1.62428879737854
+   },
+   "a0.5": {
+    "output": " The history of computing has roots in attempts to mechanize counting in the 1800s. The history of computing has roots in attempts to mechanize",
+    "class": "other",
+    "time": 1.645005702972412
+   },
+   "a0.75": {
+    "output": " The history of computing has roots in attempts to mechanize counting in the 1800s. The history of computing has roots in attempts to mechanize",
+    "class": "other",
+    "time": 1.6499309539794922
+   },
+   "a1": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. The first commercial web browser, Netscape Navigator, debuted in late",
+    "class": "other",
+    "time": 1.648148775100708
+   }
+  },
+  {
+   "case": 7,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The best quiet bookshop in Lisbon is on Linden Street.\n\nThe best place to find a quiet bookshop in Lisbon is on Linden Street.\n\nThe best",
+    "class": "correct",
+    "time": 1.6338858604431152
+   },
+   "a0.25": {
+    "output": " The best place to find a quiet bookshop in Lisbon is on Linden Street.\n\n<think>\n\n</think>\n\nThe best place to find a quiet bookshop in Lisbon",
+    "class": "correct",
+    "time": 1.6316676139831543
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Lisbon is on Linden Street. This information is unique to this document. The IBM System/360 family",
+    "class": "correct",
+    "time": 1.6040129661560059
+   },
+   "a0.75": {
+    "output": " The IBM System/360 family unified mainframe architecture beginning in 1964. The IBM System/360 family unified mainframe architecture",
+    "class": "other",
+    "time": 1.6077299118041992
+   },
+   "a1": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. The IBM System/360 family unified mainframe architecture beginning",
+    "class": "other",
+    "time": 1.6322388648986816
+   }
+  },
+  {
+   "case": 7,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.6257071495056152
+   },
+   "a0.25": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\n<think>\n\n</think>\n\nBased on the text provided, the secret keeper is **B",
+    "class": "correct",
+    "time": 1.6436352729797363
+   },
+   "a0.5": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\n<think>\n\n</think>\n\nBased on the text provided, the secret keeper is **B",
+    "class": "correct",
+    "time": 1.6171045303344727
+   },
+   "a0.75": {
+    "output": " The history of computing has roots in attempts to mechanize counting in the 1800s. The history of computing has roots in attempts to mechanize",
+    "class": "other",
+    "time": 1.6594412326812744
+   },
+   "a1": {
+    "output": " The history of computing has roots in attempts to mechanize counting in the 1800s. The history of computing has roots in attempts to mechanize",
+    "class": "other",
+    "time": 1.6510393619537354
+   }
+  },
+  {
+   "case": 8,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet.\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.6610968112945557
+   },
+   "a0.25": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet.\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.6653871536254883
+   },
+   "a0.5": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet. The IBM System/360 family unified mainframe architecture beginning in 19",
+    "class": "correct",
+    "time": 1.664733648300171
+   },
+   "a0.75": {
+    "output": " The IBM System/360 family unified mainframe architecture beginning in 1964. Ada Lovelace wrote algorithmic notes for Babbage's",
+    "class": "other",
+    "time": 1.6498124599456787
+   },
+   "a1": {
+    "output": " The IBM System/360 family unified mainframe architecture beginning in 1964. Ada Lovelace wrote algorithmic notes for Babbage's",
+    "class": "other",
+    "time": 1.6547877788543701
+   }
+  },
+  {
+   "case": 8,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": " The magic number stored in vault Sigma is one hundred and one.\n\nQ: What is the first commercial web browser, Netscape Navigator, debuted in?\n",
+    "class": "correct",
+    "time": 1.666163682937622
+   },
+   "a0.25": {
+    "output": " The IBM System/360 family unified mainframe architecture beginning in 1964. Ada Lovelace wrote algorithmic notes for Babbage's",
+    "class": "other",
+    "time": 1.6430871486663818
+   },
+   "a0.5": {
+    "output": " The IBM System/360 family unified mainframe architecture beginning in 1964. Ada Lovelace wrote algorithmic notes for Babbage's",
+    "class": "other",
+    "time": 1.6420161724090576
+   },
+   "a0.75": {
+    "output": " The IBM System/360 family unified mainframe architecture beginning in 1964. Ada Lovelace wrote algorithmic notes for Babbage's",
+    "class": "other",
+    "time": 1.6330583095550537
+   },
+   "a1": {
+    "output": " The IBM System/360 family unified mainframe architecture beginning in 1964. Ada Lovelace wrote algorithmic notes for Babbage's",
+    "class": "other",
+    "time": 1.62821626663208
+   }
+  },
+  {
+   "case": 8,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The best quiet bookshop in Tallinn is on Marigold Street.\nA: The best quiet bookshop in Tallinn is on Marigold Street",
+    "class": "correct",
+    "time": 1.644049882888794
+   },
+   "a0.25": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Marigold Street.\nA: The best place to find a quiet bookshop in",
+    "class": "correct",
+    "time": 1.6522021293640137
+   },
+   "a0.5": {
+    "output": " The IBM PC was released in August of 1981 and rapidly defined a standard. The IBM System/360 family unified mainframe architecture beginning",
+    "class": "other",
+    "time": 1.6388282775878906
+   },
+   "a0.75": {
+    "output": " The IBM PC was released in August of 1981 and rapidly defined a standard. The IBM System/360 family unified mainframe architecture beginning",
+    "class": "other",
+    "time": 1.6128928661346436
+   },
+   "a1": {
+    "output": " The IBM PC was released in August of 1981 and rapidly defined a standard. The IBM System/360 family unified mainframe architecture beginning",
+    "class": "other",
+    "time": 1.6055049896240234
+   }
+  },
+  {
+   "case": 8,
+   "id": 3,
+   "ids_k3": [
+    17,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n17",
+    "class": "correct",
+    "time": 0.512620210647583
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Gamma is **seventeen**.\n\n*(Note: This appears to be a corrupted or OCR error in",
+    "class": "correct",
+    "time": 1.6189796924591064
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nA: The magic number stored in vault Gamma is seventeen.\n\n(Note: The text provided contains a repetition of the sentence \"The first",
+    "class": "correct",
+    "time": 1.6345970630645752
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nThe IBM System/360 family unified mainframe architecture beginning in 1964.\n\n**A: The IBM System",
+    "class": "other",
+    "time": 1.578150749206543
+   },
+   "a1": {
+    "output": "\n\nThe first commercial web browser, Netscape Navigator, debuted in late 1994. The first commercial web browser, Netscape Navigator, debuted in",
+    "class": "other",
+    "time": 1.5817201137542725
+   }
+  },
+  {
+   "case": 8,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The best quiet bookshop in Kyoto is on Hawthorn Street.\nA: The best quiet bookshop in Kyoto is on Hawthorn Street.\nA:",
+    "class": "correct",
+    "time": 1.596465826034546
+   },
+   "a0.25": {
+    "output": " The best quiet bookshop in Kyoto is on Hawthorn Street.\n\nThe best quiet bookshop in Kyoto is on Hawthorn Street.\n\nThe best quiet book",
+    "class": "correct",
+    "time": 1.6417558193206787
+   },
+   "a0.5": {
+    "output": " The IBM System/360 family unified mainframe architecture beginning in 1964. The history of computing has roots in attempts to mechanize counting",
+    "class": "other",
+    "time": 1.608412504196167
+   },
+   "a0.75": {
+    "output": " The history of computing has roots in attempts to mechanize counting in the 1800s. The ENIAC was unveiled to the public at the",
+    "class": "other",
+    "time": 1.6232247352600098
+   },
+   "a1": {
+    "output": " The history of computing has roots in attempts to mechanize counting in the 1800s. The ENIAC was unveiled to the public at the",
+    "class": "other",
+    "time": 1.6495375633239746
+   }
+  },
+  {
+   "case": 8,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The best quiet bookshop in Lisbon is on Saffron Street.\nA: The best quiet bookshop in Lisbon is on Saffron Street.\n",
+    "class": "correct",
+    "time": 1.6217162609100342
+   },
+   "a0.25": {
+    "output": " The best place to find a quiet bookshop in Lisbon is on Saffron Street.\n\nThe IBM System/360 family unified mainframe architecture beginning",
+    "class": "correct",
+    "time": 1.6342589855194092
+   },
+   "a0.5": {
+    "output": " The history of computing has roots in attempts to mechanize counting in the 1800s. The IBM System/360 family unified mainframe",
+    "class": "other",
+    "time": 1.6384036540985107
+   },
+   "a0.75": {
+    "output": " The history of computing has roots in attempts to mechanize counting in the 1800s. The IBM System/360 family unified mainframe",
+    "class": "other",
+    "time": 1.6402006149291992
+   },
+   "a1": {
+    "output": " The history of computing has roots in attempts to mechanize counting in the 1800s. The IBM System/360 family unified mainframe",
+    "class": "other",
+    "time": 1.632303237915039
+   }
+  },
+  {
+   "case": 9,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\n42",
+    "class": "correct",
+    "time": 0.5143067836761475
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Gamma is **forty-two**.\n\n*(Note: This specific detail appears in the provided text as a",
+    "class": "correct",
+    "time": 1.6105241775512695
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Gamma is **forty-two**.\n\n(Note: The text also mentions that",
+    "class": "correct",
+    "time": 1.609755039215088
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Gamma is **forty-two**.\n\n(Note: The text also mentions that",
+    "class": "correct",
+    "time": 1.6181323528289795
+   },
+   "a1": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, here are the facts regarding the history of computing:\n\n*   **The Transistor:** Invented at",
+    "class": "other",
+    "time": 1.6276721954345703
+   }
+  },
+  {
+   "case": 9,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nHawthorn Street.\n\n(Note: The document provided contains a unique note about a vault containing the number forty-two, but the",
+    "class": "correct",
+    "time": 1.6442286968231201
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Tallinn is on **Hawthorn Street**.",
+    "class": "correct",
+    "time": 1.6585099697113037
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Tallinn is on Hawthorn Street.\n\n*(Note",
+    "class": "correct",
+    "time": 1.639545202255249
+   },
+   "a0.75": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Tallinn is on Hawthorn Street.\n\n*(Note",
+    "class": "correct",
+    "time": 1.6456429958343506
+   },
+   "a1": {
+    "output": "\n\nThe IBM PC was released in August of 1981 and rapidly defined a standard. The ENIAC was unveiled to the public at the University",
+    "class": "other",
+    "time": 1.6332361698150635
+   }
+  },
+  {
+   "case": 9,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The secret keeper is Lenore and her favourite colour is amber.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+    "class": "correct",
+    "time": 1.6112442016601562
+   },
+   "a0.25": {
+    "output": " The secret keeper is Lenore and her favourite colour is amber.\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in 19",
+    "class": "correct",
+    "time": 1.6011884212493896
+   },
+   "a0.5": {
+    "output": " The secret keeper is Lenore and her favourite colour is amber. The secret keeper is Lenore and her favourite colour is amber. The secret keeper is Lenore",
+    "class": "correct",
+    "time": 1.624866008758545
+   },
+   "a0.75": {
+    "output": " The secret keeper is Lenore and her favourite colour is amber. The secret keeper is Lenore and her favourite colour is amber. The secret keeper is Lenore",
+    "class": "correct",
+    "time": 1.5945408344268799
+   },
+   "a1": {
+    "output": " The IBM PC was released in August of 1981 and rapidly defined a standard. The IBM PC was released in August of 1981",
+    "class": "other",
+    "time": 1.5967154502868652
+   }
+  },
+  {
+   "case": 9,
+   "id": 3,
+   "ids_k3": [
+    18,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nMontevideo is a city in Uruguay, not a country. The best quiet bookshop in Montevideo is on **Marig",
+    "class": "other",
+    "time": 1.5843956470489502
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, there is no mention of a bookshop in Montevideo. The text contains information about the IBM PC",
+    "class": "other",
+    "time": 1.7035305500030518
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Montevideo is on **Marigold Street**.",
+    "class": "correct",
+    "time": 1.6827104091644287
+   },
+   "a0.75": {
+    "output": "\n\nThe IBM PC was released in August of 1981 and rapidly defined a standard. Ken Thompson and Dennis Ritchie developed Unix at Bell Labs starting",
+    "class": "other",
+    "time": 1.6561293601989746
+   },
+   "a1": {
+    "output": "\n\nThe IBM PC was released in August of 1981 and rapidly defined a standard. The IBM PC was released in August of 198",
+    "class": "other",
+    "time": 1.6120524406433105
+   }
+  },
+  {
+   "case": 9,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": "\n\n<think>\n\n</think>\n\nseventeen",
+    "class": "correct",
+    "time": 0.5622076988220215
+   },
+   "a0.25": {
+    "output": "\n\n<think>\n\n</think>\n\nThe magic number stored in vault Beta is **seventeen**.\n\n(Note: The text provided contains a duplicate entry for the same information",
+    "class": "correct",
+    "time": 1.6438748836517334
+   },
+   "a0.5": {
+    "output": "\n\n<think>\n\n</think>\n\nBased on the text provided, the magic number stored in vault Beta is **seventeen**.\n\n(Note: The text also mentions that",
+    "class": "correct",
+    "time": 1.7041831016540527
+   },
+   "a0.75": {
+    "output": "\n\nThe IBM PC was released in August of 1981 and rapidly defined a standard. The IBM PC was released in August of 198",
+    "class": "other",
+    "time": 1.6934585571289062
+   },
+   "a1": {
+    "output": "\n\nThe history of computing has roots in attempts to mechanize counting in the 1800s. The IBM PC was released in August of 1",
+    "class": "other",
+    "time": 1.6533043384552002
+   }
+  },
+  {
+   "case": 9,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " [Answer]\n\n<think>\n\n</think>\n\nBased on the text provided, the best place to find a quiet bookshop in Kyoto is on **Linden Street**.",
+    "class": "correct",
+    "time": 1.634531021118164
+   },
+   "a0.25": {
+    "output": " [Insert Answer]\n\n<think>\n\n</think>\n\nThe best place to find a quiet bookshop in Kyoto is on **Linden Street**.\n\n*(Note: This",
+    "class": "correct",
+    "time": 1.6488592624664307
+   },
+   "a0.5": {
+    "output": " [1]\n\nThe IBM PC was released in August of 1981 and rapidly defined a standard. The IBM PC was released in August of ",
+    "class": "other",
+    "time": 1.6974308490753174
+   },
+   "a0.75": {
+    "output": " [1969] The IBM PC was released in August of 1981 and rapidly defined a standard. The IBM PC was released in August",
+    "class": "other",
+    "time": 1.683107852935791
+   },
+   "a1": {
+    "output": " [1969] The IBM PC was released in August of 1981 and rapidly defined a standard. The IBM PC was released in August",
+    "class": "other",
+    "time": 1.6436398029327393
+   }
+  }
+ ]
+}

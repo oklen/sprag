@@ -13,7 +13,7 @@ from torch import Tensor
 
 from transformers.models.qwen3_5.modeling_qwen3_5 import apply_rotary_pos_emb, ALL_ATTENTION_FUNCTIONS, eager_attention_forward
 
-from .loader import FULL_ATTN_LAYERS
+from .loader import FULL_ATTN_LAYERS, LINEAR_ATTN_LAYERS
 from .rope import build_inv_freq, shift_rope
 
 
@@ -187,3 +187,92 @@ def patched_full_attn(model, placements: Sequence[ChunkPlacement],
     finally:
         for li, fn in originals.items():
             model.model.layers[li].self_attn.forward = fn
+
+
+@contextlib.contextmanager
+def patched_linear_state(model, cached_states, alpha: float = 1.0,
+                         layer_indices: Sequence[int] | None = None,
+                         norm_match: bool = False):
+    """Blend each linear (GatedDeltaNet) layer's end-of-prefill recurrent state
+    with a cached, composed state:  S_used = alpha * S_cached + (1 - alpha) * S_fresh.
+
+    This is the linear-attn analog of the full-attn K/V splice. Unlike K/V (a
+    per-position tensor that can be RoPE-shifted into place), the GatedDeltaNet
+    recurrent state is a single gated *sequential fold* over the whole prefix
+    (modeling_qwen3_5: state = state*g.exp() + k⊗v). There is no position-
+    independent per-chunk slice, so the only cacheable unit is a chunk's
+    from-zero fold; `cached_states[li]` is the caller's composition of those
+    over the retrieval set (e.g. a sum). The fresh fold is left intact and we
+    only overwrite the recurrent state the *decode* will read — exactly parallel
+    to how patched_full_attn leaves context hidden states fresh but overwrites
+    the K/V that Q attends to.
+
+    cached_states: dict layer_idx -> tensor broadcastable to the layer's
+        recurrent state [batch, n_v_heads, head_k_dim, head_v_dim].
+    alpha: 0.0 reproduces fresh exactly (no-op, the sanity baseline);
+        1.0 = pure cached state for decode.
+    Only the prefill forward (seq_len > 1) is blended; decode steps untouched.
+    """
+    if layer_indices is None:
+        layer_indices = LINEAR_ATTN_LAYERS
+    layer_indices = [li for li in layer_indices if cached_states.get(li) is not None]
+    originals: dict[int, callable] = {}
+
+    def make_wrapped(li, mod):
+        original = mod.forward
+        S_cached = cached_states[li]
+
+        def wrapped(hidden_states, cache_params=None, **kw):
+            out = original(hidden_states, cache_params=cache_params, **kw)
+            # Blend only on the prefill fold; decode (seq_len==1) reads the
+            # already-blended state and must not be re-injected each step.
+            if (alpha != 0.0 and cache_params is not None
+                    and hidden_states.shape[1] > 1):
+                layer = cache_params.layers[li]
+                S_fresh = layer.recurrent_states
+                Sc = S_cached.to(S_fresh.dtype).to(S_fresh.device)
+                if norm_match:
+                    # Per-head: rescale the cached state to the fresh state's
+                    # Frobenius norm, isolating DIRECTION from scale. Shapes are
+                    # [batch, n_heads, k_dim, v_dim]; norm over the last two dims.
+                    fn = S_fresh.flatten(-2).norm(dim=-1, keepdim=True).unsqueeze(-1)
+                    cn = Sc.flatten(-2).norm(dim=-1, keepdim=True).unsqueeze(-1)
+                    Sc = Sc * (fn / cn.clamp_min(1e-8))
+                # in-place copy_ preserves the static cache address
+                layer.recurrent_states.copy_(alpha * Sc + (1.0 - alpha) * S_fresh)
+            return out
+
+        return wrapped
+
+    try:
+        for li in layer_indices:
+            mod = model.model.layers[li].linear_attn
+            originals[li] = mod.forward
+            mod.forward = make_wrapped(li, mod)
+        yield
+    finally:
+        for li, fn in originals.items():
+            model.model.layers[li].linear_attn.forward = fn
+
+
+def compute_chunk_linear_states(model, chunk_token_ids, layer_indices=None):
+    """Run a from-zero forward over `chunk_token_ids` and return each linear
+    layer's final recurrent state. This is the cacheable per-chunk unit for
+    patched_linear_state (the chunk's isolated fold).
+
+    chunk_token_ids: 1D LongTensor (or list) of one chunk's tokens.
+    Returns dict layer_idx -> recurrent_state tensor on CPU.
+    """
+    from transformers import DynamicCache
+    if layer_indices is None:
+        layer_indices = LINEAR_ATTN_LAYERS
+    device = next(model.parameters()).device
+    ids = torch.as_tensor(chunk_token_ids, dtype=torch.long, device=device).view(1, -1)
+    cache = DynamicCache(config=model.config)
+    with torch.no_grad():
+        model(input_ids=ids, past_key_values=cache, use_cache=True)
+    out = {}
+    for li in layer_indices:
+        rs = cache.layers[li].recurrent_states
+        out[li] = rs.detach().to("cpu").clone() if rs is not None else None
+    return out

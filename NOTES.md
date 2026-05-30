@@ -11,7 +11,11 @@
 > but RGB validation (§5y-RGB) shows it's monotonic-harmful AND uniformly
 > WORSE than standard/anchor (raw 75.0/E 68.7/α1 64.0) — the bare endoftext
 > sink underperforms a content-bearing one even on the fresh path. Verdict:
-> cleaner construction, not a valuable one).
+> cleaner construction, not a valuable one). Linear-attn state blend (§5z):
+> the 18 GatedDeltaNet layers (always fresh until now) — caching+blending the
+> recurrent state is free-at-best/never-better (MK norm-matched α0.5=54 vs
+> fresh 58) and α=1 collapses (17/60); no compute skip either. Splice
+> conclusion now spans BOTH attention families.
 
 ## 1. Why this exists
 
@@ -1633,6 +1637,65 @@ context to preserve, which real concatenated-passage RAG lacks. Robust
 conclusion unchanged: **format + sink (content-bearing) is the win; any cache
 K/V splice is incremental-to-negative, and a bare-token anchor is negative.**
 [[sprag-splice-decomp]]
+
+## 5z. Blending the LINEAR-attn state — the other 18 layers, finally probed
+
+Everything in §5–§5y splices only the **6 full-attn layers**; the **18
+GatedDeltaNet (linear-attn) layers were always recomputed fresh**. §5z asks the
+parallel question for them: cache each chunk's recurrent state and blend it into
+assembly, `S_used = α·S_cached + (1−α)·S_fresh` per linear layer (the
+apples-to-apples analog of the K-blend).
+
+**Mechanism / why it's not a clean splice.** Unlike K/V — a per-position tensor
+whose chunk slice can be RoPE-shifted into any assembly position — the
+GatedDeltaNet state is a single *gated sequential fold* over the whole prefix
+(`modeling_qwen3_5`: `S = S·g.exp() + k⊗v`). There is **no position-independent
+per-chunk slice**; a chunk's only cacheable unit is its *from-zero* fold, and
+using it forces a composition rule. Code: `assemble.compute_chunk_linear_states`
+(from-zero fold per chunk) + `assemble.patched_linear_state` (blends the
+end-of-prefill state the *decode* reads — leaving the context fold fresh, the
+exact parallel to how `patched_full_attn` leaves context hidden states fresh but
+overwrites the K/V Q attends to). `scripts/17_linear_blend.py`, suite_8k oracle
+k=3, full attention left **fresh** so all movement is the linear state alone.
+Composition = **sum** of the retrieved chunks' from-zero folds; `--norm_match`
+rescales the composed state to the fresh state's per-head Frobenius norm.
+
+| compose | α=0 | α=0.25 | α=0.5 | α=0.75 | α=1.0 |
+|---------|-----|--------|-------|--------|-------|
+| sum            | 58 | 54 | 43 | 25 | **4** |
+| **norm-matched** | 58 | 57 | 54 | 53 | **17** |
+
+(α=0 = 58/60 both, the exact fresh sanity baseline — `patched_linear_state` at
+α=0 is a verified no-op.)
+
+**Findings:**
+1. **The naive `sum` composition is scale-broken.** Summing k from-zero folds
+   gives a state ~k× over-scaled (and undecayed), which is most of the sum-row
+   collapse: norm-matching alone lifts α=0.5 from 43→54 and α=0.75 from 25→53.
+2. **Even norm-matched, blending is "free at best, never a win."** At α≤0.5
+   it's within ~4 of fresh (57/54 vs 58) but always ≤ fresh — it rides along
+   harmlessly, it does not help.
+3. **Pure cached state (α=1.0) collapses regardless: 4/60 sum, 17/60 norm-
+   matched.** So the composed *direction* is genuinely wrong — a sum of isolated
+   from-zero folds cannot reconstruct the true sequential gated fold — and the
+   fresh fold is the only thing carrying the answer. You **cannot skip the
+   linear fold.**
+4. **Strictly worse than the full-attn K-blend.** On the same MK setting the
+   K-blend held ~flat to α≈0.75 and only mildly dropped at α=1 (anchor: 58→54);
+   the linear blend erodes through the mid-range and collapses to 17 at α=1.
+   Reason: K/V have positional locality (cached chunk K/V at RoPE-shifted
+   positions ≈ fresh), the linear fold has none.
+
+**Verdict.** Caching/blending the linear state offers **no accuracy upside**
+(strictly ≤ fresh even on saturated MK) and **no compute upside** (the α-blend
+needs the fresh fold, so nothing is skipped — same structural limitation as the
+K-blend at α<1). The 18 linear layers are best left fresh. This *extends* the
+project's robust conclusion to the whole architecture: across both attention
+families, the cache splice is incremental-to-negative; **format + content-
+bearing sink is the win.** Note MK is saturated here (§5-pt1: α=0 already
+96.7%), so MK can only show "free, not better" — an RGB run would show the
+expected net-harm in a discriminative range, but the value-prop is already dead
+on the no-compute-skip ground. [[sprag-splice-decomp]]
 
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
