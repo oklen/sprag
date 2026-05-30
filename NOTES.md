@@ -1896,6 +1896,33 @@ prefill skip is partial (6 full-attn layers cacheable, 18 linear not).
 real RAG — phantom build-context was the whole problem, and removing it (each
 chunk built in isolation) is the fix.** [[sprag-splice-decomp]]
 
+## 5ac. Chunk-order sensitivity — it's lost-in-the-middle, not linear recency
+
+Premise check for a linear-recency idea (the linear/GatedDeltaNet fold is RNN-
+like with decay → does the most-recent chunk dominate?). `scripts/19_order_probe.py`:
+same oracle k=3 set, plain raw assembly (full attn + linear both fresh), gold
+chunk placed first / last / middle. n=60 MK suite_8k:
+
+| gold position | correct/60 |
+|---------------|-----------|
+| first | 58 |
+| last  | 58 |
+| **middle** | **54** |
+
+**first ≈ last (58), middle penalised (54)** → U-shaped position bias = classic
+**lost-in-the-middle**, NOT pure linear recency (which would give last ≫ first).
+So the position effect is dominated by the full-attn "lost in the middle"
+phenomenon, with linear-recency at most contributing to the "last" side. Effect
+is small/saturated on MK (−4); expected larger on RGB (top-5 → 3 of 5 slots are
+"middle"). Two cash-in routes, untested: (a) cheap U-shaped relevance ordering
+(top chunks at the ends, weakest in the middle, single forward); (b) the
+position-marginalizing ensemble (each chunk last in turn, average the next-token
+distributions, decode from the mean — k× compute but marginalizes position).
+Note: the user's "longer chunk → smaller linear impact" intuition lands via a
+different mechanism — longer chunks → fewer chunks → fewer middle slots → less
+lost-in-the-middle. This is an accuracy-improvement direction independent of the
+cache work. [[sprag-splice-decomp]]
+
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
 The headline value-prop test from §7.2. One 16,333-tok haystack with 8
