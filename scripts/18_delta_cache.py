@@ -46,10 +46,20 @@ mk = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(mk)
 
 
-def build_delta_kv(model, tok, tokens, chunks, anchor_ids, device):
+def build_delta_kv(model, tok, tokens, chunks, anchor_ids, device, pos_fill="gap"):
     """Return delta[cid][li] = (dK, dV) and canon_pos[cid] for every chunk.
-    dK is post-RoPE at its build position (M + a_start)."""
+    dK is post-RoPE at its build position (M + a_start).
+
+    pos_fill controls how the `pos` cache erases the real context while holding
+    the chunk's absolute position:
+      "gap"    — [anchor]+[chunk] with a position-id gap (chunk attends to only
+                 the M anchor tokens; few keys).
+      "anchor" — [anchor][anchor_tok × a_start][chunk] with natural positions
+                 (chunk attends to M+a_start placeholder keys, matching `full`'s
+                 key COUNT/position; differs from full only in context CONTENT).
+    """
     M = len(anchor_ids)
+    fill_tok = anchor_ids[0]
     doc = tokens.tolist()
     # FULL pass: [anchor][doc] in one forward; chunk i lands at M + a_start.
     full_ids = torch.tensor([anchor_ids + doc], dtype=torch.long, device=device)
@@ -62,20 +72,27 @@ def build_delta_kv(model, tok, tokens, chunks, anchor_ids, device):
     for ch in chunks:
         a0, a1 = ch.a_start, ch.a_end
         cp = M + a0                                   # build position of chunk
-        # POS pass: [anchor]+[chunk], chunk given its ORIGINAL abs positions via
-        # a position-id gap, so RoPE rotation matches `full`, but the chunk only
-        # attends to the anchor (real context erased).
-        ids = torch.tensor([anchor_ids + doc[a0:a1]], dtype=torch.long, device=device)
-        pos_ids = torch.tensor([list(range(M)) + list(range(cp, M + a1))],
+        L = a1 - a0
+        # POS pass: erase real context, keep chunk's absolute position + anchor.
+        if pos_fill == "anchor":
+            ids = torch.tensor([anchor_ids + [fill_tok] * a0 + doc[a0:a1]],
                                dtype=torch.long, device=device)
-        with torch.no_grad(), capture_full_attn_kv(model) as kv_pos:
-            model(input_ids=ids, position_ids=pos_ids, use_cache=False)
+            with torch.no_grad(), capture_full_attn_kv(model) as kv_pos:
+                model(input_ids=ids, use_cache=False)   # natural positions
+            pos_slice = slice(-L, None)
+        else:  # gap
+            ids = torch.tensor([anchor_ids + doc[a0:a1]], dtype=torch.long, device=device)
+            pos_ids = torch.tensor([list(range(M)) + list(range(cp, M + a1))],
+                                   dtype=torch.long, device=device)
+            with torch.no_grad(), capture_full_attn_kv(model) as kv_pos:
+                model(input_ids=ids, position_ids=pos_ids, use_cache=False)
+            pos_slice = slice(M, None)
         d, f = {}, {}
         for li in FULL_ATTN_LAYERS:
             fK = full_K[li][:, cp:M + a1, :].contiguous()
             fV = full_V[li][:, cp:M + a1, :].contiguous()
-            pK = kv_pos[li]["K"][0][:, M:, :]
-            pV = kv_pos[li]["V"][0][:, M:, :]
+            pK = kv_pos[li]["K"][0][:, pos_slice, :]
+            pV = kv_pos[li]["V"][0][:, pos_slice, :]
             d[li] = ((fK - pK).contiguous(), (fV - pV).contiguous())
             f[li] = (fK, fV)              # full cache for the `replace` (pos_new) mode
         delta[ch.chunk_id] = d
@@ -135,6 +152,10 @@ def main():
     ap.add_argument("--sink_doclead", action="store_true",
                     help="(replace mode) use the doc's first M tokens as the sink "
                          "instead of the eot anchor (§5w setup).")
+    ap.add_argument("--pos_fill", choices=["gap", "anchor"], default="gap",
+                    help="how the pos cache erases context: gap (position-id gap, "
+                         "few keys) or anchor (fill context slots with anchor "
+                         "placeholders → matches full's key count/position).")
     ap.add_argument("--limit_cases", type=int, default=None)
     args = ap.parse_args()
 
@@ -163,7 +184,8 @@ def main():
         chunk_by_id = {c.chunk_id: c for c in chunks}
         delta = full_kv = canon = delta_lin = None
         if args.target in ("kv", "both"):
-            delta, full_kv, canon = build_delta_kv(model, tok, tokens, chunks, anchor_ids, device)
+            delta, full_kv, canon = build_delta_kv(model, tok, tokens, chunks, anchor_ids,
+                                                   device, pos_fill=args.pos_fill)
         if args.target in ("linear", "both"):
             delta_lin = build_delta_linear(model, tok, tokens, chunks, anchor_ids, device)
         print(f"case{ci}: {len(chunks)} chunks, delta built ({args.target})")

@@ -1792,6 +1792,18 @@ near-context build). Consistent with the whole arc: **every cache manipulation �
 replace, blend, or residual-add, on K/V, linear, or both — is free-at-best and
 never better than fresh recompute over the short assembly.** [[sprag-splice-decomp]]
 
+**`pos` construction is inert (`--pos_fill anchor`).** Tried filling the erased
+context slots with anchor placeholders (`[anchor][eot×a_start][chunk]`, natural
+positions) so `pos` matches `full`'s key-count/position and differs only in
+context *content* — vs the default position-id gap (chunk attends to only the M
+anchor keys). add-mode K/V n=60: gap `[59,51,36,18,6]` vs anchor-fill
+`[59,49,37,23,8]` — **identical within noise.** Two reasons: (1) the additive
+over-count dominates and is insensitive to how `pos` erases context; (2) the
+placeholders are all the *same* token, so a chunk attending to N identical `eot`
+keys ≈ attending to the M `eot` anchors (softmax over identical keys) → `pos_anchor
+≈ pos_gap`. Dead end either way: identical fill ≈ gap; *varied* fill would inject
+its own content (no longer erasing). The gap already captured the clean baseline.
+
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
 The headline value-prop test from §7.2. One 16,333-tok haystack with 8
