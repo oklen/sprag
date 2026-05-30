@@ -101,6 +101,23 @@ def build_delta_kv(model, tok, tokens, chunks, anchor_ids, device, pos_fill="gap
     return delta, full, canon
 
 
+def build_indep_kv(model, tokens, chunks, device):
+    """indep-cache: each chunk forwarded ALONE ([chunk] from position 0, nothing
+    before it), K/V captured. No build context at all → K/V carry no 'phantom
+    preceding context'. canon_pos = 0 (shift to the assembly position at use).
+    Returned in the same {cid:{li:(K,V)}} shape as build_delta_kv's `full`."""
+    full, canon = {}, {}
+    for ch in chunks:
+        ctoks = tokens[ch.a_start:ch.a_end].tolist()
+        ids = torch.tensor([ctoks], dtype=torch.long, device=device)
+        with torch.no_grad(), capture_full_attn_kv(model) as kv:
+            model(input_ids=ids, use_cache=False)        # positions 0..L-1
+        full[ch.chunk_id] = {li: (kv[li]["K"][0].contiguous(), kv[li]["V"][0].contiguous())
+                             for li in FULL_ATTN_LAYERS}
+        canon[ch.chunk_id] = 0
+    return full, canon
+
+
 def build_delta_linear(model, tok, tokens, chunks, anchor_ids, device):
     """Return delta_S[cid][li] = full_S − pos_S for every chunk's recurrent state.
     full_S = running fold [anchor][doc] snapshot at the chunk boundary (real
@@ -156,8 +173,15 @@ def main():
                     help="how the pos cache erases context: gap (position-id gap, "
                          "few keys) or anchor (fill context slots with anchor "
                          "placeholders → matches full's key count/position).")
+    ap.add_argument("--indep", action="store_true",
+                    help="indep-cache: build each chunk ALONE ([chunk] from pos 0, "
+                         "no preceding context), then shift+replace at assembly. "
+                         "Implies --target kv --mode replace. Tests whether removing "
+                         "the chunk's 'phantom build context' fixes the drift.")
     ap.add_argument("--limit_cases", type=int, default=None)
     args = ap.parse_args()
+    if args.indep:
+        args.target, args.mode = "kv", "replace"
 
     suite_meta = json.loads((args.suite / "suite_meta.json").read_text())
     case_ids = [c["id"] for c in suite_meta["cases"]]
@@ -183,7 +207,9 @@ def main():
         chunks = split_into_chunks(tokens, chunk_size=args.chunk_size)
         chunk_by_id = {c.chunk_id: c for c in chunks}
         delta = full_kv = canon = delta_lin = None
-        if args.target in ("kv", "both"):
+        if args.indep:
+            full_kv, canon = build_indep_kv(model, tokens, chunks, device)
+        elif args.target in ("kv", "both"):
             delta, full_kv, canon = build_delta_kv(model, tok, tokens, chunks, anchor_ids,
                                                    device, pos_fill=args.pos_fill)
         if args.target in ("linear", "both"):

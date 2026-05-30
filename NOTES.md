@@ -19,6 +19,10 @@
 > (§5aa): residual-add on K/V, linear, or both is monotone-harmful, none beats
 > fresh, literal α=1 collapses (K/V 6, linear 15, both 3 / 60); fails on
 > magnitude not position (fresh is already complete, residual over-drives it).
+> indep-cache (§5ab): build each chunk ALONE (no preceding context), shift+replace
+> — phantom build-context IS the drift. Best splice in the arc: α=1 pure splice
+> 56/60 (vs full-doc 29), blend 60/60, ZERO gibberish at any α. Monotonic: full
+> doc 29 > anchor 54 > none 56. MK saturated → RGB is the make-or-break (queued).
 
 ## 1. Why this exists
 
@@ -1803,6 +1807,50 @@ placeholders are all the *same* token, so a chunk attending to N identical `eot`
 keys ≈ attending to the M `eot` anchors (softmax over identical keys) → `pos_anchor
 ≈ pos_gap`. Dead end either way: identical fill ≈ gap; *varied* fill would inject
 its own content (no longer erasing). The gap already captured the clean baseline.
+
+## 5ab. indep-cache — build each chunk in ISOLATION; phantom build-context IS the drift
+
+User hypothesis (2026-05-30): the splice cost is the chunk's K/V carrying
+*phantom* preceding context — K/V built over a real document encode "there is a
+long specific context behind me," but the assembly's actual preceding tokens
+differ → contradiction → confusion. Test: build each chunk **alone** (`[chunk]`
+from position 0, nothing before it), capture K/V, `shift_rope` to the assembly
+position and replace. `scripts/18_delta_cache.py --indep` (`build_indep_kv`).
+
+Same script/assembly as §5aa replace — the ONLY difference is the chunk's build
+context (entire real doc vs nothing):
+
+| α | indep (`[chunk]` alone) | full (`[anchor][doc][chunk]`, §5aa) |
+|------|------|------|
+| 0    | 59 | 59 |
+| 0.25 | 59 | 53 |
+| 0.5  | **60** | 44 |
+| 0.75 | **60** | 32 |
+| 1.0  | **56** | 29 |
+
+**indep is the best splice in the whole arc.** α=1 (pure cached) = 56 (only −3
+from fresh 59, ≈ §5w anchor 54); blend α0.5–0.75 = 60/60. And the failure split
+is uniquely clean: **zero degenerate/gibberish outputs at every α** (vs
+full/delta which collapse into repetition past α≈0.5); at α=1 the only errors
+are 3 distractors (mild sibling routing) + 1 coherent.
+
+**Confirms the mechanism + §5w drift law, monotonically in phantom build-context:**
+full real doc (α1=29) > short anchor (54) > NONE (56). Less phantom = less
+drift. The earlier gibberish was specifically the over-driven, self-contradictory
+full-context signal; with no build context the K/V are "context-free" and splice
+cleanly. The predicted attention-sink-on-first-token penalty did NOT materialize
+(indep 56 ≈ anchor 54) — negligible here.
+
+**Caveats (the §5x discipline).** (1) α0.5/0.75 = 60 vs fresh 59 is within n=60
+noise — NOT a real "beat fresh" (same trap as §5y). (2) α=1 = 56 < fresh 59.
+(3) MK is saturated; the make-or-break is RGB, where the anchor cache went
+net-negative (§5x). indep is a *cleaner* construction (no sink contamination from
+unrelated concatenated passages) so it *might* fare better — open question,
+RGB run queued. (4) **Efficiency:** indep is the cleanest precompute-once case —
+each chunk built alone, fully assembly-independent, reusable anywhere via a RoPE
+shift (the TurboRAG premise), and α=1 needs no fresh K → the realest prefill-skip
+candidate yet, −3 from fresh with zero gibberish (the linear layers still need a
+fresh fold, §5z, so the skip is partial). [[sprag-splice-decomp]]
 
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
