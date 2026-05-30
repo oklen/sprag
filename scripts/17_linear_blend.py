@@ -19,6 +19,7 @@ Assembly mirrors raw_oracle_k3 from 12_sink_mk: full attention is left FRESH
 from __future__ import annotations
 
 import argparse
+import contextlib
 import importlib.util
 import json
 import shutil
@@ -35,7 +36,8 @@ import torch
 from sprag.loader import load_model, LINEAR_ATTN_LAYERS
 from sprag.chunk_cache import build_chunk_cache, load_meta
 from sprag.embed import JinaEmbedder
-from sprag.assemble import patched_linear_state, compute_chunk_linear_states
+from sprag.assemble import (patched_linear_state, compute_chunk_linear_states,
+                            patched_full_attn, make_inv_freq_for)
 
 # Reuse the MK helpers (module name starts with a digit -> importlib).
 _spec = importlib.util.spec_from_file_location("mk12", ROOT / "scripts" / "12_sink_mk.py")
@@ -54,6 +56,11 @@ def main():
     ap.add_argument("--norm_match", action="store_true",
                     help="Rescale composed cached state to the fresh state's "
                          "per-head norm (isolate direction from scale).")
+    ap.add_argument("--kv_alpha", type=float, default=None,
+                    help="If set, ALSO splice the full-attn K/V at this alpha "
+                         "(standard cache) at the chunk positions. Lets us "
+                         "measure linear-blend STACKED on a K/V splice vs "
+                         "K/V-splice alone (= this with linear alpha=0).")
     ap.add_argument("--limit_cases", type=int, default=None)
     ap.add_argument("--reuse_cache", action="store_true")
     args = ap.parse_args()
@@ -66,6 +73,7 @@ def main():
     model, tok, _ = load_model()
     device = next(model.parameters()).device
     emb = JinaEmbedder()
+    inv_freq = make_inv_freq_for(model) if args.kv_alpha is not None else None
 
     alpha_keys = [f"a{a:g}" for a in args.alphas]
     counts = {k: {"correct": 0, "distractor": 0, "other": 0} for k in alpha_keys}
@@ -84,6 +92,7 @@ def main():
             build_chunk_cache(model, tok, haystack, cache_dir,
                               chunk_size=args.chunk_size, embed_fn=emb.encode_passage)
         meta = load_meta(cache_dir)
+        chunk_lookup = {c["id"]: c for c in meta["chunks"]}
 
         sink_ids = mk._load_chunk(cache_dir, 0)["input_ids"][: args.M].tolist()
         lin_state_cache: dict[int, dict] = {}  # chunk_id -> {li: S}
@@ -127,12 +136,24 @@ def main():
                     s = st[li]
                     composed[li] = s.clone() if composed[li] is None else composed[li] + s
 
+            # Optional: ALSO splice full-attn K/V at the chunk positions
+            # (standard cache), placed after the M-token sink (fresh).
+            kv_placements = None
+            if args.kv_alpha is not None:
+                kv_placements, _ = mk.build_chunk_placements_nostrip(
+                    cache_dir, ids_k3, chunk_lookup, b_offset=args.M)
+
             n_q += 1
             row = {"case": ci, "id": q["id"], "ids_k3": ids_k3}
             for a, akey in zip(args.alphas, alpha_keys):
                 t0 = time.time()
-                with torch.no_grad(), patched_linear_state(
-                        model, composed, alpha=a, norm_match=args.norm_match):
+                with torch.no_grad(), contextlib.ExitStack() as stack:
+                    stack.enter_context(patched_linear_state(
+                        model, composed, alpha=a, norm_match=args.norm_match))
+                    if kv_placements is not None:
+                        stack.enter_context(patched_full_attn(
+                            model, kv_placements, inv_freq=inv_freq,
+                            alpha=args.kv_alpha))
                     out_ids = model.generate(
                         input_ids=inp, max_new_tokens=args.max_new_tokens,
                         do_sample=False, use_cache=True, pad_token_id=tok.eos_token_id)
