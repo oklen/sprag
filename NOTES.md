@@ -23,6 +23,11 @@
 > — phantom build-context IS the drift. Best splice in the arc: α=1 pure splice
 > 56/60 (vs full-doc 29), blend 60/60, ZERO gibberish at any α. Monotonic: full
 > doc 29 > anchor 54 > none 56. MK saturated → RGB is the make-or-break (queued).
+> indep on RGB (§5ab-RGB): FIRST splice statistically = fresh on real RAG —
+> splice α0.5 76.7 (p=0.47 ns), α1.0 74.7 (p=0.14 ns), v_only 76.0 (ns) vs raw
+> 78.3; beats anchor/standard at every cell but k_only. Phantom-context hypothesis
+> validated on real data. α1.0-both (≈fresh + prefill-skippable) = the TurboRAG
+> win finally realized. Caveat: ≈fresh not better; raw 78.3 < full-ctx 86.3.
 
 ## 1. Why this exists
 
@@ -1851,6 +1856,45 @@ each chunk built alone, fully assembly-independent, reusable anywhere via a RoPE
 shift (the TurboRAG premise), and α=1 needs no fresh K → the realest prefill-skip
 candidate yet, −3 from fresh with zero gibberish (the linear layers still need a
 fresh fold, §5z, so the skip is partial). [[sprag-splice-decomp]]
+
+### 5ab-RGB. indep is the FIRST splice statistically indistinguishable from fresh on real RAG
+
+The make-or-break (§5x discipline). RGB en.json, 300 records, Jina top-5, α=0.5,
+`scripts/16_rgb_eval.py --cache_kind indep`:
+
+| cache | raw | splice α0.5 | α1.0 | k_only | v_only |
+|-------|-----|-------------|------|--------|--------|
+| standard (§5u/x) | 78.3 | 75.3 | 73.3 | — | — |
+| anchor (§5x)     | 78.3 | 75.3 | 69.3 | 73.0 | 72.7 |
+| **indep**        | 78.3 | **76.7** | **74.7** | 69.3 | **76.0** |
+
+indep is the best cache at every cell except k_only. **McNemar vs raw (n=300):**
+splice α0.5 p=0.47 (ns), splice α1.0 p=0.14 (ns), v_only p=0.35 (ns), k_only
+p=0.001 (*). So **indep's splice — even pure α=1.0 — is statistically
+indistinguishable from fresh**, the FIRST cache in the whole project for which
+that's true on a real benchmark (standard/anchor/fixed were all net-negative,
+§5u/§5x/§5y). The phantom-build-context hypothesis (§5ab) transfers to real RAG:
+building each chunk ALONE removes the cross-passage contamination that the
+anchor/doc-lead sink injects on RGB's *unrelated* concatenated passages.
+
+**K–V coherence sub-finding (cf §5w), now on RGB:** both-cached α1.0 (74.7, ns)
+BEATS k_only (69.3, sig *). Caching K *and* V from the same isolated build is a
+self-consistent pair; mixing cached-K with fresh-V breaks the pair → worse. So
+the config that works is **α=1.0 with BOTH cached** — which is exactly the
+prefill-skippable one (no fresh K or V needed for the chunk positions).
+
+**Honest framing.** (1) indep splice is ≈ fresh, NOT better — the accuracy value
+is "free", not a gain. The real value is **efficiency**: α1.0-both ≈ fresh AND
+skips the chunk prefill (full-attn layers) = the TurboRAG win, finally realized
+on a real benchmark — though our harness overwrites K/V post-hoc so it doesn't
+*measure* the speedup; the inject-KV path is needed for that. (2) raw 78.3 is
+itself below the full-context baseline 86.3 — the short-assembly format already
+costs retrieval recall (§5u); indep makes the cache ≈ short-assembly-fresh, it
+does not recover that. (3) Linear layers still need a fresh fold (§5z), so the
+prefill skip is partial (6 full-attn layers cacheable, 18 linear not).
+**Bottom line: indep is the one cache construction that is genuinely free on
+real RAG — phantom build-context was the whole problem, and removing it (each
+chunk built in isolation) is the fix.** [[sprag-splice-decomp]]
 
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 

@@ -94,13 +94,16 @@ def main():
                              "k_only_topk", "v_only_topk",
                              "oracle_raw", "oracle_splice"])
     ap.add_argument("--cache_kind", type=str, default="standard",
-                    choices=["standard", "anchor", "fixed"],
+                    choices=["standard", "anchor", "fixed", "indep"],
                     help="standard = single full-doc forward; "
                          "anchor = per-chunk [sink+chunk] forward (§5w: lower "
                          "cache->assembly drift, splice viable); "
                          "fixed = per-chunk [fixed_anchor_token x M + chunk] forward, "
                          "same fixed anchor placed once FRESH at the front of the "
-                         "assembly (§5y symmetric anchor).")
+                         "assembly (§5y symmetric anchor); "
+                         "indep = per-chunk [chunk] forward ALONE, no preceding "
+                         "context (§5ab: removes phantom build-context). Standard "
+                         "doc-lead assembly sink.")
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--reuse_cache", action="store_true")
     ap.add_argument("--keep_cache", action="store_true",
@@ -162,6 +165,12 @@ def main():
                                                chunk_size=args.chunk_size,
                                                anchor_M=args.M,
                                                embed_fn=emb.encode_passage)
+            elif args.cache_kind == "indep":
+                # each chunk forwarded ALONE (anchor_M=0): no preceding context
+                build_anchor_chunk_cache(model, tok, doc, cache_dir,
+                                         chunk_size=args.chunk_size,
+                                         anchor_M=0, filler_mode="none",
+                                         embed_fn=emb.encode_passage)
             else:
                 build_chunk_cache(model, tok, doc, cache_dir,
                                   chunk_size=args.chunk_size,
