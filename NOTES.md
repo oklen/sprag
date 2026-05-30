@@ -15,7 +15,10 @@
 > the 18 GatedDeltaNet layers (always fresh until now) — caching+blending the
 > recurrent state is free-at-best/never-better (MK norm-matched α0.5=54 vs
 > fresh 58) and α=1 collapses (17/60); no compute skip either. Splice
-> conclusion now spans BOTH attention families.
+> conclusion now spans BOTH attention families. full−pos+fresh delta cache
+> (§5aa): residual-add on K/V, linear, or both is monotone-harmful, none beats
+> fresh, literal α=1 collapses (K/V 6, linear 15, both 3 / 60); fails on
+> magnitude not position (fresh is already complete, residual over-drives it).
 
 ## 1. Why this exists
 
@@ -1696,6 +1699,59 @@ bearing sink is the win.** Note MK is saturated here (§5-pt1: α=0 already
 96.7%), so MK can only show "free, not better" — an RGB run would show the
 expected net-harm in a discriminative range, but the value-prop is already dead
 on the no-compute-skip ground. [[sprag-splice-decomp]]
+
+## 5aa. full−pos+fresh delta cache — a residual that cancels position, in theory
+
+User-proposed (2026-05-30). Build TWO caches per chunk and take their residual:
+- **full** = chunk's rep in `[anchor][real preceding context][chunk]` (sees real ctx).
+- **pos**  = chunk's rep in `[anchor]⟨position gap⟩[chunk]` — same absolute
+  position (a position-id gap holds the slot), anchor kept, context tokens
+  erased. Realized as: feed `[anchor]+[chunk]` as a sequence (so the chunk only
+  attends to the anchor) but give the chunk its ORIGINAL position_ids.
+- **use**: `full − pos + fresh`. `full − pos` subtracts the same-position,
+  anchor-only baseline → the real context's *content contribution*; `+ fresh`
+  re-bases onto the new assembly. Intent: keep the cross-context "memory," drop
+  stale position, paste new position. Applied to all three targets (K/V residual
+  ADDED onto fresh K/V — K residual `shift_rope`'d to the new position first;
+  linear residual = Σ over retrieved chunks of `full_S − pos_S`, ADDED onto the
+  fresh fold). `scripts/18_delta_cache.py` (`--target kv|linear|both`),
+  `assemble.DeltaPlacement` / `patched_full_attn_delta` /
+  `patched_linear_state(additive=True)` / `compute_running_linear_states`.
+  α scales the residual; α=0 = pure fresh (verified exact sanity).
+
+suite_8k oracle k=3, M=4, full attn otherwise fresh, n=60:
+
+| α | K/V | linear | both |
+|------|-----|--------|------|
+| 0    | 59 | 59 | 59 |
+| 0.25 | 51 | 57 | 48 |
+| 0.5  | 36 | 52 | 34 |
+| 0.75 | 18 | 40 | 11 |
+| 1.0  | **6** | **15** | **3** |
+
+**All three monotone-harmful; none beats fresh anywhere.** Linear is the
+gentlest (tolerates the residual longest), K/V steeper, **both** steepest (the
+two perturbations compound — same super-additive interaction as the stacked
+splice in the §5z follow-up). The *literal* method (α=1) collapses every target
+(K/V 6, linear 15, both 3 — degenerate repetition like "\nA:\nA:…").
+
+**Why it fails — and it's NOT a position problem.** The K residual is
+`shift_rope`'d to the new assembly position, so `full−pos` and `fresh` are both
+at the correct new position; there's no rotation conflict. The failure is
+**magnitude / double-counting**: the method assumes `fresh` is a context-poor,
+"position-only" representation that the residual completes — but `fresh` is
+already a COMPLETE rep (the chunk having attended to its *new* assembly
+neighbours). Adding the old context's marginal contribution on top yields an
+*over-complete* K/state (~2× content), which over-drives attention scale (K) or
+the recurrent fold (linear) and breaks decoding. To be coherent the `+fresh`
+term should instead be the **new-position anchor-only baseline** (`pos` rebuilt
+at the assembly position), giving `pos_new + (full−pos) ≈ full rebased` — but
+that is just the ordinary cached-chunk splice (§5w), which we already know is
+incremental-to-negative. So the residual construction adds nothing the plain
+splice doesn't, and the additive form is strictly worse. Consistent with the
+whole arc: **every cache manipulation — replace, blend, or residual-add, on K/V,
+linear, or both — is free-at-best and never better than fresh recompute over the
+short assembly.** [[sprag-splice-decomp]]
 
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 

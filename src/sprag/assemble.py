@@ -189,10 +189,105 @@ def patched_full_attn(model, placements: Sequence[ChunkPlacement],
             model.model.layers[li].self_attn.forward = fn
 
 
+@dataclass
+class DeltaPlacement:
+    """A chunk's delta-cache placement for the full−pos+fresh K/V method.
+
+    The cached tensors are the *residual* delta = (full − pos): full = chunk K/V
+    built in [anchor][real-context][chunk]; pos = chunk K/V built in
+    [anchor]⟨position gap⟩[chunk] (same absolute position, anchor kept, context
+    erased). Both share rotation/anchor, so the difference isolates the real
+    context's content contribution. At assembly we shift the K residual from its
+    canonical (build) position to the new assembly position and ADD it onto the
+    fresh K/V — `K = fresh + α·shift(ΔK)`, `V = fresh + α·ΔV`.
+    """
+    b_start: int            # assembly position of first chunk token
+    length: int
+    canon_pos: int          # build-time absolute position of the K residual
+    delta: dict             # layer_idx -> (dK, dV)  (dK post-RoPE at canon_pos)
+
+
+def _patched_delta_forward_factory(attn_module, per_layer, alpha: float):
+    """ADD a (RoPE-shifted) K/V residual onto the fresh K/V at chunk positions."""
+    def forward(hidden_states, position_embeddings, attention_mask,
+                past_key_values=None, cache_position=None, **kw):
+        cfg = attn_module
+        input_shape = hidden_states.shape[:-1]
+        hidden_shape = (*input_shape, -1, cfg.head_dim)
+
+        query_states, gate = torch.chunk(
+            cfg.q_proj(hidden_states).view(*input_shape, -1, cfg.head_dim * 2), 2, dim=-1)
+        gate = gate.reshape(*input_shape, -1)
+        query_states = cfg.q_norm(query_states.view(hidden_shape)).transpose(1, 2)
+        key_states = cfg.k_norm(cfg.k_proj(hidden_states).view(hidden_shape)).transpose(1, 2)
+        value_states = cfg.v_proj(hidden_states).view(hidden_shape).transpose(1, 2)
+
+        cos, sin = position_embeddings
+        query_states, key_states = apply_rotary_pos_emb(query_states, key_states, cos, sin)
+
+        if key_states.shape[-2] > 1:  # prefill only
+            for b_start, b_end, dK_shift, dV in per_layer:
+                key_states[:, :, b_start:b_end, :] += alpha * dK_shift.to(
+                    key_states.dtype).to(key_states.device)
+                value_states[:, :, b_start:b_end, :] += alpha * dV.to(
+                    value_states.dtype).to(value_states.device)
+
+        if past_key_values is not None:
+            cache_kwargs = {"sin": sin, "cos": cos, "cache_position": cache_position}
+            key_states, value_states = past_key_values.update(
+                key_states, value_states, cfg.layer_idx, cache_kwargs)
+
+        attn_interface = ALL_ATTENTION_FUNCTIONS.get_interface(
+            cfg.config._attn_implementation, eager_attention_forward)
+        attn_output, _ = attn_interface(
+            cfg, query_states, key_states, value_states, attention_mask,
+            dropout=0.0, scaling=cfg.scaling, **kw)
+        attn_output = attn_output.reshape(*input_shape, -1).contiguous()
+        attn_output = attn_output * torch.sigmoid(gate)
+        attn_output = cfg.o_proj(attn_output)
+        return attn_output, None
+
+    return forward
+
+
+@contextlib.contextmanager
+def patched_full_attn_delta(model, placements: Sequence[DeltaPlacement],
+                            inv_freq: Tensor | None = None,
+                            splice_layers: Sequence[int] | None = None,
+                            alpha: float = 1.0):
+    """Full−pos+fresh K/V delta splice. ADDS the shifted (full−pos) residual onto
+    the fresh K/V at each chunk's assembly positions. alpha=0 is a no-op (pure
+    fresh); alpha=1 is the full method."""
+    if inv_freq is None:
+        inv_freq = make_inv_freq_for(model)
+    if splice_layers is None:
+        splice_layers = FULL_ATTN_LAYERS
+    splice_set = set(splice_layers)
+
+    per_layer: dict[int, list] = {li: [] for li in splice_set}
+    for p in placements:
+        delta = p.b_start - p.canon_pos
+        for li in splice_set:
+            dK, dV = p.delta[li]
+            dK_shift = shift_rope(dK.unsqueeze(0), delta, inv_freq).squeeze(0)
+            per_layer[li].append((p.b_start, p.b_start + p.length, dK_shift, dV))
+
+    originals = {}
+    try:
+        for li in splice_set:
+            attn = model.model.layers[li].self_attn
+            originals[li] = attn.forward
+            attn.forward = _patched_delta_forward_factory(attn, per_layer[li], alpha)
+        yield
+    finally:
+        for li, fn in originals.items():
+            model.model.layers[li].self_attn.forward = fn
+
+
 @contextlib.contextmanager
 def patched_linear_state(model, cached_states, alpha: float = 1.0,
                          layer_indices: Sequence[int] | None = None,
-                         norm_match: bool = False):
+                         norm_match: bool = False, additive: bool = False):
     """Blend each linear (GatedDeltaNet) layer's end-of-prefill recurrent state
     with a cached, composed state:  S_used = alpha * S_cached + (1 - alpha) * S_fresh.
 
@@ -239,7 +334,12 @@ def patched_linear_state(model, cached_states, alpha: float = 1.0,
                     cn = Sc.flatten(-2).norm(dim=-1, keepdim=True).unsqueeze(-1)
                     Sc = Sc * (fn / cn.clamp_min(1e-8))
                 # in-place copy_ preserves the static cache address
-                layer.recurrent_states.copy_(alpha * Sc + (1.0 - alpha) * S_fresh)
+                if additive:
+                    # full−pos+fresh delta form: ADD the (composed) residual onto
+                    # the fresh fold instead of interpolating toward it.
+                    layer.recurrent_states.copy_(S_fresh + alpha * Sc)
+                else:
+                    layer.recurrent_states.copy_(alpha * Sc + (1.0 - alpha) * S_fresh)
             return out
 
         return wrapped
@@ -276,3 +376,31 @@ def compute_chunk_linear_states(model, chunk_token_ids, layer_indices=None):
         rs = cache.layers[li].recurrent_states
         out[li] = rs.detach().to("cpu").clone() if rs is not None else None
     return out
+
+
+def compute_running_linear_states(model, prefix_ids, segment_id_lists,
+                                  layer_indices=None):
+    """Fold `prefix_ids` (the anchor), then each segment in `segment_id_lists`
+    sequentially through ONE continuing cache, snapshotting every linear layer's
+    recurrent state after each segment. Returns a list (one dict per segment) of
+    layer_idx -> state on CPU.
+
+    Used to capture the `full` term of the delta cache: segment i's snapshot is
+    the running fold of [anchor][seg_0..seg_i] — i.e. the chunk built with its
+    real preceding document context.
+    """
+    from transformers import DynamicCache
+    if layer_indices is None:
+        layer_indices = LINEAR_ATTN_LAYERS
+    device = next(model.parameters()).device
+    cache = DynamicCache(config=model.config)
+    snaps = []
+    with torch.no_grad():
+        model(input_ids=torch.tensor([list(prefix_ids)], dtype=torch.long, device=device),
+              past_key_values=cache, use_cache=True)
+        for seg in segment_id_lists:
+            model(input_ids=torch.tensor([list(seg)], dtype=torch.long, device=device),
+                  past_key_values=cache, use_cache=True)
+            snaps.append({li: cache.layers[li].recurrent_states.detach().to("cpu").clone()
+                          for li in layer_indices})
+    return snaps

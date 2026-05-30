@@ -1,0 +1,2386 @@
+{
+ "M": 4,
+ "alphas": [
+  0.0,
+  0.1,
+  0.25,
+  0.5,
+  0.75,
+  1.0
+ ],
+ "counts": {
+  "a0": {
+   "correct": 59,
+   "distractor": 0,
+   "other": 1
+  },
+  "a0.1": {
+   "correct": 58,
+   "distractor": 0,
+   "other": 2
+  },
+  "a0.25": {
+   "correct": 51,
+   "distractor": 0,
+   "other": 9
+  },
+  "a0.5": {
+   "correct": 36,
+   "distractor": 4,
+   "other": 20
+  },
+  "a0.75": {
+   "correct": 18,
+   "distractor": 3,
+   "other": 39
+  },
+  "a1": {
+   "correct": 6,
+   "distractor": 4,
+   "other": 50
+  }
+ },
+ "n": 60,
+ "rows": [
+  {
+   "case": 0,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": " On Linden Street.\n\nQ: When was the first commercial web browser, Netscape Navigator, released?\nA: Late 1994.\n\n",
+    "class": "correct",
+    "time": 2.1771512031555176
+   },
+   "a0.1": {
+    "output": " On Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Mulberry Street.\n\nQ",
+    "class": "correct",
+    "time": 1.8308806419372559
+   },
+   "a0.25": {
+    "output": " On Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Mulberry Street.\n\nQ",
+    "class": "correct",
+    "time": 1.846327304840088
+   },
+   "a0.5": {
+    "output": " On Linden Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Mulberry Street.\n\nQ: Where is the",
+    "class": "correct",
+    "time": 1.8190479278564453
+   },
+   "a0.75": {
+    "output": " Take note: the best quiet bookshop in Lisbon is on Linden Street. This information is unique to this document.\n\nQ: Where is the best quiet book",
+    "class": "correct",
+    "time": 1.8032503128051758
+   },
+   "a1": {
+    "output": " Take note: the best quiet bookshop in Lisbon is on Mulberry Street. This information is unique to this document. The transistor was invented at Bell Labs by",
+    "class": "distractor",
+    "time": 1.7945985794067383
+   }
+  },
+  {
+   "case": 0,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": " On Mulberry Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: On Linden Street.\n\nQ: Where is the best",
+    "class": "correct",
+    "time": 2.0624465942382812
+   },
+   "a0.1": {
+    "output": " On Mulberry Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: On Linden Street.\n\nQ: Where is the best",
+    "class": "correct",
+    "time": 1.8073844909667969
+   },
+   "a0.25": {
+    "output": " The best quiet bookshop in Tallinn is on Mulberry Street. This information is unique to this document. The best quiet bookshop in Tallinn is on",
+    "class": "correct",
+    "time": 1.7831299304962158
+   },
+   "a0.5": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Mulberry Street. This information is unique to this document.\n\nQ:",
+    "class": "correct",
+    "time": 1.7885537147521973
+   },
+   "a0.75": {
+    "output": " The best quiet bookshop in Tallinn is on Mulberry Street. This information is unique to this document. The best quiet bookshop in Tallinn is on",
+    "class": "correct",
+    "time": 1.822432518005371
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.795166254043579
+   }
+  },
+  {
+   "case": 0,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " Forty-two.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Linden Street.\n\nQ: What is",
+    "class": "correct",
+    "time": 2.0454745292663574
+   },
+   "a0.1": {
+    "output": " Forty-two.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Linden Street.\n\nQ: What is",
+    "class": "correct",
+    "time": 1.7994844913482666
+   },
+   "a0.25": {
+    "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: The",
+    "class": "correct",
+    "time": 1.8030354976654053
+   },
+   "a0.5": {
+    "output": " 42.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: Mulberry Street.\n\nQ:",
+    "class": "correct",
+    "time": 1.8074755668640137
+   },
+   "a0.75": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Mulberry Street. This information is unique to this document. C was created by Dennis Ritch",
+    "class": "other",
+    "time": 1.7765188217163086
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7730717658996582
+   }
+  },
+  {
+   "case": 0,
+   "id": 3,
+   "ids_k3": [
+    17,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The magic number stored in vault Alpha is seventeen.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: The best",
+    "class": "correct",
+    "time": 1.8011486530303955
+   },
+   "a0.1": {
+    "output": " The magic number stored in vault Alpha is seventeen.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: The best",
+    "class": "correct",
+    "time": 1.8009023666381836
+   },
+   "a0.25": {
+    "output": " The magic number stored in vault Alpha is seventeen.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: The best",
+    "class": "correct",
+    "time": 1.8225805759429932
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Mulberry Street. This information is unique to this document. C was created by Dennis Ritch",
+    "class": "other",
+    "time": 1.7956507205963135
+   },
+   "a0.75": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Mulberry Street. This information is unique to this document. C was created by Dennis Ritch",
+    "class": "other",
+    "time": 1.80601167678833
+   },
+   "a1": {
+    "output": " The best place to find a quiet bookshop in Lisbon is on Linden Street. This information is unique to this document. The best place to find a quiet book",
+    "class": "other",
+    "time": 1.757131576538086
+   }
+  },
+  {
+   "case": 0,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " On Marigold Street.\n\nQ: What is the first commercial web browser?\nA: Netscape Navigator.\n\nQ: When was the first commercial",
+    "class": "correct",
+    "time": 1.768867015838623
+   },
+   "a0.1": {
+    "output": " Marigold Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: Linden Street.\n\nQ: Where is the best quiet",
+    "class": "correct",
+    "time": 1.7580163478851318
+   },
+   "a0.25": {
+    "output": " Take note: the best quiet bookshop in Kyoto is on Marigold Street. This information is unique to this document.\n\nQ: Where is the best",
+    "class": "correct",
+    "time": 1.7479021549224854
+   },
+   "a0.5": {
+    "output": " Take note: the best quiet bookshop in Kyoto is on Marigold Street. This information is unique to this document.\n\nQ: Where is the best",
+    "class": "correct",
+    "time": 1.719355821609497
+   },
+   "a0.75": {
+    "output": " Take note: the best quiet bookshop in Kyoto is on Mulberry Street. This information is unique to this document. C was created by Dennis Ritchie between",
+    "class": "distractor",
+    "time": 1.7119390964508057
+   },
+   "a1": {
+    "output": " The best quiet bookshop in Kyoto is on Mulberry Street. This information is unique to this document. C was created by Dennis Ritchie between 19",
+    "class": "distractor",
+    "time": 1.7670862674713135
+   }
+  },
+  {
+   "case": 0,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?",
+    "class": "correct",
+    "time": 2.0065457820892334
+   },
+   "a0.1": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?",
+    "class": "correct",
+    "time": 1.7861003875732422
+   },
+   "a0.25": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?",
+    "class": "correct",
+    "time": 1.777864694595337
+   },
+   "a0.5": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean. Please remember this for later. Integrated circuits emerged in the late 1950",
+    "class": "correct",
+    "time": 1.7545440196990967
+   },
+   "a0.75": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.766395092010498
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7470283508300781
+   }
+  },
+  {
+   "case": 1,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": " On Hawthorn Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Hawthorn Street.",
+    "class": "correct",
+    "time": 1.7587449550628662
+   },
+   "a0.1": {
+    "output": " On Hawthorn Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Hawthorn Street.",
+    "class": "correct",
+    "time": 1.746628761291504
+   },
+   "a0.25": {
+    "output": " On Hawthorn Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Hawthorn Street.",
+    "class": "correct",
+    "time": 1.732801914215088
+   },
+   "a0.5": {
+    "output": " On Hawthorn Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Hawthorn Street.",
+    "class": "correct",
+    "time": 1.741300344467163
+   },
+   "a0.75": {
+    "output": " On Hawthorn Street. This information is unique to this document.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?",
+    "class": "correct",
+    "time": 1.7557752132415771
+   },
+   "a1": {
+    "output": " C was created by Dennis Ritchie between 1969 and 1973 as a systems language. The IBM System/360 family",
+    "class": "other",
+    "time": 1.74776029586792
+   }
+  },
+  {
+   "case": 1,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA",
+    "class": "correct",
+    "time": 1.7636923789978027
+   },
+   "a0.1": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA",
+    "class": "correct",
+    "time": 1.7691540718078613
+   },
+   "a0.25": {
+    "output": " 93\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Hawthorn Street\n\nQ:",
+    "class": "correct",
+    "time": 1.7701432704925537
+   },
+   "a0.5": {
+    "output": " 93\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Hawthorn Street\n\nQ:",
+    "class": "correct",
+    "time": 1.7642502784729004
+   },
+   "a0.75": {
+    "output": "\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA:\nQ: What is the best place to find",
+    "class": "other",
+    "time": 1.7513794898986816
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7619953155517578
+   }
+  },
+  {
+   "case": 1,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The secret keeper is Lenore and her favourite colour is cerulean.\n\nQ: What is the best place to find a quiet bookshop in Montev",
+    "class": "correct",
+    "time": 1.7597706317901611
+   },
+   "a0.1": {
+    "output": " The secret keeper is Lenore and her favourite colour is cerulean.\n\nQ: What is the best place to find a quiet bookshop in Montev",
+    "class": "correct",
+    "time": 1.7772912979125977
+   },
+   "a0.25": {
+    "output": " The secret keeper is Lenore and her favourite colour is cerulean.\nB: The secret keeper is Lenore and her favourite colour is cerulean",
+    "class": "correct",
+    "time": 1.7474687099456787
+   },
+   "a0.5": {
+    "output": " The secret keeper is Lenore and her favourite colour is cerulean.\nB: The secret keeper is Lenore and her favourite colour is cerulean",
+    "class": "correct",
+    "time": 1.74991774559021
+   },
+   "a0.75": {
+    "output": " The secret keeper is Lenore and her favourite colour is cerulean.\nB: The secret keeper is Lenore and her favourite colour is cerulean",
+    "class": "correct",
+    "time": 1.7859339714050293
+   },
+   "a1": {
+    "output": " The secret keeper is Lenore and her favourite colour is cerulean.\nA: The secret keeper is Lenore and her favourite colour is cerulean",
+    "class": "correct",
+    "time": 1.7555873394012451
+   }
+  },
+  {
+   "case": 1,
+   "id": 3,
+   "ids_k3": [
+    17,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " Seventeen.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Hawthorn Street.\n\nQ",
+    "class": "correct",
+    "time": 1.739048957824707
+   },
+   "a0.1": {
+    "output": " The best place to find a quiet bookshop in Montevideo is on Hawthorn Street. This information is unique to this document. The ENIAC was",
+    "class": "other",
+    "time": 1.741072416305542
+   },
+   "a0.25": {
+    "output": " The best place to find a quiet bookshop in Montevideo is on Hawthorn Street. This information is unique to this document. The ENIAC was",
+    "class": "other",
+    "time": 1.7755730152130127
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Montevideo is on Hawthorn Street. This information is unique to this document. The transistor was invented at",
+    "class": "other",
+    "time": 1.7574188709259033
+   },
+   "a0.75": {
+    "output": " The best place to find a quiet bookshop in Montevideo is on Hawthorn Street. This information is unique to this document. Q: What magic number",
+    "class": "other",
+    "time": 1.745534896850586
+   },
+   "a1": {
+    "output": " The best place to find a quiet bookshop in Montevideo is on Hawthorn Street. This information is unique to this document. Linus Torvalds",
+    "class": "other",
+    "time": 1.75388503074646
+   }
+  },
+  {
+   "case": 1,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " On Marigold Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Marigold Street",
+    "class": "correct",
+    "time": 1.7561447620391846
+   },
+   "a0.1": {
+    "output": " On Marigold Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Hawthorn Street",
+    "class": "correct",
+    "time": 1.7719762325286865
+   },
+   "a0.25": {
+    "output": " On Marigold Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Hawthorn Street",
+    "class": "correct",
+    "time": 1.7677011489868164
+   },
+   "a0.5": {
+    "output": " The best quiet bookshop in Tallinn is on Marigold Street. This information is unique to this document.\n\nC: Where is the best quiet book",
+    "class": "correct",
+    "time": 1.7399494647979736
+   },
+   "a0.75": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7544176578521729
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7670130729675293
+   }
+  },
+  {
+   "case": 1,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " On Mulberry Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Hawthorn Street.",
+    "class": "correct",
+    "time": 1.7653696537017822
+   },
+   "a0.1": {
+    "output": " On Mulberry Street.\n\nQ: What is the best quiet bookshop in Montevideo?\nA: On Hawthorn Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 1.7630703449249268
+   },
+   "a0.25": {
+    "output": " The best quiet bookshop in Kyoto is on Mulberry Street.\n\nQ: What is the best quiet bookshop in Montevideo?\nA: The",
+    "class": "correct",
+    "time": 1.7359437942504883
+   },
+   "a0.5": {
+    "output": " The best quiet bookshop in Kyoto is on Mulberry Street. This information is unique to this document.\n\nQ: Where is the best quiet bookshop in",
+    "class": "correct",
+    "time": 1.7663559913635254
+   },
+   "a0.75": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7510647773742676
+   },
+   "a1": {
+    "output": " The best quiet bookshop in Kyoto is created by Dennis Ritchie between 1969 and 1973 as a systems language. The IBM",
+    "class": "other",
+    "time": 1.7640767097473145
+   }
+  },
+  {
+   "case": 2,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Saffron",
+    "class": "correct",
+    "time": 1.7663390636444092
+   },
+   "a0.1": {
+    "output": " On Saffron Street.\n\nQ: What is the best quiet bookshop in Montevideo?\nA: On Saffron Street.\n\nQ",
+    "class": "correct",
+    "time": 1.7350599765777588
+   },
+   "a0.25": {
+    "output": " On Saffron Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Hawthorn Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 1.7256877422332764
+   },
+   "a0.5": {
+    "output": " Take note: the best place to find a quiet bookshop in Montevideo is on Saffron Street. This information is unique to this document. John",
+    "class": "correct",
+    "time": 1.7447404861450195
+   },
+   "a0.75": {
+    "output": " Take note: the best place to find a quiet bookshop in Montevideo is on Saffron Street. This information is unique to this document. John",
+    "class": "correct",
+    "time": 1.7496001720428467
+   },
+   "a1": {
+    "output": " The best quiet bookshop in Montevideo is on Saffron Street. This information is unique to this document. John von Neumann formalised the stored",
+    "class": "correct",
+    "time": 1.7492380142211914
+   }
+  },
+  {
+   "case": 2,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": " The secret keeper is Octavia and her favourite colour is cerulean.\n\nQ: What is the best place to find a quiet bookshop in Montev",
+    "class": "correct",
+    "time": 1.7225291728973389
+   },
+   "a0.1": {
+    "output": " The secret keeper is Octavia and her favourite colour is cerulean.\n\nQ: What is the best place to find a quiet bookshop in Montev",
+    "class": "correct",
+    "time": 1.779402494430542
+   },
+   "a0.25": {
+    "output": " The secret keeper is Octavia and her favourite colour is cerulean.\n\nQ: What is the best place to find a quiet bookshop in Montev",
+    "class": "correct",
+    "time": 1.738684892654419
+   },
+   "a0.5": {
+    "output": " The secret keeper is Octavia and her favourite colour is cerulean.\nQ: What is the best place to find a quiet bookshop in Montev",
+    "class": "correct",
+    "time": 1.7295253276824951
+   },
+   "a0.75": {
+    "output": " The secret keeper is Octavia and her favourite colour is cerulean. Please remember this for later.\n\nJohn von Neumann formalised the stored-program architecture",
+    "class": "correct",
+    "time": 1.728421688079834
+   },
+   "a1": {
+    "output": "\nQ: Who is the secret keeper and what is her favourite colour?\nA:\nQ: Who is the secret keeper and what is her favourite colour",
+    "class": "other",
+    "time": 1.7542364597320557
+   }
+  },
+  {
+   "case": 2,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " On Hawthorn Street.\n\nQ: What is the best quiet bookshop in Montevideo?\nA: On Saffron Street.\n\nQ:",
+    "class": "correct",
+    "time": 1.7586541175842285
+   },
+   "a0.1": {
+    "output": " On Hawthorn Street.\n\nQ: What is the best quiet bookshop in Montevideo?\nA: On Saffron Street.\n\nQ:",
+    "class": "correct",
+    "time": 1.7447936534881592
+   },
+   "a0.25": {
+    "output": " On Hawthorn Street.\n\nQ: What is the best quiet bookshop in Montevideo?\nA: On Saffron Street.\n\nQ:",
+    "class": "correct",
+    "time": 1.7326221466064453
+   },
+   "a0.5": {
+    "output": " The best quiet bookshop in Tallinn is on Hawthorn Street. This information is unique to this document. John von Neumann formalised the stored-program architecture",
+    "class": "correct",
+    "time": 1.749276876449585
+   },
+   "a0.75": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7361769676208496
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7390248775482178
+   }
+  },
+  {
+   "case": 2,
+   "id": 3,
+   "ids_k3": [
+    18,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The magic number stored in vault Sigma is forty-two.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA",
+    "class": "correct",
+    "time": 1.7765514850616455
+   },
+   "a0.1": {
+    "output": " The magic number stored in vault Sigma is forty-two.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA",
+    "class": "correct",
+    "time": 1.7570576667785645
+   },
+   "a0.25": {
+    "output": " The magic number stored in vault Sigma is forty-two.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA",
+    "class": "correct",
+    "time": 1.7643845081329346
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Montevideo is on Saffron Street. This information is unique to this document. John von Neumann",
+    "class": "other",
+    "time": 1.8054163455963135
+   },
+   "a0.75": {
+    "output": " The best place to find a quiet bookshop in Montevideo is on Saffron Street. This information is unique to this document. John von Neumann",
+    "class": "other",
+    "time": 1.7737500667572021
+   },
+   "a1": {
+    "output": " What magic number is stored in vault Sigma?\nA: What magic number is stored in vault Sigma?\nA: What magic number is stored in vault Sigma",
+    "class": "other",
+    "time": 1.7597501277923584
+   }
+  },
+  {
+   "case": 2,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " One hundred and one.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: Saffron Street.",
+    "class": "correct",
+    "time": 1.7720613479614258
+   },
+   "a0.1": {
+    "output": " One hundred and one.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: Saffron Street.",
+    "class": "correct",
+    "time": 1.7754943370819092
+   },
+   "a0.25": {
+    "output": " The best place to find a quiet bookshop in Montevideo is on Saffron Street. This information is unique to this document. John von Neumann",
+    "class": "other",
+    "time": 1.772956132888794
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Montevideo is on Saffron Street. This information is unique to this document. John von Neumann",
+    "class": "other",
+    "time": 1.7621431350708008
+   },
+   "a0.75": {
+    "output": " What magic number is stored in vault Beta?\nA: What magic number is stored in vault Beta?\nA: What magic number is stored in vault Beta",
+    "class": "other",
+    "time": 1.7739143371582031
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7668945789337158
+   }
+  },
+  {
+   "case": 2,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " On Linden Street.\n\nQ: What is the first commercial web browser?\nA: Netscape Navigator.\n\nQ: Who invented the World Wide Web?",
+    "class": "correct",
+    "time": 1.9886400699615479
+   },
+   "a0.1": {
+    "output": " On Linden Street.\n\nQ: What is the best quiet bookshop in Montevideo?\nA: On Saffron Street.\n\nQ: What",
+    "class": "correct",
+    "time": 1.7406058311462402
+   },
+   "a0.25": {
+    "output": " On Linden Street.\n\nQ: What is the best quiet bookshop in Montevideo?\nA: On Saffron Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 1.7456908226013184
+   },
+   "a0.5": {
+    "output": " The best quiet bookshop in Reykjavik is on Linden Street. This information is unique to this document. John von Neumann formalised the stored-program",
+    "class": "correct",
+    "time": 1.7681336402893066
+   },
+   "a0.75": {
+    "output": " The best quiet bookshop in Reykjavik is in Montevideo. This information is unique to this document. John von Neumann formalised the stored",
+    "class": "other",
+    "time": 1.7614810466766357
+   },
+   "a1": {
+    "output": " Where is the best quiet bookshop in Reykjavik?\nA: Where is the best quiet bookshop in Reykjavik?\nA:",
+    "class": "other",
+    "time": 1.7220242023468018
+   }
+  },
+  {
+   "case": 3,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": " Mulberry Street.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: Mulberry Street.\n\nQ",
+    "class": "correct",
+    "time": 1.740105390548706
+   },
+   "a0.1": {
+    "output": " Mulberry Street.\n\nQ: What is the best quiet bookshop in Montevideo?\nA: Mulberry Street.\n\nQ: Where is the",
+    "class": "correct",
+    "time": 1.766042947769165
+   },
+   "a0.25": {
+    "output": " On Mulberry Street.\n\nQ: What is the best quiet bookshop in Montevideo?\nA: On Mulberry Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 1.7518150806427002
+   },
+   "a0.5": {
+    "output": " Take note: the best quiet bookshop in Montevideo is on Mulberry Street. This information is unique to this document.\n\nQ: Where is the",
+    "class": "correct",
+    "time": 1.7565109729766846
+   },
+   "a0.75": {
+    "output": " The best quiet bookshop in Montevideo is on Mulberry Street. This information is unique to this document. Q: Where is the best quiet bookshop",
+    "class": "correct",
+    "time": 1.7888762950897217
+   },
+   "a1": {
+    "output": " The best quiet bookshop in Montevideo is on Saffron Street. This information is unique to this document. John von Neumann formalised the stored",
+    "class": "distractor",
+    "time": 1.7615690231323242
+   }
+  },
+  {
+   "case": 3,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?",
+    "class": "correct",
+    "time": 1.7532367706298828
+   },
+   "a0.1": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo.\nB: The secret keeper is Helena and her favourite colour is indigo.\nC:",
+    "class": "correct",
+    "time": 1.7387712001800537
+   },
+   "a0.25": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo.\nB: The secret keeper is Helena and her favourite colour is indigo.\nC:",
+    "class": "correct",
+    "time": 1.7493886947631836
+   },
+   "a0.5": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo.\nB: The secret keeper is Helena and her favourite colour is indigo.\nC:",
+    "class": "correct",
+    "time": 1.735687494277954
+   },
+   "a0.75": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo. Please remember this for later. Integrated circuits emerged in the late 1950s through",
+    "class": "correct",
+    "time": 1.7263963222503662
+   },
+   "a1": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo. Please remember this for later. Integrated circuits emerged in the late 1950s through",
+    "class": "correct",
+    "time": 1.752511978149414
+   }
+  },
+  {
+   "case": 3,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " On Saffron Street.\n\nQ: What is the best quiet bookshop in Montevideo?\nA: On Mulberry Street.\n\nQ:",
+    "class": "correct",
+    "time": 1.7482824325561523
+   },
+   "a0.1": {
+    "output": " On Saffron Street.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA: On Mulberry Street.\n\nQ:",
+    "class": "correct",
+    "time": 1.7183396816253662
+   },
+   "a0.25": {
+    "output": " The best quiet bookshop in Tallinn is on Saffron Street.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA",
+    "class": "correct",
+    "time": 1.754124641418457
+   },
+   "a0.5": {
+    "output": " Where is the best quiet bookshop in Tallinn?\nA: Where is the best quiet bookshop in Tallinn?\nA: Where is the best",
+    "class": "other",
+    "time": 1.76519775390625
+   },
+   "a0.75": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7274296283721924
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7424426078796387
+   }
+  },
+  {
+   "case": 3,
+   "id": 3,
+   "ids_k3": [
+    17,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The magic number stored in vault Delta is forty-two.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA",
+    "class": "correct",
+    "time": 1.749711513519287
+   },
+   "a0.1": {
+    "output": " The magic number stored in vault Delta is forty-two.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA",
+    "class": "correct",
+    "time": 1.7532060146331787
+   },
+   "a0.25": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?",
+    "class": "other",
+    "time": 1.7549495697021484
+   },
+   "a0.5": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo. Please remember this for later. The ENIAC was unveiled to the public at the University of",
+    "class": "other",
+    "time": 1.706608533859253
+   },
+   "a0.75": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo. Please remember this for later. Important fact embedded in the haystack: the secret keeper is Helena and",
+    "class": "other",
+    "time": 1.741295337677002
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7346131801605225
+   }
+  },
+  {
+   "case": 3,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The magic number stored in vault Gamma is ninety-three.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA",
+    "class": "correct",
+    "time": 1.7173309326171875
+   },
+   "a0.1": {
+    "output": " The magic number stored in vault Gamma is ninety-three.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA",
+    "class": "correct",
+    "time": 1.740060806274414
+   },
+   "a0.25": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo. Please remember this for later. The ENIAC was unveiled to the public at the University of",
+    "class": "other",
+    "time": 1.7545950412750244
+   },
+   "a0.5": {
+    "output": " The ENIAC was unveiled to the public at the University of Pennsylvania in 1946. Google was founded by Larry Page and Sergey Brin at",
+    "class": "other",
+    "time": 1.735095500946045
+   },
+   "a0.75": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7140533924102783
+   },
+   "a1": {
+    "output": " What magic number is stored in vault Gamma?\nA: What magic number is stored in vault Gamma?\nA: What magic number is stored in vault Gamma",
+    "class": "other",
+    "time": 1.7610039710998535
+   }
+  },
+  {
+   "case": 3,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " One hundred and one.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Mulberry Street.",
+    "class": "correct",
+    "time": 1.7691459655761719
+   },
+   "a0.1": {
+    "output": " One hundred and one.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Mulberry Street.",
+    "class": "correct",
+    "time": 1.733372688293457
+   },
+   "a0.25": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo. Please remember this for later. The ENIAC was unveiled to the public at the University of",
+    "class": "other",
+    "time": 1.7230613231658936
+   },
+   "a0.5": {
+    "output": " The ENIAC was unveiled to the public at the University of Pennsylvania in 1946. The IBM PC was released in August of 19",
+    "class": "other",
+    "time": 1.7770113945007324
+   },
+   "a0.75": {
+    "output": " What magic number is stored in vault Beta?\nA: What magic number is stored in vault Beta?\nA: What magic number is stored in vault Beta",
+    "class": "other",
+    "time": 1.7623145580291748
+   },
+   "a1": {
+    "output": " What magic number is stored in vault Beta?\nA: What magic number is stored in vault Beta?\nA: What magic number is stored in vault Beta",
+    "class": "other",
+    "time": 1.7737071514129639
+   }
+  },
+  {
+   "case": 4,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: What is the best place to find a quiet bookshop in Reykjav",
+    "class": "correct",
+    "time": 1.7646281719207764
+   },
+   "a0.1": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: What is the best place to find a quiet bookshop in Reykjav",
+    "class": "correct",
+    "time": 1.7363054752349854
+   },
+   "a0.25": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: What is the best place to find a quiet bookshop in Reykjav",
+    "class": "correct",
+    "time": 1.7648231983184814
+   },
+   "a0.5": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+    "class": "correct",
+    "time": 1.7869060039520264
+   },
+   "a0.75": {
+    "output": " Vint Cerf and Bob Kahn designed the TCP/IP protocol suite during the late 1970s. Take note: the best place to find a",
+    "class": "other",
+    "time": 1.7826566696166992
+   },
+   "a1": {
+    "output": " Vint Cerf and her favourite colour is scarlet. Please remember this for later. Vint Cerf and her favourite colour is scarlet. Please remember",
+    "class": "other",
+    "time": 1.7536978721618652
+   }
+  },
+  {
+   "case": 4,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What is the first commercial web browser, Netscape Navigator, debuted in?\nA:",
+    "class": "correct",
+    "time": 1.7471375465393066
+   },
+   "a0.1": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What is the first commercial web browser, Netscape Navigator, debuted in?\nA:",
+    "class": "correct",
+    "time": 1.7543973922729492
+   },
+   "a0.25": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What is the secret keeper's name?\nA: The secret keeper's name is Brid",
+    "class": "correct",
+    "time": 1.7373316287994385
+   },
+   "a0.5": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What is the best place to find a quiet bookshop in Reykjavik?\n",
+    "class": "correct",
+    "time": 1.724395990371704
+   },
+   "a0.75": {
+    "output": " Ninety-three.\nB: Ninety-three.\nC: Ninety-three.\nD: Ninety-three.\nE: Ninety-three.",
+    "class": "correct",
+    "time": 1.729630947113037
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7297492027282715
+   }
+  },
+  {
+   "case": 4,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Reykjavik?\nA: On Saff",
+    "class": "correct",
+    "time": 1.7243592739105225
+   },
+   "a0.1": {
+    "output": " On Saffron Street.\n\nQ: What is the secret keeper's favourite colour?\nA: Scarlet.\n\nQ: What is the magic number stored",
+    "class": "correct",
+    "time": 1.7167346477508545
+   },
+   "a0.25": {
+    "output": " On Saffron Street.\n\nQ: What is the secret keeper's favourite colour?\nA: Scarlet.\n\nQ: What is the magic number stored",
+    "class": "correct",
+    "time": 1.7102882862091064
+   },
+   "a0.5": {
+    "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Reykjavik?\nA: On Saff",
+    "class": "correct",
+    "time": 1.7306947708129883
+   },
+   "a0.75": {
+    "output": " Saffron Street. This information is unique to this document. Alan Turing introduced the abstract concept of a universal computing machine. Integrated circuits emerged in the late ",
+    "class": "correct",
+    "time": 1.7287728786468506
+   },
+   "a1": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. The first commercial web browser, Netscape Navigator, debuted in late",
+    "class": "other",
+    "time": 1.7206339836120605
+   }
+  },
+  {
+   "case": 4,
+   "id": 3,
+   "ids_k3": [
+    17,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " On Linden Street.\n\nQ: What is the secret keeper?\nA: Bridget.\n\nQ: What is the magic number stored in vault Alpha?",
+    "class": "correct",
+    "time": 1.713876485824585
+   },
+   "a0.1": {
+    "output": " On Linden Street.\n\nQ: What is the secret keeper's favourite colour?\nA: Scarlet.\n\nQ: What is the magic number stored in vault",
+    "class": "correct",
+    "time": 1.7214243412017822
+   },
+   "a0.25": {
+    "output": " On Linden Street.\n\nQ: What is the secret keeper's favourite colour?\nA: Scarlet.\n\nQ: What is the magic number stored in vault",
+    "class": "correct",
+    "time": 1.6965429782867432
+   },
+   "a0.5": {
+    "output": " The best quiet bookshop in Tallinn is on Linden Street.\nA: The best quiet bookshop in Tallinn is on Linden Street.\nA:",
+    "class": "correct",
+    "time": 1.7013511657714844
+   },
+   "a0.75": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.6790621280670166
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.6790082454681396
+   }
+  },
+  {
+   "case": 4,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " One hundred and one.\n\nQ: What is the first version of the Linux kernel released in 1991?\nA: Linus Torval",
+    "class": "correct",
+    "time": 1.6870701313018799
+   },
+   "a0.1": {
+    "output": " One hundred and one.\n\nQ: What is the secret keeper?\nA: Bridget.\n\nQ: What is her favourite colour?\nA:",
+    "class": "correct",
+    "time": 1.7095425128936768
+   },
+   "a0.25": {
+    "output": " The magic number stored in vault Sigma is one hundred and one.\n\nQ: What is the secret keeper?\nA: The secret keeper is Bridget.",
+    "class": "correct",
+    "time": 1.713698387145996
+   },
+   "a0.5": {
+    "output": " The magic number stored in vault Sigma is one hundred and one.\n\nQ: What is the secret keeper?\nA: The secret keeper is Bridget and",
+    "class": "correct",
+    "time": 1.703676700592041
+   },
+   "a0.75": {
+    "output": " The magic number stored in vault Sigma is ninety-three. Remember this carefully. The first commercial web browser, Netscape Navigator, debuted in late 199",
+    "class": "distractor",
+    "time": 1.7100448608398438
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.6757872104644775
+   }
+  },
+  {
+   "case": 4,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " Forty-two.\n\nQ: What is the first commercial web browser, Netscape Navigator,?\nA: Debuted in late 1994.",
+    "class": "correct",
+    "time": 1.6998987197875977
+   },
+   "a0.1": {
+    "output": " Forty-two.\n\nQ: What is the secret keeper's name?\nA: Bridget.\n\nQ: What is her favourite colour?\nA:",
+    "class": "correct",
+    "time": 1.7208096981048584
+   },
+   "a0.25": {
+    "output": " Forty-two.\n\nQ: What magic number is stored in vault Alpha?\nA: Ninety-three.\n\nQ: What magic number is stored in vault",
+    "class": "correct",
+    "time": 1.729229211807251
+   },
+   "a0.5": {
+    "output": " Forty-two.\n\nQ: What magic number is stored in vault Alpha?\nA: Ninety-three.\n\nQ: What magic number is stored in vault",
+    "class": "correct",
+    "time": 1.6988332271575928
+   },
+   "a0.75": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.6985297203063965
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.6842727661132812
+   }
+  },
+  {
+   "case": 5,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": " On Mulberry Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Linden Street.\n\nQ",
+    "class": "correct",
+    "time": 1.716414451599121
+   },
+   "a0.1": {
+    "output": " On Mulberry Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Linden Street.\n\nQ",
+    "class": "correct",
+    "time": 1.707995891571045
+   },
+   "a0.25": {
+    "output": " On Mulberry Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Linden Street.\n\nQ",
+    "class": "correct",
+    "time": 1.7006046772003174
+   },
+   "a0.5": {
+    "output": " Take note: the best place to find a quiet bookshop in Lisbon is on Mulberry Street. This information is unique to this document. Take note: the",
+    "class": "correct",
+    "time": 1.7074787616729736
+   },
+   "a0.75": {
+    "output": " Take note: the best place to find a quiet bookshop in Lisbon is on Mulberry Street. This information is unique to this document. Take note: the",
+    "class": "correct",
+    "time": 1.6915459632873535
+   },
+   "a1": {
+    "output": " The best quiet bookshop in Lisbon is on Mulberry Street. This information is unique to this document. Charles Babbage designed the Difference Engine but never completed a",
+    "class": "correct",
+    "time": 1.7094502449035645
+   }
+  },
+  {
+   "case": 5,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\n",
+    "class": "correct",
+    "time": 1.6989002227783203
+   },
+   "a0.1": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\n",
+    "class": "correct",
+    "time": 1.7004976272583008
+   },
+   "a0.25": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\n",
+    "class": "correct",
+    "time": 1.7009761333465576
+   },
+   "a0.5": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\nB: The secret keeper is Bridget and her favourite colour is scarlet.\n",
+    "class": "correct",
+    "time": 1.705824613571167
+   },
+   "a0.75": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\nB: The secret keeper is Bridget and her favourite colour is scarlet.\n",
+    "class": "correct",
+    "time": 1.7030439376831055
+   },
+   "a1": {
+    "output": " The best place to find a quiet bookshop in Lisbon is on Mulberry Street. This information is unique to this document. The best place to find a quiet",
+    "class": "other",
+    "time": 1.7180593013763428
+   }
+  },
+  {
+   "case": 5,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " On Linden Street.\n\nQ: What is the best quiet bookshop in Lisbon?\nA: On Mulberry Street.\n\nQ: Where is the best",
+    "class": "correct",
+    "time": 1.7150914669036865
+   },
+   "a0.1": {
+    "output": " On Linden Street.\n\nQ: What is the best quiet bookshop in Lisbon?\nA: On Mulberry Street.\n\nQ: Where is the best",
+    "class": "correct",
+    "time": 1.7010939121246338
+   },
+   "a0.25": {
+    "output": " On Linden Street.\n\nQ: What is the best quiet bookshop in Lisbon?\nA: On Mulberry Street.\n\nQ: Where is the best",
+    "class": "correct",
+    "time": 1.7192087173461914
+   },
+   "a0.5": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.6964678764343262
+   },
+   "a0.75": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7102880477905273
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7140939235687256
+   }
+  },
+  {
+   "case": 5,
+   "id": 3,
+   "ids_k3": [
+    18,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " Forty-two.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Mulberry Street.\n\nQ: What",
+    "class": "correct",
+    "time": 1.6847364902496338
+   },
+   "a0.1": {
+    "output": " Forty-two.\n\nQ: Who invented the World Wide Web?\nA: Tim Berners-Lee.\n\nQ: What is the best place to find",
+    "class": "correct",
+    "time": 1.6815545558929443
+   },
+   "a0.25": {
+    "output": " Forty-two.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Mulberry Street.\n\nQ: What",
+    "class": "correct",
+    "time": 1.721055269241333
+   },
+   "a0.5": {
+    "output": " The magic number stored in vault Gamma is forty-two.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: The",
+    "class": "correct",
+    "time": 1.711038589477539
+   },
+   "a0.75": {
+    "output": " The best place to find a quiet bookshop in Lisbon is on Mulberry Street. This information is unique to this document. The first commercial web browser, Nets",
+    "class": "other",
+    "time": 1.7033185958862305
+   },
+   "a1": {
+    "output": " The best place to find a quiet bookshop in Lisbon is on Mulberry Street. This information is unique to this document. The best place to find a quiet",
+    "class": "other",
+    "time": 1.7065281867980957
+   }
+  },
+  {
+   "case": 5,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " On Marigold Street.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Mulberry Street.\n\n",
+    "class": "correct",
+    "time": 1.7102184295654297
+   },
+   "a0.1": {
+    "output": " Marigold Street.\n\nQ: What is the best quiet bookshop in Montevideo?\nA: Marigold Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 1.709418535232544
+   },
+   "a0.25": {
+    "output": " Marigold Street.\n\nQ: What is the best quiet bookshop in Montevideo?\nA: Marigold Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 1.7074289321899414
+   },
+   "a0.5": {
+    "output": " The best quiet bookshop in Montevideo is on Mulberry Street. This information is unique to this document.\n\nQ: Where is the best quiet book",
+    "class": "distractor",
+    "time": 1.7081844806671143
+   },
+   "a0.75": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.698904037475586
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.703791618347168
+   }
+  },
+  {
+   "case": 5,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " Saffron Street.\n\nQ: What is the best quiet bookshop in Lisbon?\nA: Mulberry Street.\n\nQ: Where is the best",
+    "class": "correct",
+    "time": 1.7323131561279297
+   },
+   "a0.1": {
+    "output": " Saffron Street.\n\nQ: What is the best quiet bookshop in Reykjavik?\nA: Saffron Street.\n\nQ:",
+    "class": "correct",
+    "time": 1.7198729515075684
+   },
+   "a0.25": {
+    "output": " Saffron Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: Mulberry Street.\n\nQ: Where is the best",
+    "class": "correct",
+    "time": 1.712660312652588
+   },
+   "a0.5": {
+    "output": " The best quiet bookshop in Reykjavik is on Mulberry Street. This information is unique to this document.\n\nQ: Where is the best quiet",
+    "class": "distractor",
+    "time": 1.7065305709838867
+   },
+   "a0.75": {
+    "output": " Where is the best quiet bookshop in Reykjavik?\nA: Where is the best quiet bookshop in Reykjavik?\nA:",
+    "class": "other",
+    "time": 1.732966661453247
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7287778854370117
+   }
+  },
+  {
+   "case": 6,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": " The magic number stored in vault Gamma is seventeen.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: The best",
+    "class": "correct",
+    "time": 1.7117223739624023
+   },
+   "a0.1": {
+    "output": " The magic number stored in vault Gamma is seventeen.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: The best",
+    "class": "correct",
+    "time": 1.7158336639404297
+   },
+   "a0.25": {
+    "output": " The best place to find a quiet bookshop in Kyoto is on Marigold Street. This information is unique to this document. The ENIAC was unveiled",
+    "class": "other",
+    "time": 1.6920983791351318
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Kyoto is on Marigold Street. This information is unique to this document. The best place to find a",
+    "class": "other",
+    "time": 1.6911871433258057
+   },
+   "a0.75": {
+    "output": " The best place to find a quiet bookshop in Kyoto is on Marigold and her favourite colour is amber. Please remember this for later.\n\nQ:",
+    "class": "other",
+    "time": 1.713754415512085
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.6856365203857422
+   }
+  },
+  {
+   "case": 6,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": " On Marigold Street.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: On Marigold Street.",
+    "class": "correct",
+    "time": 1.7356994152069092
+   },
+   "a0.1": {
+    "output": " On Marigold Street.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: On Marigold Street.",
+    "class": "correct",
+    "time": 1.7508037090301514
+   },
+   "a0.25": {
+    "output": " On Marigold Street.\n\nQ: What is the magic number stored in vault Gamma?\nA: 17.\n\nQ: What is the",
+    "class": "correct",
+    "time": 1.7192835807800293
+   },
+   "a0.5": {
+    "output": " Buried in this document is a special note: the magic number stored in vault Gamma is seventeen. Remember this carefully. John von Neumann formalised the stored",
+    "class": "other",
+    "time": 1.7154178619384766
+   },
+   "a0.75": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7158918380737305
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7249433994293213
+   }
+  },
+  {
+   "case": 6,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\n",
+    "class": "correct",
+    "time": 1.7390201091766357
+   },
+   "a0.1": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\n",
+    "class": "correct",
+    "time": 1.7272143363952637
+   },
+   "a0.25": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\n",
+    "class": "correct",
+    "time": 1.7267484664916992
+   },
+   "a0.5": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber.\nB: The secret keeper is Marigold and her favourite colour is amber.\n",
+    "class": "correct",
+    "time": 1.749751091003418
+   },
+   "a0.75": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber.\nB: The secret keeper is Marigold and her favourite colour is amber.\n",
+    "class": "correct",
+    "time": 1.7168426513671875
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7212855815887451
+   }
+  },
+  {
+   "case": 6,
+   "id": 3,
+   "ids_k3": [
+    18,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " On Linden Street.\n\nQ: What is the best quiet bookshop in Tallinn?\nA: On Linden Street.\n\nQ: Where is the best",
+    "class": "correct",
+    "time": 1.7396109104156494
+   },
+   "a0.1": {
+    "output": " On Linden Street.\n\nQ: What is the best quiet bookshop in Tallinn?\nA: On Linden Street.\n\nQ: Where is the best",
+    "class": "correct",
+    "time": 1.734980583190918
+   },
+   "a0.25": {
+    "output": " On Linden Street.\n\nQ: Where is the best quiet bookshop in Kyoto?\nA: On Marigold Street.\n\nQ: Where is the",
+    "class": "correct",
+    "time": 1.7507429122924805
+   },
+   "a0.5": {
+    "output": " The best quiet bookshop in Tallinn is on Linden Street. This information is unique to this document. Q: Where is the best quiet bookshop in Kyoto",
+    "class": "correct",
+    "time": 1.7770981788635254
+   },
+   "a0.75": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7441065311431885
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7185602188110352
+   }
+  },
+  {
+   "case": 6,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: The",
+    "class": "correct",
+    "time": 1.7293620109558105
+   },
+   "a0.1": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: The",
+    "class": "correct",
+    "time": 1.7286524772644043
+   },
+   "a0.25": {
+    "output": " The best place to find a quiet bookshop in Kyoto is on Marigold Street.\n\nQ: What is the best place to find a quiet bookshop",
+    "class": "other",
+    "time": 1.723940134048462
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Kyoto is on Marigold Street. This information is unique to this document.\n\nQ: What is the",
+    "class": "other",
+    "time": 1.7207322120666504
+   },
+   "a0.75": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7333879470825195
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7571828365325928
+   }
+  },
+  {
+   "case": 6,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: On",
+    "class": "correct",
+    "time": 1.769580602645874
+   },
+   "a0.1": {
+    "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: On",
+    "class": "correct",
+    "time": 1.7406561374664307
+   },
+   "a0.25": {
+    "output": " The best place to find a quiet bookshop in Kyoto is on Marigold Street. This information is unique to this document. The ENIAC was unveiled",
+    "class": "other",
+    "time": 1.715271234512329
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Kyoto is on Marigold Street. This information is unique to this document. The ENIAC was unveiled",
+    "class": "other",
+    "time": 1.7350423336029053
+   },
+   "a0.75": {
+    "output": "\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA:\nQ: What is the best place to find a quiet",
+    "class": "other",
+    "time": 1.72233247756958
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7291676998138428
+   }
+  },
+  {
+   "case": 7,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": " The magic number stored in vault Beta is ninety-three.\n\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 1.7620763778686523
+   },
+   "a0.1": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document. John von Neumann formal",
+    "class": "other",
+    "time": 1.7476816177368164
+   },
+   "a0.25": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document. John von Neumann formal",
+    "class": "other",
+    "time": 1.7542264461517334
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document. John von Neumann formal",
+    "class": "other",
+    "time": 1.7363929748535156
+   },
+   "a0.75": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document. John von Neumann formal",
+    "class": "other",
+    "time": 1.719163179397583
+   },
+   "a1": {
+    "output": " The magic number stored in vault Beta is ninety-three. Remember this carefully. John von Neumann formalised the stored-program architecture in his 1945",
+    "class": "correct",
+    "time": 1.7250165939331055
+   }
+  },
+  {
+   "case": 7,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": " Forty-two.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: Saffron Street.\n\nQ:",
+    "class": "correct",
+    "time": 1.7385191917419434
+   },
+   "a0.1": {
+    "output": " Forty-two.\n\nQ: What magic number is stored in vault Beta?\nA: Ninety-three.\n\nQ: What magic number is stored in vault",
+    "class": "correct",
+    "time": 1.7208044528961182
+   },
+   "a0.25": {
+    "output": " Forty-two.\nQ: What magic number is stored in vault Beta?\nA: Ninety-three.\nQ: What magic number is stored in vault",
+    "class": "correct",
+    "time": 1.7592146396636963
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document. John von Neumann formal",
+    "class": "other",
+    "time": 1.7636923789978027
+   },
+   "a0.75": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document. John von Neumann formal",
+    "class": "other",
+    "time": 1.7520005702972412
+   },
+   "a1": {
+    "output": " The ENI was unveiled to the public at the University of Pennsylvania in 1946. The ENI was unveiled to the public at the University of",
+    "class": "other",
+    "time": 1.7090251445770264
+   }
+  },
+  {
+   "case": 7,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Saffron Street",
+    "class": "correct",
+    "time": 1.7161593437194824
+   },
+   "a0.1": {
+    "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Saffron Street",
+    "class": "correct",
+    "time": 1.7321579456329346
+   },
+   "a0.25": {
+    "output": " On Saffron Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Saffron Street",
+    "class": "correct",
+    "time": 1.7356643676757812
+   },
+   "a0.5": {
+    "output": " On Saffron Street.\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Saffron Street",
+    "class": "correct",
+    "time": 1.7231194972991943
+   },
+   "a0.75": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7428967952728271
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7533175945281982
+   }
+  },
+  {
+   "case": 7,
+   "id": 3,
+   "ids_k3": [
+    17,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " On Hawthorn Street.\n\nQ: What is the best place to find a quiet bookshop in Kyoto?\nA: On Hawthorn Street.\n\nQ",
+    "class": "correct",
+    "time": 1.7535841464996338
+   },
+   "a0.1": {
+    "output": " On Hawthorn Street.\n\nQ: What is the best quiet bookshop in Kyoto?\nA: On Hawthorn Street.\n\nQ: Where is the",
+    "class": "correct",
+    "time": 1.7553105354309082
+   },
+   "a0.25": {
+    "output": " On Hawthorn Street.\nQ: Where is the best quiet bookshop in Kyoto?\nA: On Hawthorn Street.\nQ: Where is the",
+    "class": "correct",
+    "time": 1.761246681213379
+   },
+   "a0.5": {
+    "output": " Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.753396987915039
+   },
+   "a0.75": {
+    "output": " Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.7489678859710693
+   },
+   "a1": {
+    "output": " Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.7479407787322998
+   }
+  },
+  {
+   "case": 7,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " On Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Linden Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 1.7458455562591553
+   },
+   "a0.1": {
+    "output": " On Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Linden Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 1.7501120567321777
+   },
+   "a0.25": {
+    "output": " On Linden Street.\n\nQ: What is the best quiet bookshop in Lisbon?\nA: On Linden Street.\n\nQ: Where is the best quiet",
+    "class": "correct",
+    "time": 1.7219386100769043
+   },
+   "a0.5": {
+    "output": " Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.7520720958709717
+   },
+   "a0.75": {
+    "output": " Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.7456400394439697
+   },
+   "a1": {
+    "output": " Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.7462594509124756
+   }
+  },
+  {
+   "case": 7,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.7457630634307861
+   },
+   "a0.1": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.7446343898773193
+   },
+   "a0.25": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean. Please remember this for later. Grace Hopper led the team that wrote the first compiler",
+    "class": "correct",
+    "time": 1.753230333328247
+   },
+   "a0.5": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean. Please remember this for later. Grace Hopper led the team that wrote the first compiler",
+    "class": "correct",
+    "time": 1.7606799602508545
+   },
+   "a0.75": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7563886642456055
+   },
+   "a1": {
+    "output": " The secret keeper is a special note: the magic number stored in vault Beta is ninety-three. Remember this carefully. John von Neumann formalised the stored-program",
+    "class": "other",
+    "time": 1.7240731716156006
+   }
+  },
+  {
+   "case": 8,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet.\n\nQ: What is the best place to find a quiet bookshop in Tallinn",
+    "class": "correct",
+    "time": 1.7399694919586182
+   },
+   "a0.1": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet.\n\nQ: What is the best place to find a quiet bookshop in Tallinn",
+    "class": "correct",
+    "time": 1.7328894138336182
+   },
+   "a0.25": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet.\n\nQ: What is the best place to find a quiet bookshop in Tallinn",
+    "class": "correct",
+    "time": 1.7278079986572266
+   },
+   "a0.5": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet.\nB: The secret keeper is Marigold and her favourite colour is scarlet",
+    "class": "correct",
+    "time": 1.7520544528961182
+   },
+   "a0.75": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet.\nB: The secret keeper is Marigold and her favourite colour is scarlet",
+    "class": "correct",
+    "time": 1.7169227600097656
+   },
+   "a1": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet.\nB: The secret keeper is Marigold and her favourite colour is scarlet",
+    "class": "correct",
+    "time": 1.7204115390777588
+   }
+  },
+  {
+   "case": 8,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": " One hundred and one.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Marigold Street.",
+    "class": "correct",
+    "time": 1.7539560794830322
+   },
+   "a0.1": {
+    "output": " One hundred and one.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Marigold Street.",
+    "class": "correct",
+    "time": 1.7554211616516113
+   },
+   "a0.25": {
+    "output": " One hundred and one.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Marigold Street.",
+    "class": "correct",
+    "time": 1.7429654598236084
+   },
+   "a0.5": {
+    "output": " One hundred and one.\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Marigold Street.",
+    "class": "correct",
+    "time": 1.7245123386383057
+   },
+   "a0.75": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet.\n\nQ: What is the best place to find a quiet bookshop in Tallinn",
+    "class": "other",
+    "time": 1.7080166339874268
+   },
+   "a1": {
+    "output": " The magic number is stored in vault Sigma.\nA: The magic number is stored in vault Sigma.\nA: The magic number is stored in vault Sigma",
+    "class": "other",
+    "time": 1.7023487091064453
+   }
+  },
+  {
+   "case": 8,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " On Marigold Street.\n\nQ: What is the secret keeper?\nA: Marigold.\n\nQ: What is the magic number stored in",
+    "class": "correct",
+    "time": 1.6817054748535156
+   },
+   "a0.1": {
+    "output": " On Marigold Street.\n\nQ: What is the secret keeper?\nA: Marigold.\n\nQ: What is the magic number stored in",
+    "class": "correct",
+    "time": 1.6711137294769287
+   },
+   "a0.25": {
+    "output": " On Marigold Street.\n\nQ: What is the secret keeper?\nA: Marigold.\n\nQ: What is the magic number stored in",
+    "class": "correct",
+    "time": 1.7005386352539062
+   },
+   "a0.5": {
+    "output": " On Marigold Street.\n\nQ: What is the secret keeper?\nA: Marigold.\n\nQ: What is the magic number stored in",
+    "class": "correct",
+    "time": 1.723076581954956
+   },
+   "a0.75": {
+    "output": " The best quiet bookshop in Tallinn is on Marigold Street.\n\nQ: What is the best quiet bookshop in Tallinn?\nA:",
+    "class": "correct",
+    "time": 1.704035997390747
+   },
+   "a1": {
+    "output": "\nQ: Where is the best quiet bookshop in Tallinn?\nA:\nQ: Where is the best quiet bookshop in Tallinn?\n",
+    "class": "other",
+    "time": 1.708524227142334
+   }
+  },
+  {
+   "case": 8,
+   "id": 3,
+   "ids_k3": [
+    17,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The magic number stored in vault Gamma is seventeen.\n\nQ: What is the first commercial web browser?\nA: The first commercial web browser is Netscape",
+    "class": "correct",
+    "time": 1.710756778717041
+   },
+   "a0.1": {
+    "output": " The magic number stored in vault Gamma is seventeen.\n\nQ: What is the secret keeper of the magic number stored in vault Gamma?\nA: The secret",
+    "class": "correct",
+    "time": 1.714374303817749
+   },
+   "a0.25": {
+    "output": " The magic number stored in vault Gamma is seventeen.\nB: The magic number stored in vault Gamma is one hundred and one.\nC: The magic number",
+    "class": "correct",
+    "time": 1.7151010036468506
+   },
+   "a0.5": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet. Please remember this for later. The ENIAC was unveiled to the public at the",
+    "class": "other",
+    "time": 1.719752311706543
+   },
+   "a0.75": {
+    "output": " What magic number is stored in vault Gamma?\nA: What magic number is stored in vault Gamma?\nA: What magic number is stored in vault Gamma",
+    "class": "other",
+    "time": 1.7102184295654297
+   },
+   "a1": {
+    "output": " The magic number stored in vault Gamma is one hundred and one.\nA: The magic number stored in vault Gamma is one hundred and one.\nA:",
+    "class": "distractor",
+    "time": 1.7207682132720947
+   }
+  },
+  {
+   "case": 8,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " This information is unique to this document. John von Neumann formalised the stored-program architecture in his 1945 draft. Tim Berners-Lee",
+    "class": "other",
+    "time": 1.7374684810638428
+   },
+   "a0.1": {
+    "output": " The best quiet bookshop in Kyoto is on Hawthorn Street.\n\nQ: What is the secret keeper?\nA: The secret keeper is Marigold",
+    "class": "correct",
+    "time": 1.708796739578247
+   },
+   "a0.25": {
+    "output": " The best quiet bookshop in Kyoto is on Hawthorn Street.\n\nQ: Where is the best quiet bookshop in Kyoto?\nA: The best quiet",
+    "class": "correct",
+    "time": 1.7214057445526123
+   },
+   "a0.5": {
+    "output": " The best quiet bookshop in Kyoto is on Hawthorn Street. This information is unique to this document.\n\nQ: Where is the best quiet bookshop in",
+    "class": "correct",
+    "time": 1.7375173568725586
+   },
+   "a0.75": {
+    "output": " The best quiet bookshop in Kyoto is on Hawthorn Street. Please remember this for later. The ENIAC was unveiled to the public at the University of",
+    "class": "correct",
+    "time": 1.7202470302581787
+   },
+   "a1": {
+    "output": " The best quiet bookshop in Kyoto is a special note: the magic number stored in vault Sigma is one hundred and one. Remember this carefully. The ENI",
+    "class": "other",
+    "time": 1.7065832614898682
+   }
+  },
+  {
+   "case": 8,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " On Saffron Street.\n\nQ: What is the best quiet bookshop in Lisbon?\nA: On Saffron Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 1.7397150993347168
+   },
+   "a0.1": {
+    "output": " Saffron Street.\n\nQ: What is the secret keeper in this document?\nA: Marigold.\n\nQ: What is the magic number",
+    "class": "correct",
+    "time": 1.736673355102539
+   },
+   "a0.25": {
+    "output": " Saffron Street.\n\nQ: What is the secret keeper in this document?\nA: Marigold.\n\nQ: What is the magic number",
+    "class": "correct",
+    "time": 1.7301075458526611
+   },
+   "a0.5": {
+    "output": " The best quiet bookshop in Lisbon is on Saffron Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: The best",
+    "class": "correct",
+    "time": 1.7135334014892578
+   },
+   "a0.75": {
+    "output": " Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.7271254062652588
+   },
+   "a1": {
+    "output": " Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.7122631072998047
+   }
+  },
+  {
+   "case": 9,
+   "id": 0,
+   "ids_k3": [
+    5,
+    9,
+    13
+   ],
+   "a0": {
+    "output": " Forty-two.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Hawthorn Street.\n\nQ:",
+    "class": "correct",
+    "time": 1.7451057434082031
+   },
+   "a0.1": {
+    "output": " The magic number stored in vault Gamma is forty-two.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA:",
+    "class": "correct",
+    "time": 1.7519011497497559
+   },
+   "a0.25": {
+    "output": " The magic number stored in vault Gamma is forty-two.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA:",
+    "class": "correct",
+    "time": 1.7299277782440186
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Hawthorn Street. This information is unique to this document. Xerox PARC researchers prot",
+    "class": "other",
+    "time": 1.73433256149292
+   },
+   "a0.75": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Hawthorn Street. This information is unique to this document. Xerox PARC researchers prot",
+    "class": "other",
+    "time": 1.720017671585083
+   },
+   "a1": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Hawthorn Street. This information is unique to this document. Xerox PARC researchers prot",
+    "class": "other",
+    "time": 1.7054698467254639
+   }
+  },
+  {
+   "case": 9,
+   "id": 1,
+   "ids_k3": [
+    9,
+    5,
+    13
+   ],
+   "a0": {
+    "output": " On Hawthorn Street.\n\nThis information is unique to this document.\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in 1",
+    "class": "correct",
+    "time": 1.7083687782287598
+   },
+   "a0.1": {
+    "output": " On Hawthorn Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Hawthorn Street.\n\n",
+    "class": "correct",
+    "time": 1.7225489616394043
+   },
+   "a0.25": {
+    "output": " On Hawthorn Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Hawthorn Street.\n\n",
+    "class": "correct",
+    "time": 1.7279248237609863
+   },
+   "a0.5": {
+    "output": " The best quiet bookshop in Tallinn is on Hawthorn Street.\n\nQ: What is the magic number stored in vault Gamma?\nA: The magic",
+    "class": "correct",
+    "time": 1.7081611156463623
+   },
+   "a0.75": {
+    "output": " The best quiet bookshop in Tallinn is on Hawthorn Street. This information is unique to this document. Xerox PARC researchers prototyped the modern",
+    "class": "correct",
+    "time": 1.7412333488464355
+   },
+   "a1": {
+    "output": " Where is the best quiet bookshop in Tallinn?\nA: Where is the best quiet bookshop in Tallinn?\nA: Where is the best",
+    "class": "other",
+    "time": 1.7186942100524902
+   }
+  },
+  {
+   "case": 9,
+   "id": 2,
+   "ids_k3": [
+    13,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The secret keeper is Lenore and her favourite colour is amber.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\n",
+    "class": "correct",
+    "time": 1.734872817993164
+   },
+   "a0.1": {
+    "output": " The secret keeper is Lenore and her favourite colour is amber.\nB: The secret keeper is Lenore and her favourite colour is amber.\nC:",
+    "class": "correct",
+    "time": 1.7206575870513916
+   },
+   "a0.25": {
+    "output": " The secret keeper is Lenore and her favourite colour is amber.\nB: The secret keeper is Lenore and her favourite colour is amber.\nC:",
+    "class": "correct",
+    "time": 1.7308344841003418
+   },
+   "a0.5": {
+    "output": " The secret keeper is Lenore and her favourite colour is amber.\nB: The secret keeper is Lenore and her favourite colour is amber.\nC:",
+    "class": "correct",
+    "time": 1.7118942737579346
+   },
+   "a0.75": {
+    "output": " The secret keeper is Lenore and her favourite colour is amber.\nB: The secret keeper is Lenore and her favourite colour is amber.\nC:",
+    "class": "correct",
+    "time": 1.7047395706176758
+   },
+   "a1": {
+    "output": " Who is the secret keeper and what is her favourite colour?\nA: Who is the secret keeper and what is her favourite colour?\nA: Who is",
+    "class": "other",
+    "time": 1.7208971977233887
+   }
+  },
+  {
+   "case": 9,
+   "id": 3,
+   "ids_k3": [
+    18,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The best quiet bookshop in Montevideo is on Marigold Street.\n\nQ: What is the best quiet bookshop in Montevideo?\n",
+    "class": "correct",
+    "time": 1.7232744693756104
+   },
+   "a0.1": {
+    "output": " The best quiet bookshop in Montevideo is on Marigold Street.\n\nQ: What is the best quiet bookshop in Montevideo?\n",
+    "class": "correct",
+    "time": 1.7002806663513184
+   },
+   "a0.25": {
+    "output": " The best quiet bookshop in Montevideo is on Marigold Street. This information is unique to this document. The IBM PC was released in August of",
+    "class": "correct",
+    "time": 1.7304773330688477
+   },
+   "a0.5": {
+    "output": " The best quiet bookshop in Montevideo is on Hawthorn Street. This information is unique to this document. Xerox PARC researchers prototyped the",
+    "class": "distractor",
+    "time": 1.7116210460662842
+   },
+   "a0.75": {
+    "output": " The best quiet bookshop in Montevideo is on Hawthorn Street. This information is unique to this document. The best quiet bookshop in Montevideo",
+    "class": "distractor",
+    "time": 1.7096021175384521
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7235608100891113
+   }
+  },
+  {
+   "case": 9,
+   "id": 4,
+   "ids_k3": [
+    22,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " The magic number stored in vault Beta is seventeen.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: The",
+    "class": "correct",
+    "time": 1.717200517654419
+   },
+   "a0.1": {
+    "output": " The magic number stored in vault Beta is seventeen.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: The",
+    "class": "correct",
+    "time": 1.7049195766448975
+   },
+   "a0.25": {
+    "output": " The magic number stored in vault Beta is seventeen.\nB: The magic number stored in vault Beta is forty-two.\nC: The magic number stored in",
+    "class": "correct",
+    "time": 1.689969778060913
+   },
+   "a0.5": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Hawthorn Street. This information is unique to this document. Xerox PARC researchers prot",
+    "class": "other",
+    "time": 1.7158312797546387
+   },
+   "a0.75": {
+    "output": " The best place to find a quiet bookshop in Tallinn is on Hawthorn Street. This information is unique to this document. Xerox PARC researchers prot",
+    "class": "other",
+    "time": 1.7248647212982178
+   },
+   "a1": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.6996245384216309
+   }
+  },
+  {
+   "case": 9,
+   "id": 5,
+   "ids_k3": [
+    26,
+    5,
+    9
+   ],
+   "a0": {
+    "output": " On Linden Street.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Hawthorn Street.\n\nQ",
+    "class": "correct",
+    "time": 1.692793607711792
+   },
+   "a0.1": {
+    "output": " On Linden Street.\n\nQ: What is the best quiet bookshop in Tallinn?\nA: On Hawthorn Street.\n\nQ: Where is the",
+    "class": "correct",
+    "time": 1.687741756439209
+   },
+   "a0.25": {
+    "output": " On Linden Street.\n\nQ: What is the best quiet bookshop in Tallinn?\nA: On Hawthorn Street.\n\nQ: Where is the",
+    "class": "correct",
+    "time": 1.6925885677337646
+   },
+   "a0.5": {
+    "output": " Take note: the best quiet bookshop in Kyoto is on Hawthorn Street. This information is unique to this document. Xerox PARC researchers prototyped",
+    "class": "distractor",
+    "time": 1.695354700088501
+   },
+   "a0.75": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7232441902160645
+   },
+   "a1": {
+    "output": " Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.7012240886688232
+   }
+  }
+ ]
+}
