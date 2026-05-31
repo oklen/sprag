@@ -109,29 +109,39 @@ def build_frame_placements(cache_dir, chunk_ids, chunk_lookup, b_offset,
     return placements, flat
 
 
-def build_cframe_placements(cache_dir, chunk_ids, chunk_lookup, b_offset, chunk_size):
-    """§5ad-RGB #1: the chunk's real preceding `chunk_size` tokens ARE the
-    previous chunk (chunks tile the doc on chunk_size boundaries), whose K/V is
-    already cached. So splice the PREVIOUS chunk's cache as the frame, then the
-    retrieved chunk — BOTH from cache (α=1.0), zero fresh frame compute. This is
-    the prefill-skip version of rframe. by_astart maps doc position -> chunk id."""
+def build_cframe_placements(cache_dir, chunk_ids, chunk_lookup, b_offset,
+                            chunk_size, frame_len):
+    """§5ad-RGB #1: the chunk's real preceding `frame_len` tokens are the TAIL of
+    the previous chunk (chunks tile the doc on chunk_size boundaries), whose K/V
+    is already cached. So splice the previous chunk's last `frame_len` cached
+    positions as the frame, then the retrieved chunk — BOTH from cache (α=1.0),
+    zero fresh frame compute. The prefill-skip version of rframe; with
+    frame_len < chunk_size the frame is a FIXED cost regardless of chunk length."""
     by_astart = {int(c["a_start"]): c["id"] for c in chunk_lookup.values()}
     placements, flat = [], []
     cursor = b_offset
     for cid in chunk_ids:
         a = int(chunk_lookup[cid]["a_start"])
         prev_cid = by_astart.get(a - chunk_size)
-        for use_cid, use_a in ((prev_cid, a - chunk_size), (cid, a)):
-            if use_cid is None:
-                continue
-            t = _load_chunk(cache_dir, use_cid)
+        if prev_cid is not None:                       # frame = prev chunk's tail
+            t = _load_chunk(cache_dir, prev_cid)
             ids = t["input_ids"]
-            L = int(ids.shape[0])
-            cached = {li: (t[f"K_l{li}"], t[f"V_l{li}"]) for li in FULL_ATTN_LAYERS}
-            placements.append(ChunkPlacement(a_start=use_a, b_start=cursor,
-                                             length=L, cached=cached))
-            flat.extend(ids.tolist())
-            cursor += L
+            f = min(frame_len, int(ids.shape[0]))       # last f tokens
+            fa = (a - chunk_size) + (int(ids.shape[0]) - f)   # their doc position
+            cached = {li: (t[f"K_l{li}"][:, -f:, :].contiguous(),
+                           t[f"V_l{li}"][:, -f:, :].contiguous()) for li in FULL_ATTN_LAYERS}
+            placements.append(ChunkPlacement(a_start=fa, b_start=cursor,
+                                             length=f, cached=cached))
+            flat.extend(ids[-f:].tolist())
+            cursor += f
+        t = _load_chunk(cache_dir, cid)                # the retrieved chunk
+        ids = t["input_ids"]
+        L = int(ids.shape[0])
+        cached = {li: (t[f"K_l{li}"], t[f"V_l{li}"]) for li in FULL_ATTN_LAYERS}
+        placements.append(ChunkPlacement(a_start=a, b_start=cursor,
+                                         length=L, cached=cached))
+        flat.extend(ids.tolist())
+        cursor += L
     return placements, flat
 
 
@@ -420,7 +430,7 @@ def main():
                 sink_pl, s_ids = build_sink_placement(cache_dir, args.M)
                 ch_pl, ch_flat = build_cframe_placements(
                     cache_dir, jina_top, chunk_lookup, b_offset=args.M,
-                    chunk_size=args.chunk_size)
+                    chunk_size=args.chunk_size, frame_len=args.frame_len)
                 flat = s_ids + ch_flat
                 ntok = len(flat) + len(tok("\n\nQ: " + rec.query + "\nA:",
                                            add_special_tokens=False).input_ids)
