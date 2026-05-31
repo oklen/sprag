@@ -109,6 +109,45 @@ def build_frame_placements(cache_dir, chunk_ids, chunk_lookup, b_offset,
     return placements, flat
 
 
+def build_cframe_placements(cache_dir, chunk_ids, chunk_lookup, b_offset, chunk_size):
+    """§5ad-RGB #1: the chunk's real preceding `chunk_size` tokens ARE the
+    previous chunk (chunks tile the doc on chunk_size boundaries), whose K/V is
+    already cached. So splice the PREVIOUS chunk's cache as the frame, then the
+    retrieved chunk — BOTH from cache (α=1.0), zero fresh frame compute. This is
+    the prefill-skip version of rframe. by_astart maps doc position -> chunk id."""
+    by_astart = {int(c["a_start"]): c["id"] for c in chunk_lookup.values()}
+    placements, flat = [], []
+    cursor = b_offset
+    for cid in chunk_ids:
+        a = int(chunk_lookup[cid]["a_start"])
+        prev_cid = by_astart.get(a - chunk_size)
+        for use_cid, use_a in ((prev_cid, a - chunk_size), (cid, a)):
+            if use_cid is None:
+                continue
+            t = _load_chunk(cache_dir, use_cid)
+            ids = t["input_ids"]
+            L = int(ids.shape[0])
+            cached = {li: (t[f"K_l{li}"], t[f"V_l{li}"]) for li in FULL_ATTN_LAYERS}
+            placements.append(ChunkPlacement(a_start=use_a, b_start=cursor,
+                                             length=L, cached=cached))
+            flat.extend(ids.tolist())
+            cursor += L
+    return placements, flat
+
+
+def build_rfresh_flat(cache_dir, chunk_ids, chunk_lookup, doc_tokens, frame_len):
+    """§5ad-RGB #2: the '2x fresh' control — same interleaved [real-frame][chunk]
+    layout as rframe but EVERYTHING fresh (no splice). Returns the flat token
+    list (sink prepended by caller). Isolates whether rframe's gain is the cache
+    splice or simply more real context fed as fresh tokens."""
+    flat = []
+    for cid in chunk_ids:
+        a = int(chunk_lookup[cid]["a_start"])
+        flat.extend(doc_tokens[max(0, a - frame_len):a])
+        flat.extend(_load_chunk(cache_dir, cid)["input_ids"].tolist())
+    return flat
+
+
 def reconstruct_doc_tokens(cache_dir, meta):
     """Exact doc token stream = chunks concatenated in a_start order (each chunk's
     input_ids = doc_tokens[a_start:a_end]). Used to slice a chunk's REAL preceding
@@ -172,6 +211,7 @@ def main():
                              "k_only_topk", "v_only_topk",
                              "ushape_topk", "rev_topk",
                              "gframe_topk", "gfront_topk", "rframe_topk",
+                             "cframe_topk", "rfresh_topk",
                              "oracle_raw", "oracle_splice"])
     ap.add_argument("--frame_len", type=int, default=256,
                     help="phantom-frame length (gframe/gfront/rframe modes, §5ad-RGB)")
@@ -206,7 +246,8 @@ def main():
     inv_freq = make_inv_freq_for(model).to(device)
     emb = JinaEmbedder()
 
-    frame_modes = [m for m in args.modes if m in ("gframe_topk", "gfront_topk", "rframe_topk")]
+    frame_modes = [m for m in args.modes if m in ("gframe_topk", "gfront_topk",
+                                                   "rframe_topk", "cframe_topk", "rfresh_topk")]
     generic_frame = (tok(GENERIC_FRAME_TEXT, add_special_tokens=False).input_ids[:args.frame_len]
                      if frame_modes else None)
     if frame_modes:
@@ -372,6 +413,37 @@ def main():
                                     inv_freq, args.max_new_tokens, alpha=1.0,
                                     splice_kind="kv")
                 record(mode, out, time.time() - t0, ntok)
+
+            # #1 cframe: real frame from CACHE (= previous chunk) + chunk from
+            # cache, both α=1.0 — the prefill-skip version of rframe.
+            if "cframe_topk" in args.modes:
+                sink_pl, s_ids = build_sink_placement(cache_dir, args.M)
+                ch_pl, ch_flat = build_cframe_placements(
+                    cache_dir, jina_top, chunk_lookup, b_offset=args.M,
+                    chunk_size=args.chunk_size)
+                flat = s_ids + ch_flat
+                ntok = len(flat) + len(tok("\n\nQ: " + rec.query + "\nA:",
+                                           add_special_tokens=False).input_ids)
+                t0 = time.time()
+                out = run_assembled(model, tok, [sink_pl] + ch_pl, flat, rec.query,
+                                    inv_freq, args.max_new_tokens, alpha=1.0,
+                                    splice_kind="kv")
+                record("cframe_topk", out, time.time() - t0, ntok)
+
+            # #2 rfresh: same [real-frame][chunk] layout, EVERYTHING fresh (the
+            # 2x-fresh control / ceiling for the real-context-frame idea).
+            if "rfresh_topk" in args.modes:
+                flat = sink_ids + build_rfresh_flat(
+                    cache_dir, jina_top, chunk_lookup, doc_tokens, args.frame_len)
+                tail = tok("\n\nQ: " + rec.query + "\nA:", add_special_tokens=False).input_ids
+                inp = torch.tensor([flat + tail], dtype=torch.long, device=device)
+                t0 = time.time()
+                with torch.no_grad():
+                    o = model.generate(input_ids=inp, max_new_tokens=args.max_new_tokens,
+                                       do_sample=False, use_cache=True,
+                                       pad_token_id=tok.eos_token_id)
+                out = tok.decode(o[0, inp.shape[1]:], skip_special_tokens=True)
+                record("rfresh_topk", out, time.time() - t0, inp.shape[1])
 
         rows.append(row)
         if not (args.keep_cache or args.reuse_cache):

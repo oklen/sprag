@@ -2108,6 +2108,37 @@ tasks. (Untested: cache the real-frame K/V too — those tokens are already in t
 doc cache — to remove the 2× fresh cost; would make rframe a real splice path.)
 [[sprag-splice-decomp]]
 
+**Follow-up #1 cache-reuse + #2 2×-fresh control (`data/rgb_frame2.json`, n=300,
+modes `cframe_topk`/`rfresh_topk`).** The real preceding 256 tokens ARE the
+previous chunk (cache tiles the doc on chunk_size boundaries) → `cframe` splices
+the PREVIOUS chunk's cached K/V as the frame, so frame+chunk are BOTH cached
+(α=1.0, prefill-skip candidate). `rfresh` = same `[real-frame][chunk]` layout but
+EVERYTHING fresh (the 2× control).
+
+| mode | frame K/V | chunk K/V | acc | vs raw |
+|------|-----------|-----------|-----|--------|
+| `rfresh` | fresh | fresh | 81.0 | p=0.28 tied |
+| `rframe` | fresh | cached α1 | 80.7 | p=0.38 tied |
+| `cframe` | cached α1 | cached α1 | 80.3 | p=0.47 tied |
+| `raw` | — | fresh | 78.3 | — |
+| `splice_a1` | — | cached α1 | 73.3 | p=0.049 ↓ |
+
+All three real-frame variants are tied pairwise (`rframe`≡`cframe` p=1.0,
+`rframe`≡`rfresh` p=1.0, `cframe`≡`rfresh` p=0.85) AND tied with raw. **(#1)
+Cache-reuse is LOSSLESS** — `cframe`≡`rframe`: the cached previous-chunk frame ==
+a fresh frame, so a fully-cached α=1.0 splice ties fresh raw. **(#2) The lift is
+the real CONTEXT, not the splice** — `rfresh`(fresh everything)≡`rframe`≡`cframe`,
+and `rfresh`≈`raw` (p=0.28): even fresh real-context doesn't beat raw, so the
+"+2.4" was noise (raw/rframe/cframe/rfresh all ≈79%). **Net: a chunk's real local
+context (= its free cached predecessor) CURES the α=1.0 footgun losslessly
+(73.3→80.3, fresh parity) with NO accuracy gain** — pinning the standard-cache
+drift (§5u/§5w) on chunk ISOLATION (restore the cached neighbour, splicing is
+fine). Efficiency caveat: `cframe` as-measured still forwards the (overwritten)
+frame+chunk tokens (avg_tok 2503 = `rframe`), so the prefill-skip needs a true
+inject-KV path; and even then indep (§5ab, ~1300 tok, no frame) is cheaper and
+also tied with raw. `cframe` is a mechanistic result, not a new efficiency win.
+[[sprag-splice-decomp]]
+
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
 The headline value-prop test from §7.2. One 16,333-tok haystack with 8
