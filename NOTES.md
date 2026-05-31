@@ -1943,6 +1943,73 @@ averaged-distribution ensemble, is a weak bet (position headroom is small once
 the top chunks are already at the ends) — not pursued. Position bias =
 real-but-minor, dwarfed by retrieval recall. [[sprag-splice-decomp]]
 
+## 5ad. Phantom-context frame — what the cached chunk needs is FLUENCY, not the right context
+
+`scripts/20_phantom_frame.py`. The opposite regime to indep (§5ab): keep the
+**full cache** (chunk K/V built in `[anchor][real preceding doc][chunk]`, so the
+"phantom context" is baked into the chunk's hidden states — the regime that
+"train-the-model-to-read-noisy-KV" papers exploit). At USE time put the chunk
+back at its **build position** `M+a_start` (cached K need ZERO RoPE shift —
+geometry identical to build) and vary ONLY what fills the length-`a_start` frame
+positions `[M, M+a_start)` that the query reads across. Single gold chunk (k=1)
+removes the sibling-splice confound. n=60 MK suite_8k:
+
+| arm | frame content | correct/60 |
+|-----|---------------|-----------|
+| `rother` | a DIFFERENT document's leading tokens (fluent, **irrelevant**) | **57** |
+| `real`   | the chunk's true preceding context (fluent, relevant) | 54 |
+| `rand`   | random token ids (non-fluent gibberish, same length) | 46 |
+| `ph`     | repeated `<|endoftext|>` placeholder (degenerate) | 43 |
+| `shift`  | no frame; chunk spliced at `M` the standard way | 24 |
+
+`real` is the full-reprefill **upper bound** and a faithfulness sanity (frame
+reconstructs the exact build prefix ⇒ fresh chunk K/V == cache ⇒ splice is a
+no-op; verified 54/60 = a clean prefill number). McNemar (exact, paired):
+
+| pair | totals | discordance | p | verdict |
+|------|--------|-------------|---|---------|
+| `real` vs `rother`  | 54 vs 57 | real+0 / rother+3 | 0.25 | **tied** (real never uniquely wins) |
+| `rand` vs `ph`      | 46 vs 43 | 6 / 3 | 0.51 | **tied** |
+| `real` vs `rand`    | 54 vs 46 | 9 / 1 | 0.022 | fluent > non-fluent |
+| `real` vs `ph`      | 54 vs 43 | 12 / 1 | 0.003 | fluent > non-fluent |
+| `rother` vs `rand`  | 57 vs 46 | 11 / 0 | 0.001 | fluent > non-fluent |
+| `rother` vs `ph`    | 57 vs 43 | 15 / 1 | 0.0005 | fluent > non-fluent |
+| `ph` vs `shift`     | 43 vs 24 | 20 / 1 | <1e-4 | frame ≫ no-frame |
+
+**The frame's job is attention-routing via fluent, in-distribution natural
+language — NOT semantic content delivery.** The data partition cleanly into two
+tiers: fluent (`real`≈`rother`≈55) and non-fluent (`rand`≈`ph`≈44), every
+cross-tier pair significant, every within-tier pair tied. So:
+
+1. **Relevance is irrelevant.** A random foreign document (`rother`) does as
+   well as the chunk's true context (`real`), even nominally better — `real`
+   never uniquely wins a case `rother` loses. (Plausible MK-specific reason
+   `rother` edges ahead: the *real* preceding context contains OTHER needles =
+   sibling-query answers that can mislead; a foreign doc carries no distractors.
+   n too small to claim, p=0.25.) This directly answers the user's question:
+   the model does **not** need to extract meaningful semantics *from the frame*.
+2. **Fluency is everything.** Fluent ≈55 ≫ degenerate ≈44 ≫ no-frame 24. `ph`
+   underperforms not for lack of *meaning* but because a run of identical eot is
+   out-of-distribution and a poor attention sink; `rand` (gibberish) is the same
+   story. ~11/60 (~18 pts) separates the tiers.
+3. **The big lever is frame PRESENCE** (shift 24 → any frame 43–57, near-strict
+   dominance, shift wins only 1 case the frame arms lose). This bundles
+   position-restoration + attendable keys + the linear fold over `a_start`
+   tokens; can't fully separate (the linear/GatedDeltaNet fold differs by frame),
+   but it's a large real effect.
+
+**Why this reinforces indep (§5ab) over the full cache.** To make the full cache
+usable you must (a) restore the chunk to its build position — a long frame
+prefill, `a_start` up to ~6.6k — and (b) fill it with *fluent* text. indep
+sidesteps all of it (build clean, shift freely). The one practical hook here: a
+*fixed fluent filler* document's K/V is **precomputable** and as good as the true
+context (`rother`=57), so "precomputed-fluent-frame + position-restored chunk"
+≈ full reprefill (54) at splice cost — but only if you pay the full-length frame.
+Untested follow-ups: short-fluent-frame + position-shift (decouple "fluent frame"
+from "full-length position restore"); a fluent *sentence* as `ph` (should jump
+43→~55); RGB doesn't naturally host this probe (independent passages have no
+"real preceding context"). [[sprag-splice-decomp]]
+
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
 The headline value-prop test from §7.2. One 16,333-tok haystack with 8
