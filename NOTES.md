@@ -2135,9 +2135,14 @@ context (= its free cached predecessor) CURES the α=1.0 footgun losslessly
 drift (§5u/§5w) on chunk ISOLATION (restore the cached neighbour, splicing is
 fine). Efficiency caveat: `cframe` as-measured still forwards the (overwritten)
 frame+chunk tokens (avg_tok 2503 = `rframe`), so the prefill-skip needs a true
-inject-KV path; and even then indep (§5ab, ~1300 tok, no frame) is cheaper and
-also tied with raw. `cframe` is a mechanistic result, not a new efficiency win.
-[[sprag-splice-decomp]]
+inject-KV path. **cframe vs indep is a cost/accuracy trade**: paired against the
+indep run (`data/rgb/rgb_indep.json`, same 300 records — raw matches 300/300),
+in the pure α=1.0 regime `cframe` 80.3 SIGNIFICANTLY beats indep α1.0 74.7
+(p=0.0213); indep is cheaper (~1300 tok, no frame) and ties raw at α=0.5 (76.7,
+p=0.47) but α<1 admixes fresh K (not a clean skip) and pure α=1.0 indep = 74.7
+(p=0.14). So restoring the cached predecessor lifts the standard-cache splice
+ABOVE isolation-built indep at α=1, at ~2× cached injection. Neither beats fresh
+raw — cached splice is free-at-best, as everywhere. [[sprag-splice-decomp]]
 
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 

@@ -117,17 +117,26 @@ too (`cframe`, fully cached, prefill-skip candidate); **#2** the "2× fresh"
 control (`rfresh`): same `[real-frame][chunk]` layout but EVERYTHING fresh — does
 rframe's 80.7 come from the cache/splice or simply from more real context?
 
-| mode | frame K/V | chunk K/V | acc | McNemar vs raw | avg_tok |
-|------|-----------|-----------|-----|----------------|---------|
-| `rfresh` | fresh | **fresh** | 81.0 | p=0.28 tied | 2503 |
-| `rframe` | fresh | cached α1 | 80.7 | p=0.38 tied | 2503 |
-| `cframe` | **cached** α1 | cached α1 | 80.3 | p=0.47 tied | 2503 |
-| `raw` | — (no frame) | fresh | 78.3 | — | 1291 |
-| `splice_a1` | — (no frame) | cached α1 | 73.3 | p=0.049 ↓ | 1291 |
+indep rows are from the separate `data/rgb/rgb_indep.json` run
+(`cache_kind=indep`, §5ab-RGB): SAME 300 records/seed (its `raw_topk` matches
+this run's 300/300), so paired against this run's `raw`.
 
-Pairwise McNemar among the real-frame variants: `rframe` vs `cframe` p=1.0,
-`rframe` vs `rfresh` p=1.0, `cframe` vs `rfresh` p=0.85 — **all three tied**, and
-all tied with `raw`.
+| mode | cache | frame K/V | chunk K/V | acc | McNemar vs raw | avg_tok |
+|------|-------|-----------|-----------|-----|----------------|---------|
+| `rfresh` | std | fresh | **fresh** | 81.0 | p=0.28 tied | 2503 |
+| `rframe` | std | fresh | cached α1 | 80.7 | p=0.38 tied | 2503 |
+| `cframe` | std | **cached** α1 | cached α1 | 80.3 | p=0.47 tied | 2503 |
+| `raw` | — | — | fresh | 78.3 | — | 1291 |
+| `indep` α0.5 | indep | — | 0.5·cached | 76.7 | p=0.47 tied | ~1300 |
+| `v_only` (indep) | indep | — | fresh K, cached V | 76.0 | — | ~1300 |
+| `indep` α1.0 | indep | — | cached α1 | 74.7 | p=0.14 tied | ~1300 |
+| `splice_a1` | std | — | cached α1 | 73.3 | p=0.049 ↓ | 1291 |
+| `k_only` (indep) | indep | — | cached K, fresh V | 69.3 | — | ~1300 |
+
+Pairwise McNemar among the real-frame variants: `rframe`≡`cframe` p=1.0,
+`rframe`≡`rfresh` p=1.0, `cframe`≡`rfresh` p=0.85 — all three tied, all tied
+with `raw`. **`cframe` (80.3) vs indep α1.0 (74.7): p=0.0213 — cframe
+SIGNIFICANTLY beats indep in the pure-α=1.0 regime** (cframe+33 / indep+16).
 
 **Conclusions.**
 - **#1 cache-reuse is LOSSLESS.** `cframe` (80.3) ≡ `rframe` (80.7), p=1.0:
@@ -143,8 +152,14 @@ all tied with `raw`.
   parity) but gives **no accuracy gain over raw**. It pins the standard-cache
   drift footgun (§5u/§5w) on chunk ISOLATION — restore the cached neighbour and
   α=1.0 splicing is fine.
-- **Efficiency caveat:** as MEASURED, `cframe` still forwards the frame+chunk
-  tokens (overwritten), so avg_tok=2503 — same cost as `rframe`. The prefill-skip
-  is only realised with a true inject-KV path (forward sink+query only). And even
-  then **indep (§5ab) is cheaper** (~1300 tok, no frame, also tied with raw).
-  `cframe`'s value is mechanistic (drift = isolation), not a new efficiency win.
+- **cframe vs indep — a cost/accuracy trade, not a clean winner.** In the pure
+  α=1.0 (prefill-skip) regime, `cframe` 80.3 **significantly beats** indep α1.0
+  74.7 (p=0.02) — restoring the cached predecessor as context lifts the
+  standard-cache splice above the isolation-built indep cache. indep is CHEAPER
+  (no frame; ~1300 tok even as-measured vs cframe's 2503) and ties raw at α=0.5
+  (76.7), but α<1 admixes fresh K (not a clean prefill-skip), and at pure α=1.0
+  indep sits at 74.7. So: indep = cheaper, slightly lower; cframe = higher α=1
+  accuracy at ~2× cached injection (and as-MEASURED still forwards the overwritten
+  frame+chunk tokens — the real speedup needs a true inject-KV path that forwards
+  only sink+query). Neither beats fresh `raw` on accuracy; the cached splice is
+  free-at-best, as everywhere else in the project.
