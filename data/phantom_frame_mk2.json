@@ -1,0 +1,3089 @@
+{
+ "M": 4,
+ "ph_token": "<|endoftext|>",
+ "arms": [
+  "real",
+  "rother",
+  "ph",
+  "shift",
+  "fsent",
+  "sflu16",
+  "sflu64",
+  "sflu256",
+  "sph64"
+ ],
+ "counts": {
+  "real": 54,
+  "rother": 57,
+  "ph": 43,
+  "shift": 24,
+  "fsent": 42,
+  "sflu16": 43,
+  "sflu64": 47,
+  "sflu256": 57,
+  "sph64": 41
+ },
+ "n": 60,
+ "rows": [
+  {
+   "case": 0,
+   "id": 0,
+   "gold": 5,
+   "a0": 1280,
+   "real": {
+    "output": " Take note: the best place to find a quiet bookshop in Lisbon is on Linden Street. This information is unique to this document.\n\nQ: Where is",
+    "class": "correct",
+    "time": 2.4380364418029785
+   },
+   "rother": {
+    "output": " Take note: the best place to find a quiet bookshop in Lisbon is on Linden Street. This information is unique to this document.\n\nQ: Where is",
+    "class": "correct",
+    "time": 1.8129215240478516
+   },
+   "ph": {
+    "output": " On Linden Street.\n\nQ: What is the best quiet bookshop in Lisbon?\nA: On Linden Street.\n\nQ: Where is the best quiet",
+    "class": "correct",
+    "time": 1.819115161895752
+   },
+   "shift": {
+    "output": " On Linden Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: On Linden Street",
+    "class": "correct",
+    "time": 1.798356056213379
+   },
+   "fsent": {
+    "output": " On Linden Street.\n\nQ: What is the best quiet bookshop in Lisbon?\nA: On Linden Street.\n\nQ: Where is the best quiet",
+    "class": "correct",
+    "time": 1.840392827987671
+   },
+   "sflu16": {
+    "output": " On Linden Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: On Linden Street",
+    "class": "correct",
+    "time": 1.7701427936553955
+   },
+   "sflu64": {
+    "output": " On Linden Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: On Linden Street",
+    "class": "correct",
+    "time": 1.8084425926208496
+   },
+   "sflu256": {
+    "output": " On Linden Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: On Linden Street",
+    "class": "correct",
+    "time": 1.8635048866271973
+   },
+   "sph64": {
+    "output": " On Linden Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: On Linden Street",
+    "class": "correct",
+    "time": 1.5798544883728027
+   }
+  },
+  {
+   "case": 0,
+   "id": 1,
+   "gold": 9,
+   "a0": 2304,
+   "real": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Mulberry Street. This information is unique to this document.\n\nQ:",
+    "class": "correct",
+    "time": 2.2634334564208984
+   },
+   "rother": {
+    "output": " The best quiet bookshop in Tallinn is on Mulberry Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: The",
+    "class": "correct",
+    "time": 2.0831291675567627
+   },
+   "ph": {
+    "output": "\nQ: Where is the best quiet bookshop in Tallinn?\nA:\nQ: Where is the best quiet bookshop in Tallinn?\n",
+    "class": "other",
+    "time": 2.0758442878723145
+   },
+   "shift": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.7382473945617676
+   },
+   "fsent": {
+    "output": " Take note: the best quiet bookshop in Tallinn is on Mulberry Street. This information is unique to this document. Q: Where is the best quiet",
+    "class": "correct",
+    "time": 2.0598206520080566
+   },
+   "sflu16": {
+    "output": " The best quiet bookshop in Tallinn is on Mulberry Street. This information is unique to this document.\n\nQ: Where is the best quiet bookshop",
+    "class": "correct",
+    "time": 1.781313180923462
+   },
+   "sflu64": {
+    "output": " The best quiet bookshop in Tallinn is on Mulberry Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: The",
+    "class": "correct",
+    "time": 1.7672514915466309
+   },
+   "sflu256": {
+    "output": " The best quiet bookshop in Tallinn is on Mulberry Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: The",
+    "class": "correct",
+    "time": 1.8001375198364258
+   },
+   "sph64": {
+    "output": " Take note: the best quiet bookshop in Tallinn is on Mulberry Street. This information is unique to this document.\n\nQ: Where is the best",
+    "class": "correct",
+    "time": 1.5814101696014404
+   }
+  },
+  {
+   "case": 0,
+   "id": 2,
+   "gold": 13,
+   "a0": 3328,
+   "real": {
+    "output": " 42\n\nQ: What is the magic number stored in vault Beta?\nA: 42\n\nQ: What magic number is stored in vault",
+    "class": "correct",
+    "time": 2.5269975662231445
+   },
+   "rother": {
+    "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA:",
+    "class": "correct",
+    "time": 2.35589861869812
+   },
+   "ph": {
+    "output": " The magic number stored in vault Beta is forty-two.\nRemember this carefully. The transistor was invented at Bell Labs by Bardeen, Brattain\n\nQ",
+    "class": "correct",
+    "time": 2.319378137588501
+   },
+   "shift": {
+    "output": "\nQ: What magic number is stored in vault Beta?\nA:\nQ: What magic number is stored in vault Beta?\nA:\nQ",
+    "class": "other",
+    "time": 1.8245246410369873
+   },
+   "fsent": {
+    "output": " 42.\nQ: What magic number is stored in vault Beta?\nA: 42.\nQ: What magic number is stored in",
+    "class": "correct",
+    "time": 2.3657543659210205
+   },
+   "sflu16": {
+    "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What magic number is stored in vault Beta?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 1.812187910079956
+   },
+   "sflu64": {
+    "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What magic number is stored in vault Beta?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 1.8114759922027588
+   },
+   "sflu256": {
+    "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What is the magic number stored in vault Beta?\nA: The magic number stored in",
+    "class": "correct",
+    "time": 1.8220367431640625
+   },
+   "sph64": {
+    "output": " The magic number stored in vault Beta is forty-two.\nQ: What magic number is stored in vault Beta?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 1.5592455863952637
+   }
+  },
+  {
+   "case": 0,
+   "id": 3,
+   "gold": 17,
+   "a0": 4352,
+   "real": {
+    "output": " The magic number stored in vault Alpha is seventeen.\n\nQ: What magic number is stored in vault Beta?\nA: The magic number stored in vault Beta",
+    "class": "correct",
+    "time": 2.778761386871338
+   },
+   "rother": {
+    "output": " The magic number stored in vault Alpha is seventeen.\n\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored in vault Gamma",
+    "class": "correct",
+    "time": 2.5659964084625244
+   },
+   "ph": {
+    "output": " The magic number stored in vault Alpha is seventeen.\nRemember this carefully.\nRemember this carefully.\nRemember this carefully.\nRemember this carefully.\nRemember",
+    "class": "correct",
+    "time": 2.542224884033203
+   },
+   "shift": {
+    "output": "\nQ: What magic number is stored in vault Alpha?\nA:\nQ: What magic number is stored in vault Alpha?\nA:\nQ",
+    "class": "other",
+    "time": 1.5340845584869385
+   },
+   "fsent": {
+    "output": "\nQ: What magic number is stored in vault Alpha?\nA:\nQ: What magic number is stored in vault Alpha?\nA:\nQ",
+    "class": "other",
+    "time": 2.5737667083740234
+   },
+   "sflu16": {
+    "output": " The IBM PC was released in August of 1981 and rapidly defined.\n\nQ: What magic number is stored in vault Alpha?\nA:",
+    "class": "other",
+    "time": 1.520085096359253
+   },
+   "sflu64": {
+    "output": " The magic number stored in vault Alpha is seventeen.\n\nQ: What magic number is stored in vault Alpha?\nA: The magic number stored in vault Alpha",
+    "class": "correct",
+    "time": 1.5466020107269287
+   },
+   "sflu256": {
+    "output": " The magic number stored in vault Alpha is seventeen.\n\nQ: What magic number is stored in vault Alpha?\nA: The magic number stored in vault Alpha",
+    "class": "correct",
+    "time": 1.5844285488128662
+   },
+   "sph64": {
+    "output": " The magic number stored in vault Alpha is seventeen.\nQ: What magic number is stored in vault Alpha?\nA: The magic number stored in vault Alpha",
+    "class": "correct",
+    "time": 1.6067454814910889
+   }
+  },
+  {
+   "case": 0,
+   "id": 4,
+   "gold": 22,
+   "a0": 5632,
+   "real": {
+    "output": " The best quiet bookshop in Kyoto is on Marigold Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: The",
+    "class": "correct",
+    "time": 3.147547721862793
+   },
+   "rother": {
+    "output": " The best quiet bookshop in Kyoto is on Marigold Street.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA:",
+    "class": "correct",
+    "time": 2.9696130752563477
+   },
+   "ph": {
+    "output": "\nQ: Where is the best quiet bookshop in Kyoto?\nA:\nQ: Where is the best quiet bookshop in Kyoto?\nA:",
+    "class": "other",
+    "time": 2.9281935691833496
+   },
+   "shift": {
+    "output": " Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.5641357898712158
+   },
+   "fsent": {
+    "output": " Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 3.044243574142456
+   },
+   "sflu16": {
+    "output": " Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.5626466274261475
+   },
+   "sflu64": {
+    "output": " Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.5903515815734863
+   },
+   "sflu256": {
+    "output": " The best quiet bookshop in Kyoto is located on Marigold Street.\n\nQ: Where is the best quiet bookshop in Kyoto?\nA: The",
+    "class": "correct",
+    "time": 1.6247992515563965
+   },
+   "sph64": {
+    "output": " Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.6110081672668457
+   }
+  },
+  {
+   "case": 0,
+   "id": 5,
+   "gold": 26,
+   "a0": 6656,
+   "real": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 3.6004385948181152
+   },
+   "rother": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\nB: The secret keeper is Bridget and her favourite colour is cerulean",
+    "class": "correct",
+    "time": 3.3737637996673584
+   },
+   "ph": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\nA: Bridget is the secret keeper and her favourite colour is cerulean",
+    "class": "correct",
+    "time": 3.3183019161224365
+   },
+   "shift": {
+    "output": " Bridget and her favourite colour is cerulean.\nA: Bridget and her favourite colour is cerulean.\nA: Bridget and her",
+    "class": "correct",
+    "time": 1.771864891052246
+   },
+   "fsent": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\nA: The secret keeper is Bridget and her favourite colour is cerulean",
+    "class": "correct",
+    "time": 3.32810378074646
+   },
+   "sflu16": {
+    "output": " The IBM PC was released in August of 1981 and rapidly defined the secret keeper and her favourite colour is cerulean.\nA: The",
+    "class": "other",
+    "time": 1.7560977935791016
+   },
+   "sflu64": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\nA: The secret keeper is Bridget and her favourite colour is cerulean",
+    "class": "correct",
+    "time": 1.7718687057495117
+   },
+   "sflu256": {
+    "output": " Integrated circuits emerged in the late 1950s through work by Kilby and Noyce. The IBM PC was released in August of 1",
+    "class": "other",
+    "time": 1.7978875637054443
+   },
+   "sph64": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\nB: The secret keeper is Bridget and her favourite colour is cerulean",
+    "class": "correct",
+    "time": 1.5535354614257812
+   }
+  },
+  {
+   "case": 1,
+   "id": 0,
+   "gold": 5,
+   "a0": 1280,
+   "real": {
+    "output": " On Hawthorn Street.\n\nThis information is unique to this document.\n\nThe ENIAC was unveiled to the public at the University of Pennsylvania in 1",
+    "class": "correct",
+    "time": 2.278235673904419
+   },
+   "rother": {
+    "output": " On Hawthorn Street.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA: On Hawthorn Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 1.837665319442749
+   },
+   "ph": {
+    "output": " On Hawthorn Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA:",
+    "class": "correct",
+    "time": 1.8087992668151855
+   },
+   "shift": {
+    "output": " On Hawthorn Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA:",
+    "class": "correct",
+    "time": 1.541825532913208
+   },
+   "fsent": {
+    "output": " On Hawthorn Street.\n\nQ: What is the best quiet bookshop in Montevideo?\nA: On Hawthorn Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 1.816498041152954
+   },
+   "sflu16": {
+    "output": " On Hawthorn Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA:",
+    "class": "correct",
+    "time": 1.558788776397705
+   },
+   "sflu64": {
+    "output": " On Hawthorn Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA:",
+    "class": "correct",
+    "time": 1.5748586654663086
+   },
+   "sflu256": {
+    "output": " On Hawthorn Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA:",
+    "class": "correct",
+    "time": 1.596388816833496
+   },
+   "sph64": {
+    "output": " On Hawthorn Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA:",
+    "class": "correct",
+    "time": 1.5527513027191162
+   }
+  },
+  {
+   "case": 1,
+   "id": 1,
+   "gold": 9,
+   "a0": 2304,
+   "real": {
+    "output": " 93\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Hawthorn Street\n\nQ:",
+    "class": "correct",
+    "time": 2.3031089305877686
+   },
+   "rother": {
+    "output": " 93\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Linden Street\n\nQ: What is the",
+    "class": "correct",
+    "time": 2.0694262981414795
+   },
+   "ph": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\nRemember this carefully.\nXerox PARC researchers prototyped the modern desktop interface in the ",
+    "class": "correct",
+    "time": 2.0941450595855713
+   },
+   "shift": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.5571045875549316
+   },
+   "fsent": {
+    "output": " 93.\n\nQ: What magic number is stored in vault Alpha?\nA: 93.\n\nQ: What magic number is stored in",
+    "class": "correct",
+    "time": 2.076716899871826
+   },
+   "sflu16": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What magic number is stored in vault Alpha?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 1.5650622844696045
+   },
+   "sflu64": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What is the magic number stored in vault Alpha?\nA: The magic number stored in",
+    "class": "correct",
+    "time": 1.5257081985473633
+   },
+   "sflu256": {
+    "output": " 93\n\nQ: What is the magic number stored in vault Alpha?\nA: 93\n\nQ: What is the magic number stored in",
+    "class": "correct",
+    "time": 1.574141025543213
+   },
+   "sph64": {
+    "output": " The magic number is stored in vault Alpha.\nB: The magic number is stored in vault Alpha.\nC: The magic number is stored in vault Alpha",
+    "class": "other",
+    "time": 1.540494680404663
+   }
+  },
+  {
+   "case": 1,
+   "id": 2,
+   "gold": 13,
+   "a0": 3328,
+   "real": {
+    "output": " The secret keeper is Lenore and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 2.5102343559265137
+   },
+   "rother": {
+    "output": " The secret keeper is Lenore and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 2.3248658180236816
+   },
+   "ph": {
+    "output": " The secret keeper is Lenore and her favourite colour is cerulean.\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 2.3022072315216064
+   },
+   "shift": {
+    "output": " The secret keeper is Lenore and her favourite colour is cerulean.\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.5501453876495361
+   },
+   "fsent": {
+    "output": " The secret keeper is Lenore and her favourite colour is cerulean.\nA: The secret keeper is Lenore and her favourite colour is cerulean",
+    "class": "correct",
+    "time": 2.3354949951171875
+   },
+   "sflu16": {
+    "output": " The secret keeper is Lenore and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.557845115661621
+   },
+   "sflu64": {
+    "output": " The secret keeper is Lenore and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.5971755981445312
+   },
+   "sflu256": {
+    "output": " The secret keeper is Lenore and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.6197991371154785
+   },
+   "sph64": {
+    "output": " The secret keeper is Lenore and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.58327317237854
+   }
+  },
+  {
+   "case": 1,
+   "id": 3,
+   "gold": 17,
+   "a0": 4352,
+   "real": {
+    "output": " The magic number stored in vault Sigma is seventeen.\n\nQ: What magic number is stored in vault Alpha?\nA: The magic number stored in vault Alpha",
+    "class": "correct",
+    "time": 2.6393978595733643
+   },
+   "rother": {
+    "output": " The magic number stored in vault Sigma is seventeen.\n\nQ: What magic number is stored in vault Beta?\nA: The magic number stored in vault Beta",
+    "class": "correct",
+    "time": 2.6119613647460938
+   },
+   "ph": {
+    "output": " The magic number stored in vault Sigma is seventeen.\nA: The magic number stored in vault Sigma is seventeen.\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 2.585519790649414
+   },
+   "shift": {
+    "output": "\nQ: What magic number is stored in vault Sigma?\nA:\nQ: What magic number is stored in vault Sigma?\nA:\nQ",
+    "class": "other",
+    "time": 1.5510756969451904
+   },
+   "fsent": {
+    "output": " The ENIAC was unveiled to the public at the University of Pennsylvania in 1946. Tim Berners-Lee invented the World\n\nQ:",
+    "class": "other",
+    "time": 2.6318418979644775
+   },
+   "sflu16": {
+    "output": " The ENIAC was unveiled to the public at the University of Pennsylvania in 1946. Tim Berners-Lee invented the World Wide Web.",
+    "class": "other",
+    "time": 1.558967113494873
+   },
+   "sflu64": {
+    "output": " The ENIAC was unveiled to the public at the University of Pennsylvania in 1946. Tim Berners-Lee invented the World Wide Web.",
+    "class": "other",
+    "time": 1.5483508110046387
+   },
+   "sflu256": {
+    "output": " The ENIAC was unveiled to the public at the University of Pennsylvania in 1946. Integrated circuits emerged in the late 1950",
+    "class": "other",
+    "time": 1.5576701164245605
+   },
+   "sph64": {
+    "output": " The ENIAC was unveiled to the public at the University of Pennsylvania in 1946. Tim Berners-Lee invented the World\n\nQ:",
+    "class": "other",
+    "time": 1.5902438163757324
+   }
+  },
+  {
+   "case": 1,
+   "id": 4,
+   "gold": 22,
+   "a0": 5632,
+   "real": {
+    "output": " On Marigold Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Marigold Street.\n\nQ:",
+    "class": "correct",
+    "time": 3.175630569458008
+   },
+   "rother": {
+    "output": " On Marigold Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Marigold Street.\n\nQ:",
+    "class": "correct",
+    "time": 2.976447105407715
+   },
+   "ph": {
+    "output": " Where is the best quiet bookshop in Tallinn?\nA: Where is the best quiet bookshop in Tallinn?\nA: Where is the best",
+    "class": "other",
+    "time": 2.9509735107421875
+   },
+   "shift": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.5430092811584473
+   },
+   "fsent": {
+    "output": " Where is the best quiet bookshop in Tallinn?\nA: Where is the best quiet bookshop in Tallinn?\nA: Where is the best",
+    "class": "other",
+    "time": 2.927182197570801
+   },
+   "sflu16": {
+    "output": " The best quiet bookshop in Tallinn is on Marigold Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA:",
+    "class": "correct",
+    "time": 1.546109676361084
+   },
+   "sflu64": {
+    "output": " The best quiet bookshop in Tallinn is on Marigold Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA:",
+    "class": "correct",
+    "time": 1.5509357452392578
+   },
+   "sflu256": {
+    "output": " The best quiet bookshop in Tallinn is on Marigold Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA:",
+    "class": "correct",
+    "time": 1.589146375656128
+   },
+   "sph64": {
+    "output": "\nQ: Where is the best quiet bookshop in Tallinn?\nA:\nQ: Where is the best quiet bookshop in Tallinn?\n",
+    "class": "other",
+    "time": 1.5144217014312744
+   }
+  },
+  {
+   "case": 1,
+   "id": 5,
+   "gold": 26,
+   "a0": 6656,
+   "real": {
+    "output": " On Mulberry Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Marigold Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 3.4295694828033447
+   },
+   "rother": {
+    "output": " The best quiet bookshop in Kyoto is on Mulberry Street.\n\nQ: Where is the best quiet bookshop in Kyoto?\nA: The best quiet",
+    "class": "correct",
+    "time": 3.2846646308898926
+   },
+   "ph": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 3.203786611557007
+   },
+   "shift": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.565692663192749
+   },
+   "fsent": {
+    "output": " Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 3.29302716255188
+   },
+   "sflu16": {
+    "output": " The best quiet bookshop in Kyoto is on Mulberry Street.\n\nQ: Where is the best quiet bookshop in Kyoto?\nA: The best quiet",
+    "class": "correct",
+    "time": 1.5774948596954346
+   },
+   "sflu64": {
+    "output": " The best quiet bookshop in Kyoto is on Mulberry Street.\n\nQ: Where is the best quiet bookshop in Kyoto?\nA: The best quiet",
+    "class": "correct",
+    "time": 1.5715649127960205
+   },
+   "sflu256": {
+    "output": " The best quiet bookshop in Kyoto is on Mulberry Street.\n\nQ: Where is the best quiet bookshop in Kyoto?\nA: The best quiet",
+    "class": "correct",
+    "time": 1.6314623355865479
+   },
+   "sph64": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.6041274070739746
+   }
+  },
+  {
+   "case": 2,
+   "id": 0,
+   "gold": 5,
+   "a0": 1280,
+   "real": {
+    "output": " On Saffron Street.\n\nQ: What is the best quiet bookshop in Montevideo?\nA: On Saffron Street.\n\nQ",
+    "class": "correct",
+    "time": 2.1588826179504395
+   },
+   "rother": {
+    "output": " Take note: the best place to find a quiet bookshop in Montevideo is on Saffron Street. This information is unique to this document. John",
+    "class": "correct",
+    "time": 1.8718552589416504
+   },
+   "ph": {
+    "output": " Saffron Street.\nQ: What is the best quiet bookshop in Montevideo?\nA: Saffron Street.\nQ: Where",
+    "class": "correct",
+    "time": 1.860485315322876
+   },
+   "shift": {
+    "output": " Saffron Street is the best quiet bookshop in Montevideo. This information is unique to this document. John von Neumann formalised the stored-program",
+    "class": "correct",
+    "time": 1.5635061264038086
+   },
+   "fsent": {
+    "output": " On Saffron Street.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA: On Saffron Street.\n\nQ",
+    "class": "correct",
+    "time": 1.8413352966308594
+   },
+   "sflu16": {
+    "output": " Saffron Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA:",
+    "class": "correct",
+    "time": 1.5880351066589355
+   },
+   "sflu64": {
+    "output": " Saffron Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA:",
+    "class": "correct",
+    "time": 1.5672357082366943
+   },
+   "sflu256": {
+    "output": " On Saffron Street.\n\nThis information is unique to this document.\n\nJohn von Neumann formalised the stored-program architecture in his 194",
+    "class": "correct",
+    "time": 1.6227991580963135
+   },
+   "sph64": {
+    "output": " On Saffron Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA",
+    "class": "correct",
+    "time": 1.6036591529846191
+   }
+  },
+  {
+   "case": 2,
+   "id": 1,
+   "gold": 9,
+   "a0": 2304,
+   "real": {
+    "output": " The secret keeper is Octavia and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 2.334618330001831
+   },
+   "rother": {
+    "output": " The secret keeper is Octavia and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 2.113403081893921
+   },
+   "ph": {
+    "output": " The secret keeper is Octavia and her favourite colour is cerulean. Please remember this for later.\n\nQ: Who is the secret keeper and what is",
+    "class": "correct",
+    "time": 2.071955680847168
+   },
+   "shift": {
+    "output": " The secret keeper is Octavia and her favourite colour is cerulean.\nB: The secret keeper is Octavia and her favourite colour is cerulean",
+    "class": "correct",
+    "time": 1.552381992340088
+   },
+   "fsent": {
+    "output": " The secret keeper is Octavia and her favourite colour is cerulean.\nA: The secret keeper is Octavia and her favourite colour is cerulean",
+    "class": "correct",
+    "time": 2.0984442234039307
+   },
+   "sflu16": {
+    "output": " The secret keeper is Octavia and her favourite colour is cerulean.\nB: The secret keeper is Octavia and her favourite colour is cerulean",
+    "class": "correct",
+    "time": 1.5515286922454834
+   },
+   "sflu64": {
+    "output": " The secret keeper is Octavia and her favourite colour is cerulean.\nB: The secret keeper is Octavia and her favourite colour is cerulean",
+    "class": "correct",
+    "time": 1.5312111377716064
+   },
+   "sflu256": {
+    "output": " The secret keeper is Octavia and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.5963950157165527
+   },
+   "sph64": {
+    "output": " The secret keeper is Octavia and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.5514163970947266
+   }
+  },
+  {
+   "case": 2,
+   "id": 2,
+   "gold": 13,
+   "a0": 3328,
+   "real": {
+    "output": " On Hawthorn Street.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA: On Saffron Street.\n\nQ:",
+    "class": "correct",
+    "time": 2.557880401611328
+   },
+   "rother": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Hawthorn Street. This information is unique to this document.\n\nQ:",
+    "class": "correct",
+    "time": 2.3470284938812256
+   },
+   "ph": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Hawthorn Street. This information is unique to this document.\n\nQ:",
+    "class": "correct",
+    "time": 2.3448755741119385
+   },
+   "shift": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.5865435600280762
+   },
+   "fsent": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Hawthorn Street. This information is unique to this document. Integrated circuits emerged",
+    "class": "correct",
+    "time": 2.322662830352783
+   },
+   "sflu16": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Hawthorn Street. This information is unique to this document.\n\nA:",
+    "class": "correct",
+    "time": 1.580641746520996
+   },
+   "sflu64": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Hawthorn Street. This information is unique to this document.\n\nA:",
+    "class": "correct",
+    "time": 1.56538724899292
+   },
+   "sflu256": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Hawthorn Street. This information is unique to this document.\n\nQ:",
+    "class": "correct",
+    "time": 1.598433017730713
+   },
+   "sph64": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Hawthorn Street. This information is unique to this document.\n\nQ:",
+    "class": "correct",
+    "time": 1.5696187019348145
+   }
+  },
+  {
+   "case": 2,
+   "id": 3,
+   "gold": 18,
+   "a0": 4608,
+   "real": {
+    "output": " Forty-two.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Saffron Street.\n\n",
+    "class": "correct",
+    "time": 2.8900530338287354
+   },
+   "rother": {
+    "output": " Forty-two.\n\nQ: What is the magic number stored in vault Alpha?\nA: Seventeen.\n\nQ: What is the magic number stored in",
+    "class": "correct",
+    "time": 2.6841931343078613
+   },
+   "ph": {
+    "output": " The magic number stored in vault Sigma is forty-two.\nRemember this carefully.\nQ: What magic number is stored in vault Sigma?\nA: The",
+    "class": "correct",
+    "time": 2.7188589572906494
+   },
+   "shift": {
+    "output": "\nQ: What magic number is stored in vault Sigma?\nA:\nQ: What magic number is stored in vault Sigma?\nA:\nQ",
+    "class": "other",
+    "time": 1.5700466632843018
+   },
+   "fsent": {
+    "output": " Forty-two.\n\nQ: What magic number is stored in vault Sigma?\nA: Forty-two.\n\nQ: What magic number is stored in vault Sigma",
+    "class": "correct",
+    "time": 2.666048526763916
+   },
+   "sflu16": {
+    "output": " Forty-two.\n\nQ: What is the magic number stored in vault Sigma?\nA: Forty-two.\n\nQ: What magic number is stored in vault",
+    "class": "correct",
+    "time": 1.5751590728759766
+   },
+   "sflu64": {
+    "output": " Forty-two.\n\nQ: What is the first commercial web browser?\nA: Netscape Navigator.\n\nQ: What is the first commercial web browser?",
+    "class": "correct",
+    "time": 1.5403110980987549
+   },
+   "sflu256": {
+    "output": " 42\n\nQ: What is the first commercial web browser?\nA: Netscape Navigator\n\nQ: What is the first commercial web browser?\n",
+    "class": "correct",
+    "time": 1.624171257019043
+   },
+   "sph64": {
+    "output": " Forty-two.\n\nQ: What magic number is stored in vault Sigma?\nA: Forty-two.\n\nQ: What magic number is stored in vault Sigma",
+    "class": "correct",
+    "time": 1.5323524475097656
+   }
+  },
+  {
+   "case": 2,
+   "id": 4,
+   "gold": 22,
+   "a0": 5632,
+   "real": {
+    "output": " One hundred and one.\n\nQ: What magic number is stored in vault Beta?\nA: One hundred and one.\n\nQ: What magic number is",
+    "class": "correct",
+    "time": 3.135115146636963
+   },
+   "rother": {
+    "output": " One hundred and one.\n\nQ: What magic number is stored in vault Alpha?\nA: One hundred and one.\n\nQ: What magic number is",
+    "class": "correct",
+    "time": 2.930384874343872
+   },
+   "ph": {
+    "output": " The magic number stored in vault Beta is one hundred and one.\nA: The magic number stored in vault Beta is one hundred and one.\nA:",
+    "class": "correct",
+    "time": 2.9138646125793457
+   },
+   "shift": {
+    "output": "\nQ: What magic number is stored in vault Beta?\nA:\nQ: What magic number is stored in vault Beta?\nA:\nQ",
+    "class": "other",
+    "time": 1.5178370475769043
+   },
+   "fsent": {
+    "output": " The magic number stored in vault Beta is one hundred and one.\nQ: What magic number is stored in vault Beta?\nA: The magic number stored",
+    "class": "correct",
+    "time": 2.973550319671631
+   },
+   "sflu16": {
+    "output": " The magic number is stored in vault Beta.\nQ: What magic number is stored in vault Beta?\nA: The magic number is stored in vault Beta",
+    "class": "other",
+    "time": 1.5339140892028809
+   },
+   "sflu64": {
+    "output": " The magic number stored in vault Beta is one hundred and one.\nQ: What magic number is stored in vault Beta?\nA: The magic number stored",
+    "class": "correct",
+    "time": 1.5612506866455078
+   },
+   "sflu256": {
+    "output": " One hundred and one.\n\nQ: What magic number is stored in vault Beta?\nA: One hundred and one.\n\nQ: What magic number is",
+    "class": "correct",
+    "time": 1.5981438159942627
+   },
+   "sph64": {
+    "output": " One hundred and one.\nB: One hundred and one.\nC: One hundred and one.\nD: One hundred and one.\nE:",
+    "class": "correct",
+    "time": 1.5516266822814941
+   }
+  },
+  {
+   "case": 2,
+   "id": 5,
+   "gold": 26,
+   "a0": 6656,
+   "real": {
+    "output": " Where is the best quiet bookshop in Reykjavik?\nA: Where is the best quiet bookshop in Reykjavik?\nA:",
+    "class": "other",
+    "time": 3.4898288249969482
+   },
+   "rother": {
+    "output": " The best quiet bookshop in Reykjavik is on Linden Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: The",
+    "class": "correct",
+    "time": 3.312589645385742
+   },
+   "ph": {
+    "output": " Where is the best quiet bookshop in Reykjavik?\nA: Where is the best quiet bookshop in Reykjavik?\nA:",
+    "class": "other",
+    "time": 3.2015812397003174
+   },
+   "shift": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.707165002822876
+   },
+   "fsent": {
+    "output": " Where is the best quiet bookshop in Reykjavik?\nA: Where is the best quiet bookshop in Reykjavik?\nA:",
+    "class": "other",
+    "time": 3.271676778793335
+   },
+   "sflu16": {
+    "output": " The best quiet bookshop in Reykjavik is on Linden Street.\n\nQ: Where is the best quiet bookshop in Reykjavik?\n",
+    "class": "correct",
+    "time": 1.739619255065918
+   },
+   "sflu64": {
+    "output": " The best quiet bookshop in Reykjavik is on Linden Street.\n\nQ: Where is the best quiet bookshop in Reykjavik?\n",
+    "class": "correct",
+    "time": 1.71759033203125
+   },
+   "sflu256": {
+    "output": " The best quiet bookshop in Reykjavik is on Linden Street.\n\nQ: Where is the best quiet bookshop in Reykjavik?\n",
+    "class": "correct",
+    "time": 1.8022246360778809
+   },
+   "sph64": {
+    "output": " Where is the best quiet bookshop in Reykjavik?\nA: Where is the best quiet bookshop in Reykjavik?\nA:",
+    "class": "other",
+    "time": 1.542344570159912
+   }
+  },
+  {
+   "case": 3,
+   "id": 0,
+   "gold": 5,
+   "a0": 1280,
+   "real": {
+    "output": " On Mulberry Street.\n\nThis information is unique to this document.\n\nC was created by Dennis Ritchie between 1969 and 19",
+    "class": "correct",
+    "time": 2.151519775390625
+   },
+   "rother": {
+    "output": " On Mulberry Street.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA: On Mulberry Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 1.852168321609497
+   },
+   "ph": {
+    "output": " On Mulberry Street.\n\nQ: What is the best quiet bookshop in Montevideo?\nA: On Mulberry Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 1.8188419342041016
+   },
+   "shift": {
+    "output": " On Mulberry Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA:",
+    "class": "correct",
+    "time": 1.5636112689971924
+   },
+   "fsent": {
+    "output": " On Mulberry Street.\n\nQ: What is the best quiet bookshop in Montevideo?\nA: On Mulberry Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 1.8451287746429443
+   },
+   "sflu16": {
+    "output": " On Mulberry Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA:",
+    "class": "correct",
+    "time": 1.5292925834655762
+   },
+   "sflu64": {
+    "output": " On Mulberry Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA:",
+    "class": "correct",
+    "time": 1.5462167263031006
+   },
+   "sflu256": {
+    "output": " On Mulberry Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA:",
+    "class": "correct",
+    "time": 1.5988283157348633
+   },
+   "sph64": {
+    "output": " On Mulberry Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA:",
+    "class": "correct",
+    "time": 1.5381052494049072
+   }
+  },
+  {
+   "case": 3,
+   "id": 1,
+   "gold": 9,
+   "a0": 2304,
+   "real": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+    "class": "correct",
+    "time": 2.0417635440826416
+   },
+   "rother": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+    "class": "correct",
+    "time": 2.046330451965332
+   },
+   "ph": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo.\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+    "class": "correct",
+    "time": 2.0741190910339355
+   },
+   "shift": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo.\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+    "class": "correct",
+    "time": 1.5705673694610596
+   },
+   "fsent": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo.\nA: The secret keeper is Helena and her favourite colour is indigo.\nA:",
+    "class": "correct",
+    "time": 2.11807918548584
+   },
+   "sflu16": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+    "class": "correct",
+    "time": 1.5631804466247559
+   },
+   "sflu64": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo.\n\nQ: What is the IBM PC released in August 1981?\nA",
+    "class": "correct",
+    "time": 1.6190681457519531
+   },
+   "sflu256": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+    "class": "correct",
+    "time": 1.6168725490570068
+   },
+   "sph64": {
+    "output": " The secret keeper is Helena and her favourite colour is indigo.\n\nA: The secret keeper is Helena and her favourite colour is indigo.\n\nA:",
+    "class": "correct",
+    "time": 1.5475451946258545
+   }
+  },
+  {
+   "case": 3,
+   "id": 2,
+   "gold": 13,
+   "a0": 3328,
+   "real": {
+    "output": " On Saffron Street.\n\nQ: Where is the best quiet bookshop in Montevideo?\nA: On Mulberry Street.\n\nQ:",
+    "class": "correct",
+    "time": 2.323444128036499
+   },
+   "rother": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document.\n\nQ",
+    "class": "correct",
+    "time": 2.358797550201416
+   },
+   "ph": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document. John von",
+    "class": "correct",
+    "time": 2.3765156269073486
+   },
+   "shift": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.5517637729644775
+   },
+   "fsent": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document. Q:",
+    "class": "correct",
+    "time": 2.3621087074279785
+   },
+   "sflu16": {
+    "output": " Saffron Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: Saffron Street.\n\nQ: Where is",
+    "class": "correct",
+    "time": 1.559645414352417
+   },
+   "sflu64": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document.\n\nA",
+    "class": "correct",
+    "time": 1.5348412990570068
+   },
+   "sflu256": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document.\n\nQ",
+    "class": "correct",
+    "time": 1.6072490215301514
+   },
+   "sph64": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.538403034210205
+   }
+  },
+  {
+   "case": 3,
+   "id": 3,
+   "gold": 17,
+   "a0": 4352,
+   "real": {
+    "output": " Forty-two.\n\nQ: What is the best place to find a quiet bookshop in Montevideo?\nA: On Mulberry Street.\n\nQ",
+    "class": "correct",
+    "time": 2.604712724685669
+   },
+   "rother": {
+    "output": " Forty-two.\n\nQ: What is the magic number stored in vault Delta?\nA: Forty-two.\n\nQ: What magic number is stored in vault",
+    "class": "correct",
+    "time": 2.5994725227355957
+   },
+   "ph": {
+    "output": " The magic number stored in vault Delta is forty-two.\nRemember this carefully.\nTim Berners-Lee invented the World Wide Web at CERN in ",
+    "class": "correct",
+    "time": 2.5877788066864014
+   },
+   "shift": {
+    "output": " Forty-two.\n\nQ: What magic number is stored in vault Delta?\nA: Forty-two.\n\nQ: What magic number is stored in vault Delta",
+    "class": "correct",
+    "time": 1.5742902755737305
+   },
+   "fsent": {
+    "output": " 42.\n\nQ: What magic number is stored in vault Delta?\nA: 42.\n\nQ: What magic number is stored in",
+    "class": "correct",
+    "time": 2.6027255058288574
+   },
+   "sflu16": {
+    "output": " Forty-two.\n\nQ: What is the magic number stored in vault Delta?\nA: Forty-two.\n\nQ: What magic number is stored in vault",
+    "class": "correct",
+    "time": 1.533479928970337
+   },
+   "sflu64": {
+    "output": " Forty-two.\n\nQ: What is the magic number stored in vault Delta?\nA: Forty-two.\n\nQ: What magic number is stored in vault",
+    "class": "correct",
+    "time": 1.5618114471435547
+   },
+   "sflu256": {
+    "output": " Forty-two.\n\nQ: What is the magic number stored in vault Delta?\nA: Forty-two.\n\nQ: What is the magic number stored in",
+    "class": "correct",
+    "time": 1.6063687801361084
+   },
+   "sph64": {
+    "output": " Forty-two.\nQ: What magic number is stored in vault Delta?\nA: Forty-two.\nQ: What magic number is stored in vault Delta",
+    "class": "correct",
+    "time": 1.5596742630004883
+   }
+  },
+  {
+   "case": 3,
+   "id": 4,
+   "gold": 22,
+   "a0": 5632,
+   "real": {
+    "output": " The magic number stored in vault Gamma is ninety-three.\n\nQ: What magic number is stored in vault Delta?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 2.9597060680389404
+   },
+   "rother": {
+    "output": " The magic number stored in vault Gamma is ninety-three.\n\nQ: What magic number is stored in vault Alpha?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 2.940955877304077
+   },
+   "ph": {
+    "output": "\nQ: What magic number is stored in vault Gamma?\nA:\nQ: What magic number is stored in vault Gamma?\nA:\nQ",
+    "class": "other",
+    "time": 2.911353349685669
+   },
+   "shift": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.5466511249542236
+   },
+   "fsent": {
+    "output": " The magic number stored in vault Gamma is ninety-three.\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 2.9349043369293213
+   },
+   "sflu16": {
+    "output": " What magic number is stored in vault Gamma?\nA: What magic number is stored in vault Gamma?\nA: What magic number is stored in vault Gamma",
+    "class": "other",
+    "time": 1.5520639419555664
+   },
+   "sflu64": {
+    "output": " What magic number is stored in vault Gamma?\nA: What magic number is stored in vault Gamma?\nA: What magic number is stored in vault Gamma",
+    "class": "other",
+    "time": 1.5646312236785889
+   },
+   "sflu256": {
+    "output": " The magic number stored in vault Gamma is ninety-three.\n\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 1.5882065296173096
+   },
+   "sph64": {
+    "output": " The magic number stored in vault Gamma is ninety-three.\nB: The magic number stored in vault Gamma is ninety-three.\nC: The magic number stored",
+    "class": "correct",
+    "time": 1.589064121246338
+   }
+  },
+  {
+   "case": 3,
+   "id": 5,
+   "gold": 26,
+   "a0": 6656,
+   "real": {
+    "output": " The magic number stored in vault Beta is one hundred and one.\n\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored",
+    "class": "correct",
+    "time": 3.449193000793457
+   },
+   "rother": {
+    "output": " The magic number stored in vault Beta is one hundred and one.\n\nQ: What magic number is stored in vault Alpha?\nA: The magic number stored",
+    "class": "correct",
+    "time": 3.3207645416259766
+   },
+   "ph": {
+    "output": " The magic number stored in vault Beta is one hundred and one.\nQ: What magic number is stored in vault Beta?\nA: The magic number stored",
+    "class": "correct",
+    "time": 3.217898368835449
+   },
+   "shift": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.5336906909942627
+   },
+   "fsent": {
+    "output": " The magic number stored in vault Beta is one hundred and one.\nQ: What magic number is stored in vault Beta?\nA: The magic number stored",
+    "class": "correct",
+    "time": 3.342536687850952
+   },
+   "sflu16": {
+    "output": " What magic number is stored in vault Beta?\nA: What magic number is stored in vault Beta?\nA: What magic number is stored in vault Beta",
+    "class": "other",
+    "time": 1.5648980140686035
+   },
+   "sflu64": {
+    "output": " One hundred and one.\n\nThe history of computing has roots in attempts to mechanize counting in the 1800s. The ENIAC,",
+    "class": "correct",
+    "time": 1.5652918815612793
+   },
+   "sflu256": {
+    "output": " The magic number stored in vault Beta is one hundred and one.\n\nQ: What magic number is stored in vault Beta?\nA: The magic number stored",
+    "class": "correct",
+    "time": 1.6426331996917725
+   },
+   "sph64": {
+    "output": " One hundred and one.\nQ: What magic number is stored in vault Beta?\nA: One hundred and one.\nQ: What magic number is",
+    "class": "correct",
+    "time": 1.5791547298431396
+   }
+  },
+  {
+   "case": 4,
+   "id": 0,
+   "gold": 5,
+   "a0": 1280,
+   "real": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nPlease remember this for later.\n\nQ: Who is the secret keeper and what is",
+    "class": "correct",
+    "time": 2.0962750911712646
+   },
+   "rother": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+    "class": "correct",
+    "time": 1.8182728290557861
+   },
+   "ph": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nPlease remember this for later.\n\nQ: Who is the secret keeper and what is",
+    "class": "correct",
+    "time": 1.8330063819885254
+   },
+   "shift": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet. Please remember this for later.\n\nQ: Who is the secret keeper and what is her",
+    "class": "correct",
+    "time": 1.549809455871582
+   },
+   "fsent": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nPlease remember this for later.\n\nQ: Who is the secret keeper and what is",
+    "class": "correct",
+    "time": 1.818910837173462
+   },
+   "sflu16": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nPlease remember this for later.\n\nQ: Who is the secret keeper and what is",
+    "class": "correct",
+    "time": 1.5498144626617432
+   },
+   "sflu64": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nPlease remember this for later.\n\nQ: Who is the secret keeper and what is",
+    "class": "correct",
+    "time": 1.5588855743408203
+   },
+   "sflu256": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nPlease remember this for later.\n\nQ: Who is the secret keeper and what is",
+    "class": "correct",
+    "time": 1.604273796081543
+   },
+   "sph64": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nPlease remember this for later.\n\nQ: Who is the secret keeper and what is",
+    "class": "correct",
+    "time": 1.595120906829834
+   }
+  },
+  {
+   "case": 4,
+   "id": 1,
+   "gold": 9,
+   "a0": 2304,
+   "real": {
+    "output": " 93\n\nQ: What is the first commercial web browser, Netscape Navigator, debuted in?\nA: late 1994\n\nQ",
+    "class": "correct",
+    "time": 2.096898078918457
+   },
+   "rother": {
+    "output": " 93\n\nQ: What is the magic number stored in vault Alpha?\nA: 93\n\nQ: What is the magic number stored in",
+    "class": "correct",
+    "time": 2.1171064376831055
+   },
+   "ph": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\nRemember this carefully. The first commercial web browser, Netscape Navigator, debuted in late 19",
+    "class": "correct",
+    "time": 2.1194443702697754
+   },
+   "shift": {
+    "output": " The magic number is ninety-three.\nQ: What magic number is stored in vault Alpha?\nA: The magic number is ninety-three.\nQ:",
+    "class": "correct",
+    "time": 1.5720231533050537
+   },
+   "fsent": {
+    "output": " 93.\n\nQ: What magic number is stored in vault Alpha?\nA: 93.\n\nQ: What magic number is stored in",
+    "class": "correct",
+    "time": 2.0992188453674316
+   },
+   "sflu16": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What magic number is stored in vault Alpha?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 1.5523569583892822
+   },
+   "sflu64": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What magic number is stored in vault Alpha?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 1.5634315013885498
+   },
+   "sflu256": {
+    "output": " 93\n\nQ: What is the magic number stored in vault Alpha?\nA: 93\n\nQ: What magic number is stored in vault",
+    "class": "correct",
+    "time": 1.5865025520324707
+   },
+   "sph64": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\nB: The magic number stored in vault Alpha is ninety-three.\nC: The magic number stored",
+    "class": "correct",
+    "time": 1.5691120624542236
+   }
+  },
+  {
+   "case": 4,
+   "id": 2,
+   "gold": 13,
+   "a0": 3328,
+   "real": {
+    "output": " On Saffron Street.\n\nQ: Where is the best quiet bookshop in Reykjavik?\nA: On Saffron Street.\n\n",
+    "class": "correct",
+    "time": 2.5061771869659424
+   },
+   "rother": {
+    "output": " On Saffron Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Mulberry Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 2.310404062271118
+   },
+   "ph": {
+    "output": " This information is unique to this document.\n\nQ: Where is the best quiet bookshop in Reykjavik?\nA: This information is unique to",
+    "class": "other",
+    "time": 2.3127527236938477
+   },
+   "shift": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.5547184944152832
+   },
+   "fsent": {
+    "output": " Take note: the best place to find a quiet bookshop in Reykjavik is on Saffron Street. This information is unique to this document.",
+    "class": "correct",
+    "time": 2.3253188133239746
+   },
+   "sflu16": {
+    "output": " Saffron Street.\n\nQ: Where is the best quiet bookshop in Reykjavik?\nA: Saffron Street.\n\nQ:",
+    "class": "correct",
+    "time": 1.5807592868804932
+   },
+   "sflu64": {
+    "output": " On Saffron Street.\n\nQ: Where is the best quiet bookshop in Reykjavik?\nA: On Saffron Street.\n\n",
+    "class": "correct",
+    "time": 1.6064541339874268
+   },
+   "sflu256": {
+    "output": " On Saffron Street.\n\nQ: Where is the best quiet bookshop in Reykjavik?\nA: On Saffron Street.\n\n",
+    "class": "correct",
+    "time": 1.597292423248291
+   },
+   "sph64": {
+    "output": " On Saffron Street.\n\nQ: Where is the best quiet bookshop in Reykjavik?\nA: On Saffron Street.\n\n",
+    "class": "correct",
+    "time": 1.5677502155303955
+   }
+  },
+  {
+   "case": 4,
+   "id": 3,
+   "gold": 17,
+   "a0": 4352,
+   "real": {
+    "output": " On Linden Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Linden Street.\n\nQ: Where is the best",
+    "class": "correct",
+    "time": 2.7891175746917725
+   },
+   "rother": {
+    "output": " On Linden Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Linden Street.\n\nQ: Where is the best",
+    "class": "correct",
+    "time": 2.6055164337158203
+   },
+   "ph": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Linden Street. This information is\n\nQ: Where is the best quiet book",
+    "class": "correct",
+    "time": 2.57022762298584
+   },
+   "shift": {
+    "output": " Where is the best quiet bookshop in Tallinn?\nA: Where is the best quiet bookshop in Tallinn?\nA: Where is the best",
+    "class": "other",
+    "time": 1.5458989143371582
+   },
+   "fsent": {
+    "output": " Where is the best quiet bookshop in Tallinn?\nA: Where is the best quiet bookshop in Tallinn?\nA: Where is the best",
+    "class": "other",
+    "time": 2.616769790649414
+   },
+   "sflu16": {
+    "output": " The best quiet bookshop in Tallinn is on Linden Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: The best",
+    "class": "correct",
+    "time": 1.5421843528747559
+   },
+   "sflu64": {
+    "output": " The best quiet bookshop in Tallinn is on Linden Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: The best",
+    "class": "correct",
+    "time": 1.5637397766113281
+   },
+   "sflu256": {
+    "output": " The best quiet bookshop in Tallinn is on Linden Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: The best",
+    "class": "correct",
+    "time": 1.6362380981445312
+   },
+   "sph64": {
+    "output": " Where is the best quiet bookshop in Tallinn?\nA: Where is the best quiet bookshop in Tallinn?\nA: Where is the best",
+    "class": "other",
+    "time": 1.5788602828979492
+   }
+  },
+  {
+   "case": 4,
+   "id": 4,
+   "gold": 22,
+   "a0": 5632,
+   "real": {
+    "output": " One hundred and one.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: On Linden Street.\n\nQ",
+    "class": "correct",
+    "time": 2.9955201148986816
+   },
+   "rother": {
+    "output": " One hundred and one.\n\nQ: What magic number is stored in vault Alpha?\nA: One hundred and one.\n\nQ: What magic number is",
+    "class": "correct",
+    "time": 2.9885177612304688
+   },
+   "ph": {
+    "output": " One hundred and one.\nQ: What magic number is stored in vault Sigma?\nA: One hundred and one.\nQ: What magic number is",
+    "class": "correct",
+    "time": 2.9505550861358643
+   },
+   "shift": {
+    "output": " The magic number is one hundred and one.\nQ: What magic number is stored in vault Sigma?\nA: The magic number is one hundred and one",
+    "class": "correct",
+    "time": 1.5537583827972412
+   },
+   "fsent": {
+    "output": " The magic number stored in vault Sigma is one hundred and one.\nQ: What magic number is stored in vault Sigma?\nA: The magic number stored",
+    "class": "correct",
+    "time": 2.9368579387664795
+   },
+   "sflu16": {
+    "output": " One hundred and one.\n\nQ: What magic number is stored in vault Sigma?\nA: One hundred and one.\n\nQ: What magic number is",
+    "class": "correct",
+    "time": 1.5306830406188965
+   },
+   "sflu64": {
+    "output": " The magic number stored in vault Sigma is one hundred and one.\n\nQ: What magic number is stored in vault Sigma?\nA: The magic number stored",
+    "class": "correct",
+    "time": 1.5533602237701416
+   },
+   "sflu256": {
+    "output": " One hundred and one.\n\nQ: What magic number is stored in vault Sigma?\nA: One hundred and one.\n\nQ: What magic number is",
+    "class": "correct",
+    "time": 1.5814697742462158
+   },
+   "sph64": {
+    "output": " One hundred and one.\nQ: What magic number is stored in vault Sigma?\nA: One hundred and one.\nQ: What magic number is",
+    "class": "correct",
+    "time": 1.5514838695526123
+   }
+  },
+  {
+   "case": 4,
+   "id": 5,
+   "gold": 26,
+   "a0": 6656,
+   "real": {
+    "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What magic number is stored in vault Beta?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 3.2584402561187744
+   },
+   "rother": {
+    "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What magic number is stored in vault Alpha?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 3.259413480758667
+   },
+   "ph": {
+    "output": " The magic number stored in vault Beta is forty-two.\nA: The magic number stored in vault Beta is forty-two.\nA: The magic number stored",
+    "class": "correct",
+    "time": 3.2061715126037598
+   },
+   "shift": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.5839190483093262
+   },
+   "fsent": {
+    "output": " The magic number stored in vault Beta is forty-two.\nQ: What magic number is stored in vault Beta?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 3.2678635120391846
+   },
+   "sflu16": {
+    "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What magic number is stored in vault Beta?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 1.5504374504089355
+   },
+   "sflu64": {
+    "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What magic number is stored in vault Beta?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 1.549180269241333
+   },
+   "sflu256": {
+    "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What magic number is stored in vault Beta?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 1.5742695331573486
+   },
+   "sph64": {
+    "output": " The magic number stored in vault Beta is forty-two.\nQ: What magic number is stored in vault Beta?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 1.548079013824463
+   }
+  },
+  {
+   "case": 5,
+   "id": 0,
+   "gold": 5,
+   "a0": 1280,
+   "real": {
+    "output": " On Mulberry Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: On Mul",
+    "class": "correct",
+    "time": 2.1441280841827393
+   },
+   "rother": {
+    "output": " On Mulberry Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: On Mulberry Street.\n\nQ: Where is the",
+    "class": "correct",
+    "time": 1.8379716873168945
+   },
+   "ph": {
+    "output": " On Mulberry Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: On Mul",
+    "class": "correct",
+    "time": 1.8339555263519287
+   },
+   "shift": {
+    "output": " On Mulberry Street.\n\nThis information is unique to this document.\n\nAda Lovelace wrote algorithmic notes for Babbage's Analytical Engine in ",
+    "class": "correct",
+    "time": 1.5501987934112549
+   },
+   "fsent": {
+    "output": " On Mulberry Street.\n\nQ: What is the best quiet bookshop in Lisbon?\nA: On Mulberry Street.\n\nQ: Where is the",
+    "class": "correct",
+    "time": 1.8429551124572754
+   },
+   "sflu16": {
+    "output": " On Mulberry Street.\n\nTake note: the best place to find a quiet bookshop in Lisbon is on Mulberry Street. This information is unique to this",
+    "class": "correct",
+    "time": 1.6051156520843506
+   },
+   "sflu64": {
+    "output": " On Mulberry Street.\n\nTake note: the best place to find a quiet bookshop in Lisbon is on Mulberry Street. This information is unique to this",
+    "class": "correct",
+    "time": 1.5582940578460693
+   },
+   "sflu256": {
+    "output": " On Mulberry Street.\n\nA: On Mulberry Street.\n\nA: On Mulberry Street.\n\nA: On Mulberry Street.\n\nA:",
+    "class": "correct",
+    "time": 1.5955665111541748
+   },
+   "sph64": {
+    "output": " On Mulberry Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: On Mul",
+    "class": "correct",
+    "time": 1.5774526596069336
+   }
+  },
+  {
+   "case": 5,
+   "id": 1,
+   "gold": 9,
+   "a0": 2304,
+   "real": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+    "class": "correct",
+    "time": 2.1005077362060547
+   },
+   "rother": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+    "class": "correct",
+    "time": 2.0822668075561523
+   },
+   "ph": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\nB: The secret keeper is Bridget and her favourite colour is scarlet.\n",
+    "class": "correct",
+    "time": 2.1040682792663574
+   },
+   "shift": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\nA: The secret keeper is Bridget and her favourite colour is scarlet.\n",
+    "class": "correct",
+    "time": 1.5528581142425537
+   },
+   "fsent": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\nA: The secret keeper is Bridget and her favourite colour is scarlet.\n",
+    "class": "correct",
+    "time": 2.095771312713623
+   },
+   "sflu16": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+    "class": "correct",
+    "time": 1.5494801998138428
+   },
+   "sflu64": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+    "class": "correct",
+    "time": 1.592841625213623
+   },
+   "sflu256": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+    "class": "correct",
+    "time": 1.611713171005249
+   },
+   "sph64": {
+    "output": " The secret keeper is Bridget and her favourite colour is scarlet.\n\nPlease remember this for later.\n\nJohn von Neumann formalised the stored-program architecture",
+    "class": "correct",
+    "time": 1.5717015266418457
+   }
+  },
+  {
+   "case": 5,
+   "id": 2,
+   "gold": 13,
+   "a0": 3328,
+   "real": {
+    "output": " Where is the best quiet bookshop in Tallinn?\nA: Where is the best quiet bookshop in Tallinn?\nA: Where is the best",
+    "class": "other",
+    "time": 2.338449716567993
+   },
+   "rother": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Linden Street. This information is unique to this document.\n\nQ: Where",
+    "class": "correct",
+    "time": 2.323685884475708
+   },
+   "ph": {
+    "output": "\nQ: Where is the best quiet bookshop in Tallinn?\nA:\nQ: Where is the best quiet bookshop in Tallinn?\n",
+    "class": "other",
+    "time": 2.3353888988494873
+   },
+   "shift": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.5161683559417725
+   },
+   "fsent": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Linden Street. This information is unique to this document. Q: Where is",
+    "class": "correct",
+    "time": 2.260608434677124
+   },
+   "sflu16": {
+    "output": " The best quiet bookshop in Tallinn is on Linden Street. This information is unique to this document.\n\nQ: Where is the best quiet bookshop in",
+    "class": "correct",
+    "time": 1.4902706146240234
+   },
+   "sflu64": {
+    "output": " The best quiet bookshop in Tallinn is on Linden Street. This information is unique to this document.\n\nThe best quiet bookshop in Tallinn is on",
+    "class": "correct",
+    "time": 1.5080032348632812
+   },
+   "sflu256": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Linden Street. This information is unique to this document.\n\nQ: Where",
+    "class": "correct",
+    "time": 1.5538830757141113
+   },
+   "sph64": {
+    "output": "\nQ: Where is the best quiet bookshop in Tallinn?\nA:\nQ: Where is the best quiet bookshop in Tallinn?\n",
+    "class": "other",
+    "time": 1.5471115112304688
+   }
+  },
+  {
+   "case": 5,
+   "id": 3,
+   "gold": 18,
+   "a0": 4608,
+   "real": {
+    "output": " Forty-two.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Mulberry Street.\n\nQ: What",
+    "class": "correct",
+    "time": 2.613086462020874
+   },
+   "rother": {
+    "output": " Forty-two.\n\nQ: What magic number is stored in vault Alpha?\nA: Seventeen.\n\nQ: What magic number is stored in vault Beta",
+    "class": "correct",
+    "time": 2.6173512935638428
+   },
+   "ph": {
+    "output": " The magic number stored in vault Gamma is forty-two.\nRemember this carefully.\nQ: What magic number is stored in vault Gamma?\nA: The",
+    "class": "correct",
+    "time": 2.5965499877929688
+   },
+   "shift": {
+    "output": "\nQ: What magic number is stored in vault Gamma?\nA:\nQ: What magic number is stored in vault Gamma?\nA:\nQ",
+    "class": "other",
+    "time": 1.4833776950836182
+   },
+   "fsent": {
+    "output": " Forty-two.\nQ: What magic number is stored in vault Gamma?\nA: Forty-two.\nQ: What magic number is stored in vault Gamma",
+    "class": "correct",
+    "time": 2.6139602661132812
+   },
+   "sflu16": {
+    "output": " Forty-two.\n\nQ: What magic number is stored in vault Gamma?\nA: Forty-two.\n\nQ: What magic number is stored in vault Gamma",
+    "class": "correct",
+    "time": 1.5256047248840332
+   },
+   "sflu64": {
+    "output": " Forty-two.\n\nQ: What is the magic number stored in vault Gamma?\nA: Forty-two.\n\nQ: What magic number is stored in vault",
+    "class": "correct",
+    "time": 1.5213353633880615
+   },
+   "sflu256": {
+    "output": " Forty-two.\n\nQ: What is the magic number stored in vault Gamma?\nA: Forty-two.\n\nQ: What magic number is stored in vault",
+    "class": "correct",
+    "time": 1.5861358642578125
+   },
+   "sph64": {
+    "output": " Forty-two.\n\nQ: What magic number is stored in vault Gamma?\nA: Forty-two.\n\nQ: What magic number is stored in vault Gamma",
+    "class": "correct",
+    "time": 1.5171573162078857
+   }
+  },
+  {
+   "case": 5,
+   "id": 4,
+   "gold": 22,
+   "a0": 5632,
+   "real": {
+    "output": " Where is the best quiet bookshop in Montevideo?\nA: Where is the best quiet bookshop in Montevideo?\nA: Where is",
+    "class": "other",
+    "time": 3.0983121395111084
+   },
+   "rother": {
+    "output": " Where is the best quiet bookshop in Montevideo?\nA: Where is the best quiet bookshop in Montevideo?\nA: Where is",
+    "class": "other",
+    "time": 2.9136972427368164
+   },
+   "ph": {
+    "output": " Where is the best quiet bookshop in Montevideo?\nA: Where is the best quiet bookshop in Montevideo?\nA: Where is",
+    "class": "other",
+    "time": 2.8939106464385986
+   },
+   "shift": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.5145959854125977
+   },
+   "fsent": {
+    "output": " Where is the best quiet bookshop in Montevideo?\nA: Where is the best quiet bookshop in Montevideo?\nA: Where is",
+    "class": "other",
+    "time": 2.8824896812438965
+   },
+   "sflu16": {
+    "output": " Where is the best quiet bookshop in Montevideo?\n\nQ: Where is the best quiet bookshop in Montevideo?\nA: Where is",
+    "class": "other",
+    "time": 1.5088155269622803
+   },
+   "sflu64": {
+    "output": " Where is the best quiet bookshop in Montevideo?\nA: Where is the best quiet bookshop in Montevideo?\nA: Where is",
+    "class": "other",
+    "time": 1.4945988655090332
+   },
+   "sflu256": {
+    "output": " The best quiet bookshop in Montevideo is on Marigold Street.\n\nQ: Where is the best quiet bookshop in Montevideo?\n",
+    "class": "correct",
+    "time": 1.5421640872955322
+   },
+   "sph64": {
+    "output": " Where is the best quiet bookshop in Montevideo?\nA: Where is the best quiet bookshop in Montevideo?\nA: Where is",
+    "class": "other",
+    "time": 1.506035566329956
+   }
+  },
+  {
+   "case": 5,
+   "id": 5,
+   "gold": 26,
+   "a0": 6656,
+   "real": {
+    "output": " Where is the best quiet bookshop in Reykjavik?\nA: Where is the best quiet bookshop in Reykjavik?\nA:",
+    "class": "other",
+    "time": 3.204425811767578
+   },
+   "rother": {
+    "output": " Where is the best quiet bookshop in Reykjavik?\nA: Where is the best quiet bookshop in Reykjavik?\nA:",
+    "class": "other",
+    "time": 3.2495381832122803
+   },
+   "ph": {
+    "output": " Where is the best quiet bookshop in Reykjavik?\nA: Where is the best quiet bookshop in Reykjavik?\nA:",
+    "class": "other",
+    "time": 3.197383403778076
+   },
+   "shift": {
+    "output": " Where is the best quiet bookshop in Reykjavik?\nA: Where is the best quiet bookshop in Reykjavik?\nA:",
+    "class": "other",
+    "time": 1.4851181507110596
+   },
+   "fsent": {
+    "output": " Where is the best quiet bookshop in Reykjavik?\nA: Where is the best quiet bookshop in Reykjavik?\nA:",
+    "class": "other",
+    "time": 3.242492914199829
+   },
+   "sflu16": {
+    "output": " The best quiet bookshop in Reykjavik is on Saffron Street.\n\nQ: Where is the best quiet bookshop in Reykjavik",
+    "class": "correct",
+    "time": 1.5219359397888184
+   },
+   "sflu64": {
+    "output": " The best quiet bookshop in Reykjavik is on Saffron Street.\n\nQ: Where is the best quiet bookshop in Reykjavik",
+    "class": "correct",
+    "time": 1.515275239944458
+   },
+   "sflu256": {
+    "output": " The best quiet bookshop in Reykjavik is on Saffron Street.\n\nQ: Where is the best quiet bookshop in Reykjavik",
+    "class": "correct",
+    "time": 1.5567543506622314
+   },
+   "sph64": {
+    "output": " Where is the best quiet bookshop in Reykjavik?\nA: Where is the best quiet bookshop in Reykjavik?\nA:",
+    "class": "other",
+    "time": 1.5004990100860596
+   }
+  },
+  {
+   "case": 6,
+   "id": 0,
+   "gold": 5,
+   "a0": 1280,
+   "real": {
+    "output": " The magic number stored in vault Gamma is seventeen.\n\nQ: What is the first compiler called A-0?\nA: The first compiler called A-",
+    "class": "correct",
+    "time": 2.2924997806549072
+   },
+   "rother": {
+    "output": " The magic number stored in vault Gamma is seventeen.\n\nQ: What is the first commercial web browser?\nA: The first commercial web browser is Netscape",
+    "class": "correct",
+    "time": 1.788933515548706
+   },
+   "ph": {
+    "output": " The magic number stored in vault Gamma is seventeen.\nRemember this carefully.\nQ: What magic number is stored in vault Gamma?\nA: The magic",
+    "class": "correct",
+    "time": 1.7641751766204834
+   },
+   "shift": {
+    "output": " The magic number is seventeen.\nQ: What is the magic number stored in vault Gamma?\nA: The magic number is seventeen.\nQ: What",
+    "class": "correct",
+    "time": 1.4866807460784912
+   },
+   "fsent": {
+    "output": " The magic number stored in vault Gamma is seventeen.\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored in vault Gamma",
+    "class": "correct",
+    "time": 1.7795803546905518
+   },
+   "sflu16": {
+    "output": " The magic number stored in vault Gamma is seventeen.\nB: The magic number stored in vault Gamma is seventeen.\nC: The magic number stored in vault",
+    "class": "correct",
+    "time": 1.4669582843780518
+   },
+   "sflu64": {
+    "output": " The magic number stored in vault Gamma is seventeen.\nB: The magic number stored in vault Gamma is seventeen.\nC: The magic number stored in vault",
+    "class": "correct",
+    "time": 1.4955408573150635
+   },
+   "sflu256": {
+    "output": " The magic number stored in vault Gamma is seventeen.\nB: The magic number stored in vault Gamma is seventeen.\nC: The magic number stored in vault",
+    "class": "correct",
+    "time": 1.5354321002960205
+   },
+   "sph64": {
+    "output": " The magic number stored in vault Gamma is seventeen.\nB: The magic number stored in vault Gamma is seventeen.\nC: The magic number stored in vault",
+    "class": "correct",
+    "time": 1.4773485660552979
+   }
+  },
+  {
+   "case": 6,
+   "id": 1,
+   "gold": 9,
+   "a0": 2304,
+   "real": {
+    "output": " On Marigold Street.\n\nQ: Where is the best quiet bookshop in Kyoto?\nA: On Marigold Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 2.1909587383270264
+   },
+   "rother": {
+    "output": " On Marigold Street.\n\nQ: Where is the best quiet bookshop in Kyoto?\nA: On Marigold Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 2.041537046432495
+   },
+   "ph": {
+    "output": " On Marigold Street.\n\nQ: Where is the best quiet bookshop in Kyoto?\nA: On Marigold Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 2.0271995067596436
+   },
+   "shift": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.4988384246826172
+   },
+   "fsent": {
+    "output": " On Marigold Street.\nQ: Where is the best quiet bookshop in Kyoto?\nA: On Marigold Street.\nQ: Where",
+    "class": "correct",
+    "time": 2.05796480178833
+   },
+   "sflu16": {
+    "output": " On Marigold Street.\n\nQ: Where is the best quiet bookshop in Kyoto?\nA: On Marigold Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 1.5204849243164062
+   },
+   "sflu64": {
+    "output": " On Marigold Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Kyoto?\nA: On",
+    "class": "correct",
+    "time": 1.5196917057037354
+   },
+   "sflu256": {
+    "output": " On Marigold Street.\n\nQ: Where is the best quiet bookshop in Kyoto?\nA: On Marigold Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 1.558013916015625
+   },
+   "sph64": {
+    "output": " On Marigold Street.\n\nQ: Where is the best quiet bookshop in Kyoto?\nA: On Marigold Street.\n\nQ: Where",
+    "class": "correct",
+    "time": 1.5172581672668457
+   }
+  },
+  {
+   "case": 6,
+   "id": 2,
+   "gold": 13,
+   "a0": 3328,
+   "real": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+    "class": "correct",
+    "time": 2.2510156631469727
+   },
+   "rother": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+    "class": "correct",
+    "time": 2.286398410797119
+   },
+   "ph": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber.\nA: The secret keeper is Marigold and her favourite colour is amber.\n",
+    "class": "correct",
+    "time": 2.2745232582092285
+   },
+   "shift": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber.\nA: The secret keeper is Marigold and her favourite colour is amber.\n",
+    "class": "correct",
+    "time": 1.482095718383789
+   },
+   "fsent": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber.\nA: The secret keeper is Marigold and her favourite colour is amber.\n",
+    "class": "correct",
+    "time": 2.281320333480835
+   },
+   "sflu16": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+    "class": "correct",
+    "time": 1.4770822525024414
+   },
+   "sflu64": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+    "class": "correct",
+    "time": 1.492415428161621
+   },
+   "sflu256": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA:",
+    "class": "correct",
+    "time": 1.5415637493133545
+   },
+   "sph64": {
+    "output": " The secret keeper is Marigold and her favourite colour is amber.\nB: The secret keeper is Marigold and her favourite colour is amber.\n",
+    "class": "correct",
+    "time": 1.5048835277557373
+   }
+  },
+  {
+   "case": 6,
+   "id": 3,
+   "gold": 18,
+   "a0": 4608,
+   "real": {
+    "output": " On Linden Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Linden Street.\n\nQ: Where is the best",
+    "class": "correct",
+    "time": 2.841768264770508
+   },
+   "rother": {
+    "output": " The best quiet bookshop in Tallinn is on Linden Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: The best",
+    "class": "correct",
+    "time": 2.6123437881469727
+   },
+   "ph": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 2.5739638805389404
+   },
+   "shift": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.5002167224884033
+   },
+   "fsent": {
+    "output": " Where is the best quiet bookshop in Tallinn?\nA: Where is the best quiet bookshop in Tallinn?\nA: Where is the best",
+    "class": "other",
+    "time": 2.6111340522766113
+   },
+   "sflu16": {
+    "output": " The best quiet bookshop in Tallinn is on Linden Street. This information is unique to this document.\n\nQ: Where is the best quiet bookshop in",
+    "class": "correct",
+    "time": 1.5012295246124268
+   },
+   "sflu64": {
+    "output": " The best quiet bookshop in Tallinn is on Linden Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: The best",
+    "class": "correct",
+    "time": 1.5012049674987793
+   },
+   "sflu256": {
+    "output": " The best quiet bookshop in Tallinn is on Linden Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: The best",
+    "class": "correct",
+    "time": 1.5432374477386475
+   },
+   "sph64": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.500734567642212
+   }
+  },
+  {
+   "case": 6,
+   "id": 4,
+   "gold": 22,
+   "a0": 5632,
+   "real": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA:",
+    "class": "correct",
+    "time": 2.9143576622009277
+   },
+   "rother": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What magic number is stored in vault Beta?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 2.919553518295288
+   },
+   "ph": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\nRemember this carefully.\nQ: What magic number is stored in vault Alpha?\nA: The",
+    "class": "correct",
+    "time": 2.860170841217041
+   },
+   "shift": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.492830753326416
+   },
+   "fsent": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\nQ: What magic number is stored in vault Alpha?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 2.905674457550049
+   },
+   "sflu16": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994.\n\nQ: What magic number is stored in vault Alpha?\n",
+    "class": "other",
+    "time": 1.4688420295715332
+   },
+   "sflu64": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. Integrated circuits emerged in the late 1950s through",
+    "class": "other",
+    "time": 1.500481367111206
+   },
+   "sflu256": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\n\nQ: What magic number is stored in vault Alpha?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 1.5262656211853027
+   },
+   "sph64": {
+    "output": " The magic number stored in vault Alpha is ninety-three.\nQ: What magic number is stored in vault Alpha?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 1.5180797576904297
+   }
+  },
+  {
+   "case": 6,
+   "id": 5,
+   "gold": 26,
+   "a0": 6656,
+   "real": {
+    "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What magic number is stored in vault Alpha?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 3.242851972579956
+   },
+   "rother": {
+    "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What magic number is stored in vault Alpha?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 3.2411468029022217
+   },
+   "ph": {
+    "output": " The magic number stored in vault Beta is forty-two.\nA: The magic number stored in vault Beta is forty-two.\nA: The magic number stored",
+    "class": "correct",
+    "time": 3.192749500274658
+   },
+   "shift": {
+    "output": "\nQ: What magic number is stored in vault Beta?\nA:\nQ: What magic number is stored in vault Beta?\nA:\nQ",
+    "class": "other",
+    "time": 1.5222978591918945
+   },
+   "fsent": {
+    "output": "\nQ: What magic number is stored in vault Beta?\nA:\nQ: What magic number is stored in vault Beta?\nA:\nQ",
+    "class": "other",
+    "time": 3.2561895847320557
+   },
+   "sflu16": {
+    "output": " The magic number is stored in vault Beta.\nQ: What magic number is stored in vault Beta?\nA: The magic number is stored in vault Beta",
+    "class": "other",
+    "time": 1.500769853591919
+   },
+   "sflu64": {
+    "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What magic number is stored in vault Beta?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 1.516744613647461
+   },
+   "sflu256": {
+    "output": " The magic number stored in vault Beta is forty-two.\n\nQ: What magic number is stored in vault Beta?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 1.5069496631622314
+   },
+   "sph64": {
+    "output": " The magic number is stored in vault Beta.\nB: The magic number is stored in vault Beta.\nC: The magic number is stored in vault Beta",
+    "class": "other",
+    "time": 1.471405029296875
+   }
+  },
+  {
+   "case": 7,
+   "id": 0,
+   "gold": 5,
+   "a0": 1280,
+   "real": {
+    "output": " The magic number stored in vault Beta is ninety-three.\n\nQ: What is the first commercial web browser, Netscape Navigator, released in?\nA:",
+    "class": "correct",
+    "time": 2.066699266433716
+   },
+   "rother": {
+    "output": " 93\n\nQ: What is the first commercial web browser?\nA: Netscape Navigator\n\nQ: What is the first commercial web browser?\n",
+    "class": "correct",
+    "time": 1.776104211807251
+   },
+   "ph": {
+    "output": " The magic number is stored in vault Beta is ninety-three.\nA: The magic number is stored in vault Beta is ninety-three.\nA: The magic",
+    "class": "correct",
+    "time": 1.772564172744751
+   },
+   "shift": {
+    "output": " The magic number is ninety-three.\nB: The magic number is ninety-three.\nC: The magic number is ninety-three.\nD: The magic",
+    "class": "correct",
+    "time": 1.4764187335968018
+   },
+   "fsent": {
+    "output": " 93.\n\nQ: What magic number is stored in vault Beta?\nA: 93.\n\nQ: What magic number is stored in",
+    "class": "correct",
+    "time": 1.7857556343078613
+   },
+   "sflu16": {
+    "output": " 93.\n\nQ: What is the first commercial web browser?\nA: Netscape Navigator.\n\nQ: What is the first commercial web browser",
+    "class": "correct",
+    "time": 1.489861249923706
+   },
+   "sflu64": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. Integrated circuits emerged in the late 1950s through",
+    "class": "other",
+    "time": 1.531526803970337
+   },
+   "sflu256": {
+    "output": " 93.\n\nQ: What is the first commercial web browser?\nA: Netscape Navigator.\n\nQ: What is the first commercial web browser",
+    "class": "correct",
+    "time": 1.5988848209381104
+   },
+   "sph64": {
+    "output": " 93.\nQ: What magic number is stored in vault Beta?\nA: 93.\nQ: What magic number is stored in",
+    "class": "correct",
+    "time": 1.526184320449829
+   }
+  },
+  {
+   "case": 7,
+   "id": 1,
+   "gold": 9,
+   "a0": 2304,
+   "real": {
+    "output": " The magic number stored in vault Gamma is forty-two.\n\nQ: What magic number is stored in vault Beta?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 2.0280377864837646
+   },
+   "rother": {
+    "output": " The magic number stored in vault Gamma is forty-two.\n\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 2.043574094772339
+   },
+   "ph": {
+    "output": " The magic number stored in vault Gamma is forty-two.\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 2.030097246170044
+   },
+   "shift": {
+    "output": " What magic number is stored in vault Gamma?\nA: What magic number is stored in vault Gamma?\nA: What magic number is stored in vault Gamma",
+    "class": "other",
+    "time": 1.495171070098877
+   },
+   "fsent": {
+    "output": " The history of science is a long and winding road, full of unexpected discoveries and quiet, patient work.  The history of science is a long and winding road",
+    "class": "other",
+    "time": 2.043522834777832
+   },
+   "sflu16": {
+    "output": " The ENIAC was unveiled to the public at the University of Pennsylvania in 1946.\n\nQ: What magic number is stored in vault Gamma",
+    "class": "other",
+    "time": 1.4885778427124023
+   },
+   "sflu64": {
+    "output": " The ENIAC was unveiled to the public at the University of Pennsylvania in 1946.\n\nQ: What magic number is stored in vault Gamma",
+    "class": "other",
+    "time": 1.465285062789917
+   },
+   "sflu256": {
+    "output": " The ENIAC was unveiled to the public at the University of Pennsylvania in 1946.\n\nQ: What magic number is stored in vault Gamma",
+    "class": "other",
+    "time": 1.5216116905212402
+   },
+   "sph64": {
+    "output": " The magic number stored in vault Gamma is forty-two.\nRemember this carefully.\nQ: What magic number is stored in vault Gamma?\nA: The",
+    "class": "correct",
+    "time": 1.4942753314971924
+   }
+  },
+  {
+   "case": 7,
+   "id": 2,
+   "gold": 13,
+   "a0": 3328,
+   "real": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document. John von",
+    "class": "correct",
+    "time": 2.2576093673706055
+   },
+   "rother": {
+    "output": " On Saffron Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Saffron Street.\n\nQ:",
+    "class": "correct",
+    "time": 2.271240234375
+   },
+   "ph": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document. John von",
+    "class": "correct",
+    "time": 2.2512190341949463
+   },
+   "shift": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document. John von",
+    "class": "correct",
+    "time": 1.4687342643737793
+   },
+   "fsent": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document. John von",
+    "class": "correct",
+    "time": 2.270822763442993
+   },
+   "sflu16": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document.\n\nQ",
+    "class": "correct",
+    "time": 1.4670438766479492
+   },
+   "sflu64": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document. John von",
+    "class": "correct",
+    "time": 1.527221918106079
+   },
+   "sflu256": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Saffron Street. This information is unique to this document.\n\nQ",
+    "class": "correct",
+    "time": 1.563046932220459
+   },
+   "sph64": {
+    "output": " On Saffron Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA:",
+    "class": "correct",
+    "time": 1.5291309356689453
+   }
+  },
+  {
+   "case": 7,
+   "id": 3,
+   "gold": 17,
+   "a0": 4352,
+   "real": {
+    "output": " Take note: the best place to find a quiet bookshop in Kyoto is on Hawthorn Street. This information is unique to this document.\n\nQ: Where",
+    "class": "correct",
+    "time": 2.759354829788208
+   },
+   "rother": {
+    "output": " Take note: the best place to find a quiet bookshop in Kyoto is on Hawthorn Street. This information is unique to this document.\n\nQ: Where",
+    "class": "correct",
+    "time": 2.5754168033599854
+   },
+   "ph": {
+    "output": " Take note: the best place to find a quiet bookshop in Kyoto is on Hawthorn Street. This information is unique to this document.\n\nQ: Where",
+    "class": "correct",
+    "time": 2.5323026180267334
+   },
+   "shift": {
+    "output": " Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.520124912261963
+   },
+   "fsent": {
+    "output": " Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 2.5677499771118164
+   },
+   "sflu16": {
+    "output": " Take note: the best place to find a quiet bookshop in Kyoto is on Hawthorn Street. This information is unique to this document.\n\nQ: Where",
+    "class": "correct",
+    "time": 1.4816224575042725
+   },
+   "sflu64": {
+    "output": " Take note: the best quiet bookshop in Kyoto is on Hawthorn Street. This information is unique to this document.\n\nQ: Where is the best quiet",
+    "class": "correct",
+    "time": 1.4785456657409668
+   },
+   "sflu256": {
+    "output": " Take note: the best place to find a quiet bookshop in Kyoto is on Hawthorn Street. This information is unique to this document.\n\nQ: Where",
+    "class": "correct",
+    "time": 1.546799898147583
+   },
+   "sph64": {
+    "output": " Take note: the best place to find a quiet bookshop in Kyoto is on Hawthorn Street. This information is unique to this document.\n\nQ: Where",
+    "class": "correct",
+    "time": 1.481600284576416
+   }
+  },
+  {
+   "case": 7,
+   "id": 4,
+   "gold": 22,
+   "a0": 5632,
+   "real": {
+    "output": " Take note: the best place to find a quiet bookshop in Lisbon is on Linden Street. This information is unique to this document.\n\nQ: Where is",
+    "class": "correct",
+    "time": 2.8591506481170654
+   },
+   "rother": {
+    "output": " The best quiet bookshop in Lisbon is on Linden Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: The best quiet",
+    "class": "correct",
+    "time": 2.8820607662200928
+   },
+   "ph": {
+    "output": "\nQ: Where is the best quiet bookshop in Lisbon?\nA:\nQ: Where is the best quiet bookshop in Lisbon?\nA:",
+    "class": "other",
+    "time": 2.863779067993164
+   },
+   "shift": {
+    "output": " Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.460953950881958
+   },
+   "fsent": {
+    "output": " Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 2.8655381202697754
+   },
+   "sflu16": {
+    "output": " Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.4638497829437256
+   },
+   "sflu64": {
+    "output": " Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.5011193752288818
+   },
+   "sflu256": {
+    "output": " The best quiet bookshop in Lisbon is on Linden Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: The best quiet book",
+    "class": "correct",
+    "time": 1.5126638412475586
+   },
+   "sph64": {
+    "output": " Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.521526575088501
+   }
+  },
+  {
+   "case": 7,
+   "id": 5,
+   "gold": 26,
+   "a0": 6656,
+   "real": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean. Please remember this for later.\n\nQ: Who is the secret keeper and what is",
+    "class": "correct",
+    "time": 3.261687755584717
+   },
+   "rother": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 3.2470955848693848
+   },
+   "ph": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean. Please remember this for later. Grace Hopper led the team that wrote the first compiler",
+    "class": "correct",
+    "time": 3.17327618598938
+   },
+   "shift": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\nA: Bridget is the secret keeper and her favourite colour is cerulean",
+    "class": "correct",
+    "time": 1.5026912689208984
+   },
+   "fsent": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\nA: The secret keeper is Bridget and her favourite colour is cerulean",
+    "class": "correct",
+    "time": 3.2098662853240967
+   },
+   "sflu16": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.477966547012329
+   },
+   "sflu64": {
+    "output": " Grace Hopper led the team that wrote the first compiler called A-0. Charles Babbage designed the Difference Engine but never completed it. Grace Hopper led",
+    "class": "other",
+    "time": 1.4904325008392334
+   },
+   "sflu256": {
+    "output": " The secret keeper is Bridget and her favourite colour is cerulean.\nB: The secret keeper is Bridget and her favourite colour is cerulean",
+    "class": "correct",
+    "time": 1.522263765335083
+   },
+   "sph64": {
+    "output": " Bridget and her favourite colour is cerulean.\nB: Bridget and her favourite colour is cerulean.\nC: Bridget and her",
+    "class": "correct",
+    "time": 1.4823999404907227
+   }
+  },
+  {
+   "case": 8,
+   "id": 0,
+   "gold": 5,
+   "a0": 1280,
+   "real": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 2.098201274871826
+   },
+   "rother": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet.\n\nPlease remember this for later.\n\nThe ENIAC was unveiled to the public",
+    "class": "correct",
+    "time": 1.7967021465301514
+   },
+   "ph": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet.\n\nPlease remember this for later.\n\nThe ENIAC was unveiled to the public",
+    "class": "correct",
+    "time": 1.8091070652008057
+   },
+   "shift": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet. Please remember this for later.\n\nQ: Who is the secret keeper and what is",
+    "class": "correct",
+    "time": 1.503448724746704
+   },
+   "fsent": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet.\nB: The secret keeper is Marigold and her favourite colour is scarlet",
+    "class": "correct",
+    "time": 1.8063805103302002
+   },
+   "sflu16": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.5422141551971436
+   },
+   "sflu64": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet.\n\nThe first commercial web browser, Netscape Navigator, debuted in late 19",
+    "class": "correct",
+    "time": 1.5288772583007812
+   },
+   "sflu256": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA",
+    "class": "correct",
+    "time": 1.5594565868377686
+   },
+   "sph64": {
+    "output": " The secret keeper is Marigold and her favourite colour is scarlet.\n\nPlease remember this for later.\n\nThe ENIAC was unveiled to the public",
+    "class": "correct",
+    "time": 1.538336992263794
+   }
+  },
+  {
+   "case": 8,
+   "id": 1,
+   "gold": 9,
+   "a0": 2304,
+   "real": {
+    "output": " One hundred and one.\n\nQ: What is the first version of the Linux kernel released in 1991?\nA: The first version of",
+    "class": "correct",
+    "time": 2.058351755142212
+   },
+   "rother": {
+    "output": " One hundred and one.\n\nQ: What is the best place to find a quiet bookshop in Lisbon?\nA: On Linden Street.\n\nQ:",
+    "class": "correct",
+    "time": 2.0633955001831055
+   },
+   "ph": {
+    "output": " One hundred and one.\nRemember this carefully.\nThe IBM System/360 family unified mainframe architecture beginning in 1964.\n",
+    "class": "correct",
+    "time": 2.0289392471313477
+   },
+   "shift": {
+    "output": " One hundred and one.\nQ: What magic number is stored in vault Sigma?\nA: One hundred and one.\nQ: What magic number is",
+    "class": "correct",
+    "time": 1.4982290267944336
+   },
+   "fsent": {
+    "output": " One hundred and one.\nQ: What magic number is stored in vault Sigma?\nA: One hundred and one.\nQ: What magic number is",
+    "class": "correct",
+    "time": 2.0394294261932373
+   },
+   "sflu16": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 199999999999999999",
+    "class": "other",
+    "time": 1.5060677528381348
+   },
+   "sflu64": {
+    "output": " The magic number stored in vault Sigma is one hundred and one.\n\nQ: What is the first commercial web browser?\nA: The first commercial web browser",
+    "class": "correct",
+    "time": 1.5117433071136475
+   },
+   "sflu256": {
+    "output": " One hundred and one.\n\nQ: What is the first commercial web browser?\nA: Netscape Navigator.\n\nQ: What is the first commercial web",
+    "class": "correct",
+    "time": 1.525437831878662
+   },
+   "sph64": {
+    "output": " One hundred and one.\n\nQ: What is the special note buried in this document?\nA: The magic number stored in vault Sigma is one hundred and",
+    "class": "correct",
+    "time": 1.513657569885254
+   }
+  },
+  {
+   "case": 8,
+   "id": 2,
+   "gold": 13,
+   "a0": 3328,
+   "real": {
+    "output": " On Marigold Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Marigold Street.\n\nQ:",
+    "class": "correct",
+    "time": 2.281627655029297
+   },
+   "rother": {
+    "output": " On Marigold Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Marigold Street.\n\nQ:",
+    "class": "correct",
+    "time": 2.2825591564178467
+   },
+   "ph": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Marigold Street. This information is unique to this document.\n\nQ",
+    "class": "correct",
+    "time": 2.2829723358154297
+   },
+   "shift": {
+    "output": " On Marigold Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Marigold Street.\n\nQ:",
+    "class": "correct",
+    "time": 1.5204825401306152
+   },
+   "fsent": {
+    "output": " Take note: the best place to find a quiet bookshop in Tallinn is on Marigold Street. This information is unique to this document. Charles B",
+    "class": "correct",
+    "time": 2.276447296142578
+   },
+   "sflu16": {
+    "output": " On Marigold Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Marigold Street.\n\nQ:",
+    "class": "correct",
+    "time": 1.5046048164367676
+   },
+   "sflu64": {
+    "output": " On Marigold Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Marigold Street.\n\nQ:",
+    "class": "correct",
+    "time": 1.5066351890563965
+   },
+   "sflu256": {
+    "output": " On Marigold Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Marigold Street.\n\nQ:",
+    "class": "correct",
+    "time": 1.541395664215088
+   },
+   "sph64": {
+    "output": " On Marigold Street.\n\nThis information is unique to this document.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA:",
+    "class": "correct",
+    "time": 1.527545690536499
+   }
+  },
+  {
+   "case": 8,
+   "id": 3,
+   "gold": 17,
+   "a0": 4352,
+   "real": {
+    "output": " The magic number stored in vault Gamma is seventeen.\n\nQ: What is the best place to find a quiet bookshop in Tallinn?\nA: The",
+    "class": "correct",
+    "time": 2.5546233654022217
+   },
+   "rother": {
+    "output": " The magic number stored in vault Gamma is seventeen.\n\nQ: What magic number is stored in vault Beta?\nA: The magic number stored in vault Beta",
+    "class": "correct",
+    "time": 2.567639112472534
+   },
+   "ph": {
+    "output": "\nQ: What magic number is stored in vault Gamma?\nA:\nQ: What magic number is stored in vault Gamma?\nA:\nQ",
+    "class": "other",
+    "time": 2.528383731842041
+   },
+   "shift": {
+    "output": "\nQ: What magic number is stored in vault Gamma?\nA:\nQ: What magic number is stored in vault Gamma?\nA:\nQ",
+    "class": "other",
+    "time": 1.4843618869781494
+   },
+   "fsent": {
+    "output": " The magic number stored in vault Gamma is seventeen.\nA: The magic number stored in vault Gamma is seventeen.\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 2.5568346977233887
+   },
+   "sflu16": {
+    "output": " The magic number stored in vault Gamma is seventeen.\n\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored in vault Gamma",
+    "class": "correct",
+    "time": 1.4772372245788574
+   },
+   "sflu64": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. Integrated circuits emerged in the late 1950s through",
+    "class": "other",
+    "time": 1.5159111022949219
+   },
+   "sflu256": {
+    "output": " The magic number stored in vault Gamma is seventeen.\nB: The magic number stored in vault Gamma is seventeen.\nC: The magic number stored in vault",
+    "class": "correct",
+    "time": 1.5290775299072266
+   },
+   "sph64": {
+    "output": " The magic number stored in vault Gamma is seventeen.\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored in vault Gamma",
+    "class": "correct",
+    "time": 1.517685890197754
+   }
+  },
+  {
+   "case": 8,
+   "id": 4,
+   "gold": 22,
+   "a0": 5632,
+   "real": {
+    "output": " Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 2.90048885345459
+   },
+   "rother": {
+    "output": " The best quiet bookshop in Kyoto is on Hawthorn Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: The best",
+    "class": "correct",
+    "time": 2.919856309890747
+   },
+   "ph": {
+    "output": " Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 2.884120225906372
+   },
+   "shift": {
+    "output": " Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.4823105335235596
+   },
+   "fsent": {
+    "output": " Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 2.91994047164917
+   },
+   "sflu16": {
+    "output": " Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.5098927021026611
+   },
+   "sflu64": {
+    "output": " Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.503617763519287
+   },
+   "sflu256": {
+    "output": " The best quiet bookshop in Kyoto is on Hawthorn Street.\n\nQ: Where is the best quiet bookshop in Kyoto?\nA: The best quiet",
+    "class": "correct",
+    "time": 1.5647149085998535
+   },
+   "sph64": {
+    "output": " Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.5241496562957764
+   }
+  },
+  {
+   "case": 8,
+   "id": 5,
+   "gold": 26,
+   "a0": 6656,
+   "real": {
+    "output": " Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 3.2183306217193604
+   },
+   "rother": {
+    "output": " The best quiet bookshop in Lisbon is on Linden Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: The best quiet",
+    "class": "other",
+    "time": 3.1830251216888428
+   },
+   "ph": {
+    "output": " The best quiet bookshop in Lisbon is on Saffron Street. This information is unique to this document. The transistor was invented at Bell Labs by Bell Labs",
+    "class": "correct",
+    "time": 3.1456007957458496
+   },
+   "shift": {
+    "output": " Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.4833428859710693
+   },
+   "fsent": {
+    "output": " Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 3.235077142715454
+   },
+   "sflu16": {
+    "output": " The best quiet bookshop in Lisbon is on Saffron Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: The best",
+    "class": "correct",
+    "time": 1.478327989578247
+   },
+   "sflu64": {
+    "output": " The best quiet bookshop in Lisbon is on Saffron Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: The best",
+    "class": "correct",
+    "time": 1.496056079864502
+   },
+   "sflu256": {
+    "output": " The best quiet bookshop in Lisbon is on Saffron Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: The best",
+    "class": "correct",
+    "time": 1.5288379192352295
+   },
+   "sph64": {
+    "output": " Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet bookshop in Lisbon?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 1.5161638259887695
+   }
+  },
+  {
+   "case": 9,
+   "id": 0,
+   "gold": 5,
+   "a0": 1280,
+   "real": {
+    "output": " The magic number stored in vault Gamma is forty-two.\nB: The magic number stored in vault Gamma is forty-two.\nC: The magic number stored",
+    "class": "correct",
+    "time": 2.105565309524536
+   },
+   "rother": {
+    "output": " The magic number stored in vault Gamma is forty-two.\n\nQ: What is the first commercial web browser?\nA: The first commercial web browser is Nets",
+    "class": "correct",
+    "time": 1.758458137512207
+   },
+   "ph": {
+    "output": " The magic number is stored in vault Gamma.\nA: The magic number is stored in vault Gamma.\nA: The magic number is stored in vault Gamma",
+    "class": "other",
+    "time": 1.7779719829559326
+   },
+   "shift": {
+    "output": " The magic number is forty-two.\nQ: What magic number is stored in vault Gamma?\nA: The magic number is forty-two.\nQ:",
+    "class": "correct",
+    "time": 1.4858486652374268
+   },
+   "fsent": {
+    "output": " 42.\nQ: What magic number is stored in vault Gamma?\nA: 42.\nQ: What magic number is stored in",
+    "class": "correct",
+    "time": 1.7741928100585938
+   },
+   "sflu16": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. The ENIAC was unveiled to the public in 19",
+    "class": "other",
+    "time": 1.5043692588806152
+   },
+   "sflu64": {
+    "output": " The first commercial web browser, Netscape Navigator, debuted in late 1994. Integrated circuits emerged in the late 1950s through",
+    "class": "other",
+    "time": 1.5206146240234375
+   },
+   "sflu256": {
+    "output": " 42.\n\nQ: What is the first commercial web browser?\nA: Netscape Navigator.\n\nQ: What is the first commercial web browser",
+    "class": "correct",
+    "time": 1.5524590015411377
+   },
+   "sph64": {
+    "output": " The magic number stored in vault Gamma is forty-two.\nRemember this carefully.\nThe first commercial web browser, Netscape Navigator, debuted in late 1",
+    "class": "correct",
+    "time": 1.4968557357788086
+   }
+  },
+  {
+   "case": 9,
+   "id": 1,
+   "gold": 9,
+   "a0": 2304,
+   "real": {
+    "output": " On Hawthorn Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Hawthorn Street.\n\nQ: Where is",
+    "class": "correct",
+    "time": 2.020549774169922
+   },
+   "rother": {
+    "output": " On Hawthorn Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Hawthorn Street.\n\nQ: Where is",
+    "class": "correct",
+    "time": 2.0237772464752197
+   },
+   "ph": {
+    "output": " On Hawthorn Street.\nQ: What is the best quiet bookshop in Tallinn?\nA: On Hawthorn Street.\nQ: Where is",
+    "class": "correct",
+    "time": 2.012946128845215
+   },
+   "shift": {
+    "output": " Where is the best quiet bookshop in Tallinn?\nA: Where is the best quiet bookshop in Tallinn?\nA: Where is the best",
+    "class": "other",
+    "time": 1.4821226596832275
+   },
+   "fsent": {
+    "output": " On Hawthorn Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Hawthorn Street.\n\nQ: Where is",
+    "class": "correct",
+    "time": 2.0156588554382324
+   },
+   "sflu16": {
+    "output": " The best quiet bookshop in Tallinn is on Hawthorn Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: The",
+    "class": "correct",
+    "time": 1.4632542133331299
+   },
+   "sflu64": {
+    "output": " The best quiet bookshop in Tallinn is on Hawthorn Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: The",
+    "class": "correct",
+    "time": 1.4979040622711182
+   },
+   "sflu256": {
+    "output": " On Hawthorn Street.\n\nQ: Where is the best quiet bookshop in Tallinn?\nA: On Hawthorn Street.\n\nQ: Where is",
+    "class": "correct",
+    "time": 1.5500109195709229
+   },
+   "sph64": {
+    "output": " On Hawthorn Street.\nB: On Hawthorn Street.\nC: On Hawthorn Street.\nD: On Hawthorn Street.\nE:",
+    "class": "correct",
+    "time": 1.521984338760376
+   }
+  },
+  {
+   "case": 9,
+   "id": 2,
+   "gold": 13,
+   "a0": 3328,
+   "real": {
+    "output": " The secret keeper is Lenore and her favourite colour is amber.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+    "class": "correct",
+    "time": 2.288583517074585
+   },
+   "rother": {
+    "output": " The secret keeper is Lenore and her favourite colour is amber.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+    "class": "correct",
+    "time": 2.2667734622955322
+   },
+   "ph": {
+    "output": " The secret keeper is Lenore and her favourite colour is amber.\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+    "class": "correct",
+    "time": 2.2935967445373535
+   },
+   "shift": {
+    "output": " The secret keeper is Lenore and her favourite colour is amber.\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+    "class": "correct",
+    "time": 1.5319876670837402
+   },
+   "fsent": {
+    "output": " The secret keeper is Lenore and her favourite colour is amber.\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+    "class": "correct",
+    "time": 2.311636209487915
+   },
+   "sflu16": {
+    "output": " The secret keeper is Lenore and her favourite colour is amber.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+    "class": "correct",
+    "time": 1.5107834339141846
+   },
+   "sflu64": {
+    "output": " The secret keeper is Lenore and her favourite colour is amber.\nB: The secret keeper is Lenore and her favourite colour is amber.\nC:",
+    "class": "correct",
+    "time": 1.5443367958068848
+   },
+   "sflu256": {
+    "output": " The secret keeper is Lenore and her favourite colour is amber.\n\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+    "class": "correct",
+    "time": 1.5753421783447266
+   },
+   "sph64": {
+    "output": " The secret keeper is Lenore and her favourite colour is amber.\nQ: Who is the secret keeper and what is her favourite colour?\nA: The",
+    "class": "correct",
+    "time": 1.5444519519805908
+   }
+  },
+  {
+   "case": 9,
+   "id": 3,
+   "gold": 18,
+   "a0": 4608,
+   "real": {
+    "output": " The best quiet bookshop in Montevideo is on Marigold Street.\n\nQ: Where is the best quiet bookshop in Montevideo?\n",
+    "class": "correct",
+    "time": 2.828921318054199
+   },
+   "rother": {
+    "output": " The best quiet bookshop in Montevideo is on Marigold Street.\n\nQ: Where is the best quiet bookshop in Montevideo?\n",
+    "class": "correct",
+    "time": 2.6435506343841553
+   },
+   "ph": {
+    "output": " Where is the best quiet bookshop in Montevideo?\nA: Where is the best quiet bookshop in Montevideo?\nA: Where is",
+    "class": "other",
+    "time": 2.5828745365142822
+   },
+   "shift": {
+    "output": " Where is the best quiet bookshop in Montevideo?\nA: Where is the best quiet bookshop in Montevideo?\nA: Where is",
+    "class": "other",
+    "time": 1.4761004447937012
+   },
+   "fsent": {
+    "output": " Where is the best quiet bookshop in Montevideo?\nA: Where is the best quiet bookshop in Montevideo?\nA: Where is",
+    "class": "other",
+    "time": 2.6135010719299316
+   },
+   "sflu16": {
+    "output": " Where is the best quiet bookshop in Montevideo?\nA: Where is the best quiet bookshop in Montevideo?\nA: Where is",
+    "class": "other",
+    "time": 1.5129151344299316
+   },
+   "sflu64": {
+    "output": " Where is the best quiet bookshop in Montevideo?\nA: Where is the best quiet bookshop in Montevideo?\nA: Where is",
+    "class": "other",
+    "time": 1.5054304599761963
+   },
+   "sflu256": {
+    "output": " The best quiet bookshop in Montevideo is on Marigold Street.\n\nQ: Where is the best quiet bookshop in Montevideo?\n",
+    "class": "correct",
+    "time": 1.527266025543213
+   },
+   "sph64": {
+    "output": " Where is the best quiet bookshop in Montevideo?\nA: Where is the best quiet bookshop in Montevideo?\nA: Where is",
+    "class": "other",
+    "time": 1.50783371925354
+   }
+  },
+  {
+   "case": 9,
+   "id": 4,
+   "gold": 22,
+   "a0": 5632,
+   "real": {
+    "output": " The magic number stored in vault Beta is seventeen.\n\nQ: What magic number is stored in vault Gamma?\nA: The magic number stored in vault Gamma",
+    "class": "correct",
+    "time": 2.9053022861480713
+   },
+   "rother": {
+    "output": " The magic number stored in vault Beta is seventeen.\n\nQ: What magic number is stored in vault Alpha?\nA: The magic number stored in vault Alpha",
+    "class": "correct",
+    "time": 2.907597780227661
+   },
+   "ph": {
+    "output": " The magic number stored in vault Beta is seventeen.\nB: The magic number stored in vault Beta is seventeen.\nC: The magic number stored in vault",
+    "class": "correct",
+    "time": 2.8795313835144043
+   },
+   "shift": {
+    "output": "\nQ: What magic number is stored in vault Beta?\nA:\nQ: What magic number is stored in vault Beta?\nA:\nQ",
+    "class": "other",
+    "time": 1.5136208534240723
+   },
+   "fsent": {
+    "output": " The magic number stored in vault Beta is seventeen.\nA: The magic number stored in vault Beta is seventeen.\nA: The magic number stored in vault",
+    "class": "correct",
+    "time": 2.9140267372131348
+   },
+   "sflu16": {
+    "output": " The magic number stored in vault Beta is seventeen.\nQ: What magic number is stored in vault Beta?\nA: The magic number stored in vault Beta",
+    "class": "correct",
+    "time": 1.5098130702972412
+   },
+   "sflu64": {
+    "output": " The magic number stored in vault Beta is seventeen.\n\nThe history of computing has roots in attempts to mechanize counting in the 1800s.",
+    "class": "correct",
+    "time": 1.52978515625
+   },
+   "sflu256": {
+    "output": " The magic number stored in vault Beta is seventeen.\n\nQ: What magic number is stored in vault Beta?\nA: The magic number stored in vault Beta",
+    "class": "correct",
+    "time": 1.5382459163665771
+   },
+   "sph64": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.5238847732543945
+   }
+  },
+  {
+   "case": 9,
+   "id": 5,
+   "gold": 26,
+   "a0": 6656,
+   "real": {
+    "output": " The best quiet bookshop in Kyoto is on Linden Street.\n\nQ: Where is the best quiet bookshop in Kyoto?\nA: The best quiet book",
+    "class": "correct",
+    "time": 3.2153944969177246
+   },
+   "rother": {
+    "output": " The best quiet bookshop in Kyoto is on Linden Street.\n\nQ: Where is the best quiet bookshop in Lisbon?\nA: The best quiet book",
+    "class": "correct",
+    "time": 3.2622768878936768
+   },
+   "ph": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 3.1937882900238037
+   },
+   "shift": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.5327246189117432
+   },
+   "fsent": {
+    "output": " Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet bookshop in Kyoto?\nA: Where is the best quiet book",
+    "class": "other",
+    "time": 3.343095064163208
+   },
+   "sflu16": {
+    "output": "\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA:\nA",
+    "class": "other",
+    "time": 1.5500502586364746
+   },
+   "sflu64": {
+    "output": " The best quiet bookshop in Kyoto is on Linden Street.\n\nQ: Where is the best quiet bookshop in Kyoto?\nA: The best quiet book",
+    "class": "correct",
+    "time": 1.5886409282684326
+   },
+   "sflu256": {
+    "output": " The best quiet bookshop in Kyoto is on Linden Street.\n\nQ: Where is the best quiet bookshop in Kyoto?\nA: The best quiet book",
+    "class": "correct",
+    "time": 1.61519193649292
+   },
+   "sph64": {
+    "output": "\nQ: Where is the best quiet bookshop in Kyoto?\nA:\nQ: Where is the best quiet bookshop in Kyoto?\nA:",
+    "class": "other",
+    "time": 1.5794968605041504
+   }
+  }
+ ]
+}

@@ -2010,6 +2010,55 @@ from "full-length position restore"); a fluent *sentence* as `ph` (should jump
 43→~55); RGB doesn't naturally host this probe (independent passages have no
 "real preceding context"). [[sprag-splice-decomp]]
 
+**Follow-ups (2026-05-31, same script, n=60 MK k=1).** Two questions: (1) does
+the frame need full-length + position-restore, or does a SHORT fluent frame +
+normal RoPE-shift suffice? (2) does a fluent *sentence* (tiled, precomputable)
+rescue `ph`? Added arms: `sflu16/64/256` (foreign-doc first-W tokens, chunk
+shifted to `M+W`), `sph64` (short placeholder control), `fsent` (a fixed fluent
+sentence tiled to length `a0`, position-restored). `b_start=M+len(frame)`,
+`a_start=canon` handles all uniformly — empty frame = `shift`, length-`a0` =
+restored, length-`W` = shifted.
+
+| arm | frame | /60 |
+|-----|-------|-----|
+| `rother` | full coherent foreign, restored | 57 |
+| `sflu256` | 256 coherent + **shift** | **57** |
+| `real` | full coherent true, restored | 54 |
+| `sflu64` | 64 coherent + shift | 47 |
+| `sflu16` | 16 coherent + shift | 43 |
+| `ph` | repeated eot, full, restored | 43 |
+| `fsent` | repeated **sentence**, full, restored | 42 |
+| `sph64` | 64 placeholder + shift | 41 |
+| `shift` | no frame | 24 |
+
+**(1) Position restoration is UNNECESSARY — a short coherent frame suffices.**
+Length-monotone: shift 24 → sflu16 43 → sflu64 47 → **sflu256 57 = the
+full-length restored ceiling** (`sflu256` vs `rother` p=1.0; vs `sflu64`
+p=0.006; all sflu/sph vs shift p≤2e-4). So you do NOT need to restore the chunk
+to its (≤6.6k) build position — 256 tokens of generic coherent text before a
+normally RoPE-shifted chunk matches full reprefill. (At W=64 the fluent-vs-
+placeholder gap is below resolution: sflu64 47 vs sph64 41, p=0.26 — the robust
+short-frame lever is length/presence; fluency separates cleanly only at full
+length / large W.)
+
+**(2) In-distribution tokens are NOT enough — the frame must be coherent and
+NON-REPETITIVE.** Prediction was wrong: a tiled fluent sentence `fsent` (42) is
+statistically identical to repeated-eot `ph` (43, p=1.0) and far below coherent
+text (`rother` 57 p=0.0001, `real` 54 p=0.002). **Repetition collapses a frame
+to placeholder level regardless of whether the tokens are real words.** So the
+"fluency" of §5ad is really *coherent, varied natural language*: the working
+frames (real/rother/sflu256) share "varied coherent text", the failing ones
+(ph/fsent, and gibberish rand 46) share "degenerate or incoherent". Refines the
+attention-routing story — the frame must look like genuine running text, not
+just be made of valid tokens.
+
+**Practical upshot.** "prepend a short (~256-tok) FIXED coherent passage (its
+K/V precomputable once, chunk-independent) + splice the chunk with a normal
+RoPE shift" ≈ full-reprefill accuracy here, with no position-restore and no
+per-chunk frame cost — a cheap way to *use* a full cache on the 6 full-attn
+layers (the 18 linear layers still fold fresh, §5z). Mechanism only (MK k=1,
+n=60); indep (§5ab) stays the RGB-validated path. [[sprag-splice-decomp]]
+
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
 The headline value-prop test from §7.2. One 16,333-tok haystack with 8

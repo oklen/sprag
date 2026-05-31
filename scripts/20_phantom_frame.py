@@ -63,14 +63,16 @@ def build_full_kv(model, tokens, anchor_ids, device):
 
 
 def run_arm(model, tok, device, inv_freq, sink_ids, frame_ids, ctoks, canon, cached,
-            question, max_new, shift):
+            question, max_new):
     """Assemble [sink][frame][chunk][query], splice the chunk's full cache.
 
-    shift=False: chunk at b_start=M+len(frame)=canon → delta 0 (frame restores
-    position). shift=True ('shift' arm): no frame, chunk at b_start=M → cached K
-    RoPE-shifted by M-canon."""
+    The chunk lands at b_start = M + len(frame); the cache (built at canon) is
+    RoPE-shifted by (b_start - canon). A length-`a_start` frame restores the
+    build position (delta 0); an empty frame = standard splice at M (delta
+    -a_start); a short frame of length W = standard-ish splice at M+W (the chunk
+    is position-SHIFTED, not restored)."""
     flat = list(sink_ids) + list(frame_ids) + list(ctoks)
-    b_start = len(sink_ids) if shift else len(sink_ids) + len(frame_ids)
+    b_start = len(sink_ids) + len(frame_ids)
     pl = ChunkPlacement(a_start=canon, b_start=b_start, length=len(ctoks), cached=cached)
     tail = tok("\n\nQ: " + question + "\nA:", add_special_tokens=False).input_ids
     inp = torch.tensor([flat + tail], dtype=torch.long, device=device)
@@ -89,7 +91,9 @@ def main():
     ap.add_argument("--max_new_tokens", type=int, default=32)
     ap.add_argument("--ph_token", default="<|endoftext|>",
                     help="placeholder token string for the 'ph' arm")
-    ap.add_argument("--arms", nargs="+", default=["real", "rother", "rand", "ph", "shift"])
+    ap.add_argument("--arms", nargs="+",
+                    default=["real", "rother", "ph", "shift", "fsent",
+                             "sflu16", "sflu64", "sflu256", "sph64"])
     ap.add_argument("--max_a0", type=int, default=None,
                     help="skip golds whose build position a_start exceeds this "
                          "(caps frame-forward length / cost)")
@@ -117,6 +121,12 @@ def main():
                    return_tensors="pt").input_ids[0]
     donor0 = _toks(case_ids[0])
     donor_last = _toks(case_ids[-1])
+
+    # fixed fluent sentence, tiled to any length (exp2 'fsent'): repetitive but
+    # in-distribution — sits between ph (repeated token) and rother (coherent).
+    fsent_unit = tok("The history of science is a long and winding road, full of "
+                     "unexpected discoveries and quiet, patient work. ",
+                     add_special_tokens=False).input_ids
 
     cnt = {a: 0 for a in args.arms}
     n = 0
@@ -148,12 +158,20 @@ def main():
                            V[li][:, canon:M + a1, :].contiguous()) for li in FULL_ATTN_LAYERS}
 
             donor = donor_last if ci == case_ids[0] else donor0
+            tiled = (fsent_unit * (a0 // len(fsent_unit) + 1))[:a0]
             frames = {
+                # full-length, position-restored (delta 0)
                 "real": tokens[:a0].tolist(),
                 "rother": donor[:a0].tolist(),
                 "ph": [ph_tok] * a0,
                 "rand": torch.randint(1000, vocab - 1000, (a0,), generator=rng).tolist(),
+                "fsent": tiled,
                 "shift": [],
+                # short frame, chunk position-SHIFTED to M+W (exp1)
+                "sflu16": donor[:16].tolist(),
+                "sflu64": donor[:64].tolist(),
+                "sflu256": donor[:256].tolist(),
+                "sph64": [ph_tok] * 64,
             }
             n += 1
             row = {"case": ci, "id": q["id"], "gold": gold, "a0": a0}
@@ -161,8 +179,7 @@ def main():
             for arm in args.arms:
                 t0 = time.time()
                 out = run_arm(model, tok, device, inv_freq, anchor_ids, frames[arm],
-                              ctoks, canon, cached, q["question"], args.max_new_tokens,
-                              shift=(arm == "shift"))
+                              ctoks, canon, cached, q["question"], args.max_new_tokens)
                 cls = mk.classify(out, q["answer"], q["distractor_answers"])
                 cnt[arm] += cls == "correct"
                 row[arm] = {"output": out, "class": cls, "time": time.time() - t0}
