@@ -35,7 +35,7 @@ from sprag.loader import load_model, FULL_ATTN_LAYERS
 from sprag.chunk_cache import (build_chunk_cache, build_anchor_chunk_cache,
                                   build_fixed_anchor_chunk_cache, load_meta)
 from sprag.embed import JinaEmbedder
-from sprag.assemble import make_inv_freq_for
+from sprag.assemble import make_inv_freq_for, ChunkPlacement
 from sprag.retrieve import load_chunk_reprs, topk
 from sprag.runner import run_baseline
 from sprag.rgb import load_rgb, matches, any_slot_alias_in
@@ -49,6 +49,74 @@ build_sink_placement = _sink.build_sink_placement
 build_chunk_placements_nostrip = _sink.build_chunk_placements_nostrip
 run_assembled = _sink.run_assembled
 _load_chunk = _sink._load_chunk
+
+
+# §5ad-RGB: a fixed, COHERENT, non-repetitive generic passage. §5ad found the
+# splice-rescuing frame must be coherent natural language (a repeated sentence
+# fails like a placeholder), and that ~256 such tokens + a normal RoPE-shift
+# match the full-reprefill ceiling. Irrelevant content is fine (relevance was
+# irrelevant on MK). Tokenised once, sliced to --frame_len. K/V is precomputable.
+GENERIC_FRAME_TEXT = (
+    "The Amazon rainforest is the largest tropical rainforest on Earth, covering "
+    "much of the Amazon basin in South America. It spans across nine countries, "
+    "with the majority located in Brazil. The forest is home to an extraordinary "
+    "diversity of plant and animal species, many of which have not yet been "
+    "documented by scientists. Wide rivers wind through the dense canopy, and the "
+    "region plays a crucial role in regulating the global climate by absorbing "
+    "large amounts of carbon dioxide. Indigenous peoples have lived in the Amazon "
+    "for thousands of years, developing deep knowledge of its plants and its "
+    "ecosystems. In recent decades, deforestation driven by agriculture, logging, "
+    "and mining has threatened the forest's long-term stability. Conservation "
+    "groups now work to protect the remaining areas and to restore land that has "
+    "already been cleared. Researchers continue to study how changes in the Amazon "
+    "affect rainfall patterns, biodiversity, and the carbon cycle far beyond the "
+    "region itself. Elsewhere, the history of railways offers a different example "
+    "of gradual change. The first public steam railway opened in northern England "
+    "in the early nineteenth century, and within a few decades tracks had spread "
+    "across entire continents. Railways reshaped trade, travel, and the growth of "
+    "cities, allowing goods and people to move at speeds that would have seemed "
+    "impossible to earlier generations. Engineers learned to bore tunnels through "
+    "mountains and to raise long bridges over rivers and valleys. Over time, "
+    "electric and diesel engines replaced steam, and high-speed lines were built "
+    "to connect distant capitals in only a few hours of quiet travel."
+)
+
+
+def build_frame_placements(cache_dir, chunk_ids, chunk_lookup, b_offset,
+                           frame_for, front_only=False):
+    """Per-chunk phantom-frame assembly (§5ad-RGB). Before each retrieved chunk
+    insert a FRESH frame (frame_for(i, cid, a_start) -> token ids), then splice
+    the chunk's cached K/V after it (RoPE-shifted from its doc position to the
+    new post-frame position). front_only: only the FIRST chunk gets a frame (the
+    block gets a coherent lead-in; later chunks already follow real chunk text)."""
+    placements, flat = [], []
+    cursor = b_offset
+    for i, cid in enumerate(chunk_ids):
+        fr = frame_for(i, cid, int(chunk_lookup[cid]["a_start"])) \
+            if (i == 0 or not front_only) else []
+        if fr:
+            flat.extend(fr)
+            cursor += len(fr)
+        t = _load_chunk(cache_dir, cid)
+        ids = t["input_ids"]
+        L = int(ids.shape[0])
+        cached = {li: (t[f"K_l{li}"], t[f"V_l{li}"]) for li in FULL_ATTN_LAYERS}
+        placements.append(ChunkPlacement(
+            a_start=int(chunk_lookup[cid]["a_start"]),
+            b_start=cursor, length=L, cached=cached))
+        flat.extend(ids.tolist())
+        cursor += L
+    return placements, flat
+
+
+def reconstruct_doc_tokens(cache_dir, meta):
+    """Exact doc token stream = chunks concatenated in a_start order (each chunk's
+    input_ids = doc_tokens[a_start:a_end]). Used to slice a chunk's REAL preceding
+    tokens with indices aligned to a_start (no re-tokenisation mismatch)."""
+    toks = []
+    for c in sorted(meta["chunks"], key=lambda c: c["a_start"]):
+        toks.extend(_load_chunk(cache_dir, c["id"])["input_ids"].tolist())
+    return toks
 
 
 def find_oracle_chunks(cache_dir: Path, meta, tok, slots, k: int) -> list[int]:
@@ -103,7 +171,10 @@ def main():
                     choices=["baseline", "raw_topk", "splice_topk", "splice_topk_a1",
                              "k_only_topk", "v_only_topk",
                              "ushape_topk", "rev_topk",
+                             "gframe_topk", "gfront_topk", "rframe_topk",
                              "oracle_raw", "oracle_splice"])
+    ap.add_argument("--frame_len", type=int, default=256,
+                    help="phantom-frame length (gframe/gfront/rframe modes, §5ad-RGB)")
     ap.add_argument("--cache_kind", type=str, default="standard",
                     choices=["standard", "anchor", "fixed", "indep"],
                     help="standard = single full-doc forward; "
@@ -134,6 +205,13 @@ def main():
     device = next(model.parameters()).device
     inv_freq = make_inv_freq_for(model).to(device)
     emb = JinaEmbedder()
+
+    frame_modes = [m for m in args.modes if m in ("gframe_topk", "gfront_topk", "rframe_topk")]
+    generic_frame = (tok(GENERIC_FRAME_TEXT, add_special_tokens=False).input_ids[:args.frame_len]
+                     if frame_modes else None)
+    if frame_modes:
+        print(f"  frame modes {frame_modes}: generic_frame={len(generic_frame)} tok, "
+              f"frame_len={args.frame_len}")
 
     counts = {m: {"correct": 0, "n": 0} for m in args.modes}
     time_acc = {m: 0.0 for m in args.modes}
@@ -265,6 +343,35 @@ def main():
                                 inv_freq, args.max_new_tokens, alpha=a,
                                 splice_kind=kind)
             record(mode, out, time.time() - t0, ntok)
+
+        # §5ad-RGB phantom-frame modes: prepend a fresh frame before chunk(s),
+        # splice the cached K/V at α=1.0 (pure cache — the prefill-skip regime).
+        if frame_modes and jina_top:
+            doc_tokens = reconstruct_doc_tokens(cache_dir, meta)
+            for mode, front_only, real in (("gframe_topk", False, False),
+                                           ("gfront_topk", True, False),
+                                           ("rframe_topk", False, True)):
+                if mode not in args.modes:
+                    continue
+                if real:
+                    def frame_for(i, cid, a, _dt=doc_tokens):
+                        return _dt[max(0, a - args.frame_len):a]
+                else:
+                    def frame_for(i, cid, a):
+                        return generic_frame
+                sink_pl, s_ids = build_sink_placement(cache_dir, args.M)
+                ch_pl, ch_flat = build_frame_placements(
+                    cache_dir, jina_top, chunk_lookup, b_offset=args.M,
+                    frame_for=frame_for, front_only=front_only)
+                placements = [sink_pl] + ch_pl
+                flat = s_ids + ch_flat
+                ntok = len(flat) + len(tok("\n\nQ: " + rec.query + "\nA:",
+                                           add_special_tokens=False).input_ids)
+                t0 = time.time()
+                out = run_assembled(model, tok, placements, flat, rec.query,
+                                    inv_freq, args.max_new_tokens, alpha=1.0,
+                                    splice_kind="kv")
+                record(mode, out, time.time() - t0, ntok)
 
         rows.append(row)
         if not (args.keep_cache or args.reuse_cache):

@@ -2059,6 +2059,55 @@ per-chunk frame cost — a cheap way to *use* a full cache on the 6 full-attn
 layers (the 18 linear layers still fold fresh, §5z). Mechanism only (MK k=1,
 n=60); indep (§5ab) stays the RGB-validated path. [[sprag-splice-decomp]]
 
+### 5ad-RGB. The frame trick does NOT transfer — generic frame is net-negative; only the chunk's OWN context helps
+
+`scripts/16_rgb_eval.py` modes `gframe_topk` / `gfront_topk` / `rframe_topk`
+(+`build_frame_placements`, `reconstruct_doc_tokens`, `GENERIC_FRAME_TEXT`).
+RGB en.json, 300 records, Jina top-5, `standard` cache (= the full cache: passages
+concatenated into ~9K doc, each chunk's K/V captured at its real doc position).
+All frame modes splice at **α=1.0 (pure cached** — the prefill-skip regime):
+prepend a 256-tok FRESH frame, then splice the chunk's cache (RoPE-shifted from
+doc position to the post-frame assembly position). `gframe` = generic coherent
+passage before EACH chunk; `gfront` = generic frame before the FIRST chunk only;
+`rframe` = each chunk's OWN real preceding 256 doc tokens.
+
+| mode (α=1.0) | acc | McNemar vs raw | avg_tok |
+|------|-----|----------------|---------|
+| `raw_topk` (fresh, no splice) | 78.3 | — | 1291 |
+| **`rframe`** (real preceding-256) | **80.7** | p=0.38 **(tied)** | 2503 |
+| `splice_a1` (no frame) | 73.3 | p=0.049 (sig ↓) | 1291 |
+| `gfront` (generic, front only) | 69.3 | p=0.0005 (sig ↓) | 1547 |
+| `gframe` (generic, per-chunk) | 65.3 | p<1e-4 (sig ↓) | 2571 |
+
+**Parroting:** `gframe` regurgitates the generic frame text ("Amazon rainforest"
+/ "railways") in **42/300 (14%)** of outputs, `gfront` 6/300. This is the
+mechanism of the collapse.
+
+**The story REVERSES from MK §5ad:**
+1. **The generic-coherent-frame trick is net-NEGATIVE on real multi-chunk RAG**
+   (gframe 65.3 < even the no-frame splice 73.3). Two things MK hid: (a)
+   open-ended generation lets the model PARROT the irrelevant frame (14%) — a
+   constrained single-needle answer never exposed this; (b) in multi-chunk the
+   chunks already follow coherent neighbours, so a generic frame is redundant
+   disruption. **"Relevance is irrelevant" (§5ad) was an MK artifact** — when the
+   output is open-ended over noisy passages, frame CONTENT matters.
+2. **The chunk's OWN real preceding context works AND rescues the splice
+   footgun.** `rframe` (real-256 frame + pure α=1.0 cached) = 80.7, statistically
+   tied with fresh raw (p=0.38), vs the no-frame `splice_a1` footgun 73.3 (sig
+   below raw, §5u/§5r replicates). A real local frame lifts pure-cache α=1.0 back
+   to fresh quality (73.3→80.7); it doesn't parrot (on-topic context isn't a
+   fixed distractor).
+
+**Caveat — NOT an efficiency win as built.** `rframe` adds 256 fresh tokens per
+chunk (~2× tokens: 2503 vs 1291), so it ties `raw` accuracy at HIGHER cost.
+**indep (§5ab) remains the better path** — tied with raw (76.7/74.7) at LOWER
+cost (chunk built alone, no frame). `rframe`'s value is mechanistic: in real RAG
+the cached chunk needs its GENUINE local context, not generic fluency — the §5ad
+attention-routing-via-any-fluent-text picture is specific to constrained-lookup
+tasks. (Untested: cache the real-frame K/V too — those tokens are already in the
+doc cache — to remove the 2× fresh cost; would make rframe a real splice path.)
+[[sprag-splice-decomp]]
+
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
 The headline value-prop test from §7.2. One 16,333-tok haystack with 8
