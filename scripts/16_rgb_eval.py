@@ -158,6 +158,33 @@ def build_rfresh_flat(cache_dir, chunk_ids, chunk_lookup, doc_tokens, frame_len)
     return flat
 
 
+def find_answer_position(cache_dir, chunk_ids, tok, slots):
+    """Where does the answer sit inside the RETRIEVED chunks? Returns
+    (min_frac, rank, n_alias_chunks): the smallest char-offset fraction at which
+    any answer alias appears across the top-k chunks (the drift-prone head is
+    frac≈0), the retrieved rank of that chunk, and how many retrieved chunks
+    contain an alias. (None, None, 0) = retrieval miss (no chunk has the answer).
+    Used to test the head-drift hypothesis: do splice failures concentrate when
+    the answer is near a chunk head?"""
+    best = None
+    n_hit = 0
+    for rank, cid in enumerate(chunk_ids):
+        low = tok.decode(_load_chunk(cache_dir, cid)["input_ids"]).lower()
+        hit = False
+        for slot in slots:
+            for alias in slot:
+                a = alias.lower().strip()
+                if a and a in low:
+                    hit = True
+                    frac = low.find(a) / max(1, len(low))
+                    if best is None or frac < best[0]:
+                        best = (frac, rank)
+        n_hit += hit
+    if best is None:
+        return None, None, 0
+    return best[0], best[1], n_hit
+
+
 def reconstruct_doc_tokens(cache_dir, meta):
     """Exact doc token stream = chunks concatenated in a_start order (each chunk's
     input_ids = doc_tokens[a_start:a_end]). Used to slice a chunk's REAL preceding
@@ -330,9 +357,14 @@ def main():
             if not oracle_top:           # answer not found in any chunk -> fall back
                 oracle_top = jina_top if jina_top is not None else [0]
 
+        ans_frac, ans_rank, ans_nhit = (None, None, 0)
+        if jina_top:
+            ans_frac, ans_rank, ans_nhit = find_answer_position(
+                cache_dir, jina_top, tok, rec.slots)
         row = {"case": ci, "rid": rec.rid, "query": rec.query,
                "slots": rec.slots, "n_chunks": meta["num_chunks"],
-               "jina_top": jina_top, "oracle_top": oracle_top}
+               "jina_top": jina_top, "oracle_top": oracle_top,
+               "ans_frac": ans_frac, "ans_rank": ans_rank, "ans_nhit": ans_nhit}
 
         def record(mode, out, dt, ntok):
             cls = "correct" if matches(out, rec.slots) else "wrong"
