@@ -2173,6 +2173,25 @@ awareness; RGB doc = `"\n\n".join(shuffled passages)` → fixed chunks straddle
 passage boundaries) — semantic chunking is an open lever on retrieval recall
 (the real ceiling, §5u). [[sprag-splice-decomp]]
 
+**Head-drift REFUTED — drift is build-vs-use distance, not token-position
+(`data/rgb_frame_cs1024_ap.json`).** Hypothesis: cs=1024 survived only because
+answers rarely sit in the chunk's drift-prone HEAD; a frame would be needed if
+they did. Logged each answer's earliest position in its retrieved chunks
+(`find_answer_position`→`ans_frac`), bucketed splice_a1/cframe/raw. n=300, 0 miss.
+Answers actually CONCENTRATE at the head (208/300 at frac<0.10, 262 at <0.25 —
+RGB is answer-early). Yet by bucket (raw / splice_a1 / cframe): head 0-10%
+182/187/187, 10-25% 43/43/43, 25-50% 16/17/18, 50-75% 6/8/8. HEAD frac<0.25
+(n=262): splice vs cframe 7/7 p=1.0; raw vs splice 7/12 p=0.36 (splice ≥ raw).
+**Even with the answer AT the head, no-frame splice ≡ framed (187=187) and ≥
+fresh — at every position bucket. The frame helps nowhere.** Kills three stories
+(my "self-mitigation", the "answer-dodges-head", the "frame=head-insurance").
+**Drift magnitude = build-context vs use-context distance (§5w), NOT
+token-position-in-chunk**: at cs=1024 top-5 covers ~5/9 of the doc → cached
+chunk's build context (full doc) ≈ assembly use context → even head tokens'
+preceding context is ~restored → small drift everywhere (at cs=256 top-5=5/36 →
+whole chunk drifts). Matches MK position-uniformity and the cached≥fresh hint.
+[[sprag-splice-decomp]]
+
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
 The headline value-prop test from §7.2. One 16,333-tok haystack with 8

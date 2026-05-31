@@ -205,3 +205,41 @@ chunk_size)`, non-overlapping, no semantic/passage-boundary awareness; RGB doc =
 `"\n\n".join(shuffled passages)`, so fixed chunks straddle passage boundaries).
 Open direction: semantic/passage-aligned chunking to attack retrieval recall —
 the real ceiling (§5u: raw 78.3 ≪ full-context 86.3).
+
+---
+
+## Head-drift test — answer-position bucketing (cs=1024, `data/rgb_frame_cs1024_ap.json`)
+
+Hypothesis (user): the cs=1024 footgun vanished only because the answer rarely
+sits in the chunk's drift-prone HEAD; a frame would be needed for robustness if
+it did. Test: log each answer's earliest position within its retrieved chunks
+(`find_answer_position` → `ans_frac`), bucket splice_a1 (no frame) vs cframe
+(frame) vs raw. n=300, 0 retrieval miss.
+
+Surprise: answers concentrate at the head — 208/300 (69%) at frac<0.10, 262/300
+(87%) at frac<0.25 (RGB passages are answer-early; ans_frac = min over retrieved
+chunks). So the head bucket is huge → a powerful test.
+
+| ans_frac bucket | n | raw | splice_a1 | cframe | rframe |
+|-----------------|---|-----|-----------|--------|--------|
+| head 0–10% | 208 | 182 | **187** | **187** | 189 |
+| 10–25% | 54 | 43 | 43 | 43 | 43 |
+| 25–50% | 24 | 16 | 17 | 18 | 17 |
+| 50–75% | 11 | 6 | 8 | 8 | 8 |
+| tail 75–100% | 3 | 0 | 0 | 1 | 1 |
+
+HEAD (frac<0.25, n=262): splice vs cframe 7/7 p=1.0 (tied); raw vs splice 7/12
+p=0.36 (splice nominally higher). TAIL (frac≥0.5, n=14): splice vs cframe 0/1.
+
+**Head-drift REFUTED.** Even with the answer AT the chunk head (262/300), the
+no-frame cached splice ≡ the framed version (187=187) and ≥ fresh raw — at EVERY
+position bucket. The frame contributes nothing anywhere, including the head. So:
+my "long chunk self-mitigates" (too aggregate), the user's "answer dodges the
+head" (answers are mostly IN the head, yet fine), and "frame as head-insurance"
+(head needs no frame) are all wrong. **Drift magnitude is set by build-vs-use
+CONTEXT distance (§5w), not token-position-in-chunk.** At cs=1024 top-5 covers
+~5/9 of the doc → each cached chunk's build context (full doc) ≈ its assembly
+use context → even head tokens' preceding context is ~restored → drift is small
+everywhere. (At cs=256 top-5 = 5/36 → use ≪ build → whole chunk drifts.) Also
+confirms the MK position-uniformity (drift independent of needle position) and
+why cached ≥ fresh (cache carries full-doc context the short assembly lacks).
