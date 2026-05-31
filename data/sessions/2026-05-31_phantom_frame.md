@@ -163,3 +163,45 @@ SIGNIFICANTLY beats indep in the pure-α=1.0 regime** (cframe+33 / indep+16).
   frame+chunk tokens — the real speedup needs a true inject-KV path that forwards
   only sink+query). Neither beats fresh `raw` on accuracy; the cached splice is
   free-at-best, as everywhere else in the project.
+
+---
+
+## Chunk-size sweep — the footgun is a SHORT-chunk artifact (`data/rgb_frame_cs{512,1024}.json`)
+
+User hypothesis (2026-05-31): if a FIXED short frame (256) still cures the α=1.0
+splice for LONG chunks, the frame overhead (`frame_len/chunk_size`) shrinks and
+the method becomes meaningful. Test: fix `frame_len=256`, sweep `chunk_size`.
+`cframe` generalised to splice the previous chunk's LAST `frame_len` cached
+tokens (a fixed frame for any chunk length). All α=1.0, n=300, Jina top-5.
+
+| chunk_size | frame overhead | raw | splice_a1 (no frame) | cframe | rframe | footgun raw−splice |
+|------------|----------------|-----|----------------------|--------|--------|--------------------|
+| 256  | 100% | 78.3 | 73.3 | 80.3 | 80.7 | **+5.0** (p=0.049) |
+| 512  | 50%  | 84.3 | 78.0 | 80.3 | 81.0 | **+6.3** (p=0.0019) |
+| 1024 | 25%  | 82.3 | **85.0** | 85.7 | 86.0 | **−2.7** (p=0.15, gone) |
+
+McNemar `cframe` vs `splice_a1`: cs256 p=0.0019 (frame CURES), cs512 p=0.32
+(frame only partial — cframe 80.3 < raw 84.3), cs1024 p=0.81 (no diff, nothing
+to cure).
+
+**Conclusion — the hypothesis flips to something better.** The α=1.0 splice
+footgun is a SHORT-chunk artifact: footgun +5.0 (cs256) → +6.3 (cs512) → −2.7
+(cs1024, GONE). The drift (§5w) lives in the chunk's first few boundary tokens
+(built with preceding context absent at assembly); for a long chunk those are a
+tiny fraction → the chunk self-mitigates. So at `chunk_size≥1024` the PURE cached
+splice with NO frame (`splice_a1` 85.0) already ties/nominally-beats fresh `raw`
+(82.3, p=0.15); `cframe` adds nothing (p=0.81). **At long chunks the frame is
+UNNECESSARY, not just cheap** — and it only cleanly "cures" at cs256 where its
+overhead is 100% (a useless operating point); at cs512 it only partially helps.
+**Practical prefill-skip recipe: chunk_size ≥ ~1024, pure α=1.0, NO frame.**
+Bonus: at cs1024 cached ≥ fresh (85.0 vs 82.3) — first hint the ReAttention
+premise pays off (a long chunk's cache carries the FULL real doc context that the
+short-assembly fresh forward never sees). Caveat: `raw` peaks at cs512 (84.3) =
+retrieval sweet-spot; splice-free@1024 comes with raw below its 512 peak
+(coverage vs splice-cleanliness trade).
+
+Chunking is fully STATIC fixed-length (`split_into_chunks` = `range(0, n,
+chunk_size)`, non-overlapping, no semantic/passage-boundary awareness; RGB doc =
+`"\n\n".join(shuffled passages)`, so fixed chunks straddle passage boundaries).
+Open direction: semantic/passage-aligned chunking to attack retrieval recall —
+the real ceiling (§5u: raw 78.3 ≪ full-context 86.3).

@@ -2144,6 +2144,35 @@ p=0.47) but α<1 admixes fresh K (not a clean skip) and pure α=1.0 indep = 74.7
 ABOVE isolation-built indep at α=1, at ~2× cached injection. Neither beats fresh
 raw — cached splice is free-at-best, as everywhere. [[sprag-splice-decomp]]
 
+**Chunk-size sweep — the α=1.0 footgun is a SHORT-chunk artifact
+(`data/rgb_frame_cs{512,1024}.json`).** User asked: if a FIXED 256-tok frame
+still cures the splice for LONG chunks, overhead (frame_len/chunk_size) shrinks
+and the method earns its keep. Fixed `frame_len=256`, swept `chunk_size`; cframe
+generalised to the previous chunk's last 256 cached tokens. n=300, α=1.0:
+
+| chunk_size | overhead | raw | splice_a1 (no frame) | cframe | footgun raw−splice |
+|------------|----------|-----|----------------------|--------|--------------------|
+| 256  | 100% | 78.3 | 73.3 | 80.3 | +5.0 (p=0.049) |
+| 512  | 50%  | 84.3 | 78.0 | 80.3 | +6.3 (p=0.0019) |
+| 1024 | 25%  | 82.3 | **85.0** | 85.7 | −2.7 (p=0.15, GONE) |
+
+The footgun +5.0→+6.3→−2.7 **vanishes as chunks grow**: drift (§5w) lives in the
+chunk's first boundary tokens (built with absent preceding context); for a long
+chunk those are a tiny fraction → self-mitigates. **At chunk_size≥1024 the PURE
+cached splice with NO frame (`splice_a1` 85.0) already ties/nominally-beats fresh
+raw (82.3, p=0.15); cframe adds nothing (vs splice_a1 p=0.81).** So at long chunks
+the frame is UNNECESSARY (not just cheap); it only cleanly cures at cs256 where
+its overhead is 100% (useless operating point), partial at cs512. **Practical
+prefill-skip recipe: chunk_size≥~1024, pure α=1.0, no frame.** Bonus: cs1024
+cached ≥ fresh (85.0 vs 82.3) — first hint the ReAttention premise pays off (a
+long chunk's cache carries the FULL real doc context the short-assembly fresh
+forward never sees). Caveat: raw peaks at cs512 (84.3) = retrieval sweet-spot;
+splice-free@1024 sits below that (coverage vs splice-cleanliness trade). NB:
+chunking is fully STATIC fixed-length (`split_into_chunks`, no semantic/passage
+awareness; RGB doc = `"\n\n".join(shuffled passages)` → fixed chunks straddle
+passage boundaries) — semantic chunking is an open lever on retrieval recall
+(the real ceiling, §5u). [[sprag-splice-decomp]]
+
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
 The headline value-prop test from §7.2. One 16,333-tok haystack with 8
