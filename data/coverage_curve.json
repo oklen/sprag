@@ -1,0 +1,2726 @@
+{
+ "chunk_size": 256,
+ "M": 4,
+ "coverages": [
+  0,
+  25,
+  50,
+  75,
+  100
+ ],
+ "cached": {
+  "c0": {
+   "ok": 44,
+   "n": 58
+  },
+  "c25": {
+   "ok": 48,
+   "n": 58
+  },
+  "c50": {
+   "ok": 55,
+   "n": 58
+  },
+  "c75": {
+   "ok": 54,
+   "n": 58
+  },
+  "c100": {
+   "ok": 53,
+   "n": 58
+  }
+ },
+ "fresh": {
+  "c0": {
+   "ok": 47,
+   "n": 58
+  },
+  "c25": {
+   "ok": 50,
+   "n": 58
+  },
+  "c50": {
+   "ok": 51,
+   "n": 58
+  },
+  "c75": {
+   "ok": 55,
+   "n": 58
+  },
+  "c100": {
+   "ok": 58,
+   "n": 58
+  }
+ },
+ "n_used": 58,
+ "rows": [
+  {
+   "case": 4,
+   "rid": "4",
+   "target": 7,
+   "n_prec": 7,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.398908853530884
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.286,
+    "ntok": 772,
+    "dt": 3.597656011581421
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.571,
+    "ntok": 1284,
+    "dt": 3.8254170417785645
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.714,
+    "ntok": 1540,
+    "dt": 3.888493776321411
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 2052,
+    "dt": 3.9735543727874756
+   }
+  },
+  {
+   "case": 9,
+   "rid": "9",
+   "target": 11,
+   "n_prec": 11,
+   "c0": {
+    "cached": 0,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.3492631912231445
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.273,
+    "ntok": 1028,
+    "dt": 3.6560046672821045
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.545,
+    "ntok": 1796,
+    "dt": 4.049159049987793
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.727,
+    "ntok": 2308,
+    "dt": 4.2687153816223145
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 3076,
+    "dt": 4.505440711975098
+   }
+  },
+  {
+   "case": 14,
+   "rid": "14",
+   "target": 4,
+   "n_prec": 4,
+   "c0": {
+    "cached": 1,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.3284943103790283
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.25,
+    "ntok": 516,
+    "dt": 3.3245327472686768
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 772,
+    "dt": 3.489227533340454
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.75,
+    "ntok": 1028,
+    "dt": 3.5952394008636475
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1284,
+    "dt": 3.5232017040252686
+   }
+  },
+  {
+   "case": 19,
+   "rid": "19",
+   "target": 2,
+   "n_prec": 2,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.117513656616211
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.073234796524048
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 516,
+    "dt": 3.2023847103118896
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.3871805667877197
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.351550340652466
+   }
+  },
+  {
+   "case": 24,
+   "rid": "24",
+   "target": 12,
+   "n_prec": 12,
+   "c0": {
+    "cached": 0,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.255798101425171
+   },
+   "c25": {
+    "cached": 0,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.25,
+    "ntok": 1028,
+    "dt": 3.5951805114746094
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 1796,
+    "dt": 3.9695239067077637
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.75,
+    "ntok": 2564,
+    "dt": 4.426719665527344
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 3332,
+    "dt": 4.557798385620117
+   }
+  },
+  {
+   "case": 28,
+   "rid": "28",
+   "target": 3,
+   "n_prec": 3,
+   "c0": {
+    "cached": 0,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.256080150604248
+   },
+   "c25": {
+    "cached": 0,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.333,
+    "ntok": 516,
+    "dt": 3.311516046524048
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.667,
+    "ntok": 772,
+    "dt": 3.463130235671997
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.667,
+    "ntok": 772,
+    "dt": 3.22247576713562
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1028,
+    "dt": 3.357865333557129
+   }
+  },
+  {
+   "case": 37,
+   "rid": "37",
+   "target": 5,
+   "n_prec": 5,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.0867421627044678
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.2,
+    "ntok": 516,
+    "dt": 3.338724136352539
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.4,
+    "ntok": 772,
+    "dt": 3.452024459838867
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.8,
+    "ntok": 1284,
+    "dt": 3.6743595600128174
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1540,
+    "dt": 3.5671427249908447
+   }
+  },
+  {
+   "case": 38,
+   "rid": "38",
+   "target": 5,
+   "n_prec": 5,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.21583890914917
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.2,
+    "ntok": 516,
+    "dt": 3.249952554702759
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.4,
+    "ntok": 772,
+    "dt": 3.367232322692871
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.8,
+    "ntok": 1284,
+    "dt": 3.7723124027252197
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1540,
+    "dt": 3.6187143325805664
+   }
+  },
+  {
+   "case": 43,
+   "rid": "43",
+   "target": 3,
+   "n_prec": 3,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.2032155990600586
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.333,
+    "ntok": 516,
+    "dt": 3.2918832302093506
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.667,
+    "ntok": 772,
+    "dt": 3.4923105239868164
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.667,
+    "ntok": 772,
+    "dt": 3.295362710952759
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1028,
+    "dt": 3.357288122177124
+   }
+  },
+  {
+   "case": 46,
+   "rid": "46",
+   "target": 2,
+   "n_prec": 2,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.2417678833007812
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.015277862548828
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 516,
+    "dt": 3.3126044273376465
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.2225046157836914
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.1621756553649902
+   }
+  },
+  {
+   "case": 47,
+   "rid": "47",
+   "target": 5,
+   "n_prec": 5,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.2729783058166504
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.2,
+    "ntok": 516,
+    "dt": 3.2970211505889893
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.4,
+    "ntok": 772,
+    "dt": 3.456174612045288
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.8,
+    "ntok": 1284,
+    "dt": 3.668868064880371
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1540,
+    "dt": 3.5964059829711914
+   }
+  },
+  {
+   "case": 48,
+   "rid": "48",
+   "target": 2,
+   "n_prec": 2,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.1536366939544678
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9651882648468018
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 516,
+    "dt": 3.2690515518188477
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.2442028522491455
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.227527379989624
+   }
+  },
+  {
+   "case": 49,
+   "rid": "49",
+   "target": 6,
+   "n_prec": 6,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9568774700164795
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.333,
+    "ntok": 772,
+    "dt": 3.2166855335235596
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 1028,
+    "dt": 3.3542215824127197
+   },
+   "c75": {
+    "cached": 0,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.667,
+    "ntok": 1284,
+    "dt": 3.7007896900177
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1796,
+    "dt": 3.7690441608428955
+   }
+  },
+  {
+   "case": 57,
+   "rid": "57",
+   "target": 3,
+   "n_prec": 3,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.085801839828491
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.333,
+    "ntok": 516,
+    "dt": 3.2579357624053955
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.667,
+    "ntok": 772,
+    "dt": 3.4291141033172607
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.667,
+    "ntok": 772,
+    "dt": 3.193397283554077
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1028,
+    "dt": 3.3335819244384766
+   }
+  },
+  {
+   "case": 61,
+   "rid": "61",
+   "target": 2,
+   "n_prec": 2,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 1.24385404586792
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 1.2048897743225098
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 516,
+    "dt": 2.3276336193084717
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 1.4642434120178223
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 1.4764420986175537
+   }
+  },
+  {
+   "case": 67,
+   "rid": "67",
+   "target": 2,
+   "n_prec": 2,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.029798746109009
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.855743646621704
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 516,
+    "dt": 3.1636478900909424
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.097113847732544
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.129279375076294
+   }
+  },
+  {
+   "case": 69,
+   "rid": "69",
+   "target": 7,
+   "n_prec": 7,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.8213539123535156
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.286,
+    "ntok": 772,
+    "dt": 3.1028528213500977
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.571,
+    "ntok": 1284,
+    "dt": 3.3865325450897217
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.714,
+    "ntok": 1540,
+    "dt": 3.550673007965088
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 2052,
+    "dt": 3.797037124633789
+   }
+  },
+  {
+   "case": 73,
+   "rid": "73",
+   "target": 3,
+   "n_prec": 3,
+   "c0": {
+    "cached": 0,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.904050588607788
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.333,
+    "ntok": 516,
+    "dt": 2.9773786067962646
+   },
+   "c50": {
+    "cached": 0,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.667,
+    "ntok": 772,
+    "dt": 3.1044676303863525
+   },
+   "c75": {
+    "cached": 0,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.667,
+    "ntok": 772,
+    "dt": 3.1518890857696533
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1028,
+    "dt": 3.2609312534332275
+   }
+  },
+  {
+   "case": 81,
+   "rid": "81",
+   "target": 6,
+   "n_prec": 6,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.0408334732055664
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.333,
+    "ntok": 772,
+    "dt": 3.156301975250244
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 1028,
+    "dt": 3.297576665878296
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.667,
+    "ntok": 1284,
+    "dt": 3.3782992362976074
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1796,
+    "dt": 3.6623358726501465
+   }
+  },
+  {
+   "case": 82,
+   "rid": "82",
+   "target": 3,
+   "n_prec": 3,
+   "c0": {
+    "cached": 0,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.128206253051758
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.333,
+    "ntok": 516,
+    "dt": 3.1863462924957275
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.667,
+    "ntok": 772,
+    "dt": 3.3682479858398438
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.667,
+    "ntok": 772,
+    "dt": 3.1336238384246826
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1028,
+    "dt": 3.2735681533813477
+   }
+  },
+  {
+   "case": 85,
+   "rid": "85",
+   "target": 8,
+   "n_prec": 8,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.0563981533050537
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.25,
+    "ntok": 772,
+    "dt": 3.325665235519409
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 1284,
+    "dt": 3.631913661956787
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.75,
+    "ntok": 1796,
+    "dt": 3.8596973419189453
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 2308,
+    "dt": 3.944124698638916
+   }
+  },
+  {
+   "case": 86,
+   "rid": "86",
+   "target": 11,
+   "n_prec": 11,
+   "c0": {
+    "cached": 1,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.935523748397827
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.273,
+    "ntok": 1028,
+    "dt": 3.4730024337768555
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.545,
+    "ntok": 1796,
+    "dt": 3.8457388877868652
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.727,
+    "ntok": 2308,
+    "dt": 4.028146982192993
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 3076,
+    "dt": 4.292089223861694
+   }
+  },
+  {
+   "case": 90,
+   "rid": "90",
+   "target": 11,
+   "n_prec": 11,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 1.8956542015075684
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.273,
+    "ntok": 1028,
+    "dt": 3.3354873657226562
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.545,
+    "ntok": 1796,
+    "dt": 3.845172882080078
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.727,
+    "ntok": 2308,
+    "dt": 4.090086221694946
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 3076,
+    "dt": 4.4312968254089355
+   }
+  },
+  {
+   "case": 94,
+   "rid": "94",
+   "target": 6,
+   "n_prec": 6,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.892214059829712
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.333,
+    "ntok": 772,
+    "dt": 3.1398422718048096
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 1028,
+    "dt": 3.241182565689087
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.667,
+    "ntok": 1284,
+    "dt": 3.5997867584228516
+   },
+   "c100": {
+    "cached": 0,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1796,
+    "dt": 3.671191930770874
+   }
+  },
+  {
+   "case": 106,
+   "rid": "106",
+   "target": 2,
+   "n_prec": 2,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9535582065582275
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.929215431213379
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 516,
+    "dt": 3.203997850418091
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.1951956748962402
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.1785664558410645
+   }
+  },
+  {
+   "case": 107,
+   "rid": "107",
+   "target": 3,
+   "n_prec": 3,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.8998889923095703
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.333,
+    "ntok": 516,
+    "dt": 3.012194871902466
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.667,
+    "ntok": 772,
+    "dt": 3.108333110809326
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.667,
+    "ntok": 772,
+    "dt": 3.156412363052368
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1028,
+    "dt": 3.260761260986328
+   }
+  },
+  {
+   "case": 110,
+   "rid": "110",
+   "target": 3,
+   "n_prec": 3,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9599475860595703
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.333,
+    "ntok": 516,
+    "dt": 3.0438146591186523
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.667,
+    "ntok": 772,
+    "dt": 3.175823211669922
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.667,
+    "ntok": 772,
+    "dt": 3.1851868629455566
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1028,
+    "dt": 3.2855894565582275
+   }
+  },
+  {
+   "case": 114,
+   "rid": "114",
+   "target": 2,
+   "n_prec": 2,
+   "c0": {
+    "cached": 0,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.935938835144043
+   },
+   "c25": {
+    "cached": 0,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.911181926727295
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 516,
+    "dt": 3.065563440322876
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.154176950454712
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.1229605674743652
+   }
+  },
+  {
+   "case": 123,
+   "rid": "123",
+   "target": 17,
+   "n_prec": 17,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.979444742202759
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.235,
+    "ntok": 1284,
+    "dt": 3.5963847637176514
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.471,
+    "ntok": 2308,
+    "dt": 3.8574812412261963
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.765,
+    "ntok": 3588,
+    "dt": 4.713703155517578
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 4612,
+    "dt": 5.102339029312134
+   }
+  },
+  {
+   "case": 129,
+   "rid": "129",
+   "target": 7,
+   "n_prec": 7,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9289638996124268
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.286,
+    "ntok": 772,
+    "dt": 3.1076202392578125
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.571,
+    "ntok": 1284,
+    "dt": 3.4103620052337646
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.714,
+    "ntok": 1540,
+    "dt": 3.492694854736328
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 2052,
+    "dt": 3.7794296741485596
+   }
+  },
+  {
+   "case": 132,
+   "rid": "132",
+   "target": 5,
+   "n_prec": 5,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.114710807800293
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.2,
+    "ntok": 516,
+    "dt": 3.2092368602752686
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.4,
+    "ntok": 772,
+    "dt": 3.328932285308838
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.8,
+    "ntok": 1284,
+    "dt": 3.5734658241271973
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1540,
+    "dt": 3.499908447265625
+   }
+  },
+  {
+   "case": 137,
+   "rid": "137",
+   "target": 2,
+   "n_prec": 2,
+   "c0": {
+    "cached": 0,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.032205581665039
+   },
+   "c25": {
+    "cached": 0,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9549591541290283
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 516,
+    "dt": 2.47666335105896
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.197740316390991
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.1427273750305176
+   }
+  },
+  {
+   "case": 144,
+   "rid": "144",
+   "target": 4,
+   "n_prec": 4,
+   "c0": {
+    "cached": 0,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.896375894546509
+   },
+   "c25": {
+    "cached": 0,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.25,
+    "ntok": 516,
+    "dt": 2.96708607673645
+   },
+   "c50": {
+    "cached": 0,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 772,
+    "dt": 3.08512806892395
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.75,
+    "ntok": 1028,
+    "dt": 3.1934003829956055
+   },
+   "c100": {
+    "cached": 0,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1284,
+    "dt": 3.362248659133911
+   }
+  },
+  {
+   "case": 147,
+   "rid": "147",
+   "target": 5,
+   "n_prec": 5,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.768007278442383
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.2,
+    "ntok": 516,
+    "dt": 2.862421989440918
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.4,
+    "ntok": 772,
+    "dt": 3.0179338455200195
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.8,
+    "ntok": 1284,
+    "dt": 3.276864528656006
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1540,
+    "dt": 3.4374377727508545
+   }
+  },
+  {
+   "case": 157,
+   "rid": "157",
+   "target": 4,
+   "n_prec": 4,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.8540027141571045
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.25,
+    "ntok": 516,
+    "dt": 2.951293468475342
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 772,
+    "dt": 3.0846829414367676
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.75,
+    "ntok": 1028,
+    "dt": 3.411680221557617
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1284,
+    "dt": 3.317537784576416
+   }
+  },
+  {
+   "case": 167,
+   "rid": "167",
+   "target": 4,
+   "n_prec": 4,
+   "c0": {
+    "cached": 0,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.917752742767334
+   },
+   "c25": {
+    "cached": 0,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.25,
+    "ntok": 516,
+    "dt": 2.956939935684204
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 772,
+    "dt": 3.2254116535186768
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.75,
+    "ntok": 1028,
+    "dt": 3.3648550510406494
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1284,
+    "dt": 3.5213394165039062
+   }
+  },
+  {
+   "case": 168,
+   "rid": "168",
+   "target": 2,
+   "n_prec": 2,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.0173275470733643
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9698057174682617
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 516,
+    "dt": 3.037208318710327
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.195431709289551
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.2367899417877197
+   }
+  },
+  {
+   "case": 184,
+   "rid": "184",
+   "target": 9,
+   "n_prec": 9,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9365692138671875
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.222,
+    "ntok": 772,
+    "dt": 3.219831705093384
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.444,
+    "ntok": 1284,
+    "dt": 3.4001646041870117
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.778,
+    "ntok": 2052,
+    "dt": 3.9926583766937256
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 2564,
+    "dt": 4.139743804931641
+   }
+  },
+  {
+   "case": 189,
+   "rid": "189",
+   "target": 6,
+   "n_prec": 6,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.044008731842041
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.333,
+    "ntok": 772,
+    "dt": 3.272503614425659
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 1028,
+    "dt": 3.3464152812957764
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.667,
+    "ntok": 1284,
+    "dt": 3.4850947856903076
+   },
+   "c100": {
+    "cached": 0,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1796,
+    "dt": 3.770784854888916
+   }
+  },
+  {
+   "case": 205,
+   "rid": "205",
+   "target": 2,
+   "n_prec": 2,
+   "c0": {
+    "cached": 0,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.0302016735076904
+   },
+   "c25": {
+    "cached": 0,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9808971881866455
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 516,
+    "dt": 3.1251654624938965
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.206554412841797
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.191256284713745
+   }
+  },
+  {
+   "case": 211,
+   "rid": "211",
+   "target": 3,
+   "n_prec": 3,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9241926670074463
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.333,
+    "ntok": 516,
+    "dt": 3.060838222503662
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.667,
+    "ntok": 772,
+    "dt": 3.1833724975585938
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.667,
+    "ntok": 772,
+    "dt": 3.215303659439087
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1028,
+    "dt": 3.304783821105957
+   }
+  },
+  {
+   "case": 217,
+   "rid": "217",
+   "target": 2,
+   "n_prec": 2,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.913696050643921
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.904590368270874
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 516,
+    "dt": 2.958087205886841
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.1566011905670166
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.1082115173339844
+   }
+  },
+  {
+   "case": 227,
+   "rid": "227",
+   "target": 5,
+   "n_prec": 5,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9177064895629883
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.2,
+    "ntok": 516,
+    "dt": 2.9946203231811523
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.4,
+    "ntok": 772,
+    "dt": 3.1215057373046875
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.8,
+    "ntok": 1284,
+    "dt": 3.3947460651397705
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1540,
+    "dt": 3.477491855621338
+   }
+  },
+  {
+   "case": 229,
+   "rid": "229",
+   "target": 4,
+   "n_prec": 4,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9045398235321045
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.25,
+    "ntok": 516,
+    "dt": 2.957955837249756
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 772,
+    "dt": 3.057866096496582
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.75,
+    "ntok": 1028,
+    "dt": 3.2442619800567627
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1284,
+    "dt": 3.4082822799682617
+   }
+  },
+  {
+   "case": 233,
+   "rid": "233",
+   "target": 5,
+   "n_prec": 5,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9368247985839844
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.2,
+    "ntok": 516,
+    "dt": 3.000398874282837
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.4,
+    "ntok": 772,
+    "dt": 3.124061107635498
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.8,
+    "ntok": 1284,
+    "dt": 3.350482702255249
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1540,
+    "dt": 3.474154472351074
+   }
+  },
+  {
+   "case": 237,
+   "rid": "237",
+   "target": 12,
+   "n_prec": 12,
+   "c0": {
+    "cached": 0,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9001471996307373
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.25,
+    "ntok": 1028,
+    "dt": 3.24131178855896
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 1796,
+    "dt": 3.674933910369873
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.75,
+    "ntok": 2564,
+    "dt": 4.180398464202881
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 3332,
+    "dt": 4.507304668426514
+   }
+  },
+  {
+   "case": 238,
+   "rid": "238",
+   "target": 2,
+   "n_prec": 2,
+   "c0": {
+    "cached": 0,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.935995101928711
+   },
+   "c25": {
+    "cached": 0,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.876117706298828
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 516,
+    "dt": 3.022082805633545
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.190161943435669
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.151310682296753
+   }
+  },
+  {
+   "case": 244,
+   "rid": "244",
+   "target": 4,
+   "n_prec": 4,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9662153720855713
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.25,
+    "ntok": 516,
+    "dt": 3.054356575012207
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 772,
+    "dt": 3.1286263465881348
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.75,
+    "ntok": 1028,
+    "dt": 3.2731525897979736
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1284,
+    "dt": 3.4768991470336914
+   }
+  },
+  {
+   "case": 246,
+   "rid": "246",
+   "target": 7,
+   "n_prec": 7,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9391162395477295
+   },
+   "c25": {
+    "cached": 0,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.286,
+    "ntok": 772,
+    "dt": 3.181344985961914
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.571,
+    "ntok": 1284,
+    "dt": 3.4417836666107178
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.714,
+    "ntok": 1540,
+    "dt": 3.5551178455352783
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 2052,
+    "dt": 3.7464966773986816
+   }
+  },
+  {
+   "case": 252,
+   "rid": "252",
+   "target": 3,
+   "n_prec": 3,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.902163505554199
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.333,
+    "ntok": 516,
+    "dt": 3.0057103633880615
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.667,
+    "ntok": 772,
+    "dt": 3.1285927295684814
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.667,
+    "ntok": 772,
+    "dt": 3.1444666385650635
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1028,
+    "dt": 3.2446553707122803
+   }
+  },
+  {
+   "case": 253,
+   "rid": "253",
+   "target": 2,
+   "n_prec": 2,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9619438648223877
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9601998329162598
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 516,
+    "dt": 3.057542562484741
+   },
+   "c75": {
+    "cached": 0,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.171699285507202
+   },
+   "c100": {
+    "cached": 0,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.1904819011688232
+   }
+  },
+  {
+   "case": 256,
+   "rid": "256",
+   "target": 2,
+   "n_prec": 2,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9489457607269287
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9202370643615723
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 516,
+    "dt": 3.0390076637268066
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.1525440216064453
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.199187994003296
+   }
+  },
+  {
+   "case": 257,
+   "rid": "257",
+   "target": 4,
+   "n_prec": 4,
+   "c0": {
+    "cached": 0,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.875061273574829
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.25,
+    "ntok": 516,
+    "dt": 2.972888231277466
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 772,
+    "dt": 3.119488000869751
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.75,
+    "ntok": 1028,
+    "dt": 3.4248104095458984
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1284,
+    "dt": 3.418206214904785
+   }
+  },
+  {
+   "case": 265,
+   "rid": "265",
+   "target": 2,
+   "n_prec": 2,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9209487438201904
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.93852162361145
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 516,
+    "dt": 3.03470516204834
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.1590545177459717
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.1247613430023193
+   }
+  },
+  {
+   "case": 267,
+   "rid": "267",
+   "target": 4,
+   "n_prec": 4,
+   "c0": {
+    "cached": 0,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.982097864151001
+   },
+   "c25": {
+    "cached": 0,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.25,
+    "ntok": 516,
+    "dt": 3.05308198928833
+   },
+   "c50": {
+    "cached": 0,
+    "fresh": 0,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 772,
+    "dt": 3.1958277225494385
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.75,
+    "ntok": 1028,
+    "dt": 3.264270067214966
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 1284,
+    "dt": 3.4273741245269775
+   }
+  },
+  {
+   "case": 271,
+   "rid": "271",
+   "target": 2,
+   "n_prec": 2,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9262032508850098
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.959113597869873
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 516,
+    "dt": 3.0405826568603516
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.163602113723755
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.1746630668640137
+   }
+  },
+  {
+   "case": 281,
+   "rid": "281",
+   "target": 2,
+   "n_prec": 2,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.055657148361206
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 3.106640338897705
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 516,
+    "dt": 3.0316362380981445
+   },
+   "c75": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.1321544647216797
+   },
+   "c100": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.165281057357788
+   }
+  },
+  {
+   "case": 284,
+   "rid": "284",
+   "target": 2,
+   "n_prec": 2,
+   "c0": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.9295382499694824
+   },
+   "c25": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.0,
+    "ntok": 260,
+    "dt": 2.915745735168457
+   },
+   "c50": {
+    "cached": 1,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 0.5,
+    "ntok": 516,
+    "dt": 3.010960578918457
+   },
+   "c75": {
+    "cached": 0,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.145045042037964
+   },
+   "c100": {
+    "cached": 0,
+    "fresh": 1,
+    "contam": 0,
+    "cov_tok": 1.0,
+    "ntok": 772,
+    "dt": 3.098241090774536
+   }
+  }
+ ]
+}
