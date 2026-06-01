@@ -88,7 +88,10 @@ def main():
             if (dname, ci) in done:
                 continue
             passages, _ = rec.passages_shuffled(seed=ci)
-            doc = "\n\n".join(passages)
+            flat_p = []                       # en_int passages are nested (multi-hop)
+            for p in passages:
+                flat_p.extend(p if isinstance(p, list) else [p])
+            doc = "\n\n".join(flat_p)
             cache_dir = args.out.parent / f"_drift_{dname}_{ci:04d}"
             if cache_dir.exists():
                 shutil.rmtree(cache_dir)

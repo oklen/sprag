@@ -243,3 +243,71 @@ use context → even head tokens' preceding context is ~restored → drift is sm
 everywhere. (At cs=256 top-5 = 5/36 → use ≪ build → whole chunk drifts.) Also
 confirms the MK position-uniformity (drift independent of needle position) and
 why cached ≥ fresh (cache carries full-doc context the short assembly lacks).
+
+---
+
+## Representational drift vs coverage — cos(K/V) curve (`data/coverage_drift.json`, `scripts/22_coverage_drift.py`)
+
+The accuracy Δ(coverage) curve (§ above, n=58) is the *behavioral* object but
+n-limited and the cov=100 cell is rigged by the answerability gate. This is the
+**high-power mechanistic backbone**: drift is a property of *every* chunk, no
+answerability gate or answer-location needed → all records usable.
+
+Object: a target chunk built at doc position p with full-doc context; assemble
+`[sink][contiguous preceding c% of its chunks][target]`. Compare the target's
+recomputed K/V (in the c%-context assembly, post-RoPE at assembly pos b) against
+its **cached** K/V (post-RoPE at p, `shift_rope`'d by b−p so both share rotation
+R_b → cos isolates CONTENT drift, position-invariant). `drift(c) = mean cos over
+KV heads & target tokens`. As c→100 the fresh forward sees the same context the
+cache was built with → cos→1; low c → max drift. V has no RoPE → cos directly.
+
+**n=388** (en 299 + en_int 89; en_fact excluded — its docs are ~2 chunks/440 tok,
+never reach min_depth=4). Pooled, ± = SEM:
+
+| cov% | cosK | cosK_first | cosV |
+|------|------|------------|------|
+| 0   | 0.8881±0.0015 | 0.4605±0.0063 | 0.9405±0.0008 |
+| 25  | 0.9610±0.0007 | 0.9555±0.0014 | 0.9794±0.0004 |
+| 50  | 0.9771±0.0006 | 0.9760±0.0011 | 0.9879±0.0004 |
+| 75  | 0.9885±0.0004 | 0.9888±0.0007 | 0.9942±0.0003 |
+| 100 | 0.9998±0.0000 | 0.9998±0.0000 | 0.9999±0.0000 |
+
+Per-dataset curves are near-identical (en cosK 0.892→0.961→0.976→0.988→0.9998;
+en_int 0.875→0.963→0.980→0.990→0.9999) — the law is dataset-independent.
+
+**Findings:**
+1. **Drift recovers fast, then saturates.** 73% of the cosK gap to 1.0 closes in
+   the *first 25%* of coverage (0.888→0.961); 25→100 only buys the last 0.039.
+   Representationally the cache "snaps into agreement" early → diminishing
+   returns. Matches the accuracy curve's footgun-at-low-cov / flat-after-~50.
+2. **The low-coverage drift is ENTIRELY the first target token.** cosK_first
+   0.46 at cov0 (catastrophic) but 0.956 by cov25 — by cov25 first≈mean. Only
+   the target's very first token (the one that genuinely lost all left context)
+   drifts hard; a *single* preceding chunk repairs it. So the cov0 mean (0.888)
+   is one outlier token / L dragging the average — the bulk of tokens barely
+   drift even at cov0. Consistent with the behavioral head-drift REFUTED result
+   (1 bad token in ~256 → silent).
+3. **cosV > cosK at every coverage.** V drifts less than K — drift lives in
+   K = W_k·h, which is the context-sensitive projection (§5w). The cache's V is
+   the more reusable half.
+4. **Drift is mid-network.** Per-layer cosK at cov0 (FULL_ATTN_LAYERS
+   3,7,11,15,19,23): 0.942 / 0.908 / 0.835 / 0.843 / 0.892 / 0.908. Layers 11 &
+   15 drift most; early (3) and late (23) least → content integration / context
+   mixing is a mid-network phenomenon, not uniform across depth.
+
+**c\* synthesis.** Drift→0 (cos→1) only at full coverage, but it is *already
+small* by cov25 (cosK 0.961, and the only badly-drifted token is the chunk's
+first). This is why cached splice ties fresh across the accuracy curve once any
+real preceding context is present (§5ad-RGB cframe ≡ rfresh; head-drift refuted):
+the representational disagreement that would hurt is confined to a single
+boundary token and is erased by the first chunk of restored context. There is no
+sharp c\* knee in *representation* — it's a fast-saturating curve, so the
+practical crossover is set by the (small, behavioral) global-context bonus, not
+by a drift cliff.
+
+### Reproduce
+```bash
+.venv/bin/python scripts/22_coverage_drift.py --out data/coverage_drift.json --resume
+# en_int passages are nested (multi-hop) → flattened one level before join.
+# en_fact docs too short (≈2 chunks) → contribute 0 rows at min_depth=4.
+```

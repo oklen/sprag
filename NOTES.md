@@ -2192,6 +2192,34 @@ preceding context is ~restored → small drift everywhere (at cs=256 top-5=5/36 
 whole chunk drifts). Matches MK position-uniformity and the cached≥fresh hint.
 [[sprag-splice-decomp]]
 
+### 5ad-DRIFT. The coverage→drift law, measured directly (cos K/V, n=388)
+
+`scripts/22_coverage_drift.py`, `data/coverage_drift.json`. High-power
+mechanistic backbone for the accuracy Δ(coverage) curve (n=58, gate-rigged at
+cov100). For a full-doc-built target chunk, assemble `[sink][preceding c%][target]`
+and compare the target's recomputed K/V vs its cached K/V (`shift_rope`'d so both
+share rotation R_b → cos = pure CONTENT drift). drift(c)=mean cos over KV heads &
+target tokens. n=388 (en 299 + en_int 89; en_fact docs too short, 0 rows).
+
+| cov% | cosK | cosK_1st | cosV |
+|------|------|----------|------|
+| 0  | 0.888 | 0.461 | 0.940 |
+| 25 | 0.961 | 0.956 | 0.979 |
+| 50 | 0.977 | 0.976 | 0.988 |
+| 75 | 0.989 | 0.989 | 0.994 |
+| 100| 0.9998| 0.9998| 0.9999|
+
+Both datasets near-identical (dataset-independent law). Four findings: **(1)**
+drift recovers FAST then saturates — 73% of the cosK gap to 1.0 closes in the
+first 25% of coverage. **(2)** the low-cov drift is ENTIRELY the target's first
+token: cosK_first 0.46→0.956 by cov25; one preceding chunk repairs the single
+boundary token, the rest barely drift even at cov0 (→ why head-drift is
+behaviorally silent: 1 bad token / ~256). **(3)** cosV > cosK everywhere — drift
+lives in K=W_k·h, V is the more reusable half. **(4)** drift is mid-network:
+per-layer cosK@cov0 (L 3/7/11/15/19/23) = .942/.908/.835/.843/.892/.908. No sharp
+c* knee in representation — fast-saturating curve, so the behavioral crossover is
+set by the (small) global-context bonus, not a drift cliff. [[sprag-splice-decomp]]
+
 ## 5d. Amortization sweep (16K, 8 queries / doc)
 
 The headline value-prop test from §7.2. One 16,333-tok haystack with 8
