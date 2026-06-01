@@ -127,6 +127,101 @@ def _cache_last_pos(past_kv):
 
 
 # ----------------------------------------------------------------------------
+# Frame <-> token mapping and coverage selection (verified by layout probe v2)
+# ----------------------------------------------------------------------------
+def video_token_span(input_ids_row, video_token_id):
+    """Return (start, end) of the contiguous video-token block in a 1-D id list."""
+    idx = [i for i, x in enumerate(input_ids_row) if x == video_token_id]
+    if not idx:
+        return None
+    assert idx[-1] - idx[0] + 1 == len(idx), "video tokens not contiguous"
+    return idx[0], idx[-1] + 1
+
+
+def tgroup_ranges(span, t_grid):
+    """Split the video span into t_grid equal contiguous t-group token ranges."""
+    lo, hi = span
+    n = hi - lo
+    assert n % t_grid == 0, f"span {n} not divisible by t_grid {t_grid}"
+    tpg = n // t_grid
+    return [(lo + g * tpg, lo + (g + 1) * tpg) for g in range(t_grid)]
+
+
+def select_coverage_groups(t_grid, coverage, mode="uniform", center=None):
+    """Pick the kept t-group indices for a coverage fraction in (0,1].
+
+    mode="uniform": evenly spaced across the clip (keeps temporal spread).
+    mode="center":  contiguous window of size k centered on `center` group
+                    (for the E4 bonus stress test around a key frame).
+    Returns a sorted list of group indices; always >=1 group.
+    """
+    k = max(1, int(round(coverage * t_grid)))
+    if k >= t_grid:
+        return list(range(t_grid))
+    if mode == "center":
+        c = t_grid // 2 if center is None else center
+        lo = max(0, c - k // 2)
+        hi = min(t_grid, lo + k)
+        lo = max(0, hi - k)
+        return list(range(lo, hi))
+    # uniform: evenly spaced indices
+    return sorted(set(int(round(i * (t_grid - 1) / (k - 1))) if k > 1 else t_grid // 2
+                      for i in range(k)))
+
+
+def build_keep_idx(seq_len, span, ranges, kept_groups, device):
+    """LongTensor of kept token positions = ALL non-video tokens + the video
+    tokens of kept_groups. Non-video context (system prefix, audio, markers,
+    trailing text up to the video end) is always kept."""
+    keep = set(range(seq_len))
+    lo, hi = span
+    keep -= set(range(lo, hi))                      # drop all video tokens...
+    for g in kept_groups:                            # ...then re-add kept groups
+        a, b = ranges[g]
+        keep |= set(range(a, b))
+    return torch.tensor(sorted(keep), dtype=torch.long, device=device)
+
+
+def mc_option_nll(thinker, tok, past_kv, kept_positions_max, prefix_str,
+                  option_strs, device):
+    """MC-by-PPL: for each option, mean NLL of (prefix_str + option) text tokens
+    given past_kv. Text continues at position kept_positions_max+1 (t=h=w). Only
+    the OPTION tokens are scored (prefix shared). Returns list[float] NLLs.
+
+    past_kv holds the (spliced or fresh) video/context cache. prefix_str is the
+    question + "Answer:" stub shared by all options.
+    """
+    pre_ids = tok(prefix_str, add_special_tokens=False).input_ids
+    nlls = []
+    for opt in option_strs:
+        oid = tok(opt, add_special_tokens=False).input_ids
+        ids = pre_ids + oid
+        start = kept_positions_max + 1
+        pos1d = list(range(start, start + len(ids)))
+        pos3d = torch.tensor([[pos1d, pos1d, pos1d]], device=device).transpose(0, 1)  # [3,1,L]
+        ids_t = torch.tensor([ids], device=device)
+        # fresh cache copy per option (decode must not mutate the shared cache)
+        kv = clone_cache(past_kv)
+        with torch.no_grad():
+            logits = thinker(input_ids=ids_t, position_ids=pos3d,
+                             past_key_values=kv, use_cache=False,
+                             return_dict=True).logits[0]
+        # logits[t] predicts token t+1; score the option tokens
+        s = len(pre_ids)
+        rows = logits[s - 1: s - 1 + len(oid)].float()
+        lp = torch.log_softmax(rows, dim=-1)
+        nll = -sum(lp[j, t].item() for j, t in enumerate(oid)) / max(1, len(oid))
+        nlls.append(nll)
+    return nlls
+
+
+def clone_cache(pkv):
+    """Deep-ish copy of a DynamicCache's tensors so a scoring forward (even with
+    use_cache=False) cannot corrupt the shared spliced cache across options."""
+    return build_cache_from_layers([(k.clone(), v.clone()) for k, v in cache_layers(pkv)])
+
+
+# ----------------------------------------------------------------------------
 # Sanity gate
 # ----------------------------------------------------------------------------
 def identity_gate(thinker, fwd, full_pos3d, device, tol=1e-2):
