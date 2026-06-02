@@ -148,3 +148,32 @@ cross-modal associative recovery, now 6.9× the pilot's n=87 with ~3× tighter S
 The −0.07…−0.13 gap at every coverage is the audio trace layered on top of the
 vision global-memory bonus. Vision-only alone also reproduces the global-context
 bonus (cov20 −0.209 → 0, monotonic, all p<1e-4). Worker 3878333, bf16, 4-shard.
+
+## E4 CENTER-MODE cross-modal recovery — Video-MME, n=597 (COVERAGE_MODE=center)
+Same n=597 clips as the scaled uniform run, but fresh keeps a CONTIGUOUS center window
+(not uniform spread) → fresh sees only a local segment, maximally context-starved.
+Tests whether the audio-trace recovery amplifies the way the vision-only bonus does.
+omni_vm_{xrecover,vision}_e4.json. Worker 3878333, bf16, 8-shard (GPU0-7).
+
+| cov | xrecover-center ΔNLL | vision-center ΔNLL | gap = audio trace |
+|----:|---------------------:|-------------------:|------------------:|
+|  20 | −0.3443 (p<1e-4, 81.1%) | −0.2532 (p<1e-4) | −0.091 |
+|  40 | −0.2633 (p<1e-4) | −0.1561 (p<1e-4) | −0.107 |
+|  60 | −0.1699 (p<1e-4) | −0.0785 (p<1e-4) | −0.091 |
+|  80 | −0.1201 (p<1e-4) | −0.0284 (p<1e-4) | −0.092 |
+| 100 | **−0.0701** (p<1e-4) | **+0.0000** (identity) | −0.070 |
+
+Δacc (xrecover-center): cov20 +8.5pp, cov40 +5.5pp, cov60 +2.0pp.
+
+**vs UNIFORM (amplification):** center grows the global-memory bonus in BOTH arms.
+Vision: cov40 −0.089→−0.156 (1.75×), cov60 −0.042→−0.079 (1.86×), cov80 −0.013→−0.028
+(2.1×, now p<1e-4 vs p=.002). Xrecover: cov40 −0.218→−0.263, cov60 −0.142→−0.170,
+cov80 −0.095→−0.120 (~1.2–1.3×). Mechanism confirmed on Video-MME + cross-modal: a
+contiguous local window starves fresh more, so the cached whole-clip KV contributes more.
+
+**KEY: the pure audio-trace gap (xrecover − vision) is ~MODE-INVARIANT** (−0.09…−0.11
+mid-coverages vs uniform's −0.08…−0.13; cov100 −0.070 in both). The center-vs-uniform
+amplification cancels in the gap because visual-frame starvation hits both arms equally
+⇒ the audio trace is a genuine cross-modal (audio↔visual association in the KV) signal,
+NOT a visual-coverage artifact. cov100 reproduced byte-identical to the uniform run
+(−0.0701/+0.0000, same SEM) since center==uniform at full coverage ⇒ pipeline determinism.
