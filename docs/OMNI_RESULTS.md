@@ -50,3 +50,25 @@ while the cached KV still remembers the whole clip.
 −0.016 vs −0.004, ~4×), with Δacc now a steady +2pp. The cached cache demonstrably
 supplies reasoning context the fresh local-window assembly lacks — strongest evidence
 yet that cached can beat fresh.
+
+## Cross-modal: Video-MME ±audio, same short clips, n=87 (uniform coverage)
+Audio = separate ALWAYS-KEPT stream (present in both arms, capped 120s); only the
+video KV differs (cached global vs fresh subset). So ΔNLL = value of global VIDEO
+memory, with vs without audio present.
+
+| cov | ΔNLL vision-only | p | ΔNLL audio+video | p |
+|----:|-----------------:|--:|-----------------:|--:|
+|  20 | −0.2312 | <1e-4 | −0.0638 | 0.14 |
+|  40 | −0.0862 | 0.002 | −0.0362 | 0.019 |
+|  60 | −0.0599 | 0.005 | −0.0304 | 0.048 |
+|  80 | +0.0039 | ns    | −0.0014 | ns |
+| 100 |  0      | —     |  0      | — |
+
+**Finding (counter to the naive hypothesis).** Adding audio does NOT amplify the
+reuse bonus — it SHRINKS it ~3-4×. The bonus is an information-starvation effect:
+it is largest when the fresh subset is most context-starved. An always-available
+complementary modality (audio) compensates for the dropped video frames, so the
+fresh arm is less starved and the cached global-video memory adds less. Also note
+Video-MME vision-only bonus (cov20 −0.231) ≫ EgoSchema (−0.039): longer/richer
+movie/TV clips make dropping frames hurt fresh far more. (n=87 short clips; audio
+arm SEM large; directionally consistent across cov20/40/60.)
