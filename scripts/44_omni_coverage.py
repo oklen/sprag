@@ -38,6 +38,11 @@ WITH_AUDIO = os.environ.get("WITH_AUDIO", "0") == "1"  # add audio as SEPARATE a
 COVERAGE_MODE = os.environ.get("COVERAGE_MODE", "uniform")  # uniform | center (E4 omit-bridge)
 AUDIO_MAX_SEC = float(os.environ.get("AUDIO_MAX_SEC", "180"))  # cap audio length (token blowup)
 DUR_FILTER = os.environ.get("DUR_FILTER", "")  # videomme: keep only this duration class
+# True cross-modal associative recovery: prebake WITH audio, but DROP all audio at
+# use-time and keep only c% video. cached video-KV carries the audio trace from
+# prebake; fresh re-encodes video only. cached-vs-fresh minus the vision-only bonus
+# isolates the audio associative memory left in the video KV.
+DROP_AUDIO_AT_USE = os.environ.get("DROP_AUDIO_AT_USE", "0") == "1"
 
 
 # ----------------------------------------------------------------------------
@@ -163,6 +168,7 @@ class Engine:
         self.accepted = set(inspect.signature(self.thinker.forward).parameters.keys())
         cfg = self.thinker.config
         self.VID = getattr(cfg, "video_token_id", None) or getattr(getattr(cfg, "thinker_config", cfg), "video_token_id")
+        self.AUD = getattr(cfg, "audio_token_id", None) or getattr(getattr(cfg, "thinker_config", cfg), "audio_token_id")
         self.tok = self.proc.tokenizer
 
     def build(self, frames, question, audio=None):
@@ -220,10 +226,14 @@ def run_sample(eng, frames, question, options, gold, coverages, audio=None):
     score_opts = [" " + o for o in options]   # leading space for clean tokenization
     res = {"t_grid": t_grid, "T": T, "span": span, "rows": []}
 
+    audio_pos = set(i for i, t in enumerate(idrow) if t == eng.AUD) if DROP_AUDIO_AT_USE else set()
     for cov in coverages:
         c = cov / 100.0
         groups = omni_kv.select_coverage_groups(t_grid, c, mode=COVERAGE_MODE)
         keep = omni_kv.build_keep_idx(T, span, ranges, groups, eng.dev)
+        if audio_pos:  # drop audio tokens from the assembly (cross-modal recovery)
+            keep = torch.tensor([i for i in keep.tolist() if i not in audio_pos],
+                                dtype=torch.long, device=eng.dev)
         keep_max_pos = int(pos[:, 0, :][:, keep].max().item())
 
         # CACHED arm: splice kept tokens' KV at original positions
@@ -236,7 +246,8 @@ def run_sample(eng, frames, question, options, gold, coverages, audio=None):
         kept_frames = []
         for g in groups:
             kept_frames += [frames[2 * g], frames[2 * g + 1]]  # t-group = 2 frames
-        finp = eng.build(kept_frames, question, audio=audio)
+        fresh_audio = None if DROP_AUDIO_AT_USE else audio
+        finp = eng.build(kept_frames, question, audio=fresh_audio)
         fids = finp["input_ids"][0].tolist()
         cached_ids = [idrow[i] for i in keep.tolist()]
         if fids == cached_ids:
