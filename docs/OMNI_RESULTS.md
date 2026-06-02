@@ -5,6 +5,57 @@ KV SOURCE differs). Negative ΔNLL = cached (prebaked full-clip KV, carrying cau
 global memory of the dropped frames) beats fresh (re-encode kept subset). 32 frames
 / 16 t-groups, uniform coverage. cov100 ΔNLL=0 is the built-in identity sanity.
 
+## EXECUTIVE SUMMARY — does cached KV reuse beat fresh recompute in a video LLM, and is there cross-modal memory?
+
+Setup: Qwen3-Omni-30B-A3B Thinker (48-layer full-attn MoE), position-preserving M-RoPE
+KV-cache splice. "cached" = reuse the prebaked whole-clip KV at original 3D positions,
+keeping c% of video t-groups; "fresh" = re-encode only the kept subset at the SAME
+positions. Metric = paired gold-answer NLL (cached−fresh); negative = cached wins.
+cov100 ΔNLL=0 is the built-in identity sanity (reuse==recompute at full coverage).
+
+**FOUR HEADLINE FINDINGS**
+
+1. **Global-context bonus is real (cached BEATS fresh).** Vision-only, EgoSchema n=500:
+   ΔNLL −0.039(cov20)→0(cov100), all low/mid coverages p<1e-4, +Δacc; reproduced in
+   fp32 (n=100) ⇒ not a bf16 kernel artifact. Crossover c*≈0.8 (bonus vanishes by ~80%
+   coverage). The prebaked KV carries causal global memory of the dropped frames that a
+   fresh subset-recompute lacks. (The text full-attention experiment could NOT surface
+   this — there the answer sat adjacent to the query; temporal video QA gives the global
+   memory something to contribute.)
+
+2. **Omit-bridge (center-window) AMPLIFIES it ~2–4×.** When fresh keeps a contiguous
+   local window (misses the rest of the timeline) the bonus grows at every coverage
+   (EgoSchema cov80 −0.016 vs −0.004 uniform; Video-MME cross-modal confirms the same).
+   Direct evidence the cached cache supplies reasoning context the local window cannot
+   assemble.
+
+3. **TRUE cross-modal associative recovery — the headline novelty (n=597, p<1e-4).**
+   Prebake the clip WITH audio (video KV absorbs audio↔visual associations), then at
+   use-time DROP all audio and keep c% video; cached(video KV carrying the audio trace)
+   vs fresh(video re-encoded with NO audio). **At cov100 ΔNLL=−0.070 (p<1e-4)** while the
+   audio-free vision baseline is exactly 0 — all frames kept at identical positions, the
+   ONLY difference is whether the video KV was baked with audio. cached<fresh ⇒ the video
+   tokens' KV durably stored audio information, recoverable with audio entirely absent at
+   inference. The xrecover−vision gap (−0.07…−0.13 at every coverage, mode-invariant under
+   center vs uniform) isolates this as a genuine cross-modal signal, not a coverage
+   artifact. This is the differentiator vs ReKV (sliding-window, local only) and MuKV
+   (compression): a prebaked cache that holds cross-modal associative memory.
+
+4. **Counter-intuitive: always-on audio SHRINKS the reuse bonus (~3–4×).** When audio is
+   instead kept in BOTH arms (Video-MME ±audio), the bonus shrinks — the reuse bonus is an
+   INFORMATION-STARVATION effect (largest when fresh is most context-starved); a redundant
+   always-available modality compensates for dropped frames so global-video memory adds
+   less. The same mechanism explains why DROPPING audio at use (finding 3) makes the cached
+   trace the sole audio source ⇒ cached ≫ fresh. (Video-MME vision-only bonus −0.231 ≫
+   EgoSchema −0.039: longer/richer clips starve fresh far more.)
+
+**Scale/precision:** cross-modal recovery scaled n=87→597 (cov100 −0.088→−0.070, ~3×
+tighter SEM, all p<1e-4); center-mode cov100 byte-identical to uniform ⇒ pipeline
+deterministic. Engine fp32 identity gate PASS (3.24e-5). All on Qwen3-Omni-30B, bf16
+(floor cancels across the paired arms). Branch video-kv-omni.
+
+---
+
 ## bf16, n=500 (omni_cov_full.json) — HARDENED CORE
 | cov | ΔNLL | SEM | Wilcoxon p | % cached better | acc_cached | acc_fresh | Δacc |
 |----:|-----:|----:|-----------:|----------------:|-----------:|----------:|-----:|
