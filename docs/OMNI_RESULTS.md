@@ -72,3 +72,28 @@ fresh arm is less starved and the cached global-video memory adds less. Also not
 Video-MME vision-only bonus (cov20 −0.231) ≫ EgoSchema (−0.039): longer/richer
 movie/TV clips make dropping frames hurt fresh far more. (n=87 short clips; audio
 arm SEM large; directionally consistent across cov20/40/60.)
+
+## TRUE cross-modal associative recovery — Video-MME, n=87, prebake-with-audio + drop-audio-at-use
+Prebake the clip WITH audio (video KV absorbs audio↔visual associations), then at
+use-time DROP all audio tokens (+markers) and keep c% video. cached (video KV carrying
+the audio trace) vs fresh (video re-encoded with NO audio), position-matched 100%.
+
+| cov | ΔNLL xrecover | p | %c<f | Δacc | ΔNLL vision-only | gap (audio trace) |
+|----:|--------------:|--:|-----:|-----:|-----------------:|------------------:|
+|  20 | −0.3627 | <1e-4 | 77.0% | +.092 | −0.2312 | −0.131 |
+|  40 | −0.2307 | <1e-4 | 72.4% | +.115 | −0.0862 | −0.145 |
+|  60 | −0.1708 | <1e-4 | 72.4% | +.103 | −0.0599 | −0.111 |
+|  80 | −0.1018 | 0.003 | 64.4% | +.057 | +0.0039 | −0.106 |
+| 100 | −0.0878 | 0.001 | 66.7% | +.092 |  0.0000 | −0.088 |
+
+**Headline: cov100 ΔNLL = −0.088 (p=0.001).** At full coverage all video frames are
+kept at identical positions; the ONLY difference is whether the video KV was prebaked
+with audio. cached < fresh => the video tokens' KV absorbed usable audio information
+recoverable with audio entirely absent at use time = TRUE cross-modal associative
+recovery. The gap (xrecover − vision) ≈ −0.09…−0.14 at every coverage is the audio
+trace ON TOP of the vision global-memory bonus; Δacc +6–12pp.
+
+Consistent with the always-on-audio result (audio shrinks the marginal bonus because
+it is redundant with cached video memory): when audio is instead DROPPED at use, the
+cached video KV's absorbed audio trace is the sole audio source -> cached ≫ fresh.
+(n=87 short clips, bf16; scale n to harden.)

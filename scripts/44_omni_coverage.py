@@ -168,7 +168,11 @@ class Engine:
         self.accepted = set(inspect.signature(self.thinker.forward).parameters.keys())
         cfg = self.thinker.config
         self.VID = getattr(cfg, "video_token_id", None) or getattr(getattr(cfg, "thinker_config", cfg), "video_token_id")
-        self.AUD = getattr(cfg, "audio_token_id", None) or getattr(getattr(cfg, "thinker_config", cfg), "audio_token_id")
+        def _cid(n):
+            return getattr(cfg, n, None) or getattr(getattr(cfg, "thinker_config", cfg), n, None)
+        self.AUD = _cid("audio_token_id")
+        self.AUD_S = _cid("audio_start_token_id")
+        self.AUD_E = _cid("audio_end_token_id")
         self.tok = self.proc.tokenizer
 
     def build(self, frames, question, audio=None):
@@ -226,7 +230,9 @@ def run_sample(eng, frames, question, options, gold, coverages, audio=None):
     score_opts = [" " + o for o in options]   # leading space for clean tokenization
     res = {"t_grid": t_grid, "T": T, "span": span, "rows": []}
 
-    audio_pos = set(i for i, t in enumerate(idrow) if t == eng.AUD) if DROP_AUDIO_AT_USE else set()
+    # drop audio CONTENT + START/END markers so cached keep == no-audio fresh build
+    _adrop = {eng.AUD, eng.AUD_S, eng.AUD_E}
+    audio_pos = set(i for i, t in enumerate(idrow) if t in _adrop) if DROP_AUDIO_AT_USE else set()
     for cov in coverages:
         c = cov / 100.0
         groups = omni_kv.select_coverage_groups(t_grid, c, mode=COVERAGE_MODE)
