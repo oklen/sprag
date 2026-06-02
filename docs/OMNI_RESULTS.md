@@ -97,3 +97,29 @@ Consistent with the always-on-audio result (audio shrinks the marginal bonus bec
 it is redundant with cached video memory): when audio is instead DROPPED at use, the
 cached video KV's absorbed audio trace is the sole audio source -> cached ≫ fresh.
 (n=87 short clips, bf16; scale n to harden.)
+
+## SCALED cross-modal associative recovery — Video-MME 12-chunk (570 mp4s, short filter)
+Same protocol as the n=87 section (prebake-with-audio → drop-audio-at-use, video KV
+carries the audio trace; cached vs fresh-no-audio, position-matched). Scaled from the
+n=87 pilot to **n=597 unique clips** (Video-MME chunks 01–12), worker 3878333.
+
+**XRECOVER (n=597, bf16):**
+
+| cov | ΔNLL (cached−fresh) | SEM | wilcox_p | %c<f | acc_c | acc_f | Δacc |
+|----:|--------------------:|----:|---------:|-----:|------:|------:|-----:|
+|  20 | −0.3087 | 0.0186 | <1e-4 | 76.9% | 0.472 | 0.404 | +0.069 |
+|  40 | −0.2179 | 0.0152 | <1e-4 | 73.0% | 0.514 | 0.456 | +0.059 |
+|  60 | −0.1418 | 0.0133 | <1e-4 | 67.3% | 0.501 | 0.492 | +0.008 |
+|  80 | −0.0945 | 0.0116 | <1e-4 | 62.5% | 0.497 | 0.508 | −0.010 |
+| 100 | **−0.0701** | 0.0106 | **<1e-4** | 60.1% | 0.506 | 0.497 | +0.008 |
+
+**Headline holds at scale: cov100 ΔNLL = −0.070, p<1e-4 (n=597).** The pilot's
+−0.088 (p=0.001, n=87) reproduces with ~3× tighter SEM (0.0106 vs 0.0298). At full
+visual coverage the only difference is whether the video KV was prebaked with audio;
+cached < fresh for 60.1% of clips ⇒ the video tokens' KV durably absorbed audio
+information recoverable with audio absent at use time = true cross-modal associative
+recovery. Monotonic decay (−0.31 → −0.07 as coverage 20→100) is smooth and every
+coverage is p<1e-4.
+
+**VISION-only baseline (n≈597, same clips, no audio):** _[running on worker 3878333,
+GPU0-3, 4-shard; cov100 ΔNLL = 0 by construction (identity) — fills the paired control]_
