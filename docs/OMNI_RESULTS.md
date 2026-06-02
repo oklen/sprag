@@ -32,3 +32,21 @@ experiment could NOT surface (there the answer was adjacent to the query); EgoSc
 temporal reasoning gives the prebaked global memory something to contribute.
 
 Vision-only. Next: cross-modal (audio+video) arm; E4 omit-bridge stress test.
+
+## E4 omit-bridge stress test — center-mode coverage, bf16 n=500 (omni_cov_e4.json)
+Same protocol but kept frames = a CONTIGUOUS window (center) instead of uniform —
+so fresh sees only a local segment and MISSES the rest of the timeline ("bridge"),
+while the cached KV still remembers the whole clip.
+
+| cov | ΔNLL (center) | (uniform) | Wilcoxon p | % cached better | Δacc |
+|----:|--------------:|----------:|-----------:|----------------:|-----:|
+|  20 | −0.0567 | −0.0392 | <1e-4 | 68.2% | +.020 |
+|  40 | −0.0437 | −0.0242 | <1e-4 | 67.2% | +.026 |
+|  60 | −0.0276 | −0.0175 | <1e-4 | 64.2% | +.018 |
+|  80 | −0.0164 | −0.0044 | <1e-4 | 62.8% | +.022 |
+| 100 |  0.0000 |  0.0000 | —      | —     |  0   |
+
+**Finding:** the omit-bridge regime AMPLIFIES the bonus at every coverage (e.g. cov80
+−0.016 vs −0.004, ~4×), with Δacc now a steady +2pp. The cached cache demonstrably
+supplies reasoning context the fresh local-window assembly lacks — strongest evidence
+yet that cached can beat fresh.
