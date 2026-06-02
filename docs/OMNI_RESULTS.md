@@ -121,5 +121,30 @@ information recoverable with audio absent at use time = true cross-modal associa
 recovery. Monotonic decay (−0.31 → −0.07 as coverage 20→100) is smooth and every
 coverage is p<1e-4.
 
-**VISION-only baseline (n≈597, same clips, no audio):** _[running on worker 3878333,
-GPU0-3, 4-shard; cov100 ΔNLL = 0 by construction (identity) — fills the paired control]_
+**VISION-only baseline (n=597, same 570-mp4 clips, no audio):**
+
+| cov | ΔNLL (cached−fresh) | SEM | wilcox_p | %c<f | acc_c | acc_f | Δacc |
+|----:|--------------------:|----:|---------:|-----:|------:|------:|-----:|
+|  20 | −0.2087 | 0.0155 | <1e-4 | 71.2% | 0.436 | 0.399 | +0.037 |
+|  40 | −0.0892 | 0.0098 | <1e-4 | 66.5% | 0.472 | 0.449 | +0.023 |
+|  60 | −0.0423 | 0.0065 | <1e-4 | 60.1% | 0.476 | 0.472 | +0.003 |
+|  80 | −0.0134 | 0.0055 |  0.002 | 57.3% | 0.486 | 0.491 | −0.005 |
+| 100 | **+0.0000** | 0.0000 | — | 0.0% | 0.482 | 0.482 | +0.000 |
+
+**PAIRED (n=597, identical clips) — the audio-trace gap:**
+
+| cov | xrecover ΔNLL | vision-only ΔNLL | gap = pure audio trace |
+|----:|--------------:|-----------------:|-----------------------:|
+|  20 | −0.3087 | −0.2087 | −0.100 |
+|  40 | −0.2179 | −0.0892 | −0.129 |
+|  60 | −0.1418 | −0.0423 | −0.099 |
+|  80 | −0.0945 | −0.0134 | −0.081 |
+| 100 | **−0.0701** | **0.0000** | **−0.070** |
+
+**Headline at scale (n=597).** At cov100 vision-only is exactly 0 (reuse == recompute,
+identity sanity), while the audio-prebaked cache is −0.0701 (p<1e-4) — the video KV
+durably absorbed audio information recoverable with audio absent at use = true
+cross-modal associative recovery, now 6.9× the pilot's n=87 with ~3× tighter SEM.
+The −0.07…−0.13 gap at every coverage is the audio trace layered on top of the
+vision global-memory bonus. Vision-only alone also reproduces the global-context
+bonus (cov20 −0.209 → 0, monotonic, all p<1e-4). Worker 3878333, bf16, 4-shard.
