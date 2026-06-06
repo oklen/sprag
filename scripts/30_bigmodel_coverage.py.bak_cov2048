@@ -122,20 +122,8 @@ def strip_think(s):
     return s.strip()
 
 
-CHAT = False
-_USER_PREFIX = "<|im_start|>user\n"
-
-
-def _prefix_ids(tok):
-    return tok(_USER_PREFIX, add_special_tokens=False).input_ids if CHAT else []
-
-
 def _q_g_ids(tok, query, gold):
-    if CHAT:
-        q = tok("\n\nQuestion: " + query + "<|im_end|>\n<|im_start|>assistant\n",
-                add_special_tokens=False).input_ids
-    else:
-        q = tok("\n\nQuestion: " + query + "\nAnswer:", add_special_tokens=False).input_ids
+    q = tok("\n\nQuestion: " + query + "\nAnswer:", add_special_tokens=False).input_ids
     g = tok(" " + gold, add_special_tokens=False).input_ids
     return q, g
 
@@ -173,12 +161,8 @@ def gold_nll_cached(model, tok, sub, L, query, gold, device):
     return _nll(logits, len(new), g_ids)
 
 
-def _greedy(model, tok, prefix_ids, prefix_pos, past, max_new, device, answers=None, check_every=64):
+def _greedy(model, tok, prefix_ids, prefix_pos, past, max_new, device):
     Lk = past.get_seq_length() if past is not None else 0
-    _eos = {tok.eos_token_id}
-    _ie = tok.convert_tokens_to_ids("<|im_end|>")
-    if isinstance(_ie, int) and _ie >= 0:
-        _eos.add(_ie)
     out, last_pos, cur = [], prefix_pos[-1], past
     with torch.no_grad():
         o = model(input_ids=torch.tensor([prefix_ids], device=device),
@@ -188,11 +172,9 @@ def _greedy(model, tok, prefix_ids, prefix_pos, past, max_new, device, answers=N
                   use_cache=True)
         cur = o.past_key_values; nxt = int(o.logits[0, -1].argmax())
         for _ in range(max_new):
-            if nxt in _eos:
+            if nxt == tok.eos_token_id:
                 break
             out.append(nxt); last_pos += 1; sl = cur.get_seq_length()
-            if answers and len(out) % check_every == 0 and alias_match(tok.decode(out, skip_special_tokens=True), answers):
-                break
             o = model(input_ids=torch.tensor([[nxt]], device=device),
                       position_ids=torch.tensor([[last_pos]], device=device),
                       past_key_values=cur,
@@ -201,17 +183,17 @@ def _greedy(model, tok, prefix_ids, prefix_pos, past, max_new, device, answers=N
     return tok.decode(out, skip_special_tokens=True)
 
 
-def gen_plain(model, tok, ids_list, pos_list, query, device, max_new, answers=None):
+def gen_plain(model, tok, ids_list, pos_list, query, device, max_new):
     q_ids, _ = _q_g_ids(tok, query, "")
     seq = list(ids_list) + q_ids
     last = pos_list[-1] if pos_list else -1
     pos = list(pos_list) + list(range(last + 1, last + 1 + len(q_ids)))
-    return _greedy(model, tok, seq, pos, None, max_new, device, answers=answers)
+    return _greedy(model, tok, seq, pos, None, max_new, device)
 
 
-def gen_cached(model, tok, sub, L, query, device, max_new, answers=None):
+def gen_cached(model, tok, sub, L, query, device, max_new):
     q_ids, _ = _q_g_ids(tok, query, "")
-    return _greedy(model, tok, q_ids, list(range(L, L + len(q_ids))), sub, max_new, device, answers=answers)
+    return _greedy(model, tok, q_ids, list(range(L, L + len(q_ids))), sub, max_new, device)
 
 
 def load_longbench(path, limit=None):
@@ -288,13 +270,12 @@ def mode_gate(model, tok, args):
             if gi in done:
                 continue
             ctx, q, ans = rec["context"], rec["input"], rec["answers"]; gold = ans[0]
-            cids = _prefix_ids(tok) + tok(ctx, add_special_tokens=False).input_ids[: args.max_ctx]
-            _pre = _prefix_ids(tok)
+            cids = tok(ctx, add_special_tokens=False).input_ids[: args.max_ctx]
             nf = gold_nll_plain(model, tok, cids, list(range(len(cids))), q, gold, device)
-            n0 = gold_nll_plain(model, tok, _pre, list(range(len(_pre))), q, gold, device)
+            n0 = gold_nll_plain(model, tok, [], [], q, gold, device)
             fn += nf; nn_ += n0; n += 1; lo += int(nf < n0)
-            g_full = gen_plain(model, tok, cids, list(range(len(cids))), q, device, args.max_new_tokens, answers=(ans if args.early_exit_match else None))
-            g_no = gen_plain(model, tok, _pre, list(range(len(_pre))), q, device, args.max_new_tokens, answers=(ans if args.early_exit_match else None))
+            g_full = gen_plain(model, tok, cids, list(range(len(cids))), q, device, args.max_new_tokens)
+            g_no = gen_plain(model, tok, [], [], q, device, args.max_new_tokens)
             mf = int(alias_match(g_full, ans)); mn = int(alias_match(g_no, ans))
             fo += mf; no += mn
             if args.save_gen:
@@ -322,29 +303,15 @@ def mode_coverage(model, tok, args):
     out = {"model": os.environ.get("SPRAG_MODEL_PATH"), "chunk_size": args.chunk_size,
            "coverages": covs, "convention": "compacted+shift_rope",
            "shard_id": args.shard_id, "num_shards": args.num_shards, "datasets": {}}
-    done = {}
-    if args.resume and args.out.exists():
-        try:
-            out = json.loads(args.out.read_text())
-            out["shard_id"] = args.shard_id; out["num_shards"] = args.num_shards
-            out.setdefault("datasets", {})
-            for _ds, _rows in out["datasets"].items():
-                done[_ds] = {r["case"] for r in _rows}
-            print(f"[resume] loaded {sum(len(v) for v in done.values())} done coverage records")
-        except Exception as _e:
-            print(f"[resume] load failed ({_e}); starting fresh")
-            out["datasets"] = {}; done = {}
     gi = -1
     for ds in args.data:
-        rows = out["datasets"].get(ds, [])
+        rows = []
         for ri, rec in enumerate(load_longbench(args.bench / f"{ds}.jsonl", args.limit)):
             gi += 1
             if not _in_shard(args, gi):
                 continue
-            if ri in done.get(ds, set()):
-                continue
             ctx, q, ans = rec["context"], rec["input"], rec["answers"]; gold = ans[0]
-            doc_ids = _prefix_ids(tok) + tok(ctx, add_special_tokens=False).input_ids[: args.max_ctx]
+            doc_ids = tok(ctx, add_special_tokens=False).input_ids[: args.max_ctx]
             chunks = chunk_positions(len(doc_ids), args.chunk_size)
             t = -1
             for ci, (s, e) in enumerate(chunks):
@@ -376,8 +343,7 @@ def mode_coverage(model, tok, args):
             if torch.cuda.is_available():
                 torch.cuda.empty_cache()
             rows.append(row); out["datasets"][ds] = rows
-            _tmp = args.out.with_suffix(args.out.suffix + ".tmp")
-            _tmp.write_text(json.dumps(out, indent=1)); os.replace(str(_tmp), str(args.out))
+            args.out.write_text(json.dumps(out, indent=1))
     _summary(out, covs)
     print("wrote", args.out)
 
@@ -414,12 +380,9 @@ def main():
     ap.add_argument("--num_shards", type=int, default=int(os.environ.get("NUM_SHARDS", 1)))
     ap.add_argument("--save_gen", type=str, default=None,
                     help="append raw generations (gate mode) to this JSONL for spot-checking")
-    ap.add_argument("--early_exit_match", action="store_true")
-    ap.add_argument("--chat", action="store_true")
     ap.add_argument("--resume", action="store_true",
                     help="skip records already present in --save_gen (survive worker reclaims)")
     args = ap.parse_args()
-    globals()["CHAT"] = args.chat
     if args.save_gen:
         Path(args.save_gen).parent.mkdir(parents=True, exist_ok=True)
         if not args.resume:

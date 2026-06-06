@@ -45,20 +45,8 @@ from sprag.rope import build_inv_freq
 
 # ---- small helpers (mirror 30_bigmodel_coverage.py) ---------------------- #
 
-CHAT = False
-_USER_PREFIX = "<|im_start|>user\n"
-
-
-def _prefix_ids(tok):
-    return tok(_USER_PREFIX, add_special_tokens=False).input_ids if CHAT else []
-
-
 def _q_g_ids(tok, query, gold):
-    if CHAT:
-        q = tok("\n\nQuestion: " + query + "<|im_end|>\n<|im_start|>assistant\n",
-                add_special_tokens=False).input_ids
-    else:
-        q = tok("\n\nQuestion: " + query + "\nAnswer:", add_special_tokens=False).input_ids
+    q = tok("\n\nQuestion: " + query + "\nAnswer:", add_special_tokens=False).input_ids
     g = tok(" " + gold, add_special_tokens=False).input_ids
     return q, g
 
@@ -96,13 +84,9 @@ def gen_hybrid(model, tok, asm_ids, query, device, max_new, pls=None, inv_freq=N
     with torch.no_grad(), ctx:
         o = model(input_ids=torch.tensor([seq], device=device), use_cache=True)
     cur = o.past_key_values; nxt = int(o.logits[0, -1].argmax())
-    _eos = {tok.eos_token_id}
-    _ie = tok.convert_tokens_to_ids("<|im_end|>")
-    if isinstance(_ie, int) and _ie >= 0:
-        _eos.add(_ie)
     with torch.no_grad():
         for _ in range(max_new):
-            if nxt in _eos:
+            if nxt == tok.eos_token_id:
                 break
             out.append(nxt)
             o = model(input_ids=torch.tensor([[nxt]], device=device),
@@ -176,31 +160,17 @@ def mode_coverage(model, tok, text_cfg, args):
            "n_full_attn": len(FULL_ATTN_LAYERS), "n_linear": len(LINEAR_ATTN_LAYERS),
            "chunk_size": args.chunk_size, "coverages": covs,
            "shard_id": args.shard_id, "num_shards": args.num_shards, "datasets": {}}
-    done = {}
-    if getattr(args, "resume", False) and args.out.exists():
-        try:
-            out = json.loads(args.out.read_text())
-            out["shard_id"] = args.shard_id; out["num_shards"] = args.num_shards
-            out.setdefault("datasets", {})
-            for _ds, _rows in out["datasets"].items():
-                done[_ds] = {r["case"] for r in _rows}
-            print(f"[resume] loaded {sum(len(v) for v in done.values())} done coverage records")
-        except Exception as _e:
-            print(f"[resume] load failed ({_e}); starting fresh")
-            out["datasets"] = {}; done = {}
     gi = -1
     for ds in args.data:
         recs = [json.loads(l) for l in open(args.bench / f"{ds}.jsonl")][: args.limit]
-        rows = out["datasets"].get(ds, [])
+        rows = []
         for ri, rec in enumerate(recs):
             gi += 1
             if (gi % args.num_shards) != args.shard_id:
                 continue
-            if ri in done.get(ds, set()):
-                continue
             ctx, q, answers = rec["context"], rec["input"], rec["answers"]
             gold = answers[0]
-            doc_ids = _prefix_ids(tok) + tok(ctx, add_special_tokens=False).input_ids[: args.max_ctx]
+            doc_ids = tok(ctx, add_special_tokens=False).input_ids[: args.max_ctx]
             ids_t = torch.tensor([doc_ids], device=device)
             N = len(doc_ids)
             chunks = split_into_chunks(torch.tensor(doc_ids), chunk_size=args.chunk_size)
@@ -253,8 +223,7 @@ def mode_coverage(model, tok, text_cfg, args):
                 torch.cuda.empty_cache()
             rows.append(row)
             out["datasets"][ds] = rows
-            _tmp = args.out.with_suffix(args.out.suffix + ".tmp")
-            _tmp.write_text(json.dumps(out, indent=1)); os.replace(str(_tmp), str(args.out))
+            args.out.write_text(json.dumps(out, indent=1))
     print("\n=== 27B hybrid coverage summary (clean cells; "
           f"{len(FULL_ATTN_LAYERS)}/{len(FULL_ATTN_LAYERS)+len(LINEAR_ATTN_LAYERS)} layers spliced) ===")
     print(f"{'cov%':>5s} {'n':>5s} {'PPL_f':>8s} {'ΔPPL':>8s} {'acc_f':>6s} {'Δacc':>6s}")
@@ -286,13 +255,10 @@ def main():
     ap.add_argument("--min_depth", type=int, default=2)
     ap.add_argument("--max_ctx", type=int, default=12000)
     ap.add_argument("--max_new_tokens", type=int, default=48)
-    ap.add_argument("--chat", action="store_true")
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--shard_id", type=int, default=int(os.environ.get("SHARD_ID", 0)))
     ap.add_argument("--num_shards", type=int, default=int(os.environ.get("NUM_SHARDS", 1)))
-    ap.add_argument("--resume", action="store_true")
     args = ap.parse_args()
-    globals()["CHAT"] = args.chat
     args.out.parent.mkdir(parents=True, exist_ok=True)
 
     model, tok, text_cfg = load_model()

@@ -122,20 +122,8 @@ def strip_think(s):
     return s.strip()
 
 
-CHAT = False
-_USER_PREFIX = "<|im_start|>user\n"
-
-
-def _prefix_ids(tok):
-    return tok(_USER_PREFIX, add_special_tokens=False).input_ids if CHAT else []
-
-
 def _q_g_ids(tok, query, gold):
-    if CHAT:
-        q = tok("\n\nQuestion: " + query + "<|im_end|>\n<|im_start|>assistant\n",
-                add_special_tokens=False).input_ids
-    else:
-        q = tok("\n\nQuestion: " + query + "\nAnswer:", add_special_tokens=False).input_ids
+    q = tok("\n\nQuestion: " + query + "\nAnswer:", add_special_tokens=False).input_ids
     g = tok(" " + gold, add_special_tokens=False).input_ids
     return q, g
 
@@ -175,10 +163,6 @@ def gold_nll_cached(model, tok, sub, L, query, gold, device):
 
 def _greedy(model, tok, prefix_ids, prefix_pos, past, max_new, device, answers=None, check_every=64):
     Lk = past.get_seq_length() if past is not None else 0
-    _eos = {tok.eos_token_id}
-    _ie = tok.convert_tokens_to_ids("<|im_end|>")
-    if isinstance(_ie, int) and _ie >= 0:
-        _eos.add(_ie)
     out, last_pos, cur = [], prefix_pos[-1], past
     with torch.no_grad():
         o = model(input_ids=torch.tensor([prefix_ids], device=device),
@@ -188,7 +172,7 @@ def _greedy(model, tok, prefix_ids, prefix_pos, past, max_new, device, answers=N
                   use_cache=True)
         cur = o.past_key_values; nxt = int(o.logits[0, -1].argmax())
         for _ in range(max_new):
-            if nxt in _eos:
+            if nxt == tok.eos_token_id:
                 break
             out.append(nxt); last_pos += 1; sl = cur.get_seq_length()
             if answers and len(out) % check_every == 0 and alias_match(tok.decode(out, skip_special_tokens=True), answers):
@@ -288,13 +272,12 @@ def mode_gate(model, tok, args):
             if gi in done:
                 continue
             ctx, q, ans = rec["context"], rec["input"], rec["answers"]; gold = ans[0]
-            cids = _prefix_ids(tok) + tok(ctx, add_special_tokens=False).input_ids[: args.max_ctx]
-            _pre = _prefix_ids(tok)
+            cids = tok(ctx, add_special_tokens=False).input_ids[: args.max_ctx]
             nf = gold_nll_plain(model, tok, cids, list(range(len(cids))), q, gold, device)
-            n0 = gold_nll_plain(model, tok, _pre, list(range(len(_pre))), q, gold, device)
+            n0 = gold_nll_plain(model, tok, [], [], q, gold, device)
             fn += nf; nn_ += n0; n += 1; lo += int(nf < n0)
             g_full = gen_plain(model, tok, cids, list(range(len(cids))), q, device, args.max_new_tokens, answers=(ans if args.early_exit_match else None))
-            g_no = gen_plain(model, tok, _pre, list(range(len(_pre))), q, device, args.max_new_tokens, answers=(ans if args.early_exit_match else None))
+            g_no = gen_plain(model, tok, [], [], q, device, args.max_new_tokens, answers=(ans if args.early_exit_match else None))
             mf = int(alias_match(g_full, ans)); mn = int(alias_match(g_no, ans))
             fo += mf; no += mn
             if args.save_gen:
@@ -344,7 +327,7 @@ def mode_coverage(model, tok, args):
             if ri in done.get(ds, set()):
                 continue
             ctx, q, ans = rec["context"], rec["input"], rec["answers"]; gold = ans[0]
-            doc_ids = _prefix_ids(tok) + tok(ctx, add_special_tokens=False).input_ids[: args.max_ctx]
+            doc_ids = tok(ctx, add_special_tokens=False).input_ids[: args.max_ctx]
             chunks = chunk_positions(len(doc_ids), args.chunk_size)
             t = -1
             for ci, (s, e) in enumerate(chunks):
@@ -415,11 +398,9 @@ def main():
     ap.add_argument("--save_gen", type=str, default=None,
                     help="append raw generations (gate mode) to this JSONL for spot-checking")
     ap.add_argument("--early_exit_match", action="store_true")
-    ap.add_argument("--chat", action="store_true")
     ap.add_argument("--resume", action="store_true",
                     help="skip records already present in --save_gen (survive worker reclaims)")
     args = ap.parse_args()
-    globals()["CHAT"] = args.chat
     if args.save_gen:
         Path(args.save_gen).parent.mkdir(parents=True, exist_ok=True)
         if not args.resume:

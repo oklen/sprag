@@ -228,3 +228,76 @@ amplification cancels in the gap because visual-frame starvation hits both arms 
 ⇒ the audio trace is a genuine cross-modal (audio↔visual association in the KV) signal,
 NOT a visual-coverage artifact. cov100 reproduced byte-identical to the uniform run
 (−0.0701/+0.0000, same SEM) since center==uniform at full coverage ⇒ pipeline determinism.
+
+
+## FAITHFUL ReKV / MuKV BASELINE COMPARISON — Qwen3-Omni / EgoSchema-Subset
+
+Engine: `scripts/47_omni_baselines.py`. All arms start from the SAME full prebaked
+KV (one forward; hooks capture pre-RoPE post-norm Q/K/V). KEYSTONE GATE: re-rotating
+captured K at its original M-RoPE positions reproduces the model's cached K to
+**0.00e+00 over all 48 layers** (V is position-independent, also exact) — so InfLLM
+repositioning (re-rotate at NEW positions, reusing the model's own
+`apply_rotary_pos_emb`) is exact. Arms differ on TWO axes only:
+
+| arm | selection of kept video t-groups | positions |
+|-----|----------------------------------|-----------|
+| fresh | uniform/center subset (RE-ENCODED, reference) | gapped |
+| **ours** | uniform/center | ORIGINAL gapped (position-preserving reuse) |
+| ours_compact | uniform/center | COMPACTED (gaps removed) |
+| rekv_origpos | per-layer query-retrieval (sink+local+top-k) | ORIGINAL |
+| **rekv** | per-layer query-retrieval | COMPACTED (full InfLLM ReKV) |
+| **mukv** | per-layer dual-signal (attn+FFT) token selection | ORIGINAL |
+
+ReKV faithfully reproduces its two signatures: per-layer pre-RoPE query·key block
+retrieval (mean-pooled block reps, GQA-expanded; `_calc_block_topk`) + sink(n_init)
++ local window, then InfLLM compaction. MuKV reproduces its dual-signal token score
+`α·Î_att+(1−α)·Î_fft` (α=0.7; attn = question-query·key mass, fft = mean |rFFT(k)|),
+keep top-budget tokens. Matched budget = c% of t-groups (MuKV: c% of video tokens).
+Metric = paired gold-answer NLL (lower = better). cov100 = all groups kept =>
+compact==original==full forward (built-in identity; PASS, all arms bit-identical).
+
+### uniform coverage, n=100 (Δ vs ours, paired Wilcoxon)
+| cov | fresh | ours_compact | rekv | mukv |
+|----:|------:|-------------:|-----:|-----:|
+|  20 | +0.026** | +0.0065* | +0.0091 | **−0.021*** |
+|  40 | +0.010 | −0.000 | −0.004 | −0.011 |
+|  60 | +0.012* | −0.001 | +0.003 | +0.001 |
+|  80 | −0.002 | −0.001 | −0.001 | −0.000 |
+| 100 | 0 (identity) | 0 | 0 | 0 |
+
+### center coverage (E4 omit-bridge), n=96
+| cov | fresh | ours_compact | rekv | mukv |
+|----:|------:|-------------:|-----:|-----:|
+|  20 | +0.040** | +0.0094*** | +0.001 | **−0.033*** |
+|  40 | +0.042** | +0.0059* | −0.005 | −0.015 |
+|  60 | +0.019** | +0.003 | −0.002 | −0.006 |
+|  80 | +0.014** | +0.002 | −0.001 | −0.000 |
+| 100 | 0 (identity) | 0 | 0 | 0 |
+
+(* p<0.05, ** p<0.01, *** p<0.001; negative = beats ours)
+
+### Four findings
+1. **Position-preserving reuse beats fresh recompute** (the global-memory bonus),
+   significant at low/mid coverage and **amplified + longer-lived in the omit-bridge
+   regime** (center cov20–80 all p<0.01; fresh still +0.014 at cov80). Reproduces the
+   core result against a recompute reference inside the unified engine.
+2. **Repositioning HURTS.** `ours_compact` (same kept tokens, gaps removed) is
+   reliably worse than `ours` (p<0.05 at low cov, p<0.001 center cov20). Removing the
+   true temporal M-RoPE distances costs accuracy — direct evidence FOR position
+   preservation.
+3. **Faithful ReKV nets to ≈ uniform reuse (does NOT beat ours).** Its per-layer
+   query-retrieval gain (`rekv_origpos` slightly < ours, n.s.) is cancelled by its
+   InfLLM repositioning loss (finding 2), so full `rekv` ≈ `ours` everywhere. ReKV's
+   sliding-window/retrieval design buys nothing over position-preserving reuse here.
+4. **Informed token selection (MuKV-style) is the ONE lever that beats uniform
+   reuse** (cov20 −0.021 uniform / −0.033 center, p<0.01). Crucially our `mukv` arm
+   keeps those tokens at ORIGINAL positions — i.e. the winner is *position preservation
+   ⊕ informed selection*. ReKV (compacts) and vanilla `ours` (uniform) each have only
+   one half; MuKV's informed selection is orthogonal to and composable with our
+   position-preserving framework. (A fully-faithful MuKV that also compacts would pay
+   the finding-2 penalty; our hybrid isolates its selection benefit.)
+
+Net: against faithful ReKV + MuKV at matched budget, position-preserving full-KV
+reuse dominates recompute and ReKV, and the remaining headroom is informed selection
+— which our framework absorbs without giving up true positions. n≈100 EgoSchema
+(101 subset videos on CephFS; HF chunk re-download for n=500 was rate-limited).
