@@ -54,6 +54,12 @@ tighter SEM, all p<1e-4); center-mode cov100 byte-identical to uniform ⇒ pipel
 deterministic. Engine fp32 identity gate PASS (3.24e-5). All on Qwen3-Omni-30B, bf16
 (floor cancels across the paired arms). Branch video-kv-omni.
 
+**Deep-dive corrections** (see [`../experiments/omni_deepdive`](../experiments/omni_deepdive)):
+the cross-modal trace (finding 3) is read out in **early–mid layers (~L8–24)**, not deep
+ones; and position-preserving reuse vs compaction is a **NULL** even under maximal M-RoPE
+shear — we do **not** claim "repositioning hurts." The robust, unified effect is the
+`cached/ours > fresh` global-memory bonus, reinforced at +18 pt acc on short Video-MME clips.
+
 ---
 
 ## bf16, n=500 (omni_cov_full.json) — HARDENED CORE
@@ -281,14 +287,22 @@ compact==original==full forward (built-in identity; PASS, all arms bit-identical
    significant at low/mid coverage and **amplified + longer-lived in the omit-bridge
    regime** (center cov20–80 all p<0.01; fresh still +0.014 at cov80). Reproduces the
    core result against a recompute reference inside the unified engine.
-2. **Repositioning HURTS.** `ours_compact` (same kept tokens, gaps removed) is
-   reliably worse than `ours` (p<0.05 at low cov, p<0.001 center cov20). Removing the
-   true temporal M-RoPE distances costs accuracy — direct evidence FOR position
-   preservation.
+2. **Repositioning costs ~nothing (and the small EgoSchema gap does NOT replicate).**
+   `ours_compact` is marginally worse than `ours` here (+0.0065 uniform / +0.0094 center
+   at cov20), but a dedicated stress-test designed to *maximize* the M-RoPE temporal
+   shear — Video-MME long clips, `n_frames=64` (t_grid=32), aggressive cov 10/20/30,
+   n=236 — finds this is a **NULL**: penalty ≤ +0.006 (t≈2 at cov10, n.s. elsewhere) and
+   it does **not** concentrate on temporal questions or long videos (short videos pay as
+   much) ⇒ noise, not real grid-shear. Qwen3-Omni's coarse integer temporal index is
+   robust to T-axis compaction. **We do NOT claim "repositioning hurts / position-
+   preserving ≫ compaction."** (Consistent with the Session-5 `+0.0025` decomposition
+   below.) See [`../experiments/omni_deepdive`](../experiments/omni_deepdive) #3.
 3. **Faithful ReKV nets to ≈ uniform reuse (does NOT beat ours).** Its per-layer
-   query-retrieval gain (`rekv_origpos` slightly < ours, n.s.) is cancelled by its
-   InfLLM repositioning loss (finding 2), so full `rekv` ≈ `ours` everywhere. ReKV's
-   sliding-window/retrieval design buys nothing over position-preserving reuse here.
+   query-retrieval gain (`rekv_origpos` slightly < ours, n.s.) is not recovered after
+   its InfLLM repositioning, so full `rekv` ≈ `ours` everywhere. ReKV's
+   sliding-window/retrieval design buys nothing over position-preserving reuse here —
+   though note (finding 2) the repositioning itself is near-free, so the win is "reuse ≈
+   retrieval", not "we beat them by keeping positions."
 4. **Informed token selection (MuKV-style) is the ONE lever that beats uniform
    reuse** (cov20 −0.021 uniform / −0.033 center, p<0.01). Crucially our `mukv` arm
    keeps those tokens at ORIGINAL positions — i.e. the winner is *position preservation
@@ -298,8 +312,9 @@ compact==original==full forward (built-in identity; PASS, all arms bit-identical
    the finding-2 penalty; our hybrid isolates its selection benefit.)
 
 Net: against faithful ReKV + MuKV at matched budget, position-preserving full-KV
-reuse dominates recompute and ReKV, and the remaining headroom is informed selection
-— which our framework absorbs without giving up true positions. n≈100 EgoSchema
+reuse dominates **recompute** and matches **ReKV** (repositioning is near-free, so this
+is a tie not a win), and the remaining headroom is informed selection — which our
+framework absorbs without giving up true positions. n≈100 EgoSchema
 (101 subset videos on CephFS; HF chunk re-download for n=500 was rate-limited).
 
 ---
