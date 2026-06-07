@@ -120,18 +120,43 @@ the cache is built over a *unified* context and inference uses a *subset* of it:
   concatenate at inference (only attention-mask / position-ids touched). Goal is TTFT;
   quality-neutral by design. No dropped-context, hence no information-gap premium.
 - **InfLLM / ReKV** — block-level KV retrieval with **compaction** (kept blocks are
-  packed contiguously in memory), which scrambles the original absolute (M-)RoPE grid.
-  Our `*_origpos` vs `*_compact` arms show **position-preserving reuse beats compaction**
-  (repositioning hurts, esp. multi-hop / temporal) — a direct attack on their design.
+  packed contiguously in memory), which in principle scrambles the original absolute
+  (M-)RoPE grid. We tested `*_origpos` vs `*_compact` directly and — contrary to an
+  earlier hunch — it is a **NULL**: even under maximal M-RoPE shear (Video-MME,
+  t_grid=32, 90% eviction) the compaction penalty is ≤ +0.006 NLL (t≈2, n.s.) and does
+  not concentrate on temporal/long-video questions (see
+  [`../omni_deepdive`](../omni_deepdive) #3, `video-kv-omni` branch). So we do **NOT**
+  claim "repositioning hurts"; their compaction is fine. Our real, robust win over them
+  is the full-context **information-gap memory bonus** (cached/ours > fresh), not position
+  preservation.
 - **MuKV** — dual-signal (attention + spectral) pruning; its selection win is
   **query-driven** (online, not pre-bakeable). We decouple *what to keep* (selection)
   from *where to place it* (position) from *which query scores it*, and show the
   deployable, query-free part is position-preserving reuse (+ optional self-saliency).
 
+## Addendum — what the sink-dup harm is NOT (attention dilution, falsified)
+
+A natural hypothesis for *why* the duplicated sink derails the thinking model: the two
+near-identical sink blocks (`doc[0:M]` + chunk0's head) **grab a disproportionate share
+of attention** (>60%), starving the semantic frames. We tested it directly
+(`scripts/38_q27_attn.py`, n≈86): a capture forward over the 16 full-attn layers
+measures the last-query-row softmax mass landing on the sink region, for the duplicated
+vs de-duplicated assembly.
+
+**Falsified.** The two sinks take only ~15% of the mass, and dup-vs-nodup differ by just
++0.017. The harm is **not** attention sharing — it is a **decode-trajectory failure**: on
+the duplicated double-sink the thinking model opens a verbose `<think>…` that never closes
+within budget, so `strip_think` empties the answer (confirmed by reading the generations).
+The fix (don't add a separate sink when chunk0 is kept) removes the trigger regardless of
+attention mass. **Wording for any writeup:** call it "decode-trajectory destabilization,"
+not "attention dilution."
+
 ## Files
 
 - Diagnostic runners (gen dump + `_degen`; 35 adds the `fresh_nodup` arm):
   `scripts/34_a3b_diag.py`, `scripts/35_q27_diag.py`
+- Attention-share probe (addendum; falsifies the dilution hypothesis):
+  `scripts/38_q27_attn.py`
 - Fixed coverage runners (sink-dup removed): `scripts/36_a3b_fix.py`,
   `scripts/37_q27_fix.py`
 - Clean results: `data/a3b_cov_fix.s*.json` (n=231), `data/q27_cov_fix.s*.json` (n=234)
