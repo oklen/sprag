@@ -1368,6 +1368,51 @@
      "contam": 0,
      "ntok": 10496
     }
+   },
+   {
+    "case": 90,
+    "target": 3,
+    "n_prec": 3,
+    "c0": {
+     "ppl_cached": 38992.54029413161,
+     "ppl_fresh": 51286.26504889236,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 65290.14853584771,
+     "ppl_fresh": 43127.395801661216,
+     "acc_cached": 1,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 516
+    },
+    "c50": {
+     "ppl_cached": 70366.9154663646,
+     "ppl_fresh": 55929.35738103904,
+     "acc_cached": 1,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 772
+    },
+    "c75": {
+     "ppl_cached": 70366.9154663646,
+     "ppl_fresh": 55929.35738103904,
+     "acc_cached": 1,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 772
+    },
+    "c100": {
+     "ppl_cached": 24569.598230026866,
+     "ppl_fresh": 19528.491981738312,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 1024
+    }
    }
   ]
  }
