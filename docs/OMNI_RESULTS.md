@@ -301,3 +301,70 @@ Net: against faithful ReKV + MuKV at matched budget, position-preserving full-KV
 reuse dominates recompute and ReKV, and the remaining headroom is informed selection
 — which our framework absorbs without giving up true positions. n≈100 EgoSchema
 (101 subset videos on CephFS; HF chunk re-download for n=500 was rate-limited).
+
+---
+
+## SESSION-5: Selection-vs-Compression @ scale + the Query-aware/agnostic axis (2026-06-07)
+
+Engine `scripts/47_omni_baselines.py` extended with group-level MuKV arms and three
+token-level query-signal variants. All arms share ONE prebake; cov100 = all arms
+bit-identical (built-in identity gate, PASS in every run below). Paired gold-NLL Δ
+vs `ours` (position-preserving uniform reuse), Wilcoxon p, at cov20 (most aggressive
+eviction; effects shrink to ns by cov80).
+
+### (A) What is MuKV's advantage — selection or compression?
+Arms: `mukv` (token-level select @ orig pos), `mukv_grp` (group-level select @ orig),
+`mukv_compact` (group-level select @ compact pos).
+
+| condition | mukv (token) | mukv_grp (group) | mukv_compact | read |
+|---|---|---|---|---|
+| EgoSchema uniform n=101 | −0.0208 (p=.044) | +0.0004 ns | −0.0002 ns | token only |
+| EgoSchema center  n=100 | −0.0343 (p=.005) | −0.0134 ns | −0.0140 ns | token only |
+| **EgoSchema n=500** | **−0.0278 (p=6e-11)** | −0.0126 (p=1.4e-3) | −0.0101 (p=.02) | token≫group |
+| Video-MME n=160 | −0.1800 (p=3e-15) | −0.0553 | −0.0558 | token≫group |
+
+**Decomposition (n=500):** token→group coarsening costs **+0.0152** (≈55% of the gain);
+group orig→compact (the compaction itself) costs only **+0.0025**. ⇒ **MuKV's advantage
+is fine TOKEN-level selection; the position compaction it performs is essentially FREE**
+(consistent with the keystone reposition-exact gate). Video-MME's long clips amplify all
+effects ~6–9×.
+
+### (B) Is the advantage query-aware? (deployability for prebake / RAG)
+The premise of KV-cache reuse is *compute the context KV once, before the query, reuse
+across many queries*. Query-aware compression (MuKV/ReKV score tokens against the question)
+breaks that: the compressed cache can't be built until the query arrives. We isolate the
+**query-signal axis** with three token-level arms (granularity=token, position=orig held
+constant, only the scoring query changes):
+
+- `mukv` — question-token query (query-AWARE; needs the query → not prebakeable)
+- `mukv_self` — video tokens' own query, self-saliency (query-FREE, prebake-OK)
+- `mukv_fft` — α=0, pure spectral magnitude (query-FREE, prebake-OK)
+- `mukv_oracle` — 2nd prefill with the gold answer appended (oracle ceiling)
+
+cov20 Δ vs `ours`:
+
+| arm | query signal | EgoSchema n=120 | Video-MME n=160 | deployable |
+|---|---|---|---|---|
+| `mukv_oracle` | gold answer | −0.0259 (p=1.5e-3) | −0.1992 (p=6e-17) | ✗ |
+| `mukv` | question | −0.0248 (p=2.6e-3) | −0.1800 (p=6e-15) | ✗ |
+| `mukv_self` | video self | −0.0117 (p=.11 ns) | −0.0658 (p=2.3e-3) | ✓ |
+| `mukv_fft` | spectral | +0.0031 (p=.77 ns) | +0.0138 (p=.03 worse) | ✓ |
+| `ours` | none | — | — | ✓ |
+
+**HEADLINE:** MuKV's headline win is **largely query-driven**. In the deployable
+query-AGNOSTIC regime (the only valid one for prebaked reuse / RAG):
+- **Short video (EgoSchema, ~3 min):** query-free selection gives **no** gain over
+  position-preserving reuse `ours` (self ns, fft worse). The MuKV win is entirely query.
+- **Long video (Video-MME):** content self-saliency (`mukv_self`) keeps a **modest but
+  significant ~⅓** of the gain (−0.066, p=2e-3); FFT-only is useless/harmful.
+- `mukv_oracle ≈ mukv` everywhere ⇒ query-based selection has a fixed ceiling that
+  query-free signals cannot reach (it's not that our question-query is suboptimal).
+
+⇒ **Position-preserving reuse is the right default for cache reuse; the only query-free
+selection worth adding is self-saliency, and only on long content.** The large −0.18
+numbers are query-aware "peeking" and are not realizable when the cache must be built
+before the query.
+
+Results JSONs on CephFS `/home/tiger/data/omni_bl_{ego_uni2,ego_ctr2,ego500,vmme,egoqax,vmmeqax}.json`.
+Infra: all compute on clean worker 3888311 (309/310 GPU-locked by un-killable cross-PID-namespace
+orphan procs from hung runners — a clean python EXIT frees GPU, a hang orphans ~70G/GPU).
