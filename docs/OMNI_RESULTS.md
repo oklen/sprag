@@ -368,3 +368,29 @@ before the query.
 Results JSONs on CephFS `/home/tiger/data/omni_bl_{ego_uni2,ego_ctr2,ego500,vmme,egoqax,vmmeqax}.json`.
 Infra: all compute on clean worker 3888311 (309/310 GPU-locked by un-killable cross-PID-namespace
 orphan procs from hung runners — a clean python EXIT frees GPU, a hang orphans ~70G/GPU).
+
+### (B-addendum) Center-mode (omit-bridge) query-axis on Video-MME (n=160)
+
+Re-ran the query-axis arms with COVERAGE_MODE=center (contiguous kept window — the
+maximally context-starved eviction). **Importance-based arms (mukv/self/fft/oracle/
+rekv/grp) are coverage-mode INVARIANT** — they select tokens by score, not by which
+groups the mode picks, so their NLLs are byte-identical to the uniform run (also a
+determinism check). Center only shifts the passive baselines: `ours` 4.077->4.130,
+`fresh` 4.297->4.412 (contiguous window starves them more).
+
+cov20 Δ vs `ours`, uniform vs center:
+
+| arm | query signal | Δ uniform | Δ center |
+|---|---|---|---|
+| `mukv` | question (aware) | −0.180 (p=6e-15) | −0.234 (p=3e-18) |
+| `mukv_oracle` | gold (ceiling) | −0.199 (p=6e-17) | −0.253 (p=2e-20) |
+| `mukv_self` | video self (free) | −0.066 (p=2e-3) | **−0.119 (p=1.5e-6)** |
+| `mukv_fft` | spectral (free) | +0.014 ns | −0.040 ns |
+
+**Finding:** under harsher (center/omit-bridge) eviction the **deployable query-free
+self-saliency advantage roughly doubles and becomes strongly significant** (−0.119,
+p=1e-6) — the passive-reuse baseline degrades while score-based selection holds. FFT
+stays useless. The query premium (mukv − mukv_self ≈ 0.114 nats) is mode-invariant.
+⇒ query-free self-saliency is worth adding specifically in long-content + aggressive
+contiguous-eviction regimes; otherwise position-preserving reuse remains the default.
+Result: `/home/tiger/data/omni_bl_vmmeqax_ctr.json`.
