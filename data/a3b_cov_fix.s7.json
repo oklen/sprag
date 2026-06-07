@@ -1,0 +1,1327 @@
+{
+ "model": "/tmp/Qwen3-30B-A3B-Instruct-2507",
+ "chunk_size": 256,
+ "coverages": [
+  0.0,
+  25.0,
+  50.0,
+  75.0,
+  100.0
+ ],
+ "convention": "compacted+shift_rope",
+ "shard_id": 7,
+ "num_shards": 8,
+ "datasets": {
+  "2wikimqa": [
+   {
+    "case": 7,
+    "target": 6,
+    "n_prec": 6,
+    "c0": {
+     "ppl_cached": 69589.98357408849,
+     "ppl_fresh": 68433.62717135267,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 52121.04439721074,
+     "ppl_fresh": 51400.265724600824,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 772
+    },
+    "c50": {
+     "ppl_cached": 50334.66673116037,
+     "ppl_fresh": 28836.84357856438,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 1028
+    },
+    "c75": {
+     "ppl_cached": 39592.634608402805,
+     "ppl_fresh": 34930.89493780689,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 1284
+    },
+    "c100": {
+     "ppl_cached": 38837.65106399669,
+     "ppl_fresh": 38051.099619178975,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 1792
+    }
+   },
+   {
+    "case": 23,
+    "target": 19,
+    "n_prec": 19,
+    "c0": {
+     "ppl_cached": 77.15560134112627,
+     "ppl_fresh": 75.95321476043559,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 63.07944400022045,
+     "ppl_fresh": 61.24565509417798,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 1540
+    },
+    "c50": {
+     "ppl_cached": 51.11826889666366,
+     "ppl_fresh": 66.721766373068,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 2820
+    },
+    "c75": {
+     "ppl_cached": 68.44672707900213,
+     "ppl_fresh": 57.56796516406595,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 3844
+    },
+    "c100": {
+     "ppl_cached": 57.46048152582336,
+     "ppl_fresh": 56.041115403341955,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 5120
+    }
+   },
+   {
+    "case": 31,
+    "target": 15,
+    "n_prec": 15,
+    "c0": {
+     "ppl_cached": 15208014.657295987,
+     "ppl_fresh": 3236741.8450782234,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 3945908.9871123065,
+     "ppl_fresh": 4127014.675577892,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 1284
+    },
+    "c50": {
+     "ppl_cached": 4274078.930673768,
+     "ppl_fresh": 4270477.099568176,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 2308
+    },
+    "c75": {
+     "ppl_cached": 3425102.0613150704,
+     "ppl_fresh": 2978884.597716407,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 3076
+    },
+    "c100": {
+     "ppl_cached": 1308376.8211368353,
+     "ppl_fresh": 1459032.8539611802,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 4096
+    }
+   },
+   {
+    "case": 39,
+    "target": 10,
+    "n_prec": 10,
+    "c0": {
+     "ppl_cached": 299839635.16163963,
+     "ppl_fresh": 182916282.07398227,
+     "acc_cached": 0,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 313224222.9314545,
+     "ppl_fresh": 347088182.15383863,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 772
+    },
+    "c50": {
+     "ppl_cached": 115015729.04481058,
+     "ppl_fresh": 516720051.97694075,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 1540
+    },
+    "c75": {
+     "ppl_cached": 88812311.00390986,
+     "ppl_fresh": 173716795.90773612,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 2308
+    },
+    "c100": {
+     "ppl_cached": 112586418.01543486,
+     "ppl_fresh": 96576833.02815285,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 2816
+    }
+   },
+   {
+    "case": 55,
+    "target": 11,
+    "n_prec": 11,
+    "c0": {
+     "ppl_cached": 25349.54002417649,
+     "ppl_fresh": 12748.946277482639,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 10431.158634887908,
+     "ppl_fresh": 10428.550133433664,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 1028
+    },
+    "c50": {
+     "ppl_cached": 4066.5291965690562,
+     "ppl_fresh": 6232.877554387598,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 1796
+    },
+    "c75": {
+     "ppl_cached": 4447.380851036523,
+     "ppl_fresh": 3877.9973063622424,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 2308
+    },
+    "c100": {
+     "ppl_cached": 4532.507068561781,
+     "ppl_fresh": 3763.7154240408136,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 3072
+    }
+   },
+   {
+    "case": 63,
+    "target": 12,
+    "n_prec": 12,
+    "c0": {
+     "ppl_cached": 1.3656119585945025e+19,
+     "ppl_fresh": 3.3527637329700936e+18,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 1.337115948418751e+19,
+     "ppl_fresh": 5.457449242342104e+19,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 1028
+    },
+    "c50": {
+     "ppl_cached": 1.4770701766726577e+18,
+     "ppl_fresh": 7.167998084675667e+18,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 1796
+    },
+    "c75": {
+     "ppl_cached": 9.549571693174406e+17,
+     "ppl_fresh": 1.8303643072247757e+18,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 2564
+    },
+    "c100": {
+     "ppl_cached": 3.595347792905954e+17,
+     "ppl_fresh": 3.845520853506967e+17,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 3328
+    }
+   },
+   {
+    "case": 71,
+    "target": 9,
+    "n_prec": 9,
+    "c0": {
+     "ppl_cached": 21360.311395217377,
+     "ppl_fresh": 14222.070605799576,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 17543.308832038936,
+     "ppl_fresh": 13680.23574477343,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 772
+    },
+    "c50": {
+     "ppl_cached": 14022.228686422499,
+     "ppl_fresh": 14702.901807933076,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 1284
+    },
+    "c75": {
+     "ppl_cached": 14743.340728510415,
+     "ppl_fresh": 8063.888514443212,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 2052
+    },
+    "c100": {
+     "ppl_cached": 10417.497349337626,
+     "ppl_fresh": 10568.023906066115,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 2560
+    }
+   },
+   {
+    "case": 79,
+    "target": 3,
+    "n_prec": 3,
+    "c0": {
+     "ppl_cached": 756.910251956884,
+     "ppl_fresh": 1686.9696964447082,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 1407.3600879793794,
+     "ppl_fresh": 1760.3090457788012,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 516
+    },
+    "c50": {
+     "ppl_cached": 1254.410113485149,
+     "ppl_fresh": 1242.0161187672563,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 772
+    },
+    "c75": {
+     "ppl_cached": 1254.410113485149,
+     "ppl_fresh": 1242.0161187672563,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 772
+    },
+    "c100": {
+     "ppl_cached": 1352.4576096370351,
+     "ppl_fresh": 1343.7938172426984,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 1024
+    }
+   },
+   {
+    "case": 87,
+    "target": 2,
+    "n_prec": 2,
+    "c0": {
+     "ppl_cached": 3.8412943658103485e+18,
+     "ppl_fresh": 2.190140922842572e+18,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 3.8412943658103485e+18,
+     "ppl_fresh": 2.190140922842572e+18,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c50": {
+     "ppl_cached": 1.513638754415954e+18,
+     "ppl_fresh": 8.039491506028466e+17,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 516
+    },
+    "c75": {
+     "ppl_cached": 3.082722595916879e+17,
+     "ppl_fresh": 3.202529735256993e+17,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 768
+    },
+    "c100": {
+     "ppl_cached": 3.082722595916879e+17,
+     "ppl_fresh": 3.202529735256993e+17,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 768
+    }
+   },
+   {
+    "case": 95,
+    "target": 8,
+    "n_prec": 8,
+    "c0": {
+     "ppl_cached": 19288.180764845467,
+     "ppl_fresh": 14226.683951939644,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 50458.86345862746,
+     "ppl_fresh": 22059.461215086056,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 772
+    },
+    "c50": {
+     "ppl_cached": 34200.432272644815,
+     "ppl_fresh": 10165.670018972254,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 1284
+    },
+    "c75": {
+     "ppl_cached": 32719.78575557547,
+     "ppl_fresh": 10657.422867503356,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 1796
+    },
+    "c100": {
+     "ppl_cached": 15587.757856122305,
+     "ppl_fresh": 16076.663759592784,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 2304
+    }
+   }
+  ],
+  "hotpotqa": [
+   {
+    "case": 3,
+    "target": 8,
+    "n_prec": 8,
+    "c0": {
+     "ppl_cached": 1.204656617056885e+19,
+     "ppl_fresh": 2.7042488374737792e+17,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 1.1139638110519728e+19,
+     "ppl_fresh": 5.810959600291825e+18,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 772
+    },
+    "c50": {
+     "ppl_cached": 3.79487023879005e+16,
+     "ppl_fresh": 5.529742031614463e+20,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 1284
+    },
+    "c75": {
+     "ppl_cached": 4.2833031126745245e+20,
+     "ppl_fresh": 2.602485835960274e+21,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 1796
+    },
+    "c100": {
+     "ppl_cached": 3.0787205042699616e+19,
+     "ppl_fresh": 3.284226642933426e+19,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 1,
+     "ntok": 2304
+    }
+   },
+   {
+    "case": 11,
+    "target": 23,
+    "n_prec": 23,
+    "c0": {
+     "ppl_cached": 8904420445.003992,
+     "ppl_fresh": 3201001219.8077106,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 3557209427.77136,
+     "ppl_fresh": 931543181.5492034,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 1796
+    },
+    "c50": {
+     "ppl_cached": 483406017.54605603,
+     "ppl_fresh": 114377316.47943251,
+     "acc_cached": 0,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 3332
+    },
+    "c75": {
+     "ppl_cached": 257808127.05893695,
+     "ppl_fresh": 33043768.583930254,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 4612
+    },
+    "c100": {
+     "ppl_cached": 93492403.59168445,
+     "ppl_fresh": 85157941.48455602,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 6144
+    }
+   },
+   {
+    "case": 19,
+    "target": 42,
+    "n_prec": 42,
+    "c0": {
+     "ppl_cached": 2796460.1594399665,
+     "ppl_fresh": 860498.6582971028,
+     "acc_cached": 1,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 2467681.7137215924,
+     "ppl_fresh": 31015213.39482844,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 2820
+    },
+    "c50": {
+     "ppl_cached": 196380.8731079737,
+     "ppl_fresh": 18232944.652233154,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 5636
+    },
+    "c75": {
+     "ppl_cached": 44155.05351688307,
+     "ppl_fresh": 67936.81642051785,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 8452
+    },
+    "c100": {
+     "ppl_cached": 44495.50935551847,
+     "ppl_fresh": 60603.335401118136,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 11008
+    }
+   },
+   {
+    "case": 27,
+    "target": 15,
+    "n_prec": 15,
+    "c0": {
+     "ppl_cached": 27977697864.935085,
+     "ppl_fresh": 6860227151.452383,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 29094995537.005936,
+     "ppl_fresh": 65392004850.54607,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 1284
+    },
+    "c50": {
+     "ppl_cached": 21578052047.003113,
+     "ppl_fresh": 93183095835.42195,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 2308
+    },
+    "c75": {
+     "ppl_cached": 8145823066.709507,
+     "ppl_fresh": 5163610478.203625,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 3076
+    },
+    "c100": {
+     "ppl_cached": 2562403704.1884484,
+     "ppl_fresh": 2751688579.9355173,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 4096
+    }
+   },
+   {
+    "case": 35,
+    "target": 37,
+    "n_prec": 37,
+    "c0": {
+     "ppl_cached": 396.0307082326098,
+     "ppl_fresh": 277.3981945977323,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 79.7460726442343,
+     "ppl_fresh": 113.45513582876191,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 2564
+    },
+    "c50": {
+     "ppl_cached": 51.42769578983183,
+     "ppl_fresh": 54.850830170346555,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 4868
+    },
+    "c75": {
+     "ppl_cached": 38.22558096464129,
+     "ppl_fresh": 73.30937902016251,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 7428
+    },
+    "c100": {
+     "ppl_cached": 32.64493489944909,
+     "ppl_fresh": 35.11138426940365,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 1,
+     "ntok": 9728
+    }
+   },
+   {
+    "case": 43,
+    "target": 15,
+    "n_prec": 15,
+    "c0": {
+     "ppl_cached": 1.100884189968933e+16,
+     "ppl_fresh": 9.309408804035857e+17,
+     "acc_cached": 1,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 1.2213726125352618e+17,
+     "ppl_fresh": 5.88376512451481e+18,
+     "acc_cached": 1,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 1284
+    },
+    "c50": {
+     "ppl_cached": 3.612591555431301e+16,
+     "ppl_fresh": 1.3259363301754962e+19,
+     "acc_cached": 1,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 2308
+    },
+    "c75": {
+     "ppl_cached": 7.897005104878083e+16,
+     "ppl_fresh": 5.11785528048556e+18,
+     "acc_cached": 1,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 3076
+    },
+    "c100": {
+     "ppl_cached": 4.2496798615660376e+16,
+     "ppl_fresh": 4.1837787662287896e+16,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 4096
+    }
+   },
+   {
+    "case": 51,
+    "target": 9,
+    "n_prec": 9,
+    "c0": {
+     "ppl_cached": 28461.918358428462,
+     "ppl_fresh": 42838.255160427434,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 13734847.105193319,
+     "ppl_fresh": 7405929.806417397,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 772
+    },
+    "c50": {
+     "ppl_cached": 10910183.025564637,
+     "ppl_fresh": 10233815.119517626,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 1284
+    },
+    "c75": {
+     "ppl_cached": 22133837.6188372,
+     "ppl_fresh": 16564383.842059592,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 2052
+    },
+    "c100": {
+     "ppl_cached": 13780728.73230521,
+     "ppl_fresh": 12127778.2553694,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 1,
+     "ntok": 2560
+    }
+   },
+   {
+    "case": 59,
+    "target": 39,
+    "n_prec": 39,
+    "c0": {
+     "ppl_cached": 500543822.42260045,
+     "ppl_fresh": 2243670115.2906575,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 199848727.83624575,
+     "ppl_fresh": 630517671.3024368,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 2820
+    },
+    "c50": {
+     "ppl_cached": 49210476.40815637,
+     "ppl_fresh": 250707998.71443745,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 5380
+    },
+    "c75": {
+     "ppl_cached": 19685297.370998174,
+     "ppl_fresh": 79399352.04168978,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 7684
+    },
+    "c100": {
+     "ppl_cached": 34001403.04817805,
+     "ppl_fresh": 23617764.524873916,
+     "acc_cached": 1,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 10240
+    }
+   },
+   {
+    "case": 75,
+    "target": 2,
+    "n_prec": 2,
+    "c0": {
+     "ppl_cached": 1017414.0411290051,
+     "ppl_fresh": 247881.6809250109,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 1017414.0411290051,
+     "ppl_fresh": 247881.6809250109,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c50": {
+     "ppl_cached": 631893.1471167267,
+     "ppl_fresh": 339877.87854259234,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 516
+    },
+    "c75": {
+     "ppl_cached": 214008.62845796606,
+     "ppl_fresh": 255152.90456378445,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 768
+    },
+    "c100": {
+     "ppl_cached": 214008.62845796606,
+     "ppl_fresh": 255152.90456378445,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 768
+    }
+   },
+   {
+    "case": 83,
+    "target": 3,
+    "n_prec": 3,
+    "c0": {
+     "ppl_cached": 1622.2319572613178,
+     "ppl_fresh": 857.1941500616368,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 1296.076076061013,
+     "ppl_fresh": 506.2471182711946,
+     "acc_cached": 0,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 516
+    },
+    "c50": {
+     "ppl_cached": 1285.9242180533197,
+     "ppl_fresh": 1726.4669279742238,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 772
+    },
+    "c75": {
+     "ppl_cached": 1285.9242180533197,
+     "ppl_fresh": 1726.4669279742238,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 772
+    },
+    "c100": {
+     "ppl_cached": 1214.8737081135184,
+     "ppl_fresh": 1024.0368407597255,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 1024
+    }
+   },
+   {
+    "case": 99,
+    "target": 4,
+    "n_prec": 4,
+    "c0": {
+     "ppl_cached": 5200473.48815771,
+     "ppl_fresh": 2135965.466719415,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 6209933.421359544,
+     "ppl_fresh": 3685683.022939682,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 516
+    },
+    "c50": {
+     "ppl_cached": 4620541.191422941,
+     "ppl_fresh": 5143986.722145071,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 772
+    },
+    "c75": {
+     "ppl_cached": 4293131.877372922,
+     "ppl_fresh": 5418845.330326677,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 1028
+    },
+    "c100": {
+     "ppl_cached": 6993083.390328447,
+     "ppl_fresh": 7319217.033628545,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 1,
+     "ntok": 1280
+    }
+   }
+  ],
+  "musique": [
+   {
+    "case": 7,
+    "target": 25,
+    "n_prec": 25,
+    "c0": {
+     "ppl_cached": 1676547.193318267,
+     "ppl_fresh": 2055477.5563007507,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 624647.8243747993,
+     "ppl_fresh": 942536.2517847253,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 1796
+    },
+    "c50": {
+     "ppl_cached": 293955.7167763063,
+     "ppl_fresh": 453493.86534219753,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 3332
+    },
+    "c75": {
+     "ppl_cached": 174116.96063551446,
+     "ppl_fresh": 220386.4440273747,
+     "acc_cached": 1,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 5124
+    },
+    "c100": {
+     "ppl_cached": 101015.30292322487,
+     "ppl_fresh": 94128.85516103054,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 1,
+     "ntok": 6656
+    }
+   },
+   {
+    "case": 23,
+    "target": 24,
+    "n_prec": 24,
+    "c0": {
+     "ppl_cached": 23090.55207432085,
+     "ppl_fresh": 3892.1180482870795,
+     "acc_cached": 0,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 25426.703649750685,
+     "ppl_fresh": 8627.840477547104,
+     "acc_cached": 0,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 1796
+    },
+    "c50": {
+     "ppl_cached": 12022.317330657736,
+     "ppl_fresh": 14190.44597579125,
+     "acc_cached": 0,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 3332
+    },
+    "c75": {
+     "ppl_cached": 6755.527056400625,
+     "ppl_fresh": 7463.423358417757,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 4868
+    },
+    "c100": {
+     "ppl_cached": 5490.103981357263,
+     "ppl_fresh": 5750.68810628631,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 6400
+    }
+   },
+   {
+    "case": 31,
+    "target": 2,
+    "n_prec": 2,
+    "c0": {
+     "ppl_cached": 1253.3179629908961,
+     "ppl_fresh": 1238.3276488886772,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 1253.3179629908961,
+     "ppl_fresh": 1238.3276488886772,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c50": {
+     "ppl_cached": 1258.2798758713002,
+     "ppl_fresh": 1129.9505688306563,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 1,
+     "ntok": 516
+    },
+    "c75": {
+     "ppl_cached": 1101.9081781473785,
+     "ppl_fresh": 1120.4574241380594,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 1,
+     "ntok": 768
+    },
+    "c100": {
+     "ppl_cached": 1101.9081781473785,
+     "ppl_fresh": 1120.4574241380594,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 1,
+     "ntok": 768
+    }
+   },
+   {
+    "case": 39,
+    "target": 25,
+    "n_prec": 25,
+    "c0": {
+     "ppl_cached": 3090843.4976273943,
+     "ppl_fresh": 2466287.739962367,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 987483.6212123042,
+     "ppl_fresh": 1355510.8432678124,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 1796
+    },
+    "c50": {
+     "ppl_cached": 543159.6929314247,
+     "ppl_fresh": 682359.2013351619,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 3332
+    },
+    "c75": {
+     "ppl_cached": 315412.42250518344,
+     "ppl_fresh": 389379.6713630834,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 5124
+    },
+    "c100": {
+     "ppl_cached": 176465.603917316,
+     "ppl_fresh": 158864.52622030108,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 1,
+     "ntok": 6656
+    }
+   },
+   {
+    "case": 47,
+    "target": 3,
+    "n_prec": 3,
+    "c0": {
+     "ppl_cached": 1216.4437299143979,
+     "ppl_fresh": 1160.0299780237888,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 1452.8858581081336,
+     "ppl_fresh": 1357.625032866858,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 516
+    },
+    "c50": {
+     "ppl_cached": 1624.2130479672314,
+     "ppl_fresh": 1248.5184128412475,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 772
+    },
+    "c75": {
+     "ppl_cached": 1624.2130479672314,
+     "ppl_fresh": 1248.5184128412475,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 772
+    },
+    "c100": {
+     "ppl_cached": 1265.4752776858202,
+     "ppl_fresh": 1407.7317316846952,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 1024
+    }
+   },
+   {
+    "case": 71,
+    "target": 10,
+    "n_prec": 10,
+    "c0": {
+     "ppl_cached": 32806.29898725219,
+     "ppl_fresh": 14612.557214630291,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 14798.959534200727,
+     "ppl_fresh": 17458.51996030966,
+     "acc_cached": 0,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 772
+    },
+    "c50": {
+     "ppl_cached": 21607.726172211558,
+     "ppl_fresh": 17828.074717659718,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 1540
+    },
+    "c75": {
+     "ppl_cached": 15187.599974083449,
+     "ppl_fresh": 13188.42636080276,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 2308
+    },
+    "c100": {
+     "ppl_cached": 7628.849033062915,
+     "ppl_fresh": 6592.114186835244,
+     "acc_cached": 0,
+     "acc_fresh": 0,
+     "contam": 0,
+     "ntok": 2816
+    }
+   },
+   {
+    "case": 79,
+    "target": 43,
+    "n_prec": 43,
+    "c0": {
+     "ppl_cached": 78725.55157825688,
+     "ppl_fresh": 75213.12542369046,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 16270.89078652331,
+     "ppl_fresh": 19252.95577273598,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 3076
+    },
+    "c50": {
+     "ppl_cached": 8369.049932291327,
+     "ppl_fresh": 9143.471470266395,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 5892
+    },
+    "c75": {
+     "ppl_cached": 4632.7864034322265,
+     "ppl_fresh": 3368.553744780786,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 8452
+    },
+    "c100": {
+     "ppl_cached": 3485.4203545474797,
+     "ppl_fresh": 3255.2724259246156,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 11264
+    }
+   },
+   {
+    "case": 87,
+    "target": 7,
+    "n_prec": 7,
+    "c0": {
+     "ppl_cached": 109353.76509665526,
+     "ppl_fresh": 113637.59283308568,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 260
+    },
+    "c25": {
+     "ppl_cached": 74515.06789010821,
+     "ppl_fresh": 71325.93748621928,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 772
+    },
+    "c50": {
+     "ppl_cached": 56839.690966377435,
+     "ppl_fresh": 41707.05917746275,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 1284
+    },
+    "c75": {
+     "ppl_cached": 59447.82256440954,
+     "ppl_fresh": 36337.03992096048,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 1540
+    },
+    "c100": {
+     "ppl_cached": 28223.880022469417,
+     "ppl_fresh": 26828.3850542661,
+     "acc_cached": 1,
+     "acc_fresh": 1,
+     "contam": 0,
+     "ntok": 2048
+    }
+   }
+  ]
+ }
+}

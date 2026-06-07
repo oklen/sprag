@@ -1,0 +1,340 @@
+"""Hybrid (qwen3_5) cached-vs-fresh coverage — the 27B COMPARISON to the A3B
+full-attention run (30_bigmodel_coverage.py).
+
+A hybrid model can only splice the full-attention layers' K/V; the linear
+(GatedDeltaNet) layers' recurrent state is NOT position-sliceable, so they are
+ALWAYS recomputed fresh over the assembly (no prefill-skip). This quantifies the
+§5z limitation: cache reuse on a hybrid touches only FULL_ATTN_LAYERS / N layers.
+
+Reuses the dev sprag stack (it is built for qwen3_5):
+  - chunk_cache.capture_full_attn_kv : grab post-RoPE K/V of the full-attn layers
+    from one full-doc forward.
+  - assemble.patched_full_attn : during the assembly forward, overwrite the
+    full-attn layers' K/V at each kept chunk's COMPACT position with the cached
+    (full-doc) K/V, shift_rope'd from original→compact position. Linear layers
+    run fresh.
+  - COMPACTED assembly (positions 0..L-1, contiguous) — the dev convention; the
+    splice handles rotation, so no explicit position_ids needed.
+
+Metric per coverage cell: gold-answer NLL/PPL (cached vs fresh) + greedy-gen acc.
+Modes: sanity (identity: cov=100 keep-all splice == plain forward) | coverage.
+
+Env: SPRAG_MODEL_PATH=/tmp/Qwen3.5-27B
+"""
+from __future__ import annotations
+
+import argparse
+import contextlib
+import json
+import os
+import re
+import sys
+import time
+from pathlib import Path
+
+import torch
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+
+from sprag.loader import load_model, FULL_ATTN_LAYERS, LINEAR_ATTN_LAYERS
+from sprag.chunk_cache import capture_full_attn_kv, split_into_chunks
+from sprag.assemble import patched_full_attn, ChunkPlacement
+from sprag.rope import build_inv_freq
+
+
+# ---- small helpers (mirror 30_bigmodel_coverage.py) ---------------------- #
+
+CHAT = False
+_USER_PREFIX = "<|im_start|>user\n"
+
+
+def _prefix_ids(tok):
+    return tok(_USER_PREFIX, add_special_tokens=False).input_ids if CHAT else []
+
+
+def _q_g_ids(tok, query, gold):
+    if CHAT:
+        q = tok("\n\nQuestion: " + query + "<|im_end|>\n<|im_start|>assistant\n",
+                add_special_tokens=False).input_ids
+    else:
+        q = tok("\n\nQuestion: " + query + "\nAnswer:", add_special_tokens=False).input_ids
+    g = tok(" " + gold, add_special_tokens=False).input_ids
+    return q, g
+
+
+def _nll(logits, seq_len, g_ids):
+    ng = len(g_ids)
+    rows = logits[seq_len - ng - 1: seq_len - 1].float()
+    lp = torch.log_softmax(rows, dim=-1)
+    return -sum(lp[j, t].item() for j, t in enumerate(g_ids)) / ng
+
+
+def text_has_alias(tok, ids_slice, answers):
+    txt = tok.decode(ids_slice, skip_special_tokens=True).lower()
+    return any(a and a.lower() in txt for a in answers)
+
+
+def strip_think(s):
+    s = re.sub(r"<think>.*?</think>", " ", s, flags=re.S)
+    s = re.sub(r"<think>.*", " ", s, flags=re.S)
+    return s.strip()
+
+
+def alias_match(pred, answers):
+    p = strip_think(pred).lower()
+    return any(a and a.lower() in p for a in answers)
+
+
+def _degen(text):
+    """Heuristic: generation collapsed into repeated identical lines."""
+    lines = [l.strip() for l in str(text).split("\n") if l.strip()]
+    if len(lines) < 8:
+        return False
+    tail = lines[-12:]
+    return len(set(tail)) <= max(2, len(tail) // 5)
+
+
+def gen_hybrid(model, tok, asm_ids, query, device, max_new, pls=None, inv_freq=None):
+    """Greedy gen over compact assembly. cached: pass pls+inv_freq (full-attn
+    layers spliced during prefill); fresh: pls=None."""
+    q_ids, _ = _q_g_ids(tok, query, "")
+    seq = asm_ids + q_ids
+    ctx = patched_full_attn(model, pls, inv_freq) if pls is not None else contextlib.nullcontext()
+    out = []
+    with torch.no_grad(), ctx:
+        o = model(input_ids=torch.tensor([seq], device=device), use_cache=True)
+    cur = o.past_key_values; nxt = int(o.logits[0, -1].argmax())
+    _eos = {tok.eos_token_id}
+    _ie = tok.convert_tokens_to_ids("<|im_end|>")
+    if isinstance(_ie, int) and _ie >= 0:
+        _eos.add(_ie)
+    with torch.no_grad():
+        for _ in range(max_new):
+            if nxt in _eos:
+                break
+            out.append(nxt)
+            o = model(input_ids=torch.tensor([[nxt]], device=device),
+                      past_key_values=cur, use_cache=True)
+            cur = o.past_key_values; nxt = int(o.logits[0, -1].argmax())
+    return tok.decode(out, skip_special_tokens=True)
+
+
+def inv_freq_for(text_cfg):
+    rp = text_cfg.rope_parameters if hasattr(text_cfg, "rope_parameters") else {}
+    return build_inv_freq(head_dim=text_cfg.head_dim,
+                          partial_rotary_factor=rp.get("partial_rotary_factor", 1.0),
+                          rope_theta=rp.get("rope_theta", 1e7))
+
+
+def capture_doc_kv(model, ids):
+    """Full-doc forward, return {li: {'K':(1,nkv,N,hd) cpu,'V':...}} for full-attn."""
+    with torch.no_grad(), capture_full_attn_kv(model) as kv:
+        model.model(input_ids=ids, use_cache=False)
+    return kv
+
+
+def placements_for(kept_chunks, kv, M, sink_range):
+    """kept_chunks: list of (a_start, a_end) in original doc order (incl target).
+    Build compact ChunkPlacements (sink first). Returns (placements, assembly_ids
+    builder ranges)."""
+    pls = []
+    b = 0
+    ranges = []  # (a_start, a_end) in compact order including sink
+    # sink
+    s0, s1 = sink_range
+    cached = {li: (kv[li]["K"][0, :, s0:s1, :], kv[li]["V"][0, :, s0:s1, :])
+              for li in FULL_ATTN_LAYERS}
+    pls.append(ChunkPlacement(a_start=s0, b_start=b, length=s1 - s0, cached=cached))
+    ranges.append((s0, s1)); b += s1 - s0
+    for (a0, a1) in kept_chunks:
+        cached = {li: (kv[li]["K"][0, :, a0:a1, :], kv[li]["V"][0, :, a0:a1, :])
+                  for li in FULL_ATTN_LAYERS}
+        pls.append(ChunkPlacement(a_start=a0, b_start=b, length=a1 - a0, cached=cached))
+        ranges.append((a0, a1)); b += a1 - a0
+    return pls, ranges
+
+
+def mode_sanity(model, tok, text_cfg, args):
+    device = model.get_input_embeddings().weight.device
+    inv_freq = inv_freq_for(text_cfg)
+    print(f"FULL_ATTN_LAYERS ({len(FULL_ATTN_LAYERS)}):", FULL_ATTN_LAYERS)
+    doc = "The Eiffel Tower is in Paris. " * 50 + "The secret code is ZEBRA-42. " + \
+          "Bananas are yellow. " * 50
+    ids = tok(doc, return_tensors="pt").input_ids.to(device)
+    N = ids.shape[1]
+    kv = capture_doc_kv(model, ids)
+    # keep ALL tokens as one placement at delta=0 (b_start==a_start==0)
+    cached = {li: (kv[li]["K"][0, :, 0:N, :], kv[li]["V"][0, :, 0:N, :]) for li in FULL_ATTN_LAYERS}
+    pl = [ChunkPlacement(a_start=0, b_start=0, length=N, cached=cached)]
+    with torch.no_grad():
+        lf = model(input_ids=ids, use_cache=False).logits[0]
+    with torch.no_grad(), patched_full_attn(model, pl, inv_freq):
+        lc = model(input_ids=ids, use_cache=False).logits[0]
+    d = (lf.float() - lc.float()).abs().max().item()
+    rel = d / lf.float().abs().max().item()
+    print(f"SANITY identity (delta=0, all full-attn layers spliced): "
+          f"max|Δ|={d:.4e} rel={rel:.4e} → {'PASS' if rel < 5e-2 else 'FAIL'}")
+
+
+def mode_coverage(model, tok, text_cfg, args):
+    device = model.get_input_embeddings().weight.device
+    inv_freq = inv_freq_for(text_cfg)
+    covs = args.coverages
+    out = {"model": os.environ.get("SPRAG_MODEL_PATH"), "hybrid": True,
+           "n_full_attn": len(FULL_ATTN_LAYERS), "n_linear": len(LINEAR_ATTN_LAYERS),
+           "chunk_size": args.chunk_size, "coverages": covs,
+           "shard_id": args.shard_id, "num_shards": args.num_shards, "datasets": {}}
+    done = {}
+    if getattr(args, "resume", False) and args.out.exists():
+        try:
+            out = json.loads(args.out.read_text())
+            out["shard_id"] = args.shard_id; out["num_shards"] = args.num_shards
+            out.setdefault("datasets", {})
+            for _ds, _rows in out["datasets"].items():
+                done[_ds] = {r["case"] for r in _rows}
+            print(f"[resume] loaded {sum(len(v) for v in done.values())} done coverage records")
+        except Exception as _e:
+            print(f"[resume] load failed ({_e}); starting fresh")
+            out["datasets"] = {}; done = {}
+    gi = -1
+    for ds in args.data:
+        recs = [json.loads(l) for l in open(args.bench / f"{ds}.jsonl")][: args.limit]
+        rows = out["datasets"].get(ds, [])
+        for ri, rec in enumerate(recs):
+            gi += 1
+            if (gi % args.num_shards) != args.shard_id:
+                continue
+            if ri in done.get(ds, set()):
+                continue
+            ctx, q, answers = rec["context"], rec["input"], rec["answers"]
+            gold = answers[0]
+            doc_ids = _prefix_ids(tok) + tok(ctx, add_special_tokens=False).input_ids[: args.max_ctx]
+            ids_t = torch.tensor([doc_ids], device=device)
+            N = len(doc_ids)
+            chunks = split_into_chunks(torch.tensor(doc_ids), chunk_size=args.chunk_size)
+            # target = earliest chunk >= min_depth with answer alias
+            t = -1
+            for c in chunks:
+                if c.chunk_id >= args.min_depth and text_has_alias(tok, doc_ids[c.a_start:c.a_end], answers):
+                    t = c.chunk_id; break
+            if t < 0:
+                continue
+            kv = capture_doc_kv(model, ids_t)
+            q_ids, g_ids = _q_g_ids(tok, q, gold)
+            row = {"case": ri, "target": t, "n_prec": t}
+            for cov in covs:
+                include = round(cov / 100.0 * t)
+                ctx_ids_idx = list(range(t - include, t))
+                contam = any(text_has_alias(tok, doc_ids[chunks[i].a_start:chunks[i].a_end], answers)
+                             for i in ctx_ids_idx)
+                kept = [(chunks[i].a_start, chunks[i].a_end) for i in ctx_ids_idx] + \
+                       [(chunks[t].a_start, chunks[t].a_end)]
+                pls, ranges = placements_for(kept, kv, args.M, (0, args.M))
+                # assembly token ids in compact order
+                asm = []
+                for (a0, a1) in ranges:
+                    asm += doc_ids[a0:a1]
+                seq = asm + q_ids + g_ids
+                ids = torch.tensor([seq], device=device)
+                # fresh: plain forward
+                with torch.no_grad():
+                    lf = model(input_ids=ids, use_cache=False).logits[0]
+                nll_f = _nll(lf, len(seq), g_ids)
+                # cached: splice full-attn layers during prefill
+                with torch.no_grad(), patched_full_attn(model, pls, inv_freq):
+                    lc = model(input_ids=ids, use_cache=False).logits[0]
+                nll_c = _nll(lc, len(seq), g_ids)
+                g_c = gen_hybrid(model, tok, asm, q, device,
+                                 args.max_new_tokens, pls=pls, inv_freq=inv_freq)
+                g_f = gen_hybrid(model, tok, asm, q, device, args.max_new_tokens)
+                pc = alias_match(g_c, answers); pf = alias_match(g_f, answers)
+                # --- fresh_nodup control: when chunk0 (a_start==0) is among kept,
+                #     the explicit sink doc[0:M] duplicates chunk0's head. Drop the
+                #     separate sink and let chunk0's natural doc-start act as sink. ---
+                dup = len(ranges) > 1 and ranges[1][0] == 0
+                if dup:
+                    asm_nd = []
+                    for (a0, a1) in ranges[1:]:
+                        asm_nd += doc_ids[a0:a1]
+                    g_fnd = gen_hybrid(model, tok, asm_nd, q, device, args.max_new_tokens)
+                    pfnd = alias_match(g_fnd, answers)
+                    seq_nd = asm_nd + q_ids + g_ids
+                    with torch.no_grad():
+                        l_nd = model(input_ids=torch.tensor([seq_nd], device=device),
+                                     use_cache=False).logits[0]
+                    nll_fnd = _nll(l_nd, len(seq_nd), g_ids)
+                else:
+                    g_fnd, pfnd, nll_fnd = g_f, pf, nll_f
+                cell = {"ppl_cached": pow(2.718281828, nll_c),
+                        "ppl_fresh": pow(2.718281828, nll_f),
+                        "ppl_fresh_nodup": pow(2.718281828, nll_fnd),
+                        "acc_cached": int(pc), "acc_fresh": int(pf),
+                        "acc_fresh_nodup": int(pfnd), "dup": int(dup),
+                        "contam": int(contam), "ntok": len(asm),
+                        "gold": gold, "q": q,
+                        "gen_cached": g_c, "gen_fresh": g_f, "gen_fresh_nodup": g_fnd,
+                        "degen_cached": int(_degen(g_c)), "degen_fresh": int(_degen(g_f)),
+                        "degen_fresh_nodup": int(_degen(g_fnd))}
+                row[f"c{int(cov)}"] = cell
+                print(f"  [{ds} {ri}] t={t} cov={int(cov):3d}% "
+                      f"{'CONTAM' if contam else 'clean'} "
+                      f"PPL c={cell['ppl_cached']:.2f}/f={cell['ppl_fresh']:.2f} "
+                      f"acc c={int(pc)}/f={int(pf)} ntok={len(asm)}")
+            del kv
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+            rows.append(row)
+            out["datasets"][ds] = rows
+            _tmp = args.out.with_suffix(args.out.suffix + ".tmp")
+            _tmp.write_text(json.dumps(out, indent=1)); os.replace(str(_tmp), str(args.out))
+    print("\n=== 27B hybrid coverage summary (clean cells; "
+          f"{len(FULL_ATTN_LAYERS)}/{len(FULL_ATTN_LAYERS)+len(LINEAR_ATTN_LAYERS)} layers spliced) ===")
+    print(f"{'cov%':>5s} {'n':>5s} {'PPL_f':>8s} {'ΔPPL':>8s} {'acc_f':>6s} {'Δacc':>6s}")
+    for cov in covs:
+        k = f"c{int(cov)}"
+        cells = [r[k] for rows in out["datasets"].values() for r in rows
+                 if k in r and not r[k]["contam"]]
+        if not cells:
+            continue
+        n = len(cells)
+        pf = sum(x["ppl_fresh"] for x in cells) / n
+        dppl = sum(x["ppl_cached"] - x["ppl_fresh"] for x in cells) / n
+        af = sum(x.get("acc_fresh", 0) for x in cells) / n
+        dac = sum(x.get("acc_cached", 0) - x.get("acc_fresh", 0) for x in cells) / n
+        print(f"{int(cov):5d} {n:5d} {pf:8.2f} {dppl:+8.2f} {af:6.2f} {dac:+6.2f}")
+    print("wrote", args.out)
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--mode", required=True, choices=["sanity", "coverage"])
+    ap.add_argument("--data", nargs="+", default=["2wikimqa", "hotpotqa", "musique"])
+    ap.add_argument("--bench", type=Path,
+                    default=ROOT / "data/benchmarks/longbench_v1/data")
+    ap.add_argument("--out", type=Path, default=Path("data/hybrid_out.json"))
+    ap.add_argument("--coverages", type=float, nargs="+", default=[0, 25, 50, 75, 100])
+    ap.add_argument("--chunk_size", type=int, default=256)
+    ap.add_argument("--M", type=int, default=4)
+    ap.add_argument("--min_depth", type=int, default=2)
+    ap.add_argument("--max_ctx", type=int, default=12000)
+    ap.add_argument("--max_new_tokens", type=int, default=48)
+    ap.add_argument("--chat", action="store_true")
+    ap.add_argument("--limit", type=int, default=None)
+    ap.add_argument("--shard_id", type=int, default=int(os.environ.get("SHARD_ID", 0)))
+    ap.add_argument("--num_shards", type=int, default=int(os.environ.get("NUM_SHARDS", 1)))
+    ap.add_argument("--resume", action="store_true")
+    args = ap.parse_args()
+    globals()["CHAT"] = args.chat
+    args.out.parent.mkdir(parents=True, exist_ok=True)
+
+    model, tok, text_cfg = load_model()
+    print(f"model type={model.config.model_type}; full-attn layers={len(FULL_ATTN_LAYERS)}; "
+          f"linear={len(LINEAR_ATTN_LAYERS)}")
+    t0 = time.time()
+    {"sanity": mode_sanity, "coverage": mode_coverage}[args.mode](model, tok, text_cfg, args)
+    print(f"elapsed {time.time()-t0:.0f}s")
+
+
+if __name__ == "__main__":
+    main()
