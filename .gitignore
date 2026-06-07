@@ -36,3 +36,6 @@ data/benchmarks/*
 
 # Local venv (bootstrapped per-machine)
 .venv/
+
+# Omni deep-dive raw result shards (regenerate via scripts/47,48 + experiments/omni_deepdive/scripts/agg*.py)
+experiments/omni_deepdive/data/
