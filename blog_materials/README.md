@@ -75,9 +75,11 @@ Multi-hop QA (MuSiQue / HotpotQA / 2WikiMQA), distractor setting, seeded uniform
 KV-compression with the cov100 identity gate. Now **always physically remove the
 answer-evidence paragraph**; coverage acts on the rest. Fresh recompute never sees
 the evidence. The reused cache recovers it: ACC cache > fresh in the recovery cells
-(MuSiQue +3 pp at cov30, 21:8 flips; 2Wiki +1–3.4 pp; every-hop effect, strongest
-multi-hop). Hero transcripts (`figure_data.md` §L): fresh "I can't determine this" /
-cache reconstructs a 3-hop chain ending in the exact removed date.
+— gold-dropped stratum of the uniform sweep: MuSiQue **+3.2 pp** at cov30 (27:9
+flips), 2Wiki +2.7 pp (22:7); dedicated drop_gold mode (n=800/dataset): 2Wiki cov70
+**+3.4 pp** (38:11), HotpotQA +1.6 pp (28:15), MuSiQue hop4 .101→.129. Hero
+transcripts (`figure_data.md` §L): fresh "I can't determine this" / cache
+reconstructs a 3-hop chain ending in the exact removed date.
 
 ### III.2 Where does the recovered information live? Downstream attention.
 Hypothesis: during full prefill, kept paragraphs positioned **after** the gold
@@ -113,13 +115,15 @@ lossy (+2–4 pp, never verbatim injection).
 ## Act IV — Scope boundary (state prominently; it is the credibility)
 
 Honest cross-dataset accuracy (uniform compression, all numbers are answer accuracy;
-`figure_data.md` §H):
-- **2Wiki**: cache > fresh (+1–3.4 pp) across coverage — the clean win.
-- **MuSiQue**: cache ≥ fresh (+1.7–2.8 pp mid-cov; recovery cells +3 pp).
-- **HotpotQA**: ≈ neutral overall; **one mapped negative cell**: low coverage +
-  gold-kept, −5 pp at cov50 — *distractor over-anchoring* (cache amplifies a kept,
-  topically-adjacent distractor over the present gold; e.g. answers the kept 1991
-  film's cast instead of bridging to the removed entity). Washes out by cov70.
+`figure_data.md` §H, n=796–800/dataset):
+- **2Wiki**: cache > fresh at every coverage (+1.1–2.3 pp ALL; drop_gold recovery up
+  to **+3.4 pp**, 38:11) — the clean win.
+- **MuSiQue**: cache ≥ fresh (+1.3–2.3 pp at cov30–50; recovery cell +3.2 pp, 27:9).
+- **HotpotQA**: ≈ neutral; **one mapped fresh-favored cell**: gold-kept at cov50,
+  −1.8 pp (19:12) — *distractor over-anchoring* at case level (cache amplifies a
+  kept, topically-adjacent distractor over the present gold; e.g. answers the kept
+  1991 film's cast instead of bridging to the removed entity). Gone by cov70; and
+  drop_gold recovery is positive even here (+1.6 pp at cov70).
 
 Unifying boundary statement: the cached trace **amplifies whatever was salient in
 the full context**. It helps when the dropped content is the needed signal and the
@@ -158,8 +162,8 @@ context**. Controlled test (same budget, keep first-k vs last-k): 2Wiki cache−
 gap = −0.9/+0.7 pp (early) vs **+2.3/+4.6 pp (late)** at cov30/50 — a +3–4 pp
 diff-in-diff, with fresh itself unchanged (.573 vs .576) ⇒ the benefit is
 cache-specific, not "late content is better". Bonus mechanistic signature: under
-keep-early, cache and fresh disagree on almost nothing (6–21 items of 800); under
-keep-late they diverge (41–81) — **the trace in late-kept tokens *is* the
+keep-early, cache and fresh disagree on almost nothing (2Wiki: 19/18 items of 800);
+under keep-late they diverge (64/81) — **the trace in late-kept tokens *is* the
 difference between the two arms.** Zero-cost recipe; one sentence to implement.
 
 ### V.3 Outlook (the sequel): trace-aware eviction

@@ -93,7 +93,8 @@ z = mean/SEM of the paired per-item acc difference.
 
 Reading: hotpotqa significantly positive (the bonus where the task benefits); musique
 negative at low coverage but **n.s.**; 2wikimqa null ⇒ sign tracks task structure, not
-hop-count. (Note: coverage here is *positional*, not semantic — see README §8.)
+hop-count. (Note: coverage here is *positional*, not semantic — the flaw the
+redesigned instrument fixes; see the superseded-note above.)
 
 musique keep-set sizes (why c0 is so starved): answer chunk depth median 16 (of up to
 44) 256-tok chunks; chunks kept = **0** @c0 (answer chunk only), ~4 @c25, ~9 @c50,
@@ -152,41 +153,51 @@ MuSiQue (20 paras, hop 2/3/4, shortcut-resistant), HotpotQA (10 paras, 2-hop,
 shortcut-prone), 2WikiMQA (10 paras). All §H–§K numbers are **accuracy**
 (alias-match on greedy generation; generations persisted per arm).
 
-## §H — ACC matrix: uniform compression, 3 datasets (n≈650–800 each)
+## §H — ACC matrix: uniform compression, 3 datasets (final, n=796–800 each)
 
 `data/acc_{mq,hp,tw}_uniform.s*.json` · agg `agg_acc.py`. acc fresh / ours / compact.
 
-**MuSiQue (n=650):**
+**MuSiQue (n=796):**
 
 | cov | ALL f/o/c | gold-KEPT f/o/c | gold-DROPPED f/o/c (recovery cell) |
 |---:|---|---|---|
-| 10  | .220/.217/.215 | .656/.562/.625 (cliff: cache worse) | .172/.179/.171 |
-| 30  | .297/.314/.323 | .537/.526/.553 | .198/**.226**/**.228** (21:8) |
-| 50  | .357/.374/.385 | .509/.544/.576 | .213/.213/.204 |
-| 70  | .435/.437/.446 | .527/.536/.549 | .212/.196/.196 |
+| 10  | .210/.205/.207 | .608/.519/.570 (cliff: cache worse) | .166/.170/.167 |
+| 30  | .286/**.309**/**.318** (43:25) | .515/.515/.545 | .192/**.224**/**.224** (27:9) |
+| 50  | .354/.367/.374 | .505/.530/.551 | .206/.206/.201 |
+| 70  | .440/.441/.451 | .531/.538/.554 | .214/.201/.197 |
 | 100 | .560/.560/.560 (identity, exact) | — | — |
 
-**HotpotQA uniform (n=304, by gold_kept — the one mapped negative cell):**
+**HotpotQA (n=800):**
 
-| cov | gold-KEPT f/o/c | gold-DROPPED f/o/c |
-|---:|---|---|
-| 50 | .766/**.714**/.740 (cache −5.2 pp, 2:10) | .460/.480/.473 |
-| 70 | .752/.757/.752 (tied) | .468/.479/— |
+| cov | ALL f/o/c | gold-KEPT f/o/c | gold-DROPPED f/o/c |
+|---:|---|---|---|
+| 10  | .429/.435/.435 | .716/.741/.753 | .396/.401/.399 |
+| 30  | .535/.532/.536 | .733/.729/.744 | .441/.439/.437 |
+| 50  | .611/.604/.610 | .748/**.730**/.745 (−1.8 pp, 19:12 — the one fresh-favored cell) | .469/.472/.469 |
+| 70  | .667/.672/.675 | .733/.738/.738 | .511/.515/.523 |
+| 100 | .766/.766/.766 (identity, exact) | — | — |
 
-**2Wiki**: cache > fresh +1–3.4 pp across covs (see `acc_tw_*`; also §J random-keep
-baselines: cov30 .576→.599, cov50 .626→.672 under keep-late).
+**2Wiki (n=800):**
 
-**drop_gold ACC (answer-evidence physically removed; MuSiQue n=766):**
+| cov | ALL f/o/c | gold-KEPT f/o/c | gold-DROPPED f/o/c (recovery cell) |
+|---:|---|---|---|
+| 10  | .514/.525/.531 | .805/.782/.793 | .478/.494/.499 |
+| 30  | .568/**.591**/.594 (38:19) | .747/.763/.780 | .490/**.517**/.513 (22:7) |
+| 50  | .645/.656/.645 | .765/.767/.757 | .525/.545/.532 |
+| 70  | .723/.735/.728 | .798/.816/.802 | .551/.551/.559 |
+| 100 | .865/.865/.865 (identity, exact) | — | — |
 
-| cov | f / o / c | flips o>f:f>o |
-|---:|---|---|
-| 30  | .205/.204/.201 | 23:24 |
-| 50  | .232/.235/.227 | 27:25 |
-| 70  | .222/.230/**.247** | 28:22 |
-| 100 | .258/.262/.268 | 20:17 |
+**drop_gold ACC (answer-evidence physically removed; final, n=800 each):**
 
-(2Wiki drop_gold recovery, earlier run n=400: cov50 .215→.230/.233 (13:7), cov70
-.205→.233/.230 (15:4); hop4 cov70 .055→.096, 3:0.)
+| cov | MuSiQue f/o/c | HotpotQA f/o/c | 2Wiki f/o/c |
+|---:|---|---|---|
+| 30  | .204/.200/.196 | .411/.420/.425 | .502/.512/.505 |
+| 50  | .229/.231/.223 | .420/.429/.421 | .507/.526/.520 (31:16) |
+| 70  | .219/.226/**.245** | .445/**.461**/.460 (28:15) | .515/**.549**/.542 (**+3.4 pp**, 38:11) |
+| 100 | .255/.260/.265 | .502/.515/.516 (23:13) | .549/.570/.559 (40:23) |
+
+(MuSiQue hop4 drop_gold c70: .101→.129, n=139. Note drop_gold cov100 is *not* an
+identity gate — the gold paragraph is still removed.)
 
 ## §I — CAUSAL money table: gold-position A/B (drop_gold cov100, n=714–800/cell)
 
@@ -223,8 +234,9 @@ cov30/50. Same budget; only *which* paragraphs are kept differs.
 | MuSiQue | 50 | .350/.352 (+0.2 pp) | .365/.375 (+1.0 pp) | +0.8 pp |
 
 Two annotations for the figure: (1) fresh is ~unchanged early vs late ⇒ clean
-diff-in-diff, the benefit is cache-specific; (2) discordant pairs collapse under
-keep-early (6–21 of 800) and blow up under keep-late (41–81) — the trace in
+diff-in-diff, the benefit is cache-specific; (2) discordant pairs (items where
+ours≠fresh) collapse under keep-early and blow up under keep-late — 2Wiki: 19/18
+of 800 (early) vs 64/81 (late) at cov30/50; MuSiQue: 30/40 vs 77/76 — the trace in
 late-kept tokens *is* the difference between arms. compact gains under late too
 (tw c30 .606) ⇒ trace survives re-rotation.
 
@@ -272,11 +284,13 @@ Answer-evidence paragraph **physically removed**; same kept set for both arms.
 - *cached*: identical prefix, then "…owned by Warner Records, **a subsidiary of
   Warner Music Group**." (adds exactly the removed parent-company hop)
 
-**Australia conscription 1964 (3-hop; gold "1964"):**
+**Australia conscription 1964 (3-hop; gold "1964"; quote is the c50 cell):**
 - *fresh*: "The question contains a mix-up in details…" (hedges)
-- *cached (origpos)*: "…*Grievous Bodily Harm* was released in Australia. Australia
-  reintroduced conscription for the Vietnam War era… **1964**."
-- *cached (compact)* errs to UK here — origpos-only win on this item.
+- *cached (origpos)*: "…*Grievous Bodily Harm* (1990) was released in Australia.
+  …**Australia reintroduced conscription for the Vietnam War in 1964**, under the
+  National Service Act 1964."
+- *cached (compact)* errs to UK here — origpos-only win on this item. (At c70 the
+  cached arm drifts to the 1965 call-up year — quote the c50 cell only.)
 
 **Loss-side example (HotpotQA distractor over-anchoring, `data/hp_fail_dump.json`):**
 The Hard Way (gold **Mos Def**, his paragraph removed, distractor "The Hard Way
