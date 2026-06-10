@@ -10,7 +10,7 @@ Status: ✅ solid (significant, reproduced) · ⚠️ open (directional / underp
 | 2 | Bonus is monotone in coverage, vanishes at full coverage (identity gate) | ✅ | curves §A/§B; cov100 ΔNLL=0 exact in every run | `figure_data.md §A,§B` |
 | 3 | **Cross-modal associative recovery** (audio trace in video KV) | ✅ | Video-MME n=597, cov100 −0.070 p<1e-4; vision baseline +0.000; mode-invariant gap | `docs/OMNI_RESULTS.md`; `data/omni_vm_xrecover*` |
 | 4 | Bonus largest when recompute most starved (omit-bridge amplifies 2–4×; longer clips bigger) | ✅ | center-mode > uniform every cov p<1e-4; VideoMME −0.23 ≫ Ego −0.039 | `docs/OMNI_RESULTS.md` E4 |
-| 5 | Accuracy lift, not just NLL | ✅ | short Video-MME +18 pt acc @cov10; hotpotqa +9.5 pp z=2.4 | `experiments/omni_deepdive` #3; `figure_data.md §D` |
+| 5 | Accuracy lift, not just NLL | ✅ | short Video-MME +18 pt acc @cov10; text: 2Wiki +1–3.4 pp, MuSiQue recovery cell +3 pp (§H) | `experiments/omni_deepdive` #3; `figure_data.md §H` |
 | 6 | Text full-attention couldn't surface it (answer adjacent to query); video could (temporal integration) | ✅ | text splice ≈ null; video significant | `docs/OMNI_RESULTS.md` finding 1 |
 | 7 | **Scope boundary**: holds only for unified-context + subset-inference; corpus-RAG asymmetry=0 | ✅ (by construction) | mechanism + cov100 identity; no accuracy claim for generic RAG | README §4 |
 | 8 | "cached ≥ fresh" is **not universal** — text low-coverage cliff (cache worse) | 🚫→✅ | 3-arm n=231: c0 gap +0.5 NLL (cliff), crossover ~c25–c50 | `experiments/cov_curve`; `figure_data.md §A` |
@@ -25,7 +25,7 @@ Status: ✅ solid (significant, reproduced) · ⚠️ open (directional / underp
 | 17 | **drop_gold recovery**: cache recovers physically-removed answer evidence (text mirror of #3) | ✅ | ACC: mq recovery cell +3 pp (21:8, n=650); tw drop_gold cov70 +2.8 pp (15:4, n=400); hero transcripts reconstruct removed 3-hop chains verbatim | `figure_data.md §H, §L` |
 | 18 | **Mechanism = downstream-attention trace** (kept tokens that attended to dropped content during prefill carry its imprint) | ✅ CAUSAL | controlled gold-pos A/B, 3 datasets: gold-first +2.1/+3.6/+4.1 pp vs gold-last +0.9/+0.5/−0.2 pp (n=714–800/cell); observational split confirms (after>0 vs after=0) | `figure_data.md §I` |
 | 19 | Recovery reads out as **disambiguation + internal-knowledge framing, not hallucination** | ✅ | 91 recovery transcripts: dominant mode = tips correct same-named entity; recovered facts correct; over-anchoring is the separate loss population | `figure_data.md §L`; `mine_recovery.py` |
-| 20 | HotpotQA "cache penalty" is **calibration-only** in NLL; on ACC one mapped cell: low-cov gold-kept −5 pp (distractor over-anchoring), washes out by cov70 | ✅ | NLL +0.1–0.8 nats but ACC tied/slightly better except cov50 gold-KEPT .766→.714 (n=154) | `figure_data.md §H` |
+| 20 | HotpotQA mapped negative cell: low-cov + gold-kept, −5 pp via **distractor over-anchoring** (cache amplifies kept topically-adjacent distractor over present gold); washes out by cov70 | ✅ | cov50 gold-KEPT .766→.714 (n=154, 2:10); cov70 tied; gold-dropped ≈/slightly + | `figure_data.md §H, §L` |
 | 21 | Scope boundary: sign = (need for dropped evidence) × (distractor adjacency); **not hop-count** | ✅ | mq/tw positive (shortcut-resistant), hp neutral w/ mapped negative cell; hp recovers +4.1 pp when trace maximized (#18) | `figure_data.md §H, §I` |
 | 22 | **Method A**: degeneration-gated adaptive coverage — cache-side signals predict errors; gate beats fixed-cov acc-vs-KV frontier; escalation needs no re-prefill under reuse (nested keep-sets) | ✅ POC (simulation on real sweeps) | P(wrong\|sig)=.80 vs .57 (mq c30); same acc w/ 9–22% less KV; tw gate dominates c50 (+1.5 pp, −9%) | `figure_data.md §K`; `gate_analysis.py` |
 | 23 | **Method C**: position-aware keeping — at fixed budget keep LATER context | ✅ | tw diff-in-diff +3–4 pp (late +2.3/+4.6 vs early −0.9/+0.7, n=800); fresh unchanged ⇒ cache-specific; discordant-pair collapse under keep-early | `figure_data.md §J` |
@@ -35,8 +35,8 @@ Status: ✅ solid (significant, reproduced) · ⚠️ open (directional / underp
 - **Do not** claim an accuracy win for generic retrieval-RAG (#7).
 - **Do not** claim "position-preserving beats compaction" (#10) or "we beat ReKV by
   keeping positions" — it's a tie (#11).
-- **Metric of record on the multi-hop instrument is ACCURACY** (#20): never headline
-  an NLL penalty/bonus there as a quality claim; NLL is calibration.
+- Multi-hop instrument results are reported in **accuracy** (internal note: don't cite
+  the instrument's NLL numbers in the post — generic metric caveats are not our story).
 - The multi-hop story is now **resolved** — tell it as artifact-found → instrument-
   redesigned → mechanism-proven (#16→#18), not as an open problem. §D is historical.
 - Method A is a **simulation POC** on real sweep data (say so); Method C is a real

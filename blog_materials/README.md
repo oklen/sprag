@@ -112,12 +112,8 @@ lossy (+2–4 pp, never verbatim injection).
 
 ## Act IV — Scope boundary (state prominently; it is the credibility)
 
-**Metric lesson first**: large NLL penalties on HotpotQA turned out to be
-*calibration-only* (lost probability on the exact gold string), not wrong answers.
-**Accuracy is the metric of record** for the text multi-hop experiments; NLL is kept
-only where teacher-forced calibration is itself the point (Act I curves).
-
-Honest cross-dataset accuracy (uniform compression, `figure_data.md` §H):
+Honest cross-dataset accuracy (uniform compression, all numbers are answer accuracy;
+`figure_data.md` §H):
 - **2Wiki**: cache > fresh (+1–3.4 pp) across coverage — the clean win.
 - **MuSiQue**: cache ≥ fresh (+1.7–2.8 pp mid-cov; recovery cells +3 pp).
 - **HotpotQA**: ≈ neutral overall; **one mapped negative cell**: low coverage +
@@ -181,7 +177,6 @@ Stated as the open direction; benchmarked in the next post.
 | "cached ≥ fresh is universal" | **False — conditional** | Text low-coverage cliff; convention-independent (starvation, not scramble). |
 | "Cache hurts multi-hop reasoning" (our own early Path B result) | **Instrument artifact** | Old chain-mode kept the answer para always → fresh became an extractive oracle; alias-match penalized co-referent answers. Redesigned instrument (uniform + identity gate) erases it. |
 | "The penalty/benefit tracks hop-count" | **Dead** | Sign tracks (need for dropped evidence) × (distractor adjacency); HotpotQA recovers +4.1 pp when the trace is maximized. |
-| "HotpotQA cache penalty is a quality loss" | **Calibration-only** | Big NLL penalty (+0.1–0.8 nats) ≠ wrong answers; ACC tied/slightly-better except one mapped low-cov cell (−5 pp). |
 | "The cross-modal trace lives in deep layers" | **Wrong localization** | Early–mid readout (~L8–24): first 8 layers = 68% of gap, plateau by L24. |
 | "Sink-duplication harm = attention dilution" | **Falsified** | Decode-trajectory failure (unclosed `<think>`), a measurement bug we found and fixed. |
 

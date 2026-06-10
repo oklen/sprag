@@ -149,8 +149,8 @@ uniform KV-compression over all paragraphs** (no privileged answer-keep), 3 arms
 (fresh / ours=origpos / compact), batched generation with persisted gens, **exact
 cov100 identity gate** in every run. Model Qwen3-30B-A3B-Instruct-2507. Datasets:
 MuSiQue (20 paras, hop 2/3/4, shortcut-resistant), HotpotQA (10 paras, 2-hop,
-shortcut-prone), 2WikiMQA (10 paras). **Accuracy (alias-match on greedy gen) is the
-metric of record**; NLL was found calibration-only here (see ledger #20).
+shortcut-prone), 2WikiMQA (10 paras). All §H–§K numbers are **accuracy**
+(alias-match on greedy generation; generations persisted per arm).
 
 ## §H — ACC matrix: uniform compression, 3 datasets (n≈650–800 each)
 
