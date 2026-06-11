@@ -1,5 +1,8 @@
 # Blog material — *The memory in a reused KV-cache*
 
+> **The full draft post is [`POST.md`](POST.md).** This file is the writing brief
+> behind it.
+
 Writing brief for the KV-cache-reuse blog. Audience: **senior ML researchers**
 (academic-restrained tone). Spine = **a reused KV-cache is an information-asymmetric
 object: it remembers context you deleted. We show the phenomenon, prove the mechanism
