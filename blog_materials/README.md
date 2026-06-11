@@ -93,17 +93,27 @@ never had it.
 - **Observational split**: recovery exists only when ≥1 kept paragraph sits after
   gold (2Wiki cov100: +2.9 pp with downstream attenders vs −2.8 pp with none).
 - **Controlled causal A/B** (the money table, `figure_data.md` §I): same kept set,
-  only the gold paragraph's *prebake position* varies.
+  only the gold paragraph's *prebake position* varies. Now **two model families**.
 
-| dataset | gold-FIRST (all kept paras attend it) | gold-LAST (none do) |
+| | gold-FIRST | gold-LAST |
 |---|---|---|
-| HotpotQA | **+4.1 pp** (46:17) | −0.2 pp (7:9) |
-| 2Wiki    | **+3.6 pp** (55:26) | +0.5 pp (14:10) |
-| MuSiQue  | **+2.1 pp** (55:38) | +0.9 pp (19:12) |
+| Qwen HotpotQA | **+4.1 pp** (p=4e-4) | −0.2 pp |
+| Qwen 2Wiki    | **+3.6 pp** (p=.002) | +0.5 pp |
+| Qwen MuSiQue (n=2400) | **+2.4 pp** (p=3e-4) | −0.0 pp |
+| Mistral HotpotQA | **+5.8 pp** (p<1e-4) | −0.5 pp |
+| Mistral 2Wiki    | **+3.9 pp** (p=.0013) | −0.2 pp |
 
-Maximize downstream attenders → recovery is largest; eliminate them → it collapses.
-Note HotpotQA: *neutral* in natural data, **+4.1 pp when the trace is maximized** —
-the mechanism is universal; natural gold position just modulates it.
+5/5 cells: first significant, last null. HotpotQA: *neutral* in natural data,
+**+4–6 pp when the trace is maximized** — the mechanism is universal; natural gold
+position just modulates it. Two hardening ablations (`figure_data.md` §N, §O):
+- **gold_pos=middle** kills the primacy/lost-in-the-middle alternative (slots 1–2
+  recover +4.9 pp ≈ first, both families; threshold dose-response; bridge-routing:
+  the trace pays when the supporting para is downstream — Mistral p=.043).
+- **Counterfactual probe**: the trace stores CONTENT (fabricated-year reproduction
+  6:0, p=.031; priming channel null; bandwidth ~1.4%; partial fidelity year-right/
+  day-wrong; mq null explained by ceiling×bandwidth).
+Cross-family curve replication: `figure_data.md` §M (Mistral c50 +2.8 pp p=.009,
+identity exact).
 
 ### III.3 What does recovery look like in the model's reasoning?
 Reading 91 recovery transcripts (gens persisted): the dominant mode is
@@ -224,10 +234,16 @@ overclaiming, and it explains *why* the field missed the quality dimension.
 ---
 
 ## Asset index
+- `POST.md` — the full draft post.
 - `figure_data.md` — every plot-ready table (coverage curves §A/§B, cross-modal §C,
-  ACC matrix §H, causal A/B §I, keep-bias §J, gate §K, hero transcripts §L).
-- `claims_ledger.md` — claim → status → evidence (n, stat) → script/data location.
+  ACC matrix §H, causal A/B two families §I, keep-bias 3 datasets §J, gate §K, hero
+  transcripts §L, Mistral curve §M, middle/dose/bridge ablation §N, counterfactual
+  probe §O).
+- `claims_ledger.md` — claim → status → evidence (n, stat) → script/data location
+  (now #1–29).
 - Source experiments in-repo: `experiments/cov_curve/`, `experiments/coverage_sinkdup/`,
-  `experiments/omni_deepdive/`, `docs/OMNI_RESULTS.md`; multi-hop instrument
-  `scripts/49_musique_hop.py` (uniform / drop_gold / gold_pos / keep_bias modes,
-  batched ACC with persisted generations).
+  `experiments/omni_deepdive/`, `docs/OMNI_RESULTS.md`; multi-hop instruments
+  `scripts/49_musique_hop.py` (uniform / drop_gold / gold_pos{first,middle,last} /
+  keep_bias modes, batched ACC with persisted generations),
+  `scripts/50_xfam_hop.py` (cross-family `--style {qwen,mistral,gemma}`),
+  `scripts/51_counterfactual.py` (counterfactual-gold probe).
