@@ -199,27 +199,46 @@ shortcut-prone), 2WikiMQA (10 paras). All §H–§K numbers are **accuracy**
 (MuSiQue hop4 drop_gold c70: .101→.129, n=139. Note drop_gold cov100 is *not* an
 identity gate — the gold paragraph is still removed.)
 
-## §I — CAUSAL money table: gold-position A/B (drop_gold cov100, n=714–800/cell)
+## §I — CAUSAL money table: gold-position A/B (drop_gold cov100, TWO model families)
 
-`launch_goldpos.sh` / `launch_goldpos_4gpu.sh` · `data/gp_{hp,tw,mq}_{first,last}.s*`
-· agg `agg_goldpos.py`. **Identical kept set; only the gold paragraph's prebake
-position varies.** gold-FIRST = every kept paragraph attends to gold during prefill
-(max trace); gold-LAST = none do (zero trace).
+`launch_goldpos.sh` / `launch_goldpos_4gpu.sh` / `launch_qext8.sh` (mq n=2400) /
+`launch_xfam8.sh` (Mistral) · `data/gp_{hp,tw}_{first,last}.s*`,
+`data/gp_mqext_{first,last}.s*`, `data/xf_{tw,hp}_gp{first,last}.s*`. **Identical
+kept set; only the gold paragraph's prebake position varies.** gold-FIRST = every
+kept paragraph attends to gold during prefill (max trace); gold-LAST = none do
+(zero trace). p = exact McNemar on flips.
 
-| dataset | pos | n | acc fresh | acc ours | ours−fresh | flips o>f:f>o |
-|---|---|---:|---:|---:|---:|---|
-| HotpotQA | first | 714 | .529 | .570 | **+.041** | 46:17 |
-| HotpotQA | last  | 800 | .512 | .510 | −.002 | 7:9 |
-| 2Wiki    | first | 800 | .551 | .588 | **+.036** | 55:26 |
-| 2Wiki    | last  | 800 | .546 | .551 | +.005 | 14:10 |
-| MuSiQue  | first | 800 | .284 | .305 | **+.021** | 55:38 |
-| MuSiQue  | last  | 800 | .249 | .258 | +.009 | 19:12 |
+**Qwen3-30B-A3B-Instruct:**
 
-Reading: first ≫ last on all three datasets ⇒ the recovery **is** the downstream-
-attention trace, causally. MuSiQue's last-cell stays mildly positive (deep-hop tasks
-benefit from cache even at natural positions); the ordering is what's universal.
-Observational confirmation (natural data, split by #kept-paras-after-gold): 2Wiki
-cov100 +2.9 pp (after>0) vs −2.8 pp (after=0); `pos_analysis.py`.
+| dataset | pos | n | acc fresh | acc ours | ours−fresh | flips | p |
+|---|---|---:|---:|---:|---:|---|---|
+| HotpotQA | first | 714 | .529 | .570 | **+.041** | 46:17 | 4e-4 |
+| HotpotQA | last  | 800 | .512 | .510 | −.002 | 7:9 | ns |
+| 2Wiki    | first | 800 | .551 | .588 | **+.036** | 55:26 | .002 |
+| 2Wiki    | last  | 800 | .546 | .551 | +.005 | 14:10 | ns |
+| MuSiQue  | first | **2400** | .280 | .304 | **+.024** | 148:91 | **3e-4** |
+| MuSiQue  | last  | **2400** | .254 | .254 | −.000 | 45:46 | 1.0 |
+
+(MuSiQue extended from n=800 to n=2400 ≈ full dev: the earlier marginal first-cell
+(p=.10) is now decisive, and the earlier "last mildly positive +0.9pp" was noise —
+last collapses to exactly zero. All three datasets: first significant, last null.)
+
+**Mistral-Small-24B-Instruct-2501 (cross-family replication, n=800/cell):**
+
+| dataset | pos | acc fresh | acc ours | ours−fresh | flips | p |
+|---|---|---:|---:|---:|---|---|
+| HotpotQA | first | .526 | .584 | **+.058** | 56:10 | <1e-4 |
+| HotpotQA | last  | .532 | .527 | −.005 | 1:5 | ns |
+| 2Wiki    | first | .529 | .568 | **+.039** | 60:29 | .0013 |
+| 2Wiki    | last  | .535 | .532 | −.002 | 2:4 | ns |
+
+Reading: first ≫ last, last ≈ 0, on **five of five dataset×family cells** ⇒ the
+recovery **is** the downstream-attention trace, causally, and it is not a Qwen
+quirk (Mistral effects are larger). Bonus signature: under gold-LAST the two arms
+barely *disagree at all* (flips 1:5, 2:4) — remove the trace and the arms become
+the same model. Observational confirmation (natural data, split by
+#kept-paras-after-gold): 2Wiki cov100 +2.9 pp (after>0) vs −2.8 pp (after=0);
+`pos_analysis.py`.
 
 ## §J — Method C: position-aware keeping (keep first-k vs last-k, n=800 each)
 
@@ -228,10 +247,16 @@ cov30/50. Same budget; only *which* paragraphs are kept differs.
 
 | dataset | cov | EARLY f/o (gap) | LATE f/o (gap) | diff-in-diff |
 |---|---:|---|---|---:|
-| 2Wiki | 30 | .573/.564 (−0.9 pp, 6:13) | .576/.599 (**+2.3 pp**, 41:23) | +3.2 pp |
-| 2Wiki | 50 | .630/.637 (+0.7 pp, 12:6) | .626/.672 (**+4.6 pp**, 59:22) | +3.9 pp |
+| 2Wiki | 30 | .573/.564 (−0.9 pp, 6:13) | .576/.599 (**+2.3 pp**, 41:23, p=.03) | +3.2 pp |
+| 2Wiki | 50 | .630/.637 (+0.7 pp, 12:6) | .626/.672 (**+4.6 pp**, 59:22, p<1e-4) | +3.9 pp |
+| HotpotQA | 30 | .491/.490 (−0.1 pp, 8:9) | .511/.531 (**+2.0 pp**, 46:30, p=.085) | +2.1 pp |
+| HotpotQA | 50 | .559/.554 (−0.5 pp, 10:14) | .609/.613 (+0.4 pp, 29:26) | +0.9 pp |
 | MuSiQue | 30 | .278/.287 (+0.9 pp) | .299/.305 (+0.6 pp) | ~0 |
 | MuSiQue | 50 | .350/.352 (+0.2 pp) | .365/.375 (+1.0 pp) | +0.8 pp |
+
+Scoreboard (3 datasets): 2Wiki strong (+3–4 pp dd), HotpotQA weak-positive (+2.1 dd
+at cov30, fading by cov50), MuSiQue ≈ 0. Keep-late **never hurts** (early arm is the
+one that goes negative); it pays where the trace is strong. `data/kb_hp_*.s0.json`.
 
 Two annotations for the figure: (1) fresh is ~unchanged early vs late ⇒ clean
 diff-in-diff, the benefit is cache-specific; (2) discordant pairs (items where
@@ -304,3 +329,113 @@ The Hard Way (gold **Mos Def**, his paragraph removed, distractor "The Hard Way
 - Internal-knowledge framing: Ri Sol-ju's father-in-law — fresh hedges
   ("undisclosed"); cached states "Kim Jong-un's father, **Kim Jong-il**" as world
   knowledge (it cannot cite the removed paragraph).
+
+## §M — Cross-family replication: Mistral-Small-24B coverage curve (2Wiki, n=800)
+
+`scripts/50_xfam_hop.py` (`--style mistral`: family chat markers, BOS+`[INST] `
+doc-prefix always kept, `fix_mistral_regex`) · `data/xf_tw_uniform.s{0,1}.json` ·
+launcher `launch_xfam8.sh`. Same instrument as §H, second model family.
+
+| cov | ALL f/o/c | gap (flips, p) | gold-KEPT f→o | gold-DROPPED f→o |
+|---:|---|---|---|---|
+| 10  | .514/.522/.516 | +0.9 pp (27:20, ns) | .805→.770 (cliff) | .478→.492 |
+| 30  | .564/.581/.568 | +1.8 pp (38:24, p=.098) | .772→.780 | .474→.496 |
+| 50  | .610/.637/.639 | **+2.8 pp** (44:22, p=.009) | .723→.767 | .497→.507 |
+| 70  | .698/.721/.720 | **+2.4 pp** (33:14, p=.008) | .778→.798 | .514→.547 |
+| 100 | .850/.850/.850 | 0 (0:0) **identity exact** | — | — |
+
+Every qualitative feature of the Qwen curve reproduces: cache ≥ fresh at all
+coverages, mid-coverage peak, exact identity gate, gold-kept low-coverage cliff
+(−3.5 pp at cov10), positive recovery cells throughout (up to +3.3 pp at cov70).
+Sanity gate for the port: cov100 NLL bit-identical across arms; EOS-clean gens.
+
+## §N — Position ablation: gold_pos=middle (primacy / lost-in-the-middle control)
+
+`--gold_pos middle` = seeded random interior slot j∈[1, n−2] (≥1 kept para
+downstream); `meta.gp_slot`/`gp_after` recorded per item. drop_gold cov100, n=800
+per cell, both families. `data/{qm,xf}_{tw,hp}_gpmid.s*`, `data/qm_mq_gpmid.s*` ·
+launchers `launch_xfam_mid.sh`, `launch_qmid8.sh` · analysis `analyze_mid.py`.
+
+**Aggregate (middle sits between first and last):**
+
+| cell | first | middle | last |
+|---|---:|---:|---:|
+| Qwen 2Wiki | +3.6 | +0.1 (24:23, ns) | +0.5 |
+| Qwen HotpotQA | +4.1 | +0.5 (22:18, ns) | −0.2 |
+| Qwen MuSiQue | +2.4 | +1.5 (30:18, p=.11) | −0.0 |
+| Mistral 2Wiki | +3.9 | +1.1 (24:15, ns) | −0.2 |
+| Mistral HotpotQA | +5.8 | +1.3 (22:12, ns) | −0.5 |
+
+**Dose-response by gp_after (#kept paras downstream of gold), 10-para datasets:**
+
+| gp_after bin | Qwen 2Wiki | Mistral 2Wiki | Qwen HP | Mistral HP |
+|---|---:|---:|---:|---:|
+| 1–3 (n=318) | −0.6 | +0.0 | −0.3 | +0.6 |
+| 4–6 (n=300) | −2.0 | +0.0 | +0.0 | +1.7 |
+| 7–8 (n=182) | **+4.9** | **+4.9** | **+2.7** | +1.6 |
+
+Two readings, both load-bearing:
+1. **Slot 0 is not special**: slots j=1–2 (bin 7–8) recover as much as gold-FIRST
+   (+4.9 ≈ +3.6/+3.9) in both families ⇒ the primacy/attention-sink/L-i-t-M
+   alternative is dead. The predictor is downstream mass, not the slot.
+2. The response is **threshold-shaped**, not linear: most of the recovery needs
+   (nearly) the whole kept context downstream.
+
+**Why threshold? Bridge-routing refinement** (re-derive j from rid; stratify by
+whether the OTHER supporting paragraph sits downstream of gold):
+
+| middle run | bridge DOWNSTREAM | bridge all BEFORE |
+|---|---|---|
+| Mistral 2Wiki | **+2.5 pp** (18:7, p=.043) | −0.6 pp (6:8, ns) |
+| Qwen 2Wiki | +0.4 pp (16:14, ns) | −0.3 pp (8:9, ns) |
+| HotpotQA (both) | flat (+0.3…+1.2 ns) | flat |
+
+The trace is useful when it lands on the **semantically bound** (supporting)
+paragraph, not on arbitrary distractors — significant on Mistral 2Wiki, directional
+on Qwen (whose threshold is steeper; its recovery needs near-total downstream
+mass). Consistent with Method C (§J): keep-late retains the tokens downstream of
+everything. Caveats: j is seeded per item (bins share item composition across
+families — per-bin paired gaps are valid, cross-bin composition is not independent);
+MuSiQue 20-para dose bins are noise-dominated at n≈270/bin.
+
+## §O — Counterfactual-gold probe: content storage vs retrieval priming
+
+`scripts/51_counterfactual.py` (49 + `_apply_cf`: swap the answer YEAR inside the
+gold para before prebake; deterministic Δ∈{3,4,6,7,8,11,13}; eligibility = year in
+answer & only in gold para & not in question & fabricated year collision-free;
+metric = word-bounded year-token match, both years scored per arm, gens persisted)
+· `data/cf_{tw,mq}_{ctrl,dgorig,dgfirst}.s*` · launcher `launch_cf8.sh` · eligible
+n: 2Wiki 461, MuSiQue 226 (`cf_count.py`).
+
+**2Wiki (n=461):**
+
+| cell | FAB year fresh→cache | TRUE year fresh→cache |
+|---|---|---|
+| ctrl (uniform cov100, CF visible) | .931→.931 (0:0, identity) | .004→.002 |
+| drop_gold, gold at natural pos | .000→.004 (2:0, ns) | .221→.230 (+0.9, 18:14 ns) |
+| drop_gold, gold-FIRST (max trace) | .002→.015 (**6:0, exact p=.031**) | .217→.226 (+0.9, 27:23 ns) |
+
+Verdict: (1) **content storage exists** — at max trace the cache reproduces a
+fabricated year that exists nowhere except in the deleted paragraph's KV imprint
+(6:0 one-sided; dose-consistent: natural 2:0 → first 6:0); (2) the **priming
+channel is null** — TRUE-year reproduction is statistically equal between arms;
+(3) **bandwidth is low**: net verbatim transmission ≈ 1.4% per readable item
+(year-token lower bound), and the cache often gets the year right but the
+day/month wrong ("April 15, 1946" vs in-doc "November 10, 1946") — a
+partial-fidelity imprint. Control facts: ceiling .931 = the model trusts
+in-context counterfactuals; ctrl arms bit-identical (identity gate holds for the
+CF pipeline).
+
+Hero transcripts (`cf_tw_dgfirst`, verbatim): fresh "the provided text does not
+include Michael Schultz's date of birth" / cache "His birthday is **April 15,
+1946**" (fab year, removed para); fresh wrong-guess "died on 5 December 2014" /
+cache "died in **1998**" (fab); one cache case even claims "This is supported by
+the text provided" — confabulated attribution of a real KV trace.
+
+**MuSiQue (n=226): probe null — and the null is explained by the control ceiling.**
+ctrl CF-echo ceiling is only .420 (by hop: 2-hop .57, 3-hop .47, 4-hop .22 — the
+model fails the *bridge* before ever reading the gold para). Probe sensitivity =
+ceiling × verbatim bandwidth ≈ .42 × 1.4% × 226 ≈ 1 item — below detection.
+Consistent with, not contradicting, the 2Wiki positive (ceiling .93). Report the
+formula; gens are normal (coherent reasoning, EOS-clean) — the instrument is fine,
+the task ceiling binds.
