@@ -88,9 +88,10 @@ Every experiment is a paired comparison on identical inputs:
   on a position convention.
 
 And every run carries a built-in **identity gate**: at 100 % coverage nothing is
-dropped, the two arms are the same computation, and the measured gap must be
-exactly zero. It is, in every experiment in this post — which is what separates a
-mechanism from an instrumentation artifact. Whatever differences appear below
+dropped, the two arms are the same computation, and the measured gap must vanish.
+It does — exact to the last item in every accuracy experiment (e.g. .560/.560/.560
+on MuSiQue), and zero within noise on the NLL curves (+0.02 ± 0.01) — which is what
+separates a mechanism from an instrumentation artifact. Whatever differences appear below
 appear *only* when something is deleted, and vanish *exactly* when nothing is.
 
 ## 3. The phenomenon: the coverage curve
@@ -148,10 +149,12 @@ tokens' KV absorbed it.
 HotpotQA / 2WikiMQA), seeded uniform KV-compression — and now **always physically
 remove the answer-evidence paragraph**. The fresh arm has never seen the evidence;
 the reuse arm has only the *imprint* of it in surviving rows. Accuracy, n=800 per
-dataset: 2Wiki +3.4 pp at cov70 (38 items flip to correct vs 11 the other way) and
-+2.1 pp even with every other paragraph kept; HotpotQA +1.6 pp; MuSiQue's hardest
-4-hop stratum .101 → .129. (Absolute numbers are intentionally low — the evidence
-is gone; the claim is the paired gap.)
+dataset: 2Wiki +3.4 pp at cov70 (38 items flip to correct vs 11 the other way,
+McNemar p=1e-4) and +2.1 pp even with every other paragraph kept (40:23, p=.04);
+MuSiQue's gold-dropped recovery stratum +3.2 pp (27:9, p=.004) and its hardest
+4-hop stratum .101 → .129; HotpotQA is directionally positive (+1.6 pp, 28:15,
+p=.07). (Absolute numbers are intentionally low — the evidence is gone; the claim
+is the paired gap.)
 
 What does recovery look like? Verbatim, drop-gold at 50 % coverage, same kept text
 for both arms:
@@ -200,7 +203,10 @@ Maximize the trace and the recovery is largest; eliminate it and the recovery
 collapses — on all three datasets, including HotpotQA, which is approximately
 *neutral* in natural data and jumps to +4.1 pp the moment the trace is maximized.
 The mechanism is universal; natural evidence position merely modulates how much of
-it you get.
+it you get. (Per-cell exact tests: HotpotQA-first p=4e-4, 2Wiki-first p=2e-3,
+MuSiQue-first p=.10 at n=800 — individually marginal, but the third independent
+replication of the same ordering; every gold-LAST cell is null, exactly as the
+causal account requires.)
 
 Two further characterizations sharpen the picture:
 
@@ -225,8 +231,9 @@ three-dataset accuracy matrix (uniform compression, n≈800 each) says:
 - **2Wiki:** reuse ≥ fresh at every coverage (+1.1–2.3 pp overall) — the clean win.
 - **MuSiQue:** reuse ≥ fresh (+1.3–2.3 pp at cov30–50; the gold-dropped stratum is
   +3.2 pp, 27:9).
-- **HotpotQA:** ≈ neutral overall, with **one mapped fresh-favored cell**: gold
-  *kept*, 50 % coverage, **−1.8 pp** (19:12). Case-level reading: **distractor
+- **HotpotQA:** ≈ neutral overall, with **one fresh-favored cell**: gold *kept*,
+  50 % coverage, **−1.8 pp** (19:12 — directional, p=.28; the aggregate is small
+  and the mechanism is established at case level). Case-level reading: **distractor
   over-anchoring**. The trace amplifies whatever was salient at prebake — including
   a kept, topically-adjacent distractor. In the dump: the gold actor's paragraph is
   removed, a same-titled 1991 film's paragraph is kept; fresh bridges parametrically
@@ -262,15 +269,20 @@ same questions, n=800):
 
 | | keep-EARLY gap | keep-LATE gap | diff-in-diff |
 |---|---:|---:|---:|
-| 2Wiki cov30 | −0.9 pp | **+2.3 pp** | +3.2 pp |
-| 2Wiki cov50 | +0.7 pp | **+4.6 pp** | +3.9 pp |
+| 2Wiki cov30 | −0.9 pp | **+2.3 pp** (41:23, p=.03) | +3.2 pp |
+| 2Wiki cov50 | +0.7 pp | **+4.6 pp** (59:22, p<1e-4) | +3.9 pp |
+| MuSiQue cov30/50 | +0.9 / +0.2 pp | +0.6 / +1.0 pp | ≈ 0 |
 
 Fresh accuracy itself is unchanged early-vs-late (.573 vs .576) — so this is not
 "late content is more useful"; the benefit is **cache-specific**, exactly as the
 mechanism predicts. The discordant-pair signature seals it: under keep-early,
 reuse and fresh disagree on almost nothing (19/18 items of 800); under keep-late
 they diverge (64/81). The trace in late-kept tokens *is* the difference between
-the arms. Implementation cost: one line in your eviction policy.
+the arms. Implementation cost: one line in your eviction policy. Its scope is
+bounded honestly by the MuSiQue row: on 20-paragraph documents with deeper hop
+structure the diff-in-diff is ≈ 0 — keep-late pays where the kept tail can attend
+to most of what was dropped, and characterizing that condition across corpora is
+part of the follow-up.
 
 ### 7.2 Degeneration-gated adaptive coverage
 
@@ -371,6 +383,8 @@ M-RoPE), stock checkpoints, no fine-tuning. Datasets: LongBench
 2WikiMQA dev; EgoSchema-Subset; Video-MME. Text accuracy cells n=796–800 with
 greedy decoding, alias-match scoring, persisted generations; NLL sweeps n=231–1500;
 video n=236–597 with paired Wilcoxon; every run carries the cov100 identity gate;
-bf16 with fp32 control. Tables: [`figure_data.md`](figure_data.md); claim-by-claim
+bf16 with fp32 control. Accuracy gaps are not a verbosity artifact of alias-match
+scoring: reuse generations are the *same length or slightly shorter* than fresh in
+every dataset × coverage cell (−3 to +1 words on average), and scoring is paired. Tables: [`figure_data.md`](figure_data.md); claim-by-claim
 evidence: [`claims_ledger.md`](claims_ledger.md); instrument:
 `scripts/49_musique_hop.py`.*
