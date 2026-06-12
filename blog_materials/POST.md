@@ -112,43 +112,51 @@ appear *only* when something is deleted, and vanish *exactly* when nothing is.
 
 ## 3. The phenomenon: the coverage curve
 
-Sweep coverage and plot the gap (reuse − fresh) on gold-answer NLL. Text
-(LongBench multi-hop, n=231):
+Sweep coverage and plot the gap (reuse − fresh) in **answer accuracy** — greedy
+generation, alias-match, paired items, n≈800 per cell:
 
-| coverage kept | reuse − fresh (NLL) | reading |
-|---:|---:|---|
-| 0 % (question-adjacent chunk only) | **+0.52** | cache *worse* — the cliff |
-| 25 % | −0.04 | crossover |
-| 50 % | **−0.34** | cache wins — the memory bonus |
-| 75 % | −0.09 | shrinking toward… |
-| 100 % | +0.02 ≈ 0 | …the identity gate |
+| coverage kept | MuSiQue (Qwen) | 2Wiki (Qwen) | 2Wiki (Mistral) | HotpotQA (Qwen) |
+|---:|---:|---:|---:|---:|
+| 10 % | −0.5 pp | +1.1 pp | +0.9 pp | +0.6 pp |
+| 30 % | **+2.3 pp** (43:25, p=.04) | **+2.3 pp** (38:19, p=.02) | +1.8 pp (p=.098) | −0.3 pp |
+| 50 % | +1.3 pp | +1.1 pp | **+2.8 pp** (p=.009) | −0.7 pp |
+| 70 % | +0.1 pp | +1.2 pp | **+2.4 pp** (p=.008) | +0.5 pp |
+| 100 % | 0 — exact | 0 — exact | 0 — exact (0:0) | 0 — exact |
+
+The same shape, three datasets, two model families: a bonus that peaks at mid
+coverage, fades toward full coverage, and lands on **exact zero** at 100 % — the
+identity gate. (HotpotQA hovers near zero overall; §6 maps why.) On video the
+effect is blunter still: at 10 % visual coverage, reuse answers **+8 points** more
+Video-MME questions than fresh recomputation, **+18 points** on short clips
+(.33 → .51).
 
 Two forces, one knob:
 
 - **(+) the memory bonus.** The reused rows were computed while the full context
-  was present; the fresh arm recomputes over the starved subset alone. The bonus is
-  largest exactly where recomputation is most starved.
-- **(−) the degeneration cost.** A cache over a *tiny* keep-set is a degenerate
-  prefix, and decoding over it collapses (the c0 cell hides million-scale
-  perplexities). This is keep-set starvation, not a position artifact — the
-  compact arm cliffs identically (+0.57 vs +0.52, n.s. difference).
+  was present; the fresh arm recomputes over the starved subset alone. Split the
+  items by whether the answer-evidence paragraph survived the cut and the bonus
+  concentrates exactly where theory puts it — in the **evidence-dropped stratum**
+  (MuSiQue cov30: +3.2 pp, 27:9, p=.004), where the cache is the only place any
+  imprint of the evidence still lives.
+- **(−) the degeneration cost.** Push coverage low enough and the cache becomes a
+  degenerate prefix. In accuracy this surfaces in the **evidence-kept stratum at
+  10 % coverage** — the one place fresh recomputation still has everything it
+  needs while the cache's context has collapsed: MuSiQue .608 → .519 (**−8.9 pp**,
+  cache worse), 2Wiki −2.3 pp, Mistral −3.5 pp. The runtime symptoms are visible
+  in the generations themselves — abstention phrasing, n-gram repetition,
+  truncation — which is what makes the cliff *detectable and actionable* (§7.2).
+  (At the pathological extreme of ~0 % coverage the collapse is total — our
+  earliest NLL instrument recorded million-scale perplexities there, identical for
+  position-preserving and re-rotated caches: starvation, not a position artifact.)
 
 Below the crossover the cost wins; above it the bonus wins; at 100 % both vanish.
-**Video shows the same bonus with no cliff** (Qwen3-Omni, EgoSchema n=500: −0.039
-at 20 % coverage, p<1e-4, monotone to zero; reproduced in fp32). On Video-MME the
-quality difference is large enough to show up bluntly in accuracy: at 10 % coverage,
-reuse answers **+8 points** more questions than fresh recomputation overall, **+18
-points** on short clips (.33 → .51). Video frames are redundant enough that even
-10 % coverage never reaches text-c0 starvation — which is itself evidence that the
-cliff is starvation and nothing else.
+Video never reaches that starvation regime even at 10 % coverage (frames are
+redundant), and accordingly shows the bonus with **no cliff at all** — which is
+itself evidence that the cliff is starvation and nothing else.
 
-None of this is model-specific: the curve replicates on Mistral-Small-24B (2Wiki
-accuracy, n=800: +2.8 pp at 50 % coverage, p=.009; +2.4 pp at 70 %, p=.008; exact
-identity at 100 % with literally zero discordant items; the same gold-kept
-low-coverage cliff).
-
-The practical reading is already useful: *don't over-evict* (the cliff is real),
-and in the broad mid-range the reused cache is not a degraded approximation of
+The practical reading is already useful: *don't over-evict* (the cliff is real,
+and it lives precisely where the evidence survived but little else did), and in
+the broad mid-range the reused cache is not a degraded approximation of
 recomputation — it is better than it, for free.
 
 ## 4. The cache answers questions about deleted content
