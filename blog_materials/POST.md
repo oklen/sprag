@@ -381,13 +381,44 @@ the stored full-document cache already contains every row. Escalation is therefo
 every escalation is a full re-prefill of a longer context. Adaptive coverage is
 uniquely cheap in exactly the regime this post is about.
 
-### 7.3 Outlook: trace-aware eviction
+### 7.3 Outlook: the rolling agent context
 
-Importance-based eviction (H2O, SnapKV) keeps what is attended-to. The mechanism
-suggests an orthogonal axis: a chunk whose information has already been **absorbed**
-by surviving downstream tokens is safe to evict *regardless of its importance* —
-its trace remains. An absorption/redundancy criterion is computable from prebake
-attention. We state it here as the open direction and benchmark it in a follow-up.
+The deployment regime where we think this matters most is not one bake + many
+queries — it is the **rolling agent context**: user–agent and agent–agent turns
+accumulate, the window fills, and something has to go. Today's frameworks truncate
+the oldest turns and re-prefill the survivors, or selectively evict tokens by
+importance. The results above reorder those options:
+
+- **Drop-oldest is the principled policy, and slicing beats re-prefilling.**
+  Keep-late *is* "truncate the oldest turns" — except you keep the surviving KV
+  rows instead of recomputing them from the surviving text. Those rows were baked
+  while the dropped turns were still present, so they carry the absorbed trace;
+  re-prefilling from text is the one way to actually lose it. The usual
+  correctness instinct — "the context changed, re-prefill to be safe" — picks the
+  arm that is both slower *and* worse.
+- **Selective mid-context eviction needs a query that doesn't exist yet.**
+  Importance scoring (H2O, SnapKV) is query-driven; in an agent loop the future
+  queries are unknown, and query-free importance selection adds roughly nothing
+  (we measured this directly in the video decomposition). With no query, recency
+  is the only signal available — and it happens to be the trace-optimal one.
+- **Summarize-then-evict is an engineered trace.** Generate the summary while the
+  old turns are still in context, append it, *then* drop them: the summary
+  tokens' KV absorbs the full context at bake time, exactly like any other
+  downstream token. The natural trace and the summary are then the same kind of
+  object at different bandwidths — the free channel carries gist and binding at
+  ~1–2 % verbatim bandwidth (§5), the summary carries whatever you spend decode
+  tokens on. The bandwidth measurement doubles as a spec for what the summary
+  must contain: verbatim detail and long-chain structure (what the free channel
+  drops), not gist (what it already keeps).
+
+One honest gap: everything in this post is measured on a single bake and a single
+slice. A rolling context is bake → evict → extend → evict again, and whether
+absorption compounds or decays across cycles is unmeasured — that is the
+experiment we run next, alongside **trace-aware eviction**: a chunk whose
+information has already been absorbed by surviving downstream tokens is safe to
+evict *regardless of its importance*. An absorption/redundancy criterion is
+computable from prebake attention; we state it here as the open direction and
+benchmark it in a follow-up.
 
 ## 8. What we ruled out
 
@@ -457,6 +488,12 @@ multi-query / streaming regimes over one long context the accuracy bonus is free
 Don't over-evict — the cliff is real. At a fixed budget, keep *later* context.
 Gate coverage on cache-side degeneration signals; under reuse, escalation costs no
 re-prefill.
+
+**If you build agents:** when the history must shrink, slice the cache instead of
+re-prefilling the kept turns — the surviving KV remembers part of what you
+dropped, and recomputing it from text is the only way to lose that. Drop
+oldest-first (recency is the trace-optimal query-free signal), and write the
+summary *before* you evict, so its KV bakes in the turns it summarizes.
 
 **If you do research:** KV reuse is a quality lever, not just a latency one. The
 downstream-attention trace is causally established on two model families, routed
