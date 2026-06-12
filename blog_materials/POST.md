@@ -112,43 +112,51 @@ appear *only* when something is deleted, and vanish *exactly* when nothing is.
 
 ## 3. The phenomenon: the coverage curve
 
-Sweep coverage and plot the gap (reuse − fresh) on gold-answer NLL. Text
-(LongBench multi-hop, n=231):
+Sweep coverage and plot the gap (reuse − fresh) in **answer accuracy** — greedy
+generation, alias-match, paired items, n≈800 per cell:
 
-| coverage kept | reuse − fresh (NLL) | reading |
-|---:|---:|---|
-| 0 % (question-adjacent chunk only) | **+0.52** | cache *worse* — the cliff |
-| 25 % | −0.04 | crossover |
-| 50 % | **−0.34** | cache wins — the memory bonus |
-| 75 % | −0.09 | shrinking toward… |
-| 100 % | +0.02 ≈ 0 | …the identity gate |
+| coverage kept | MuSiQue (Qwen) | 2Wiki (Qwen) | 2Wiki (Mistral) | HotpotQA (Qwen) |
+|---:|---:|---:|---:|---:|
+| 10 % | −0.5 pp | +1.1 pp | +0.9 pp | +0.6 pp |
+| 30 % | **+2.3 pp** (43:25, p=.04) | **+2.3 pp** (38:19, p=.02) | +1.8 pp (p=.098) | −0.3 pp |
+| 50 % | +1.3 pp | +1.1 pp | **+2.8 pp** (p=.009) | −0.7 pp |
+| 70 % | +0.1 pp | +1.2 pp | **+2.4 pp** (p=.008) | +0.5 pp |
+| 100 % | 0 — exact | 0 — exact | 0 — exact (0:0) | 0 — exact |
+
+The same shape, three datasets, two model families: a bonus that peaks at mid
+coverage, fades toward full coverage, and lands on **exact zero** at 100 % — the
+identity gate. (HotpotQA hovers near zero overall; §6 maps why.) On video the
+effect is blunter still: at 10 % visual coverage, reuse answers **+8 points** more
+Video-MME questions than fresh recomputation, **+18 points** on short clips
+(.33 → .51).
 
 Two forces, one knob:
 
 - **(+) the memory bonus.** The reused rows were computed while the full context
-  was present; the fresh arm recomputes over the starved subset alone. The bonus is
-  largest exactly where recomputation is most starved.
-- **(−) the degeneration cost.** A cache over a *tiny* keep-set is a degenerate
-  prefix, and decoding over it collapses (the c0 cell hides million-scale
-  perplexities). This is keep-set starvation, not a position artifact — the
-  compact arm cliffs identically (+0.57 vs +0.52, n.s. difference).
+  was present; the fresh arm recomputes over the starved subset alone. Split the
+  items by whether the answer-evidence paragraph survived the cut and the bonus
+  concentrates exactly where theory puts it — in the **evidence-dropped stratum**
+  (MuSiQue cov30: +3.2 pp, 27:9, p=.004), where the cache is the only place any
+  imprint of the evidence still lives.
+- **(−) the degeneration cost.** Push coverage low enough and the cache becomes a
+  degenerate prefix. In accuracy this surfaces in the **evidence-kept stratum at
+  10 % coverage** — the one place fresh recomputation still has everything it
+  needs while the cache's context has collapsed: MuSiQue .608 → .519 (**−8.9 pp**,
+  cache worse), 2Wiki −2.3 pp, Mistral −3.5 pp. The runtime symptoms are visible
+  in the generations themselves — abstention phrasing, n-gram repetition,
+  truncation — which is what makes the cliff *detectable and actionable* (§7.2).
+  (At the pathological extreme of ~0 % coverage the collapse is total — our
+  earliest NLL instrument recorded million-scale perplexities there, identical for
+  position-preserving and re-rotated caches: starvation, not a position artifact.)
 
 Below the crossover the cost wins; above it the bonus wins; at 100 % both vanish.
-**Video shows the same bonus with no cliff** (Qwen3-Omni, EgoSchema n=500: −0.039
-at 20 % coverage, p<1e-4, monotone to zero; reproduced in fp32). On Video-MME the
-quality difference is large enough to show up bluntly in accuracy: at 10 % coverage,
-reuse answers **+8 points** more questions than fresh recomputation overall, **+18
-points** on short clips (.33 → .51). Video frames are redundant enough that even
-10 % coverage never reaches text-c0 starvation — which is itself evidence that the
-cliff is starvation and nothing else.
+Video never reaches that starvation regime even at 10 % coverage (frames are
+redundant), and accordingly shows the bonus with **no cliff at all** — which is
+itself evidence that the cliff is starvation and nothing else.
 
-None of this is model-specific: the curve replicates on Mistral-Small-24B (2Wiki
-accuracy, n=800: +2.8 pp at 50 % coverage, p=.009; +2.4 pp at 70 %, p=.008; exact
-identity at 100 % with literally zero discordant items; the same gold-kept
-low-coverage cliff).
-
-The practical reading is already useful: *don't over-evict* (the cliff is real),
-and in the broad mid-range the reused cache is not a degraded approximation of
+The practical reading is already useful: *don't over-evict* (the cliff is real,
+and it lives precisely where the evidence survived but little else did), and in
+the broad mid-range the reused cache is not a degraded approximation of
 recomputation — it is better than it, for free.
 
 ## 4. The cache answers questions about deleted content
@@ -373,13 +381,44 @@ the stored full-document cache already contains every row. Escalation is therefo
 every escalation is a full re-prefill of a longer context. Adaptive coverage is
 uniquely cheap in exactly the regime this post is about.
 
-### 7.3 Outlook: trace-aware eviction
+### 7.3 Outlook: the rolling agent context
 
-Importance-based eviction (H2O, SnapKV) keeps what is attended-to. The mechanism
-suggests an orthogonal axis: a chunk whose information has already been **absorbed**
-by surviving downstream tokens is safe to evict *regardless of its importance* —
-its trace remains. An absorption/redundancy criterion is computable from prebake
-attention. We state it here as the open direction and benchmark it in a follow-up.
+The deployment regime where we think this matters most is not one bake + many
+queries — it is the **rolling agent context**: user–agent and agent–agent turns
+accumulate, the window fills, and something has to go. Today's frameworks truncate
+the oldest turns and re-prefill the survivors, or selectively evict tokens by
+importance. The results above reorder those options:
+
+- **Drop-oldest is the principled policy, and slicing beats re-prefilling.**
+  Keep-late *is* "truncate the oldest turns" — except you keep the surviving KV
+  rows instead of recomputing them from the surviving text. Those rows were baked
+  while the dropped turns were still present, so they carry the absorbed trace;
+  re-prefilling from text is the one way to actually lose it. The usual
+  correctness instinct — "the context changed, re-prefill to be safe" — picks the
+  arm that is both slower *and* worse.
+- **Selective mid-context eviction needs a query that doesn't exist yet.**
+  Importance scoring (H2O, SnapKV) is query-driven; in an agent loop the future
+  queries are unknown, and query-free importance selection adds roughly nothing
+  (we measured this directly in the video decomposition). With no query, recency
+  is the only signal available — and it happens to be the trace-optimal one.
+- **Summarize-then-evict is an engineered trace.** Generate the summary while the
+  old turns are still in context, append it, *then* drop them: the summary
+  tokens' KV absorbs the full context at bake time, exactly like any other
+  downstream token. The natural trace and the summary are then the same kind of
+  object at different bandwidths — the free channel carries gist and binding at
+  ~1–2 % verbatim bandwidth (§5), the summary carries whatever you spend decode
+  tokens on. The bandwidth measurement doubles as a spec for what the summary
+  must contain: verbatim detail and long-chain structure (what the free channel
+  drops), not gist (what it already keeps).
+
+One honest gap: everything in this post is measured on a single bake and a single
+slice. A rolling context is bake → evict → extend → evict again, and whether
+absorption compounds or decays across cycles is unmeasured — that is the
+experiment we run next, alongside **trace-aware eviction**: a chunk whose
+information has already been absorbed by surviving downstream tokens is safe to
+evict *regardless of its importance*. An absorption/redundancy criterion is
+computable from prebake attention; we state it here as the open direction and
+benchmark it in a follow-up.
 
 ## 8. What we ruled out
 
@@ -449,6 +488,12 @@ multi-query / streaming regimes over one long context the accuracy bonus is free
 Don't over-evict — the cliff is real. At a fixed budget, keep *later* context.
 Gate coverage on cache-side degeneration signals; under reuse, escalation costs no
 re-prefill.
+
+**If you build agents:** when the history must shrink, slice the cache instead of
+re-prefilling the kept turns — the surviving KV remembers part of what you
+dropped, and recomputing it from text is the only way to lose that. Drop
+oldest-first (recency is the trace-optimal query-free signal), and write the
+summary *before* you evict, so its KV bakes in the turns it summarizes.
 
 **If you do research:** KV reuse is a quality lever, not just a latency one. The
 downstream-attention trace is causally established on two model families, routed
