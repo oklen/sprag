@@ -9,6 +9,8 @@
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
 \usepackage{xcolor}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
 \usepackage{enumitem}
 \usepackage[colorlinks=true,linkcolor=blue!60!black,citecolor=blue!60!black,urlcolor=blue!60!black]{hyperref}
 \usepackage{caption}
@@ -23,7 +25,7 @@ A Causal Account of Quality in Training-Free Cache Reuse}}
 
 \author{%
 Zefeng Cai\\
-\texttt{oklen@github}%
+\texttt{3294005475a@gmail.com}%
 }
 
 \date{June 2026 \quad (draft)}
@@ -50,33 +52,12 @@ Our claim is that the leverage was never in the training. Three things are missi
 
 Everything in this paper runs on stock checkpoints (Qwen3-30B-A3B-Instruct and Mistral-Small-24B-Instruct for text; Qwen3-Omni-30B-A3B Thinker for video) with zero gradient updates. The only quantity we manipulate is which KV rows survive.
 
-\section{Related work}
-\label{sec:related}
-
-\paragraph{Reuse for latency.}
-TurboRAG~\cite{turborag}, prefix caching~\cite{vllm}, and LMCache/CacheGen~\cite{cachegen} treat cache reuse as a time-to-first-token problem and aim for quality \emph{neutrality}. The quality dimension we map is invisible in that framing.
-
-\paragraph{Cache fusion.}
-The cache-fusion line---CacheBlend~\cite{cacheblend} and, most recently, RelayCaching~\cite{relaycaching}, which transplants one agent's decode-phase KV into the next agent's prefill---runs in the \emph{opposite} direction from us: there, the KV was computed under a \emph{different or missing} context than the one it is used in, so the absorbed-prefix component is contamination, and the methods spend selective recomputation to remove it. Our setting is the mirror image: the cache is baked in the \emph{same} full context the query is about, and the absorbed component is not a cost to patch but the asset itself---it is precisely what makes the reused cache better than recomputation. One sentence resolves the apparent contradiction: \emph{whether KV deviation from recompute is an error or a memory depends on whether the bake-time context is the context the query wants to condition on.} Notably, RelayCaching's own measurements independently confirm the physics we exploit: the deviation (the absorbed context) is sparse, concentrated on few token positions, and layer-wise non-uniform---and its repair criterion scores tokens by downstream attention influence, the same quantity our causal experiments manipulate.
-
-\paragraph{Learned compression and retention.}
-Gist tokens~\cite{gist}, ICAE~\cite{icae}, and AutoCompressors~\cite{autocompressors} buy smaller caches with training; DuoAttention~\cite{duoattention} and Make Each Token Count~\cite{maketokencount} learn what to retain, the latter comparing against the full-cache baseline. The coverage curve says a large fraction of the quality is available with no training at all, and the paired reuse-vs-fresh design (same kept tokens, only the KV source differs) isolates \emph{why}---a trained compressor inherits, rather than explains, the trace.
-
-\paragraph{Eviction and streaming.}
-H2O~\cite{h2o} and SnapKV~\cite{snapkv} score which tokens to keep by attention importance; StreamingLLM~\cite{streamingllm} keeps attention sinks plus a recency window and shows decoding remains \emph{stable} under unbounded streams. StreamingLLM in fact operates inside our regime---its surviving window KV was computed while the since-evicted tokens were present---but asks a different question (stability of continued decoding) and never compares against recomputation of the kept text, which is unaffordable in a stream. We quantify the value of exactly that comparison, and our keep-late result (\S\ref{sec:keeplate}) supplies a mechanistic justification for the recency-window design itself. Absorption---whether a token's information already survives in downstream kept rows---is an axis none of the importance-based methods measure (\S\ref{sec:outlook}).
-
-\paragraph{Block retrieval and position conventions.}
-InfLLM~\cite{infllm} and ReKV~\cite{rekv} retrieve cached blocks and re-rotate positions to be contiguous. Our results are compatible: the position-compaction convention is harmless (a faithful ReKV reimplementation ties plain reuse; \S\ref{sec:ruledout}), and their retrieved blocks carry the same memory we characterize.
-
-\paragraph{Multimodal KV management.}
-Multimodal eviction work (e.g.\ MEDA~\cite{meda}) optimizes cross-modal cache allocation for efficiency. None tests \emph{modality-absent recovery}---whether a deleted modality's information survives in the other modality's KV (\S\ref{sec:dropgold}). To our knowledge (June 2026), no prior work occupies the combination presented here: the conditional quality map, the causal mechanism, the cross-modal recovery demonstration, and mechanism-derived training-free policies.
-
 \section{Setup: one prebake, two ways to read it}
 \label{sec:setup}
 
 The regime is \textbf{unified-context prebake + subset inference}: a long context (a multi-paragraph document, a video) is prefilled \emph{once} in full; at use time, only a subset of its KV entries is retained---because of an eviction budget, a streaming window, or a relevance filter. The question is what that retained cache is worth, compared to the natural alternative: re-prefilling the kept subset from scratch.
 
-To preempt the most common mis-mapping: even when the context is assembled from many source documents (our QA items concatenate 10--20 Wikipedia paragraphs, retrieval-style), the assembly is prefilled \emph{jointly, as one sequence}---the paragraphs cross-attend at bake time. We never stitch together KV that was baked in \emph{different} contexts; that piecewise-baked regime (TurboRAG/CacheBlend-style chunk caches) lacks the cross-attention this paper is about, and none of our accuracy claims apply to it (\S\ref{sec:boundary}). The query is appended after the cache and is identical in both arms.
+To preempt the most common mis-mapping: even when the context is assembled from many source documents (our QA items concatenate 10--20 Wikipedia paragraphs, retrieval-style), the assembly is prefilled \emph{jointly, as one sequence}---the paragraphs cross-attend at bake time. We never stitch together KV that was baked in \emph{different} contexts; that piecewise-baked regime (TurboRAG\slash CacheBlend-style chunk caches) lacks the cross-attention this paper is about, and none of our accuracy claims apply to it (\S\ref{sec:boundary}). The query is appended after the cache and is identical in both arms.
 
 Every experiment is a paired comparison on identical inputs:
 
@@ -86,11 +67,7 @@ Every experiment is a paired comparison on identical inputs:
 \item \reuse{} (compact) --- same rows, positions re-rotated to be contiguous (the convention of InfLLM/ReKV-style systems). Included so that no result depends on a position convention.
 \end{itemize}
 
-\paragraph{The identity gate.}
-Every run carries a built-in falsification check: at $100\%$ coverage nothing is dropped, the two arms are the same computation, and the measured gap must vanish. It does---exactly, to the last item, in every accuracy experiment (e.g.\ $.560/.560/.560$ on MuSiQue), and within noise on the NLL curves ($+0.02\pm0.01$). This is what separates a mechanism from an instrumentation artifact: every difference reported below appears \emph{only} when something is deleted, and vanishes \emph{exactly} when nothing is.
-
-\paragraph{Statistics.}
-All accuracy comparisons are paired (same items, greedy decoding, alias-match scoring, persisted generations); significance is the exact McNemar test (two-sided binomial on discordant pairs), reported as flip counts $a{:}b$ (items reuse fixes vs.\ items reuse breaks). Text cells use $n=796$--$800$ ($n=2400$ for the MuSiQue gold-position cells); video uses paired Wilcoxon, $n=236$--$597$. Gaps are not a verbosity artifact of alias-match scoring: reuse generations are the same length or slightly shorter than fresh in every dataset$\times$coverage cell ($-3$ to $+1$ words on average).
+Two methodological points carry through every result, stated briefly here and detailed in Appendix~\ref{app:protocol}. First, an \textbf{identity gate}: at $100\%$ coverage the two arms are the same computation, so the measured gap must vanish---and it does, exactly, in every experiment, which is what separates a mechanism from an instrumentation artifact. Second, all comparisons are \textbf{paired} with significance by the exact McNemar test, reported as flip counts $a{:}b$ (items reuse fixes vs.\ breaks); the gaps are not a verbosity artifact (reuse generations are the same length or shorter than fresh in every cell).
 
 \section{The phenomenon: the coverage curve}
 \label{sec:curve}
@@ -114,7 +91,37 @@ coverage kept & MuSiQue (Qwen) & 2Wiki (Qwen) & 2Wiki (Mistral) & HotpotQA (Qwen
 \end{tabular}
 \end{table}
 
-The same shape appears on three datasets and two model families: a bonus that peaks at mid coverage, fades toward full coverage, and lands on \emph{exact zero} at $100\%$---the identity gate. (HotpotQA hovers near zero overall; \S\ref{sec:boundary} maps why.) On video the effect is blunter still: at $10\%$ visual coverage, reuse answers $+8$ points more Video-MME questions than fresh recomputation, $+18$ points on short clips ($.33\rightarrow.51$).
+The same shape appears on three datasets and two model families (Figure~\ref{fig:curve}): a bonus that peaks at mid coverage, fades toward full coverage, and lands on \emph{exact zero} at $100\%$---the identity gate. (HotpotQA hovers near zero overall; \S\ref{sec:boundary} maps why.) On video the effect is blunter still: at $10\%$ visual coverage, reuse answers $+8$ points more Video-MME questions than fresh recomputation, $+18$ points on short clips ($.33\rightarrow.51$).
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.82\linewidth, height=6.2cm,
+  xlabel={coverage kept (\%)}, ylabel={accuracy gap \reuse{}$-$\fresh{} (pp)},
+  xlabel style={font=\small}, ylabel style={font=\small},
+  tick label style={font=\small},
+  xmin=5, xmax=103, ymin=-1.6, ymax=3.4,
+  xtick={10,30,50,70,100},
+  ytick={-1,0,1,2,3},
+  legend style={font=\scriptsize, at={(0.5,-0.22)}, anchor=north, legend columns=2, /tikz/every even column/.append style={column sep=10pt}},
+  grid=major, grid style={gray!18},
+  every axis plot/.append style={thick, mark size=2pt},
+]
+\addplot[red!75!black, mark=*] coordinates {(10,-0.5)(30,2.3)(50,1.3)(70,0.1)(100,0)};
+\addlegendentry{MuSiQue (Qwen)}
+\addplot[blue!70!black, mark=square*] coordinates {(10,1.1)(30,2.3)(50,1.1)(70,1.2)(100,0)};
+\addlegendentry{2Wiki (Qwen)}
+\addplot[teal!80!black, mark=triangle*] coordinates {(10,0.9)(30,1.8)(50,2.8)(70,2.4)(100,0)};
+\addlegendentry{2Wiki (Mistral)}
+\addplot[orange!85!black, mark=diamond*] coordinates {(10,0.6)(30,-0.3)(50,-0.7)(70,0.5)(100,0)};
+\addlegendentry{HotpotQA (Qwen)}
+\draw[gray, dashed] (axis cs:5,0) -- (axis cs:103,0);
+\end{axis}
+\end{tikzpicture}
+\caption{The coverage curve. Paired accuracy gap (\reuse{}$-$\fresh{}) vs.\ fraction of context retained, across three datasets and two model families. A mid-coverage bonus, a fade toward full coverage, and exact zero at $100\%$ (the identity gate). The low-coverage cliff appears as the dip toward $10\%$; it is sharpest in the evidence-kept stratum (\S\ref{sec:curve}) and on the hardest dataset (MuSiQue).}
+\label{fig:curve}
+\end{figure}
 
 Two forces share one knob:
 
@@ -262,12 +269,73 @@ Simulated on the real sweep generations (a proof of concept, stated as such): th
 
 Why this is a reuse method and not a generic trick: keep-sets are nested, and the stored full-document cache already contains every row. Escalation is therefore \emph{fetch more rows and re-decode}---no re-prefill. Under fresh computation, every escalation is a full re-prefill of a longer context. Adaptive coverage is uniquely cheap in exactly the regime this paper is about.
 
+\section{Discussion: the rolling agent context}
+\label{sec:outlook}
+
+The deployment regime where these results matter most is not one bake + many queries---it is the \emph{rolling agent context}: user--agent and agent--agent turns accumulate, the window fills, and something must go. Today's frameworks truncate the oldest turns and re-prefill the survivors, or selectively evict tokens by importance. Our results reorder those options.
+
+\paragraph{Drop-oldest is the principled policy, and slicing beats re-prefilling.}
+Keep-late \emph{is} ``truncate the oldest turns''---except one keeps the surviving KV rows instead of recomputing them from the surviving text. Those rows were baked while the dropped turns were still present, so they carry the absorbed trace; re-prefilling from text is the one way to actually lose it. The usual correctness instinct---``the context changed, re-prefill to be safe''---selects the arm that is both slower \emph{and} worse.
+
+\paragraph{Selective mid-context eviction needs a query that does not exist yet.}
+Importance scoring (H2O, SnapKV) is query-driven; in an agent loop the future queries are unknown, and in our video-side decomposition query-free importance selection added approximately nothing. With no query, recency is the only signal available---and it happens to be the trace-optimal one. (This also supplies a mechanistic justification for StreamingLLM's recency window: beyond keeping decoding stable, the window is the trace-richest subset shape.)
+
+\paragraph{Summarize-then-evict is an engineered trace.}
+Generate the summary while the old turns are still in context, append it, \emph{then} drop them: the summary tokens' KV absorbs the full context at bake time, exactly like any other downstream token. The natural trace and the summary are then the same kind of object at different bandwidths---the free channel carries gist and binding at ${\sim}1$--$2\%$ verbatim bandwidth (\S\ref{sec:cf}); the summary carries whatever one spends decode tokens on. The bandwidth measurement doubles as a specification for what the summary must contain: verbatim detail and long-chain structure (what the free channel drops), not gist (what it already keeps).
+
+\paragraph{Limitations and next steps.}
+Everything in this paper is measured on a single bake and a single slice. A rolling context is bake $\rightarrow$ evict $\rightarrow$ extend $\rightarrow$ evict again, and whether absorption compounds or decays across cycles is unmeasured---that is the experiment we run next, alongside \emph{trace-aware eviction}: a chunk whose information has already been absorbed by surviving downstream tokens is safe to evict regardless of its importance. An absorption/redundancy criterion is computable from prebake attention; we state it as the open direction and will benchmark it in follow-up work. Further limitations: results cover two text model families and one omni-modal model at the ${\sim}24$--$30$B scale; the degeneration gate is a simulation on persisted generations, not a serving-system implementation; and the counterfactual probe establishes existence and a bandwidth estimate, not a full account of what the trace encodes.
+
+\section{Related work}
+\label{sec:related}
+
+We place the closest lines of work last, because none of them measures the axis this paper is about---the conditional, mechanistic quality of a same-context cache reused on a subset---and the contrast is clearest after the results.
+
+\paragraph{Reuse for latency.}
+TurboRAG~\cite{turborag}, prefix caching~\cite{vllm}, and LMCache/CacheGen~\cite{cachegen} treat cache reuse as a time-to-first-token problem and aim for quality \emph{neutrality}. The quality dimension we map is invisible in that framing.
+
+\paragraph{Cache fusion.}
+The cache-fusion line---CacheBlend~\cite{cacheblend} and, most recently, RelayCaching~\cite{relaycaching}, which reuses one agent's decode-phase KV in the next agent's prefill---runs in the \emph{opposite} direction from us: there, the KV was computed under a \emph{different or missing} context than the one it is used in, so the absorbed-prefix component is contamination, and the methods spend selective recomputation to remove it. Our setting is the mirror image: the cache is baked in the \emph{same} full context the query is about, and the absorbed component is not a cost to patch but the asset itself---it is precisely what makes the reused cache better than recomputation. One sentence resolves the apparent contradiction: \emph{whether KV deviation from recompute is an error or a memory depends on whether the bake-time context is the context the query wants to condition on.} Notably, RelayCaching's own measurements independently confirm the physics we exploit: the deviation (the absorbed context) is sparse, concentrated on few token positions, and layer-wise non-uniform---and one of its two selection criteria scores tokens by attention received from subsequent positions (their ``influence-based selection''), the same downstream-attention quantity our causal experiments manipulate.
+
+\paragraph{Learned compression and retention.}
+Gist tokens~\cite{gist}, ICAE~\cite{icae}, and AutoCompressors~\cite{autocompressors} buy smaller caches with training; DuoAttention~\cite{duoattention} and Make Each Token Count~\cite{maketokencount} learn what to retain, the latter showing learnable eviction can \emph{surpass} the full cache. The coverage curve says a large fraction of that quality is available with no training at all, and the paired reuse-vs-fresh design (same kept tokens, only the KV source differs) isolates \emph{why}---a trained compressor inherits, rather than explains, the trace.
+
+\paragraph{Eviction and streaming.}
+H2O~\cite{h2o} and SnapKV~\cite{snapkv} score which tokens to keep by attention importance; StreamingLLM~\cite{streamingllm} keeps attention sinks plus a recency window and shows decoding remains \emph{stable} under unbounded streams. StreamingLLM in fact operates inside our regime---its surviving window KV was computed while the since-evicted tokens were present---but asks a different question (stability of continued decoding) and never compares against recomputation of the kept text, which is unaffordable in a stream. We quantify the value of exactly that comparison, and our keep-late result (\S\ref{sec:keeplate}) supplies a mechanistic justification for the recency-window design itself. Absorption---whether a token's information already survives in downstream kept rows---is an axis none of the importance-based methods measure (\S\ref{sec:outlook}).
+
+\paragraph{Block retrieval and position conventions.}
+InfLLM~\cite{infllm} and ReKV~\cite{rekv} retrieve cached blocks and re-rotate positions to be contiguous. Our results are compatible: the position-compaction convention is harmless (a faithful ReKV reimplementation ties plain reuse; Appendix~\ref{app:ruledout}), and their retrieved blocks carry the same memory we characterize.
+
+\paragraph{Multimodal KV management.}
+Multimodal eviction work (e.g.\ MEDA~\cite{meda}) optimizes cross-modal cache allocation for efficiency. None tests \emph{modality-absent recovery}---whether a deleted modality's information survives in the other modality's KV (\S\ref{sec:dropgold}). To our knowledge (June 2026), no prior work occupies the combination presented here: the conditional quality map, the causal mechanism, the cross-modal recovery demonstration, and mechanism-derived training-free policies.
+
+\section{Conclusion}
+
+A KV cache sliced from a full-context prefill is not a degraded approximation of recomputation; it is a different object that remembers part of what was deleted. The quality consequences are governed by coverage, explained by a causally established downstream-attention trace, bounded by salience amplification, and exploitable by training-free policies---keep later context, gate coverage on degeneration, and, in rolling agent contexts, slice rather than re-prefill. For practitioners the summary is one sentence: \emph{when the keep-set changes, slicing the existing cache is both cheaper and better than re-prefilling---except below the coverage cliff, which is detectable at runtime.}
+
+\paragraph{Reproducibility.}
+Models: Qwen3-30B-A3B-Instruct-2507 (text), Mistral-Small-24B-Instruct-2501 (cross-family replication; family-adapted prompt conventions, same instrument and seeds), Qwen3-Omni-30B-A3B Thinker (video, M-RoPE)---stock checkpoints, no fine-tuning. Datasets: LongBench 2WikiMQA/HotpotQA/MuSiQue~\cite{longbench,musique,hotpotqa,twowiki}; original MuSiQue ans-v1.0 dev, HotpotQA dev-distractor, 2WikiMQA dev; EgoSchema-Subset~\cite{egoschema}; Video-MME~\cite{videomme}. Gold position is manipulated over \{first, random-interior, last\} with downstream counts recorded; the counterfactual probe uses eligibility-filtered year-answer items ($n=461/226$) scored by word-bounded year-token match for both the fabricated and the true year; NLL sweeps use $n=231$--$1500$; every run carries the cov100 identity gate; bf16 with an fp32 control. Per-claim evidence tables and the experiment scripts accompany this paper in the project repository.
+
+\appendix
+
+\section{Experimental protocol}
+\label{app:protocol}
+
+\paragraph{The identity gate.}
+Every run carries a built-in falsification check: at $100\%$ coverage nothing is dropped, the two arms are the same computation, and the measured gap must vanish. It does---exactly, to the last item, in every accuracy experiment (e.g.\ $.560/.560/.560$ on MuSiQue), and within noise on the NLL curves ($+0.02\pm0.01$). This is what separates a mechanism from an instrumentation artifact: every difference reported in the main text appears \emph{only} when something is deleted, and vanishes \emph{exactly} when nothing is.
+
+\paragraph{Pairing and significance.}
+All accuracy comparisons are paired (same items, greedy decoding, alias-match scoring, persisted generations); significance is the exact McNemar test (two-sided binomial on the discordant pairs), reported as flip counts $a{:}b$ (items reuse fixes vs.\ items reuse breaks). Text cells use $n=796$--$800$ ($n=2400$ for the MuSiQue gold-position cells); video uses the paired Wilcoxon signed-rank test, $n=236$--$597$.
+
+\paragraph{Verbosity control.}
+The accuracy gaps are not a length artifact of alias-match scoring: reuse generations are the same length or slightly shorter than fresh in every dataset$\times$coverage cell ($-3$ to $+1$ words on average), and scoring is paired item-by-item.
+
 \section{What we ruled out}
-\label{sec:ruledout}
+\label{app:ruledout}
 
 Negative results that constrain the interpretation (Table~\ref{tab:ruledout}).
 
-\begin{table}[t]
+\begin{table}[h]
 \centering
 \small
 \caption{Competing explanations and their status.}
@@ -288,30 +356,6 @@ It is a Qwen quirk & \textbf{No.} Curve and causal A/B replicate on Mistral-Smal
 \end{tabular}
 \end{table}
 
-\section{Discussion: the rolling agent context}
-\label{sec:outlook}
-
-The deployment regime where these results matter most is not one bake + many queries---it is the \emph{rolling agent context}: user--agent and agent--agent turns accumulate, the window fills, and something must go. Today's frameworks truncate the oldest turns and re-prefill the survivors, or selectively evict tokens by importance. Our results reorder those options.
-
-\paragraph{Drop-oldest is the principled policy, and slicing beats re-prefilling.}
-Keep-late \emph{is} ``truncate the oldest turns''---except one keeps the surviving KV rows instead of recomputing them from the surviving text. Those rows were baked while the dropped turns were still present, so they carry the absorbed trace; re-prefilling from text is the one way to actually lose it. The usual correctness instinct---``the context changed, re-prefill to be safe''---selects the arm that is both slower \emph{and} worse.
-
-\paragraph{Selective mid-context eviction needs a query that does not exist yet.}
-Importance scoring (H2O, SnapKV) is query-driven; in an agent loop the future queries are unknown, and in our video-side decomposition query-free importance selection added approximately nothing. With no query, recency is the only signal available---and it happens to be the trace-optimal one. (This also supplies a mechanistic justification for StreamingLLM's recency window: beyond keeping decoding stable, the window is the trace-richest subset shape.)
-
-\paragraph{Summarize-then-evict is an engineered trace.}
-Generate the summary while the old turns are still in context, append it, \emph{then} drop them: the summary tokens' KV absorbs the full context at bake time, exactly like any other downstream token. The natural trace and the summary are then the same kind of object at different bandwidths---the free channel carries gist and binding at ${\sim}1$--$2\%$ verbatim bandwidth (\S\ref{sec:cf}); the summary carries whatever one spends decode tokens on. The bandwidth measurement doubles as a specification for what the summary must contain: verbatim detail and long-chain structure (what the free channel drops), not gist (what it already keeps).
-
-\paragraph{Limitations and next steps.}
-Everything in this paper is measured on a single bake and a single slice. A rolling context is bake $\rightarrow$ evict $\rightarrow$ extend $\rightarrow$ evict again, and whether absorption compounds or decays across cycles is unmeasured---that is the experiment we run next, alongside \emph{trace-aware eviction}: a chunk whose information has already been absorbed by surviving downstream tokens is safe to evict regardless of its importance. An absorption/redundancy criterion is computable from prebake attention; we state it as the open direction and will benchmark it in follow-up work. Further limitations: results cover two text model families and one omni-modal model at the ${\sim}24$--$30$B scale; the degeneration gate is a simulation on persisted generations, not a serving-system implementation; and the counterfactual probe establishes existence and a bandwidth estimate, not a full account of what the trace encodes.
-
-\section{Conclusion}
-
-A KV cache sliced from a full-context prefill is not a degraded approximation of recomputation; it is a different object that remembers part of what was deleted. The quality consequences are governed by coverage, explained by a causally established downstream-attention trace, bounded by salience amplification, and exploitable by training-free policies---keep later context, gate coverage on degeneration, and, in rolling agent contexts, slice rather than re-prefill. For practitioners the summary is one sentence: \emph{when the keep-set changes, slicing the existing cache is both cheaper and better than re-prefilling---except below the coverage cliff, which is detectable at runtime.}
-
-\paragraph{Reproducibility.}
-Models: Qwen3-30B-A3B-Instruct-2507 (text), Mistral-Small-24B-Instruct-2501 (cross-family replication; family-adapted prompt conventions, same instrument and seeds), Qwen3-Omni-30B-A3B Thinker (video, M-RoPE)---stock checkpoints, no fine-tuning. Datasets: LongBench 2WikiMQA/HotpotQA/MuSiQue~\cite{longbench,musique,hotpotqa,twowiki}; original MuSiQue ans-v1.0 dev, HotpotQA dev-distractor, 2WikiMQA dev; EgoSchema-Subset~\cite{egoschema}; Video-MME~\cite{videomme}. Gold position is manipulated over \{first, random-interior, last\} with downstream counts recorded; the counterfactual probe uses eligibility-filtered year-answer items ($n=461/226$) scored by word-bounded year-token match for both the fabricated and the true year; NLL sweeps use $n=231$--$1500$; every run carries the cov100 identity gate; bf16 with an fp32 control. Per-claim evidence tables and the experiment scripts accompany this paper in the project repository.
-
 \begin{thebibliography}{99}\small
 
 \bibitem{vllm}
@@ -325,7 +369,7 @@ CacheGen: KV cache compression and streaming for fast large language model servi
 In \emph{SIGCOMM}, 2024.
 
 \bibitem{turborag}
-S.~Lu, et~al.
+S.~Lu, H.~Wang, Y.~Rong, Z.~Chen, and Y.~Tang.
 TurboRAG: Accelerating retrieval-augmented generation with precomputed KV caches for chunked text.
 \emph{arXiv:2410.07590}, 2024.
 
@@ -335,7 +379,8 @@ CacheBlend: Fast large language model serving for RAG with cached knowledge fusi
 In \emph{EuroSys}, 2025. \emph{arXiv:2405.16444}.
 
 \bibitem{relaycaching}
-RelayCaching: KV cache relay for multi-agent LLM pipelines.
+Y.~Geng, Y.~Gao, W.~Wu, G.~Liu, and J.~Liu.
+RelayCaching: Accelerating LLM collaboration via decoding KV cache reuse.
 \emph{arXiv:2603.13289}, 2026.
 
 \bibitem{gist}
@@ -359,7 +404,8 @@ DuoAttention: Efficient long-context LLM inference with retrieval and streaming 
 In \emph{ICLR}, 2025.
 
 \bibitem{maketokencount}
-Make each token count: Learned KV retention for quality-aware cache eviction.
+N.~Bui, H.~T. Nguyen, A.~Cohan, and R.~Ying.
+Make each token count: Towards improving long-context performance with KV cache eviction.
 \emph{arXiv:2605.09649}, 2026.
 
 \bibitem{h2o}
@@ -383,12 +429,12 @@ InfLLM: Training-free long-context extrapolation for LLMs with an efficient cont
 In \emph{NeurIPS}, 2024.
 
 \bibitem{rekv}
-S.~Di, et~al.
+S.~Di, Z.~Yu, G.~Zhang, H.~Li, T.~Zhong, et~al.
 Streaming video question-answering with in-context video KV-cache retrieval.
 In \emph{ICLR}, 2025.
 
 \bibitem{meda}
-Z.~Wan, et~al.
+Z.~Wan, H.~Shen, X.~Wang, C.~Liu, Z.~Mai, and M.~Zhang.
 MEDA: Dynamic KV cache allocation for efficient multimodal long-context inference.
 In \emph{NAACL}, 2025.
 
