@@ -1,9 +1,11 @@
-# ICLR 2026 version (final / camera-ready style)
+# ICLR 2026 style (PREPRINT)
 
-The paper typeset in the official ICLR 2026 template, in **final mode**
-(`\iclrfinalcopy` is enabled → author shown, header reads "Published as a
-conference paper at ICLR 2026"). This is the same content as `../main.tex`
-(article class); only the formatting and citation style differ.
+The paper typeset in the official ICLR 2026 template, used as a **preprint** —
+this paper is **not** accepted or under review; we only borrow the style.
+`\iclrfinalcopy` is enabled solely to un-anonymize (show the author + non-blind
+title block), and the running header is overridden to **"Preprint"** right after
+`\maketitle`, so it does *not* claim "Published" or "Under review". Same content
+as `../main.tex` (article class); only formatting and citation style differ.
 
 ## Files
 - `main.tex` — the paper (uses `iclr2026_conference.sty`, author-year natbib).
@@ -23,4 +25,7 @@ tectonic main.tex          # runs BibTeX automatically
 - Main body runs ~9 pages (intro→conclusion); references and the two appendices
   (A: experimental protocol; B: ruled-out table) follow. If submitting, check the
   current ICLR main-text page limit — appendices/references are exempt.
-- To revert to anonymous submission style, comment out `\iclrfinalcopy`.
+- Header modes: **preprint** (current) = `\iclrfinalcopy` + `\lhead{Preprint}`;
+  anonymous submission = comment out `\iclrfinalcopy` (gives "Under review" +
+  hides author); official camera-ready = `\iclrfinalcopy` and remove the
+  `\lhead{Preprint}` line (only legitimate if actually accepted).

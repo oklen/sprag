@@ -28,10 +28,15 @@ A Causal Account of Quality in Training-Free Cache Reuse}
 \newcommand{\fix}{\marginpar{FIX}}
 \newcommand{\new}{\marginpar{NEW}}
 
-\iclrfinalcopy % camera-ready / final version
+% Borrowing the ICLR 2026 style for a PREPRINT (this paper is not accepted or
+% under review). \iclrfinalcopy is used only to un-anonymize (show the author and
+% the proper non-blind title block); the running header is overridden right after
+% \maketitle so it does NOT claim publication or review.
+\iclrfinalcopy
 
 \begin{document}
 \maketitle
+\lhead{Preprint}
 
 \begin{abstract}
 A key--value (KV) cache built over a \emph{full} context and then reused on a retained \emph{subset} is not equivalent to recomputing over that subset: it is an information-asymmetric object that carries a measurable imprint of the deleted content. We show that this asymmetry is a \emph{quality} lever available with no training, and we supply the three things missing from the current picture. \textbf{(1) The governing variable.} The reuse-vs-recompute accuracy gap is controlled by a single deployment knob---\emph{coverage}, the fraction of the original context retained---and the coverage curve has a characteristic shape: a low-coverage cliff where the cache loses, a broad mid-range where it wins, and exact equality at full coverage. The shape replicates across three multi-hop QA datasets, two model families (Qwen3-30B-A3B, Mistral-Small-24B), and a video--language model. \textbf{(2) The mechanism.} The advantage is a \emph{downstream-attention trace}: kept tokens that attended to since-deleted content during the full prefill retain a lossy imprint of it. We establish this causally by manipulating only the prebake position of the evidence paragraph before deleting it: placements that maximize downstream attention yield $+2.4$ to $+5.8\pp$ recovery (all individually significant by exact McNemar test, five of five dataset$\times$family cells), while placements that eliminate it yield null effects and near-zero behavioral divergence. A random-interior position ablation rules out primacy and lost-in-the-middle accounts, and a counterfactual probe---rewriting a fact to a fabricated value before prebake, then deleting it---shows the trace transports verbatim content the model cannot know any other way, at roughly $1$--$2\%$ bandwidth. \textbf{(3) The policies.} Because the mechanism is positional and its failure mode is detectable at runtime, two zero-training policies follow: keeping \emph{later} context at a fixed budget ($+3$--$4\pp$ over keeping early context), and escalating coverage only when cache-side degeneration signals fire (matching best fixed-coverage accuracy with $9$--$22\%$ less KV)---the latter exploiting a structural property unique to reuse, since escalation requires no re-prefill. All experiments use stock checkpoints with zero gradient updates.
